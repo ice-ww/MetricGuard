@@ -1,0 +1,23 @@
+[project]
+name = "metricguard-validation"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "duckdb>=1.4,<2",
+    "pytz>=2025.2",
+]
+
+[dependency-groups]
+dev = ["pytest>=8,<10", "mypy>=1.15,<2"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.12"
+check_untyped_defs = true
+files = ["experiments/t01"]
