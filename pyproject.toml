@@ -5,6 +5,7 @@ requires-python = ">=3.12,<3.13"
 dependencies = [
     "duckdb>=1.4,<2",
     "pytz>=2025.2",
+    "sqlglot>=27,<31",
 ]
 
 [dependency-groups]
@@ -20,4 +21,4 @@ testpaths = ["tests"]
 [tool.mypy]
 python_version = "3.12"
 check_untyped_defs = true
-files = ["experiments/t01"]
+files = ["experiments/t01", "experiments/t02"]
