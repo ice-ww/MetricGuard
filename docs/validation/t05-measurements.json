@@ -1,0 +1,427 @@
+{
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "langgraph": "1.2.14",
+    "sqlite_saver": "3.1.1"
+  },
+  "checks": [
+    {
+      "name": "after_reserve: exit",
+      "expected": 73,
+      "actual": 73,
+      "passed": true
+    },
+    {
+      "name": "after_reserve: external sends",
+      "expected": 0,
+      "actual": 0,
+      "passed": true
+    },
+    {
+      "name": "after_reserve: task status",
+      "expected": "interrupted",
+      "actual": "interrupted",
+      "passed": true
+    },
+    {
+      "name": "after_reserve: reserved attempt count",
+      "expected": 1,
+      "actual": 1,
+      "passed": true
+    },
+    {
+      "name": "after_reserve: retained token accounting",
+      "expected": 100,
+      "actual": 100,
+      "passed": true
+    },
+    {
+      "name": "after_reserve: attempt status",
+      "expected": "unknown",
+      "actual": "unknown",
+      "passed": true
+    },
+    {
+      "name": "after_reserve: no original resume",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "name": "after_reserve: rerun link",
+      "expected": "f2f4570e1d57400b8bf606f8ca2f3c92",
+      "actual": "f2f4570e1d57400b8bf606f8ca2f3c92",
+      "passed": true
+    },
+    {
+      "name": "after_reserve: new task counter",
+      "expected": 0,
+      "actual": 0,
+      "passed": true
+    },
+    {
+      "name": "after_reserve: no restart sends",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "name": "after_send: exit",
+      "expected": 73,
+      "actual": 73,
+      "passed": true
+    },
+    {
+      "name": "after_send: external sends",
+      "expected": 1,
+      "actual": 1,
+      "passed": true
+    },
+    {
+      "name": "after_send: task status",
+      "expected": "interrupted",
+      "actual": "interrupted",
+      "passed": true
+    },
+    {
+      "name": "after_send: reserved attempt count",
+      "expected": 1,
+      "actual": 1,
+      "passed": true
+    },
+    {
+      "name": "after_send: retained token accounting",
+      "expected": 100,
+      "actual": 100,
+      "passed": true
+    },
+    {
+      "name": "after_send: attempt status",
+      "expected": "unknown",
+      "actual": "unknown",
+      "passed": true
+    },
+    {
+      "name": "after_send: no original resume",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "name": "after_send: rerun link",
+      "expected": "c084fe1abf954b55a8e5a114f5487411",
+      "actual": "c084fe1abf954b55a8e5a114f5487411",
+      "passed": true
+    },
+    {
+      "name": "after_send: new task counter",
+      "expected": 0,
+      "actual": 0,
+      "passed": true
+    },
+    {
+      "name": "after_send: no restart sends",
+      "expected": [
+        "{\"task\": \"c084fe1abf954b55a8e5a114f5487411\", \"attempt\": \"c084fe1abf954b55a8e5a114f5487411:model:0\"}"
+      ],
+      "actual": [
+        "{\"task\": \"c084fe1abf954b55a8e5a114f5487411\", \"attempt\": \"c084fe1abf954b55a8e5a114f5487411:model:0\"}"
+      ],
+      "passed": true
+    },
+    {
+      "name": "after_result: exit",
+      "expected": 73,
+      "actual": 73,
+      "passed": true
+    },
+    {
+      "name": "after_result: external sends",
+      "expected": 1,
+      "actual": 1,
+      "passed": true
+    },
+    {
+      "name": "after_result: task status",
+      "expected": "interrupted",
+      "actual": "interrupted",
+      "passed": true
+    },
+    {
+      "name": "after_result: reserved attempt count",
+      "expected": 1,
+      "actual": 1,
+      "passed": true
+    },
+    {
+      "name": "after_result: retained token accounting",
+      "expected": 30,
+      "actual": 30,
+      "passed": true
+    },
+    {
+      "name": "after_result: attempt status",
+      "expected": "completed",
+      "actual": "completed",
+      "passed": true
+    },
+    {
+      "name": "after_result: no original resume",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "name": "after_result: rerun link",
+      "expected": "fab24a7f35b3499a95b3781d0c9979ed",
+      "actual": "fab24a7f35b3499a95b3781d0c9979ed",
+      "passed": true
+    },
+    {
+      "name": "after_result: new task counter",
+      "expected": 0,
+      "actual": 0,
+      "passed": true
+    },
+    {
+      "name": "after_result: no restart sends",
+      "expected": [
+        "{\"task\": \"fab24a7f35b3499a95b3781d0c9979ed\", \"attempt\": \"fab24a7f35b3499a95b3781d0c9979ed:model:0\"}"
+      ],
+      "actual": [
+        "{\"task\": \"fab24a7f35b3499a95b3781d0c9979ed\", \"attempt\": \"fab24a7f35b3499a95b3781d0c9979ed:model:0\"}"
+      ],
+      "passed": true
+    },
+    {
+      "name": "before_checkpoint: exit",
+      "expected": 73,
+      "actual": 73,
+      "passed": true
+    },
+    {
+      "name": "before_checkpoint: external sends",
+      "expected": 1,
+      "actual": 1,
+      "passed": true
+    },
+    {
+      "name": "before_checkpoint: task status",
+      "expected": "interrupted",
+      "actual": "interrupted",
+      "passed": true
+    },
+    {
+      "name": "before_checkpoint: reserved attempt count",
+      "expected": 1,
+      "actual": 1,
+      "passed": true
+    },
+    {
+      "name": "before_checkpoint: retained token accounting",
+      "expected": 30,
+      "actual": 30,
+      "passed": true
+    },
+    {
+      "name": "before_checkpoint: attempt status",
+      "expected": "completed",
+      "actual": "completed",
+      "passed": true
+    },
+    {
+      "name": "before_checkpoint: no original resume",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "name": "before_checkpoint: rerun link",
+      "expected": "0f93a64751a14f3591ec109b1a18b7c5",
+      "actual": "0f93a64751a14f3591ec109b1a18b7c5",
+      "passed": true
+    },
+    {
+      "name": "before_checkpoint: new task counter",
+      "expected": 0,
+      "actual": 0,
+      "passed": true
+    },
+    {
+      "name": "before_checkpoint: no restart sends",
+      "expected": [
+        "{\"task\": \"0f93a64751a14f3591ec109b1a18b7c5\", \"attempt\": \"0f93a64751a14f3591ec109b1a18b7c5:model:0\"}"
+      ],
+      "actual": [
+        "{\"task\": \"0f93a64751a14f3591ec109b1a18b7c5\", \"attempt\": \"0f93a64751a14f3591ec109b1a18b7c5:model:0\"}"
+      ],
+      "passed": true
+    },
+    {
+      "name": "after_checkpoint: exit",
+      "expected": 73,
+      "actual": 73,
+      "passed": true
+    },
+    {
+      "name": "after_checkpoint: external sends",
+      "expected": 1,
+      "actual": 1,
+      "passed": true
+    },
+    {
+      "name": "after_checkpoint: task status",
+      "expected": "interrupted",
+      "actual": "interrupted",
+      "passed": true
+    },
+    {
+      "name": "after_checkpoint: reserved attempt count",
+      "expected": 1,
+      "actual": 1,
+      "passed": true
+    },
+    {
+      "name": "after_checkpoint: retained token accounting",
+      "expected": 30,
+      "actual": 30,
+      "passed": true
+    },
+    {
+      "name": "after_checkpoint: attempt status",
+      "expected": "completed",
+      "actual": "completed",
+      "passed": true
+    },
+    {
+      "name": "after_checkpoint: no original resume",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "name": "after_checkpoint: rerun link",
+      "expected": "85dc5e081683465c8bfe2c5c59139ed9",
+      "actual": "85dc5e081683465c8bfe2c5c59139ed9",
+      "passed": true
+    },
+    {
+      "name": "after_checkpoint: new task counter",
+      "expected": 0,
+      "actual": 0,
+      "passed": true
+    },
+    {
+      "name": "after_checkpoint: no restart sends",
+      "expected": [
+        "{\"task\": \"85dc5e081683465c8bfe2c5c59139ed9\", \"attempt\": \"85dc5e081683465c8bfe2c5c59139ed9:model:0\"}"
+      ],
+      "actual": [
+        "{\"task\": \"85dc5e081683465c8bfe2c5c59139ed9\", \"attempt\": \"85dc5e081683465c8bfe2c5c59139ed9:model:0\"}"
+      ],
+      "passed": true
+    },
+    {
+      "name": "first question round",
+      "expected": 1,
+      "actual": 1,
+      "passed": true
+    },
+    {
+      "name": "wait excluded",
+      "expected": 0.10899999999674037,
+      "actual": 0.10899999999674037,
+      "passed": true
+    },
+    {
+      "name": "persisted waiting",
+      "expected": "waiting",
+      "actual": "waiting",
+      "passed": true
+    },
+    {
+      "name": "same task",
+      "expected": "323b0c3156b54a4199990273641ae27c",
+      "actual": "323b0c3156b54a4199990273641ae27c",
+      "passed": true
+    },
+    {
+      "name": "second question round",
+      "expected": 2,
+      "actual": 2,
+      "passed": true
+    },
+    {
+      "name": "resume cumulative calls",
+      "expected": 2,
+      "actual": 2,
+      "passed": true
+    },
+    {
+      "name": "resume cumulative usage",
+      "expected": 60,
+      "actual": 60,
+      "passed": true
+    },
+    {
+      "name": "resume active accumulated",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "name": "stale answer rejected",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "name": "forged model state rejected",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "name": "third question rejected",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "name": "complete after two rounds",
+      "expected": "ended",
+      "actual": "ended",
+      "passed": true
+    },
+    {
+      "name": "no duplicate calls",
+      "expected": 3,
+      "actual": 3,
+      "passed": true
+    },
+    {
+      "name": "two failures plus success calls",
+      "expected": 3,
+      "actual": 3,
+      "passed": true
+    },
+    {
+      "name": "failed attempts retained",
+      "expected": [
+        "failed",
+        "failed",
+        "completed"
+      ],
+      "actual": [
+        "failed",
+        "failed",
+        "completed"
+      ],
+      "passed": true
+    }
+  ],
+  "passed": 65,
+  "total": 65,
+  "scope": "controlled providers, local sync graph, no diagnosis or remote model"
+}

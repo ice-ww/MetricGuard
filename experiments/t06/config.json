@@ -1,0 +1,1 @@
+{"version":"t06-v1","tokenizer":"bigram","threshold":6.0,"margin":0.3,"k1":1.2,"b":0.75,"query_tf":"binary","idf":"log(1+(N-df+0.5)/(df+0.5))","date_window":"explicit ISO date [start,end), Asia/Shanghai"}

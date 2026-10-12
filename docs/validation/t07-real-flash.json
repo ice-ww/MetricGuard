@@ -1,0 +1,323 @@
+{
+  "created_utc": "2026-10-12T11:43:00.059920+00:00",
+  "python": "3.12.10",
+  "sdk": "1.13.0",
+  "model": "deepseek-flash",
+  "provider_version_mapping": "DeepSeek-V4.1-Flash",
+  "base_url": "https://api.deepseek.com/anthropic",
+  "max_retries": 0,
+  "request": {
+    "model": "deepseek-flash",
+    "system": "This is an accounting validation. Reply only OK. Do not use tools.\n\nShared materials:\nSynthetic count: two registered users, one returning user. No private data.",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Remember the synthetic count."
+      },
+      {
+        "role": "assistant",
+        "content": "Understood."
+      },
+      {
+        "role": "user",
+        "content": "Reply OK."
+      }
+    ],
+    "tools": [
+      {
+        "name": "lookup_metric",
+        "description": "Read a synthetic metric definition.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        }
+      }
+    ],
+    "max_tokens": 128,
+    "extra_body": {
+      "thinking": {
+        "type": "disabled"
+      },
+      "temperature": 0
+    }
+  },
+  "count_probe": {
+    "supported": true,
+    "input_tokens": 313,
+    "strict_bound": false,
+    "reason": "count is not a provider-enforced cumulative cap"
+  },
+  "strict_token_cap_verified": false,
+  "cases": [
+    {
+      "name": "normal",
+      "result": {
+        "status": "completed",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "citations": null,
+            "text": "OK",
+            "type": "text"
+          }
+        ],
+        "raw_usage": {
+          "cache_creation": null,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "inference_geo": null,
+          "input_tokens": 313,
+          "output_tokens": 1,
+          "output_tokens_details": null,
+          "server_tool_use": null,
+          "service_tier": "standard"
+        },
+        "usage": {
+          "input_uncached": 313,
+          "input_cached": 0,
+          "input_total": 313,
+          "output": 1,
+          "total": 314
+        },
+        "reservation": 781,
+        "cap": "scheduler_guard",
+        "fee_usd_range": {
+          "minimum": 4.755e-05,
+          "maximum": 9.51e-05,
+          "currency": "USD",
+          "kind": "estimate_not_invoice",
+          "pricing": "DeepSeek-V4.1-Flash 2026-10-12"
+        }
+      },
+      "ledger": {
+        "id": "daf1b255394c4c12994d5e75ae8d21f1",
+        "status": "created",
+        "rounds": 0,
+        "version": 0,
+        "question": null,
+        "active": 0.0,
+        "limits": {
+          "tool": 12,
+          "model": 10,
+          "tokens": 30000,
+          "active_seconds": 180
+        },
+        "parent": null,
+        "attempts": [
+          {
+            "id": "daf1b255394c4c12994d5e75ae8d21f1-attempt",
+            "task": "daf1b255394c4c12994d5e75ae8d21f1",
+            "operation": "normal:63b715bd42f38af71f5f2bbff2783f54c8f19291c3a2af1611f03dcda2975fec",
+            "kind": "model",
+            "reserved": 781,
+            "actual": 314,
+            "state": "completed",
+            "result": "{\"cap\": \"scheduler_guard\", \"content\": [{\"citations\": null, \"text\": \"OK\", \"type\": \"text\"}], \"fee_usd_range\": {\"currency\": \"USD\", \"kind\": \"estimate_not_invoice\", \"maximum\": 9.51e-05, \"minimum\": 4.755e-05, \"pricing\": \"DeepSeek-V4.1-Flash 2026-10-12\"}, \"model\": \"deepseek-flash\", \"raw_usage\": {\"cache_creation\": null, \"cache_creation_input_tokens\": 0, \"cache_read_input_tokens\": 0, \"inference_geo\": null, \"input_tokens\": 313, \"output_tokens\": 1, \"output_tokens_details\": null, \"server_tool_use\": null, \"service_tier\": \"standard\"}, \"reservation\": 781, \"status\": \"completed\", \"usage\": {\"input_cached\": 0, \"input_total\": 313, \"input_uncached\": 313, \"output\": 1, \"total\": 314}}"
+          }
+        ],
+        "tool_calls": 0,
+        "model_calls": 1,
+        "tokens": 314,
+        "trace": [
+          {
+            "seq": 1,
+            "task": "daf1b255394c4c12994d5e75ae8d21f1",
+            "event": "reserve",
+            "detail": "daf1b255394c4c12994d5e75ae8d21f1-attempt"
+          },
+          {
+            "seq": 2,
+            "task": "daf1b255394c4c12994d5e75ae8d21f1",
+            "event": "sent",
+            "detail": "daf1b255394c4c12994d5e75ae8d21f1-attempt"
+          },
+          {
+            "seq": 3,
+            "task": "daf1b255394c4c12994d5e75ae8d21f1",
+            "event": "completed",
+            "detail": "daf1b255394c4c12994d5e75ae8d21f1-attempt"
+          }
+        ]
+      }
+    },
+    {
+      "name": "stream_complete",
+      "result": {
+        "status": "completed",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "citations": null,
+            "text": "OK",
+            "type": "text"
+          }
+        ],
+        "raw_usage": {
+          "cache_creation": null,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 128,
+          "inference_geo": null,
+          "input_tokens": 185,
+          "output_tokens": 1,
+          "output_tokens_details": null,
+          "server_tool_use": null,
+          "service_tier": "standard"
+        },
+        "usage": {
+          "input_uncached": 185,
+          "input_cached": 128,
+          "input_total": 313,
+          "output": 1,
+          "total": 314
+        },
+        "reservation": 781,
+        "cap": "scheduler_guard",
+        "fee_usd_range": {
+          "minimum": 2.8734000000000003e-05,
+          "maximum": 5.7468000000000006e-05,
+          "currency": "USD",
+          "kind": "estimate_not_invoice",
+          "pricing": "DeepSeek-V4.1-Flash 2026-10-12"
+        }
+      },
+      "ledger": {
+        "id": "95b477f593e246ab84e4042fb0d5de7c",
+        "status": "created",
+        "rounds": 0,
+        "version": 0,
+        "question": null,
+        "active": 0.0,
+        "limits": {
+          "tool": 12,
+          "model": 10,
+          "tokens": 30000,
+          "active_seconds": 180
+        },
+        "parent": null,
+        "attempts": [
+          {
+            "id": "95b477f593e246ab84e4042fb0d5de7c-attempt",
+            "task": "95b477f593e246ab84e4042fb0d5de7c",
+            "operation": "stream_complete:63b715bd42f38af71f5f2bbff2783f54c8f19291c3a2af1611f03dcda2975fec",
+            "kind": "model",
+            "reserved": 781,
+            "actual": 314,
+            "state": "completed",
+            "result": "{\"cap\": \"scheduler_guard\", \"content\": [{\"citations\": null, \"text\": \"OK\", \"type\": \"text\"}], \"fee_usd_range\": {\"currency\": \"USD\", \"kind\": \"estimate_not_invoice\", \"maximum\": 5.7468000000000006e-05, \"minimum\": 2.8734000000000003e-05, \"pricing\": \"DeepSeek-V4.1-Flash 2026-10-12\"}, \"model\": \"deepseek-flash\", \"raw_usage\": {\"cache_creation\": null, \"cache_creation_input_tokens\": 0, \"cache_read_input_tokens\": 128, \"inference_geo\": null, \"input_tokens\": 185, \"output_tokens\": 1, \"output_tokens_details\": null, \"server_tool_use\": null, \"service_tier\": \"standard\"}, \"reservation\": 781, \"status\": \"completed\", \"usage\": {\"input_cached\": 128, \"input_total\": 313, \"input_uncached\": 185, \"output\": 1, \"total\": 314}}"
+          }
+        ],
+        "tool_calls": 0,
+        "model_calls": 1,
+        "tokens": 314,
+        "trace": [
+          {
+            "seq": 4,
+            "task": "95b477f593e246ab84e4042fb0d5de7c",
+            "event": "reserve",
+            "detail": "95b477f593e246ab84e4042fb0d5de7c-attempt"
+          },
+          {
+            "seq": 5,
+            "task": "95b477f593e246ab84e4042fb0d5de7c",
+            "event": "sent",
+            "detail": "95b477f593e246ab84e4042fb0d5de7c-attempt"
+          },
+          {
+            "seq": 6,
+            "task": "95b477f593e246ab84e4042fb0d5de7c",
+            "event": "completed",
+            "detail": "95b477f593e246ab84e4042fb0d5de7c-attempt"
+          }
+        ]
+      }
+    },
+    {
+      "name": "stream_cancelled",
+      "result": {
+        "status": "unknown_usage",
+        "error_type": "InterruptedError",
+        "usage": null,
+        "fee_usd_range": null,
+        "reservation": 781,
+        "cap": "scheduler_guard"
+      },
+      "ledger": {
+        "id": "005df20a0cf64ea0af62ff9c6fffc1e7",
+        "status": "created",
+        "rounds": 0,
+        "version": 0,
+        "question": null,
+        "active": 0.0,
+        "limits": {
+          "tool": 12,
+          "model": 10,
+          "tokens": 30000,
+          "active_seconds": 180
+        },
+        "parent": null,
+        "attempts": [
+          {
+            "id": "005df20a0cf64ea0af62ff9c6fffc1e7-attempt",
+            "task": "005df20a0cf64ea0af62ff9c6fffc1e7",
+            "operation": "stream_cancelled:63b715bd42f38af71f5f2bbff2783f54c8f19291c3a2af1611f03dcda2975fec",
+            "kind": "model",
+            "reserved": 781,
+            "actual": null,
+            "state": "failed",
+            "result": "{\"cap\": \"scheduler_guard\", \"error_type\": \"InterruptedError\", \"fee_usd_range\": null, \"reservation\": 781, \"status\": \"unknown_usage\", \"usage\": null}"
+          }
+        ],
+        "tool_calls": 0,
+        "model_calls": 1,
+        "tokens": 781,
+        "trace": [
+          {
+            "seq": 7,
+            "task": "005df20a0cf64ea0af62ff9c6fffc1e7",
+            "event": "reserve",
+            "detail": "005df20a0cf64ea0af62ff9c6fffc1e7-attempt"
+          },
+          {
+            "seq": 8,
+            "task": "005df20a0cf64ea0af62ff9c6fffc1e7",
+            "event": "sent",
+            "detail": "005df20a0cf64ea0af62ff9c6fffc1e7-attempt"
+          },
+          {
+            "seq": 9,
+            "task": "005df20a0cf64ea0af62ff9c6fffc1e7",
+            "event": "failed",
+            "detail": "005df20a0cf64ea0af62ff9c6fffc1e7-attempt"
+          }
+        ]
+      }
+    }
+  ],
+  "independent_verification": {
+    "provider_arithmetic": [
+      {
+        "case": "normal",
+        "input": 313,
+        "cached": 0,
+        "total": 314,
+        "peak_fee_usd": "0.0000951"
+      },
+      {
+        "case": "stream_complete",
+        "input": 313,
+        "cached": 128,
+        "total": 314,
+        "peak_fee_usd": "0.000057468"
+      }
+    ],
+    "unknown_preserved": true,
+    "strict_cap": "not_verified"
+  }
+}

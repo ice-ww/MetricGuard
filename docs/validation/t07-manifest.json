@@ -1,0 +1,17 @@
+{
+  "evidence": "Initial actual provider run 2026-10-12T11:43:00Z; verifier added after run, provider payload unchanged.",
+  "sha256": {
+    "experiments/t07/adapter.py": "b930a9fc31109ee38538226b3ba49668632c089533662bc5e567281d12dbc847",
+    "experiments/t07/run.py": "3466a5024200f16e613d8cda62154c5f9b1242f4b104db95037fe88d662b56a3",
+    "experiments/t07/verify.py": "e5cbaca0f6825873cdbea9fe7a695fb05d86851c9de2b71f782cbf7d78160b58",
+    "experiments/t07/__init__.py": "fbbd91d13eb423b94a270429de77407b1e48c3487ff659234841053f5901d6a8",
+    "tests/test_t07_adapter.py": "b1336e1b3c65e4f302f9e5f350e5fe197005528fa0263f28e607d04a2ed3eaf9",
+    "docs/validation/t07-real-flash.json": "b1903eb339f0d687d4e8c3451a3aa21290907eb4be06399b3a19548e82e464fb"
+  },
+  "dependencies": {
+    "anthropic": "1.13.0",
+    "httpx2": "2.13.1",
+    "langgraph": "1.2.14",
+    "langgraph-checkpoint-sqlite": "3.1.1"
+  }
+}

@@ -1,0 +1,3283 @@
+{
+  "environment": {
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "purpose": "development_regression_not_frozen_acceptance",
+  "configuration": {
+    "version": "t06-v1",
+    "tokenizer": "bigram",
+    "threshold": 6.0,
+    "margin": 0.3,
+    "k1": 1.2,
+    "b": 0.75,
+    "query_tf": "binary",
+    "idf": "log(1+(N-df+0.5)/(df+0.5))",
+    "date_window": "explicit ISO date [start,end), Asia/Shanghai"
+  },
+  "selected_calibration": {
+    "mode": "bigram",
+    "threshold": 6.0,
+    "margin": 0.3,
+    "correct": 13
+  },
+  "config_matches_calibration": true,
+  "calibration_grid": [
+    {
+      "mode": "bigram",
+      "threshold": 1.0,
+      "margin": 0.05,
+      "correct": 13
+    },
+    {
+      "mode": "bigram",
+      "threshold": 1.0,
+      "margin": 0.15,
+      "correct": 13
+    },
+    {
+      "mode": "bigram",
+      "threshold": 1.0,
+      "margin": 0.3,
+      "correct": 13
+    },
+    {
+      "mode": "bigram",
+      "threshold": 1.0,
+      "margin": 0.5,
+      "correct": 12
+    },
+    {
+      "mode": "bigram",
+      "threshold": 2.0,
+      "margin": 0.05,
+      "correct": 13
+    },
+    {
+      "mode": "bigram",
+      "threshold": 2.0,
+      "margin": 0.15,
+      "correct": 13
+    },
+    {
+      "mode": "bigram",
+      "threshold": 2.0,
+      "margin": 0.3,
+      "correct": 13
+    },
+    {
+      "mode": "bigram",
+      "threshold": 2.0,
+      "margin": 0.5,
+      "correct": 12
+    },
+    {
+      "mode": "bigram",
+      "threshold": 4.0,
+      "margin": 0.05,
+      "correct": 13
+    },
+    {
+      "mode": "bigram",
+      "threshold": 4.0,
+      "margin": 0.15,
+      "correct": 13
+    },
+    {
+      "mode": "bigram",
+      "threshold": 4.0,
+      "margin": 0.3,
+      "correct": 13
+    },
+    {
+      "mode": "bigram",
+      "threshold": 4.0,
+      "margin": 0.5,
+      "correct": 12
+    },
+    {
+      "mode": "bigram",
+      "threshold": 6.0,
+      "margin": 0.05,
+      "correct": 13
+    },
+    {
+      "mode": "bigram",
+      "threshold": 6.0,
+      "margin": 0.15,
+      "correct": 13
+    },
+    {
+      "mode": "bigram",
+      "threshold": 6.0,
+      "margin": 0.3,
+      "correct": 13
+    },
+    {
+      "mode": "bigram",
+      "threshold": 6.0,
+      "margin": 0.5,
+      "correct": 12
+    },
+    {
+      "mode": "bigram",
+      "threshold": 8.0,
+      "margin": 0.05,
+      "correct": 10
+    },
+    {
+      "mode": "bigram",
+      "threshold": 8.0,
+      "margin": 0.15,
+      "correct": 10
+    },
+    {
+      "mode": "bigram",
+      "threshold": 8.0,
+      "margin": 0.3,
+      "correct": 10
+    },
+    {
+      "mode": "bigram",
+      "threshold": 8.0,
+      "margin": 0.5,
+      "correct": 10
+    },
+    {
+      "mode": "unigram",
+      "threshold": 1.0,
+      "margin": 0.05,
+      "correct": 10
+    },
+    {
+      "mode": "unigram",
+      "threshold": 1.0,
+      "margin": 0.15,
+      "correct": 10
+    },
+    {
+      "mode": "unigram",
+      "threshold": 1.0,
+      "margin": 0.3,
+      "correct": 10
+    },
+    {
+      "mode": "unigram",
+      "threshold": 1.0,
+      "margin": 0.5,
+      "correct": 9
+    },
+    {
+      "mode": "unigram",
+      "threshold": 2.0,
+      "margin": 0.05,
+      "correct": 12
+    },
+    {
+      "mode": "unigram",
+      "threshold": 2.0,
+      "margin": 0.15,
+      "correct": 12
+    },
+    {
+      "mode": "unigram",
+      "threshold": 2.0,
+      "margin": 0.3,
+      "correct": 12
+    },
+    {
+      "mode": "unigram",
+      "threshold": 2.0,
+      "margin": 0.5,
+      "correct": 11
+    },
+    {
+      "mode": "unigram",
+      "threshold": 4.0,
+      "margin": 0.05,
+      "correct": 12
+    },
+    {
+      "mode": "unigram",
+      "threshold": 4.0,
+      "margin": 0.15,
+      "correct": 12
+    },
+    {
+      "mode": "unigram",
+      "threshold": 4.0,
+      "margin": 0.3,
+      "correct": 12
+    },
+    {
+      "mode": "unigram",
+      "threshold": 4.0,
+      "margin": 0.5,
+      "correct": 11
+    },
+    {
+      "mode": "unigram",
+      "threshold": 6.0,
+      "margin": 0.05,
+      "correct": 12
+    },
+    {
+      "mode": "unigram",
+      "threshold": 6.0,
+      "margin": 0.15,
+      "correct": 12
+    },
+    {
+      "mode": "unigram",
+      "threshold": 6.0,
+      "margin": 0.3,
+      "correct": 12
+    },
+    {
+      "mode": "unigram",
+      "threshold": 6.0,
+      "margin": 0.5,
+      "correct": 11
+    },
+    {
+      "mode": "unigram",
+      "threshold": 8.0,
+      "margin": 0.05,
+      "correct": 11
+    },
+    {
+      "mode": "unigram",
+      "threshold": 8.0,
+      "margin": 0.15,
+      "correct": 11
+    },
+    {
+      "mode": "unigram",
+      "threshold": 8.0,
+      "margin": 0.3,
+      "correct": 12
+    },
+    {
+      "mode": "unigram",
+      "threshold": 8.0,
+      "margin": 0.5,
+      "correct": 11
+    }
+  ],
+  "results": [
+    {
+      "query": {
+        "query": "新用户次日留存",
+        "status": "adopt",
+        "id": "retention",
+        "split": "calibration"
+      },
+      "result": {
+        "status": "adopt",
+        "reason": "matched",
+        "method": "exact",
+        "definition": {
+          "id": "retention",
+          "name": "新增用户自然日次日留存",
+          "aliases": [
+            "新用户次日留存",
+            "注册次日留存率"
+          ],
+          "definition": "新增注册用户第二天回来产生会话的比例。",
+          "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+          "denominator": "D 日首次注册去重用户数；为零则不可计算",
+          "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+          "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+          "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+          "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+        },
+        "candidates": [
+          {
+            "id": "retention",
+            "score": 7.925507996199454
+          },
+          {
+            "id": "retained_cost",
+            "score": 4.18752035275607
+          },
+          {
+            "id": "crash",
+            "score": 1.6480915719752844
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "新注册用户第二天回来比例",
+        "status": "adopt",
+        "id": "retention",
+        "split": "calibration"
+      },
+      "result": {
+        "status": "adopt",
+        "reason": "matched",
+        "method": "bm25",
+        "definition": {
+          "id": "retention",
+          "name": "新增用户自然日次日留存",
+          "aliases": [
+            "新用户次日留存",
+            "注册次日留存率"
+          ],
+          "definition": "新增注册用户第二天回来产生会话的比例。",
+          "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+          "denominator": "D 日首次注册去重用户数；为零则不可计算",
+          "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+          "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+          "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+          "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+        },
+        "candidates": [
+          {
+            "id": "retention",
+            "score": 9.63478904940905
+          },
+          {
+            "id": "retained_cost",
+            "score": 3.035262038636638
+          },
+          {
+            "id": "crash",
+            "score": 1.940985591334241
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "观看时长五秒",
+        "status": "adopt",
+        "id": "effective",
+        "split": "calibration"
+      },
+      "result": {
+        "status": "adopt",
+        "reason": "matched",
+        "method": "bm25",
+        "definition": {
+          "id": "effective",
+          "name": "有效播放率",
+          "aliases": [
+            "有效观看比例",
+            "至少看五秒比例"
+          ],
+          "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+          "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+          "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+          "dimensions": "sessions.os / version 与 users.channel",
+          "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+          "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+          "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+        },
+        "candidates": [
+          {
+            "id": "effective",
+            "score": 7.30572858657612
+          },
+          {
+            "id": "completion",
+            "score": 0.0
+          },
+          {
+            "id": "crash",
+            "score": 0.0
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "播放开始中完成事件比例",
+        "status": "adopt",
+        "id": "completion",
+        "split": "calibration"
+      },
+      "result": {
+        "status": "adopt",
+        "reason": "matched",
+        "method": "bm25",
+        "definition": {
+          "id": "completion",
+          "name": "完播率",
+          "aliases": [
+            "完成播放率",
+            "视频播完比例"
+          ],
+          "definition": "播放开始中有完成事件的播放次数比例。",
+          "numerator": "content_events 中有 complete 的去重 play_id 数",
+          "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+          "dimensions": "sessions.os / version 与 users.channel",
+          "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+          "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+          "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+        },
+        "candidates": [
+          {
+            "id": "completion",
+            "score": 12.634848227035972
+          },
+          {
+            "id": "effective",
+            "score": 3.135158478904998
+          },
+          {
+            "id": "crash",
+            "score": 0.6582264309542852
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "渠道支出新增人数",
+        "status": "adopt",
+        "id": "new_cost",
+        "split": "calibration"
+      },
+      "result": {
+        "status": "adopt",
+        "reason": "matched",
+        "method": "bm25",
+        "definition": {
+          "id": "new_cost",
+          "name": "每新增用户成本",
+          "aliases": [
+            "获客成本",
+            "新增成本"
+          ],
+          "definition": "渠道支出除以同一注册窗口新增人数。",
+          "numerator": "channel_daily.spend_cents 渠道支出总分",
+          "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+          "dimensions": "channel",
+          "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+          "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+          "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+        },
+        "candidates": [
+          {
+            "id": "new_cost",
+            "score": 6.6524260302723945
+          },
+          {
+            "id": "retained_cost",
+            "score": 3.9885714937370804
+          },
+          {
+            "id": "crash",
+            "score": 1.1942247189913546
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "新增用户注册当日发生崩溃",
+        "status": "adopt",
+        "id": "crash",
+        "split": "calibration"
+      },
+      "result": {
+        "status": "adopt",
+        "reason": "matched",
+        "method": "bm25",
+        "definition": {
+          "id": "crash",
+          "name": "新增用户首日崩溃受影响比例",
+          "aliases": [
+            "新用户首日崩溃比例",
+            "注册日崩溃用户占比"
+          ],
+          "definition": "新增用户注册当日发生过崩溃的人数比例。",
+          "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+          "denominator": "同日注册去重 user_id 数；零不可计算",
+          "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+          "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+          "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+          "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+        },
+        "candidates": [
+          {
+            "id": "crash",
+            "score": 11.885166700588208
+          },
+          {
+            "id": "retention",
+            "score": 2.293394830204888
+          },
+          {
+            "id": "new_cost",
+            "score": 2.2071911413258567
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "留存率",
+        "status": "clarify",
+        "id": null,
+        "split": "calibration"
+      },
+      "result": {
+        "status": "clarify",
+        "reason": "retention_population_required",
+        "method": "bm25",
+        "definition": null,
+        "candidates": [
+          {
+            "id": "retention",
+            "score": 3.074601059292716
+          },
+          {
+            "id": "retained_cost",
+            "score": 1.5694810967666382
+          },
+          {
+            "id": "completion",
+            "score": 0.0
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "次日留存",
+        "status": "clarify",
+        "id": null,
+        "split": "calibration"
+      },
+      "result": {
+        "status": "clarify",
+        "reason": "retention_population_required",
+        "method": "bm25",
+        "definition": null,
+        "candidates": [
+          {
+            "id": "retention",
+            "score": 4.763710312944452
+          },
+          {
+            "id": "retained_cost",
+            "score": 3.5140208624950784
+          },
+          {
+            "id": "completion",
+            "score": 0.0
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "24小时留存",
+        "status": "unsupported",
+        "id": null,
+        "split": "calibration"
+      },
+      "result": {
+        "status": "unsupported",
+        "reason": "unsupported_population_or_horizon",
+        "method": "bm25",
+        "definition": null,
+        "candidates": [
+          {
+            "id": "retention",
+            "score": 1.5879034376481507
+          },
+          {
+            "id": "retained_cost",
+            "score": 1.5694810967666382
+          },
+          {
+            "id": "completion",
+            "score": 0.0
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "退款金额",
+        "status": "unsupported",
+        "id": null,
+        "split": "calibration"
+      },
+      "result": {
+        "status": "unsupported",
+        "reason": "no_supported_definition",
+        "method": "bm25",
+        "definition": null,
+        "candidates": [
+          {
+            "id": "completion",
+            "score": 0.0
+          },
+          {
+            "id": "crash",
+            "score": 0.0
+          },
+          {
+            "id": "effective",
+            "score": 0.0
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "天气预报",
+        "status": "unsupported",
+        "id": null,
+        "split": "calibration"
+      },
+      "result": {
+        "status": "unsupported",
+        "reason": "no_supported_definition",
+        "method": "bm25",
+        "definition": null,
+        "candidates": [
+          {
+            "id": "completion",
+            "score": 0.0
+          },
+          {
+            "id": "crash",
+            "score": 0.0
+          },
+          {
+            "id": "effective",
+            "score": 0.0
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "用户满意度",
+        "status": "unsupported",
+        "id": null,
+        "split": "calibration"
+      },
+      "result": {
+        "status": "unsupported",
+        "reason": "no_supported_definition",
+        "method": "bm25",
+        "definition": null,
+        "candidates": [
+          {
+            "id": "crash",
+            "score": 0.7160150469481305
+          },
+          {
+            "id": "retention",
+            "score": 0.6814049293380684
+          },
+          {
+            "id": "retained_cost",
+            "score": 0.6734994902609912
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "完播率有效播放率",
+        "status": "clarify",
+        "id": null,
+        "split": "calibration"
+      },
+      "result": {
+        "status": "clarify",
+        "reason": "candidate_ambiguity",
+        "method": "bm25",
+        "definition": null,
+        "candidates": [
+          {
+            "id": "completion",
+            "score": 6.279735908094944
+          },
+          {
+            "id": "effective",
+            "score": 6.094405474390252
+          },
+          {
+            "id": "crash",
+            "score": 0.0
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "注册次日留存率",
+        "status": "adopt",
+        "id": "retention",
+        "split": "verification"
+      },
+      "result": {
+        "status": "adopt",
+        "reason": "matched",
+        "method": "exact",
+        "definition": {
+          "id": "retention",
+          "name": "新增用户自然日次日留存",
+          "aliases": [
+            "新用户次日留存",
+            "注册次日留存率"
+          ],
+          "definition": "新增注册用户第二天回来产生会话的比例。",
+          "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+          "denominator": "D 日首次注册去重用户数；为零则不可计算",
+          "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+          "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+          "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+          "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+        },
+        "candidates": [
+          {
+            "id": "retention",
+            "score": 8.329892088152418
+          },
+          {
+            "id": "retained_cost",
+            "score": 3.9312436451422847
+          },
+          {
+            "id": "crash",
+            "score": 0.5667441134318253
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "有效观看比例",
+        "status": "adopt",
+        "id": "effective",
+        "split": "verification"
+      },
+      "result": {
+        "status": "adopt",
+        "reason": "matched",
+        "method": "exact",
+        "definition": {
+          "id": "effective",
+          "name": "有效播放率",
+          "aliases": [
+            "有效观看比例",
+            "至少看五秒比例"
+          ],
+          "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+          "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+          "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+          "dimensions": "sessions.os / version 与 users.channel",
+          "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+          "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+          "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+        },
+        "candidates": [
+          {
+            "id": "effective",
+            "score": 7.999345884378927
+          },
+          {
+            "id": "crash",
+            "score": 0.6582264309542852
+          },
+          {
+            "id": "completion",
+            "score": 0.6527780472528051
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "完成播放率",
+        "status": "adopt",
+        "id": "completion",
+        "split": "verification"
+      },
+      "result": {
+        "status": "adopt",
+        "reason": "matched",
+        "method": "exact",
+        "definition": {
+          "id": "completion",
+          "name": "完播率",
+          "aliases": [
+            "完成播放率",
+            "视频播完比例"
+          ],
+          "definition": "播放开始中有完成事件的播放次数比例。",
+          "numerator": "content_events 中有 complete 的去重 play_id 数",
+          "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+          "dimensions": "sessions.os / version 与 users.channel",
+          "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+          "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+          "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+        },
+        "candidates": [
+          {
+            "id": "completion",
+            "score": 6.842424016829945
+          },
+          {
+            "id": "effective",
+            "score": 2.441541181102192
+          },
+          {
+            "id": "crash",
+            "score": 0.0
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "获客成本",
+        "status": "adopt",
+        "id": "new_cost",
+        "split": "verification"
+      },
+      "result": {
+        "status": "adopt",
+        "reason": "matched",
+        "method": "exact",
+        "definition": {
+          "id": "new_cost",
+          "name": "每新增用户成本",
+          "aliases": [
+            "获客成本",
+            "新增成本"
+          ],
+          "definition": "渠道支出除以同一注册窗口新增人数。",
+          "numerator": "channel_daily.spend_cents 渠道支出总分",
+          "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+          "dimensions": "channel",
+          "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+          "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+          "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+        },
+        "candidates": [
+          {
+            "id": "new_cost",
+            "score": 3.9984026741205376
+          },
+          {
+            "id": "retained_cost",
+            "score": 3.514020862495079
+          },
+          {
+            "id": "completion",
+            "score": 0.0
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "留存获客成本",
+        "status": "adopt",
+        "id": "retained_cost",
+        "split": "verification"
+      },
+      "result": {
+        "status": "adopt",
+        "reason": "matched",
+        "method": "exact",
+        "definition": {
+          "id": "retained_cost",
+          "name": "每次日留存用户成本",
+          "aliases": [
+            "留存获客成本",
+            "留存用户成本"
+          ],
+          "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+          "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+          "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+          "dimensions": "注册 channel",
+          "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+          "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+          "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+        },
+        "candidates": [
+          {
+            "id": "retained_cost",
+            "score": 6.538144611224187
+          },
+          {
+            "id": "new_cost",
+            "score": 3.9984026741205376
+          },
+          {
+            "id": "retention",
+            "score": 1.5879034376481507
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "新用户首日崩溃比例",
+        "status": "adopt",
+        "id": "crash",
+        "split": "verification"
+      },
+      "result": {
+        "status": "adopt",
+        "reason": "matched",
+        "method": "exact",
+        "definition": {
+          "id": "crash",
+          "name": "新增用户首日崩溃受影响比例",
+          "aliases": [
+            "新用户首日崩溃比例",
+            "注册日崩溃用户占比"
+          ],
+          "definition": "新增用户注册当日发生过崩溃的人数比例。",
+          "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+          "denominator": "同日注册去重 user_id 数；零不可计算",
+          "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+          "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+          "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+          "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+        },
+        "candidates": [
+          {
+            "id": "crash",
+            "score": 12.44399823428466
+          },
+          {
+            "id": "retention",
+            "score": 2.101516898639585
+          },
+          {
+            "id": "effective",
+            "score": 0.6936172978028063
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "新用户第二天回来会话比例",
+        "status": "adopt",
+        "id": "retention",
+        "split": "verification"
+      },
+      "result": {
+        "status": "adopt",
+        "reason": "matched",
+        "method": "bm25",
+        "definition": {
+          "id": "retention",
+          "name": "新增用户自然日次日留存",
+          "aliases": [
+            "新用户次日留存",
+            "注册次日留存率"
+          ],
+          "definition": "新增注册用户第二天回来产生会话的比例。",
+          "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+          "denominator": "D 日首次注册去重用户数；为零则不可计算",
+          "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+          "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+          "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+          "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+        },
+        "candidates": [
+          {
+            "id": "retention",
+            "score": 10.035697649762584
+          },
+          {
+            "id": "retained_cost",
+            "score": 2.618039255989432
+          },
+          {
+            "id": "crash",
+            "score": 2.3063180029295696
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "观看时长达到视频时长五秒",
+        "status": "adopt",
+        "id": "effective",
+        "split": "verification"
+      },
+      "result": {
+        "status": "adopt",
+        "reason": "matched",
+        "method": "bm25",
+        "definition": {
+          "id": "effective",
+          "name": "有效播放率",
+          "aliases": [
+            "有效观看比例",
+            "至少看五秒比例"
+          ],
+          "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+          "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+          "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+          "dimensions": "sessions.os / version 与 users.channel",
+          "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+          "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+          "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+        },
+        "candidates": [
+          {
+            "id": "effective",
+            "score": 12.945951201960572
+          },
+          {
+            "id": "completion",
+            "score": 1.1450975413277402
+          },
+          {
+            "id": "crash",
+            "score": 0.0
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "请问留存情况",
+        "status": "clarify",
+        "id": null,
+        "split": "verification"
+      },
+      "result": {
+        "status": "clarify",
+        "reason": "retention_population_required",
+        "method": "bm25",
+        "definition": null,
+        "candidates": [
+          {
+            "id": "retention",
+            "score": 1.5879034376481507
+          },
+          {
+            "id": "retained_cost",
+            "score": 1.5694810967666382
+          },
+          {
+            "id": "completion",
+            "score": 0.0
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "新增用户七日留存",
+        "status": "unsupported",
+        "id": null,
+        "split": "verification"
+      },
+      "result": {
+        "status": "unsupported",
+        "reason": "unsupported_population_or_horizon",
+        "method": "bm25",
+        "definition": null,
+        "candidates": [
+          {
+            "id": "retention",
+            "score": 4.8764151735823535
+          },
+          {
+            "id": "retained_cost",
+            "score": 4.049696035186262
+          },
+          {
+            "id": "crash",
+            "score": 1.8495032738117811
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "活跃用户次日留存",
+        "status": "unsupported",
+        "id": null,
+        "split": "verification"
+      },
+      "result": {
+        "status": "unsupported",
+        "reason": "unsupported_population_or_horizon",
+        "method": "bm25",
+        "definition": null,
+        "candidates": [
+          {
+            "id": "retention",
+            "score": 6.931812863927085
+          },
+          {
+            "id": "retained_cost",
+            "score": 4.18752035275607
+          },
+          {
+            "id": "crash",
+            "score": 0.7160150469481305
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "付费会员数",
+        "status": "unsupported",
+        "id": null,
+        "split": "verification"
+      },
+      "result": {
+        "status": "unsupported",
+        "reason": "no_supported_definition",
+        "method": "bm25",
+        "definition": null,
+        "candidates": [
+          {
+            "id": "completion",
+            "score": 0.0
+          },
+          {
+            "id": "crash",
+            "score": 0.0
+          },
+          {
+            "id": "effective",
+            "score": 0.0
+          }
+        ],
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "每新增用户成本",
+        "status": "clarify",
+        "id": null,
+        "split": "verification",
+        "window": null
+      },
+      "result": {
+        "status": "clarify",
+        "reason": "time_window_required",
+        "method": "exact",
+        "definition": null,
+        "candidates": [
+          {
+            "id": "new_cost",
+            "score": 6.282324660058029
+          },
+          {
+            "id": "retained_cost",
+            "score": 4.437979258416994
+          },
+          {
+            "id": "crash",
+            "score": 1.8495032738117811
+          }
+        ],
+        "window": null,
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "完播率",
+        "status": "clarify",
+        "id": null,
+        "split": "verification",
+        "window": [
+          "2026-01-08",
+          "2026-01-01"
+        ]
+      },
+      "result": {
+        "status": "clarify",
+        "reason": "invalid_time_window",
+        "method": "exact",
+        "definition": null,
+        "candidates": [
+          {
+            "id": "completion",
+            "score": 3.426430775302147
+          },
+          {
+            "id": "crash",
+            "score": 0.0
+          },
+          {
+            "id": "effective",
+            "score": 0.0
+          }
+        ],
+        "window": [
+          "2026-01-08",
+          "2026-01-01"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    },
+    {
+      "query": {
+        "query": "完播率",
+        "status": "clarify",
+        "id": null,
+        "split": "verification",
+        "window": [
+          "昨天",
+          "今天"
+        ]
+      },
+      "result": {
+        "status": "clarify",
+        "reason": "invalid_time_window",
+        "method": "exact",
+        "definition": null,
+        "candidates": [
+          {
+            "id": "completion",
+            "score": 3.426430775302147
+          },
+          {
+            "id": "crash",
+            "score": 0.0
+          },
+          {
+            "id": "effective",
+            "score": 0.0
+          }
+        ],
+        "window": [
+          "昨天",
+          "今天"
+        ],
+        "corpus_version": "t06-v1"
+      },
+      "passed": true
+    }
+  ],
+  "reference_checks": [
+    {
+      "query": "新用户次日留存",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 7.088925851191161
+        },
+        {
+          "id": "retained_cost",
+          "score": 6.018230055001999
+        },
+        {
+          "id": "crash",
+          "score": 3.2365171756098734
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 7.08892585119116
+        },
+        {
+          "id": "retained_cost",
+          "score": 6.018230055001999
+        },
+        {
+          "id": "crash",
+          "score": 3.236517175609873
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "新用户次日留存",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 7.925507996199454
+        },
+        {
+          "id": "retained_cost",
+          "score": 4.18752035275607
+        },
+        {
+          "id": "crash",
+          "score": 1.6480915719752844
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 7.925507996199455
+        },
+        {
+          "id": "retained_cost",
+          "score": 4.18752035275607
+        },
+        {
+          "id": "crash",
+          "score": 1.6480915719752842
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "新注册用户第二天回来比例",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 9.61697561628574
+        },
+        {
+          "id": "retained_cost",
+          "score": 6.552964223799017
+        },
+        {
+          "id": "crash",
+          "score": 4.636007391252077
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 9.61697561628574
+        },
+        {
+          "id": "retained_cost",
+          "score": 6.552964223799015
+        },
+        {
+          "id": "crash",
+          "score": 4.636007391252077
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "新注册用户第二天回来比例",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 9.63478904940905
+        },
+        {
+          "id": "retained_cost",
+          "score": 3.035262038636638
+        },
+        {
+          "id": "crash",
+          "score": 1.940985591334241
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 9.63478904940905
+        },
+        {
+          "id": "retained_cost",
+          "score": 3.0352620386366373
+        },
+        {
+          "id": "crash",
+          "score": 1.9409855913342409
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "观看时长五秒",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "effective",
+          "score": 12.204538481225178
+        },
+        {
+          "id": "completion",
+          "score": 0.0
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "effective",
+          "score": 12.204538481225178
+        },
+        {
+          "id": "completion",
+          "score": 0.0
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "观看时长五秒",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "effective",
+          "score": 7.30572858657612
+        },
+        {
+          "id": "completion",
+          "score": 0.0
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "effective",
+          "score": 7.30572858657612
+        },
+        {
+          "id": "completion",
+          "score": 0.0
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "播放开始中完成事件比例",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "completion",
+          "score": 15.442231599672283
+        },
+        {
+          "id": "effective",
+          "score": 6.153990886116432
+        },
+        {
+          "id": "retained_cost",
+          "score": 2.045966033243344
+        }
+      ],
+      "reference": [
+        {
+          "id": "completion",
+          "score": 15.44223159967228
+        },
+        {
+          "id": "effective",
+          "score": 6.15399088611643
+        },
+        {
+          "id": "retained_cost",
+          "score": 2.0459660332433436
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "播放开始中完成事件比例",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "completion",
+          "score": 12.634848227035972
+        },
+        {
+          "id": "effective",
+          "score": 3.135158478904998
+        },
+        {
+          "id": "crash",
+          "score": 0.6582264309542852
+        }
+      ],
+      "reference": [
+        {
+          "id": "completion",
+          "score": 12.634848227035969
+        },
+        {
+          "id": "effective",
+          "score": 3.135158478904998
+        },
+        {
+          "id": "crash",
+          "score": 0.6582264309542852
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "渠道支出新增人数",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "new_cost",
+          "score": 7.042194925171974
+        },
+        {
+          "id": "retained_cost",
+          "score": 5.668162237150542
+        },
+        {
+          "id": "crash",
+          "score": 2.0954601188644446
+        }
+      ],
+      "reference": [
+        {
+          "id": "new_cost",
+          "score": 7.042194925171973
+        },
+        {
+          "id": "retained_cost",
+          "score": 5.668162237150541
+        },
+        {
+          "id": "crash",
+          "score": 2.0954601188644446
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "渠道支出新增人数",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "new_cost",
+          "score": 6.6524260302723945
+        },
+        {
+          "id": "retained_cost",
+          "score": 3.9885714937370804
+        },
+        {
+          "id": "crash",
+          "score": 1.1942247189913546
+        }
+      ],
+      "reference": [
+        {
+          "id": "new_cost",
+          "score": 6.652426030272394
+        },
+        {
+          "id": "retained_cost",
+          "score": 3.9885714937370795
+        },
+        {
+          "id": "crash",
+          "score": 1.1942247189913546
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "新增用户注册当日发生崩溃",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "crash",
+          "score": 13.760450264592809
+        },
+        {
+          "id": "retention",
+          "score": 6.005367678924001
+        },
+        {
+          "id": "retained_cost",
+          "score": 3.7043017514433494
+        }
+      ],
+      "reference": [
+        {
+          "id": "crash",
+          "score": 13.760450264592809
+        },
+        {
+          "id": "retention",
+          "score": 6.005367678924
+        },
+        {
+          "id": "retained_cost",
+          "score": 3.704301751443349
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "新增用户注册当日发生崩溃",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "crash",
+          "score": 11.885166700588208
+        },
+        {
+          "id": "retention",
+          "score": 2.293394830204888
+        },
+        {
+          "id": "new_cost",
+          "score": 2.2071911413258567
+        }
+      ],
+      "reference": [
+        {
+          "id": "crash",
+          "score": 11.885166700588206
+        },
+        {
+          "id": "retention",
+          "score": 2.293394830204888
+        },
+        {
+          "id": "new_cost",
+          "score": 2.2071911413258563
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "留存率",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 3.865634551865285
+        },
+        {
+          "id": "retained_cost",
+          "score": 3.157657705686916
+        },
+        {
+          "id": "completion",
+          "score": 1.019424195939544
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 3.8656345518652846
+        },
+        {
+          "id": "retained_cost",
+          "score": 3.157657705686916
+        },
+        {
+          "id": "completion",
+          "score": 1.0194241959395438
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "留存率",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 3.074601059292716
+        },
+        {
+          "id": "retained_cost",
+          "score": 1.5694810967666382
+        },
+        {
+          "id": "completion",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 3.074601059292716
+        },
+        {
+          "id": "retained_cost",
+          "score": 1.5694810967666382
+        },
+        {
+          "id": "completion",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "次日留存",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 5.035097935183939
+        },
+        {
+          "id": "retained_cost",
+          "score": 4.241343710427725
+        },
+        {
+          "id": "crash",
+          "score": 1.1309578882320408
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 5.035097935183939
+        },
+        {
+          "id": "retained_cost",
+          "score": 4.241343710427726
+        },
+        {
+          "id": "crash",
+          "score": 1.1309578882320408
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "次日留存",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 4.763710312944452
+        },
+        {
+          "id": "retained_cost",
+          "score": 3.5140208624950784
+        },
+        {
+          "id": "completion",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 4.763710312944452
+        },
+        {
+          "id": "retained_cost",
+          "score": 3.5140208624950784
+        },
+        {
+          "id": "completion",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "24小时留存",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 3.190741430193531
+        },
+        {
+          "id": "retained_cost",
+          "score": 3.157657705686916
+        },
+        {
+          "id": "effective",
+          "score": 2.0794445735300764
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 3.190741430193531
+        },
+        {
+          "id": "retained_cost",
+          "score": 3.157657705686916
+        },
+        {
+          "id": "effective",
+          "score": 2.0794445735300764
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "24小时留存",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 1.5879034376481507
+        },
+        {
+          "id": "retained_cost",
+          "score": 1.5694810967666382
+        },
+        {
+          "id": "completion",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 1.587903437648151
+        },
+        {
+          "id": "retained_cost",
+          "score": 1.5694810967666382
+        },
+        {
+          "id": "completion",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "退款金额",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "completion",
+          "score": 0.0
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        },
+        {
+          "id": "effective",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "completion",
+          "score": 0.0
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        },
+        {
+          "id": "effective",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "退款金额",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "completion",
+          "score": 0.0
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        },
+        {
+          "id": "effective",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "completion",
+          "score": 0.0
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        },
+        {
+          "id": "effective",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "天气预报",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 1.0025043484038931
+        },
+        {
+          "id": "retained_cost",
+          "score": 0.983087119274119
+        },
+        {
+          "id": "completion",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 1.002504348403893
+        },
+        {
+          "id": "retained_cost",
+          "score": 0.9830871192741188
+        },
+        {
+          "id": "completion",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "天气预报",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "completion",
+          "score": 0.0
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        },
+        {
+          "id": "effective",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "completion",
+          "score": 0.0
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        },
+        {
+          "id": "effective",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "用户满意度",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "crash",
+          "score": 1.4418127938299756
+        },
+        {
+          "id": "retention",
+          "score": 1.3692186106714817
+        },
+        {
+          "id": "retained_cost",
+          "score": 1.3550216435101412
+        }
+      ],
+      "reference": [
+        {
+          "id": "crash",
+          "score": 1.4418127938299754
+        },
+        {
+          "id": "retention",
+          "score": 1.3692186106714812
+        },
+        {
+          "id": "retained_cost",
+          "score": 1.355021643510141
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "用户满意度",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "crash",
+          "score": 0.7160150469481305
+        },
+        {
+          "id": "retention",
+          "score": 0.6814049293380684
+        },
+        {
+          "id": "retained_cost",
+          "score": 0.6734994902609912
+        }
+      ],
+      "reference": [
+        {
+          "id": "crash",
+          "score": 0.7160150469481303
+        },
+        {
+          "id": "retention",
+          "score": 0.6814049293380683
+        },
+        {
+          "id": "retained_cost",
+          "score": 0.6734994902609912
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "完播率有效播放率",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "completion",
+          "score": 8.46500565388059
+        },
+        {
+          "id": "effective",
+          "score": 6.923983063157576
+        },
+        {
+          "id": "retention",
+          "score": 0.6748931216717537
+        }
+      ],
+      "reference": [
+        {
+          "id": "completion",
+          "score": 8.465005653880588
+        },
+        {
+          "id": "effective",
+          "score": 6.923983063157575
+        },
+        {
+          "id": "retention",
+          "score": 0.6748931216717536
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "完播率有效播放率",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "completion",
+          "score": 6.279735908094944
+        },
+        {
+          "id": "effective",
+          "score": 6.094405474390252
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "completion",
+          "score": 6.279735908094944
+        },
+        {
+          "id": "effective",
+          "score": 6.094405474390252
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "注册次日留存率",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 6.902849866761171
+        },
+        {
+          "id": "retained_cost",
+          "score": 5.085073112555991
+        },
+        {
+          "id": "crash",
+          "score": 2.276753101643441
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 6.902849866761171
+        },
+        {
+          "id": "retained_cost",
+          "score": 5.085073112555992
+        },
+        {
+          "id": "crash",
+          "score": 2.276753101643441
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "注册次日留存率",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 8.329892088152418
+        },
+        {
+          "id": "retained_cost",
+          "score": 3.9312436451422847
+        },
+        {
+          "id": "crash",
+          "score": 0.5667441134318253
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 8.329892088152418
+        },
+        {
+          "id": "retained_cost",
+          "score": 3.9312436451422847
+        },
+        {
+          "id": "crash",
+          "score": 0.5667441134318253
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "有效观看比例",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "effective",
+          "score": 9.304872375339688
+        },
+        {
+          "id": "completion",
+          "score": 2.4369038351946517
+        },
+        {
+          "id": "crash",
+          "score": 1.3846528904628448
+        }
+      ],
+      "reference": [
+        {
+          "id": "effective",
+          "score": 9.304872375339686
+        },
+        {
+          "id": "completion",
+          "score": 2.4369038351946513
+        },
+        {
+          "id": "crash",
+          "score": 1.3846528904628446
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "有效观看比例",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "effective",
+          "score": 7.999345884378927
+        },
+        {
+          "id": "crash",
+          "score": 0.6582264309542852
+        },
+        {
+          "id": "completion",
+          "score": 0.6527780472528051
+        }
+      ],
+      "reference": [
+        {
+          "id": "effective",
+          "score": 7.9993458843789265
+        },
+        {
+          "id": "crash",
+          "score": 0.6582264309542852
+        },
+        {
+          "id": "completion",
+          "score": 0.6527780472528051
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "完成播放率",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "completion",
+          "score": 8.347148983207584
+        },
+        {
+          "id": "effective",
+          "score": 3.4546567003089175
+        },
+        {
+          "id": "new_cost",
+          "score": 1.1460607420189903
+        }
+      ],
+      "reference": [
+        {
+          "id": "completion",
+          "score": 8.347148983207584
+        },
+        {
+          "id": "effective",
+          "score": 3.454656700308917
+        },
+        {
+          "id": "new_cost",
+          "score": 1.1460607420189903
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "完成播放率",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "completion",
+          "score": 6.842424016829945
+        },
+        {
+          "id": "effective",
+          "score": 2.441541181102192
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "completion",
+          "score": 6.842424016829944
+        },
+        {
+          "id": "effective",
+          "score": 2.441541181102192
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "获客成本",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "new_cost",
+          "score": 5.123011847005731
+        },
+        {
+          "id": "retained_cost",
+          "score": 4.607882005360921
+        },
+        {
+          "id": "completion",
+          "score": 1.019424195939544
+        }
+      ],
+      "reference": [
+        {
+          "id": "new_cost",
+          "score": 5.12301184700573
+        },
+        {
+          "id": "retained_cost",
+          "score": 4.607882005360921
+        },
+        {
+          "id": "completion",
+          "score": 1.0194241959395438
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "获客成本",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "new_cost",
+          "score": 3.9984026741205376
+        },
+        {
+          "id": "retained_cost",
+          "score": 3.514020862495079
+        },
+        {
+          "id": "completion",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "new_cost",
+          "score": 3.9984026741205376
+        },
+        {
+          "id": "retained_cost",
+          "score": 3.5140208624950784
+        },
+        {
+          "id": "completion",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "留存获客成本",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "retained_cost",
+          "score": 7.765539711047836
+        },
+        {
+          "id": "new_cost",
+          "score": 5.123011847005731
+        },
+        {
+          "id": "retention",
+          "score": 3.190741430193531
+        }
+      ],
+      "reference": [
+        {
+          "id": "retained_cost",
+          "score": 7.765539711047837
+        },
+        {
+          "id": "new_cost",
+          "score": 5.12301184700573
+        },
+        {
+          "id": "retention",
+          "score": 3.190741430193531
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "留存获客成本",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "retained_cost",
+          "score": 6.538144611224187
+        },
+        {
+          "id": "new_cost",
+          "score": 3.9984026741205376
+        },
+        {
+          "id": "retention",
+          "score": 1.5879034376481507
+        }
+      ],
+      "reference": [
+        {
+          "id": "retained_cost",
+          "score": 6.538144611224187
+        },
+        {
+          "id": "new_cost",
+          "score": 3.9984026741205376
+        },
+        {
+          "id": "retention",
+          "score": 1.587903437648151
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "新用户首日崩溃比例",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "crash",
+          "score": 11.645435762631536
+        },
+        {
+          "id": "retention",
+          "score": 4.073969253603955
+        },
+        {
+          "id": "retained_cost",
+          "score": 2.4387076482509507
+        }
+      ],
+      "reference": [
+        {
+          "id": "crash",
+          "score": 11.645435762631536
+        },
+        {
+          "id": "retention",
+          "score": 4.073969253603953
+        },
+        {
+          "id": "retained_cost",
+          "score": 2.4387076482509507
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "新用户首日崩溃比例",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "crash",
+          "score": 12.44399823428466
+        },
+        {
+          "id": "retention",
+          "score": 2.101516898639585
+        },
+        {
+          "id": "effective",
+          "score": 0.6936172978028063
+        }
+      ],
+      "reference": [
+        {
+          "id": "crash",
+          "score": 12.443998234284658
+        },
+        {
+          "id": "retention",
+          "score": 2.101516898639585
+        },
+        {
+          "id": "effective",
+          "score": 0.6936172978028063
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "新用户第二天回来会话比例",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 11.423871524011068
+        },
+        {
+          "id": "retained_cost",
+          "score": 5.7092348216707505
+        },
+        {
+          "id": "crash",
+          "score": 3.4902121778406774
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 11.423871524011066
+        },
+        {
+          "id": "retained_cost",
+          "score": 5.70923482167075
+        },
+        {
+          "id": "crash",
+          "score": 3.490212177840677
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "新用户第二天回来会话比例",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 10.035697649762584
+        },
+        {
+          "id": "retained_cost",
+          "score": 2.618039255989432
+        },
+        {
+          "id": "crash",
+          "score": 2.3063180029295696
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 10.035697649762584
+        },
+        {
+          "id": "retained_cost",
+          "score": 2.6180392559894314
+        },
+        {
+          "id": "crash",
+          "score": 2.3063180029295696
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "观看时长达到视频时长五秒",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "effective",
+          "score": 17.209301895663767
+        },
+        {
+          "id": "completion",
+          "score": 2.2745617332250987
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "effective",
+          "score": 17.20930189566377
+        },
+        {
+          "id": "completion",
+          "score": 2.2745617332250982
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "观看时长达到视频时长五秒",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "effective",
+          "score": 12.945951201960572
+        },
+        {
+          "id": "completion",
+          "score": 1.1450975413277402
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "effective",
+          "score": 12.945951201960574
+        },
+        {
+          "id": "completion",
+          "score": 1.14509754132774
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "请问留存情况",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 3.190741430193531
+        },
+        {
+          "id": "retained_cost",
+          "score": 3.157657705686916
+        },
+        {
+          "id": "completion",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 3.190741430193531
+        },
+        {
+          "id": "retained_cost",
+          "score": 3.157657705686916
+        },
+        {
+          "id": "completion",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "请问留存情况",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 1.5879034376481507
+        },
+        {
+          "id": "retained_cost",
+          "score": 1.5694810967666382
+        },
+        {
+          "id": "completion",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 1.587903437648151
+        },
+        {
+          "id": "retained_cost",
+          "score": 1.5694810967666382
+        },
+        {
+          "id": "completion",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "新增用户七日留存",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 7.0007459508081595
+        },
+        {
+          "id": "retained_cost",
+          "score": 6.018230055001999
+        },
+        {
+          "id": "crash",
+          "score": 3.8094147823155735
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 7.0007459508081595
+        },
+        {
+          "id": "retained_cost",
+          "score": 6.018230055001999
+        },
+        {
+          "id": "crash",
+          "score": 3.809414782315573
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "新增用户七日留存",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 4.8764151735823535
+        },
+        {
+          "id": "retained_cost",
+          "score": 4.049696035186262
+        },
+        {
+          "id": "crash",
+          "score": 1.8495032738117811
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 4.8764151735823535
+        },
+        {
+          "id": "retained_cost",
+          "score": 4.049696035186262
+        },
+        {
+          "id": "crash",
+          "score": 1.849503273811781
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "活跃用户次日留存",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 6.40431654585542
+        },
+        {
+          "id": "retained_cost",
+          "score": 5.596365353937866
+        },
+        {
+          "id": "crash",
+          "score": 2.5727706820620164
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 6.404316545855419
+        },
+        {
+          "id": "retained_cost",
+          "score": 5.596365353937867
+        },
+        {
+          "id": "crash",
+          "score": 2.572770682062016
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "活跃用户次日留存",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 6.931812863927085
+        },
+        {
+          "id": "retained_cost",
+          "score": 4.18752035275607
+        },
+        {
+          "id": "crash",
+          "score": 0.7160150469481305
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 6.931812863927086
+        },
+        {
+          "id": "retained_cost",
+          "score": 4.18752035275607
+        },
+        {
+          "id": "crash",
+          "score": 0.7160150469481303
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "付费会员数",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "retention",
+          "score": 1.4998773588154026
+        },
+        {
+          "id": "effective",
+          "score": 0.32554431807634693
+        },
+        {
+          "id": "completion",
+          "score": 0.26637900217699423
+        }
+      ],
+      "reference": [
+        {
+          "id": "retention",
+          "score": 1.4998773588154024
+        },
+        {
+          "id": "effective",
+          "score": 0.3255443180763469
+        },
+        {
+          "id": "completion",
+          "score": 0.26637900217699423
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "付费会员数",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "completion",
+          "score": 0.0
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        },
+        {
+          "id": "effective",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "completion",
+          "score": 0.0
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        },
+        {
+          "id": "effective",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "每新增用户成本",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "new_cost",
+          "score": 6.422863179047106
+        },
+        {
+          "id": "retained_cost",
+          "score": 5.823545931725209
+        },
+        {
+          "id": "crash",
+          "score": 2.6784568940835327
+        }
+      ],
+      "reference": [
+        {
+          "id": "new_cost",
+          "score": 6.422863179047106
+        },
+        {
+          "id": "retained_cost",
+          "score": 5.823545931725208
+        },
+        {
+          "id": "crash",
+          "score": 2.6784568940835323
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "每新增用户成本",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "new_cost",
+          "score": 6.282324660058029
+        },
+        {
+          "id": "retained_cost",
+          "score": 4.437979258416994
+        },
+        {
+          "id": "crash",
+          "score": 1.8495032738117811
+        }
+      ],
+      "reference": [
+        {
+          "id": "new_cost",
+          "score": 6.282324660058028
+        },
+        {
+          "id": "retained_cost",
+          "score": 4.437979258416993
+        },
+        {
+          "id": "crash",
+          "score": 1.849503273811781
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "完播率",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "completion",
+          "score": 5.625335415506399
+        },
+        {
+          "id": "effective",
+          "score": 2.0647749109903355
+        },
+        {
+          "id": "retention",
+          "score": 0.6748931216717537
+        }
+      ],
+      "reference": [
+        {
+          "id": "completion",
+          "score": 5.625335415506398
+        },
+        {
+          "id": "effective",
+          "score": 2.0647749109903355
+        },
+        {
+          "id": "retention",
+          "score": 0.6748931216717536
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "完播率",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "completion",
+          "score": 3.426430775302147
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        },
+        {
+          "id": "effective",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "completion",
+          "score": 3.4264307753021463
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        },
+        {
+          "id": "effective",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "完播率",
+      "mode": "unigram",
+      "actual": [
+        {
+          "id": "completion",
+          "score": 5.625335415506399
+        },
+        {
+          "id": "effective",
+          "score": 2.0647749109903355
+        },
+        {
+          "id": "retention",
+          "score": 0.6748931216717537
+        }
+      ],
+      "reference": [
+        {
+          "id": "completion",
+          "score": 5.625335415506398
+        },
+        {
+          "id": "effective",
+          "score": 2.0647749109903355
+        },
+        {
+          "id": "retention",
+          "score": 0.6748931216717536
+        }
+      ],
+      "passed": true
+    },
+    {
+      "query": "完播率",
+      "mode": "bigram",
+      "actual": [
+        {
+          "id": "completion",
+          "score": 3.426430775302147
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        },
+        {
+          "id": "effective",
+          "score": 0.0
+        }
+      ],
+      "reference": [
+        {
+          "id": "completion",
+          "score": 3.4264307753021463
+        },
+        {
+          "id": "crash",
+          "score": 0.0
+        },
+        {
+          "id": "effective",
+          "score": 0.0
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "hashes": {
+    "config.json": "ff263137eb23bea4f85b902e95aa1d910d4bb4150e47c5d26f7a673d9c451020",
+    "corpus.json": "39ae2d6a2a18695b02a534dda8b2c8c8b5a361d3ee6ce2d1c61ce2ce7f6067e8",
+    "development_queries.json": "443e9a1329fe6a51017a38a6977763d5c12871dcc8d2033715ebe12cd9a2455d",
+    "experiment.py": "8543cf737a3dce13919358cb3ea15cbbfba451c6039a80ba1e4a9ec4b2f4fe82",
+    "retrieval.py": "4631cd0a570973abce24167fc5671e4ccd3a60b96765d8e3439dd3b31de57e3b",
+    "__init__.py": "24f63aec6daf7baa87743a7ea6c815ff10a6161dc6f5e3dc0319dff776d4c4f9",
+    "__main__.py": "3fec9a7619aa7a721b7f324adc43dcb835dcf6f89049c530b8269cc460db17fe"
+  },
+  "passed": true
+}
