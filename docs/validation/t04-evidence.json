@@ -1,0 +1,4445 @@
+{
+  "automatic_pass": true,
+  "checks": {
+    "independent_numeric_reference": true,
+    "independent_reference_queries": true,
+    "normal_no_false_anomaly": true,
+    "development_target_supported": true,
+    "incomplete_never_no_anomaly": true,
+    "derived_quantities_no_binomial_interval": true
+  },
+  "purpose": "development_calibration_only_not_frozen_acceptance",
+  "seeds": [
+    7,
+    19,
+    41
+  ],
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "duckdb": "1.5.6",
+    "statsmodels": "0.14.6",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1"
+  },
+  "numeric_reference": {
+    "comparisons": 64,
+    "maximum_absolute_error": 2.3092638912203256e-14,
+    "pass": true,
+    "reference": "statsmodels explicit Wilson and newcomb/diff alpha=.05",
+    "results": [
+      {
+        "current": [
+          0,
+          1
+        ],
+        "reference": [
+          0,
+          1
+        ],
+        "interval_pp": [
+          -79.34506856227625,
+          79.34506856227625
+        ],
+        "reference_interval_pp": [
+          -79.34506856227627,
+          79.34506856227627
+        ],
+        "max_error": 1.4210854715202004e-14
+      },
+      {
+        "current": [
+          0,
+          1
+        ],
+        "reference": [
+          1,
+          1
+        ],
+        "interval_pp": [
+          -100.0,
+          12.210872068194178
+        ],
+        "reference_interval_pp": [
+          -100.0,
+          12.210872068194178
+        ],
+        "max_error": 1.1102230246251565e-16
+      },
+      {
+        "current": [
+          0,
+          1
+        ],
+        "reference": [
+          0,
+          10
+        ],
+        "interval_pp": [
+          -27.753279986288916,
+          79.34506856227625
+        ],
+        "reference_interval_pp": [
+          -27.753279986288927,
+          79.34506856227627
+        ],
+        "max_error": 1.4210854715202004e-14
+      },
+      {
+        "current": [
+          0,
+          1
+        ],
+        "reference": [
+          10,
+          10
+        ],
+        "interval_pp": [
+          -100.0,
+          -15.941184548260113
+        ],
+        "reference_interval_pp": [
+          -100.0,
+          -15.94118454826009
+        ],
+        "max_error": 2.3092638912203256e-14
+      },
+      {
+        "current": [
+          0,
+          1
+        ],
+        "reference": [
+          1,
+          2
+        ],
+        "interval_pp": [
+          -90.54687942657694,
+          39.10493441098358
+        ],
+        "reference_interval_pp": [
+          -90.54687942657694,
+          39.104934410983596
+        ],
+        "max_error": 1.4210854715202004e-14
+      },
+      {
+        "current": [
+          0,
+          1
+        ],
+        "reference": [
+          1,
+          10000
+        ],
+        "interval_pp": [
+          -0.05662688974013379,
+          79.33506898959217
+        ],
+        "reference_interval_pp": [
+          -0.056626889740133836,
+          79.33506898959219
+        ],
+        "max_error": 1.4210854715202004e-14
+      },
+      {
+        "current": [
+          0,
+          1
+        ],
+        "reference": [
+          9999,
+          10000
+        ],
+        "interval_pp": [
+          -99.99823473263989,
+          -20.644917737649514
+        ],
+        "reference_interval_pp": [
+          -99.99823473263989,
+          -20.644917737649504
+        ],
+        "max_error": 1.0658141036401503e-14
+      },
+      {
+        "current": [
+          0,
+          1
+        ],
+        "reference": [
+          40,
+          100
+        ],
+        "interval_pp": [
+          -49.79974132089382,
+          39.8606359488406
+        ],
+        "reference_interval_pp": [
+          -49.79974132089382,
+          39.86063594884062
+        ],
+        "max_error": 1.4210854715202004e-14
+      },
+      {
+        "current": [
+          1,
+          1
+        ],
+        "reference": [
+          0,
+          1
+        ],
+        "interval_pp": [
+          -12.210872068194178,
+          100.0
+        ],
+        "reference_interval_pp": [
+          -12.210872068194178,
+          100.0
+        ],
+        "max_error": 5.551115123125783e-17
+      },
+      {
+        "current": [
+          1,
+          1
+        ],
+        "reference": [
+          1,
+          1
+        ],
+        "interval_pp": [
+          -79.34506856227625,
+          79.34506856227625
+        ],
+        "reference_interval_pp": [
+          -79.34506856227625,
+          79.34506856227625
+        ],
+        "max_error": 5.551115123125783e-17
+      },
+      {
+        "current": [
+          1,
+          1
+        ],
+        "reference": [
+          0,
+          10
+        ],
+        "interval_pp": [
+          15.941184548260113,
+          100.0
+        ],
+        "reference_interval_pp": [
+          15.941184548260113,
+          100.0
+        ],
+        "max_error": 5.551115123125783e-17
+      },
+      {
+        "current": [
+          1,
+          1
+        ],
+        "reference": [
+          10,
+          10
+        ],
+        "interval_pp": [
+          -79.34506856227625,
+          27.753279986288916
+        ],
+        "reference_interval_pp": [
+          -79.34506856227625,
+          27.753279986288938
+        ],
+        "max_error": 2.1316282072803006e-14
+      },
+      {
+        "current": [
+          1,
+          1
+        ],
+        "reference": [
+          1,
+          2
+        ],
+        "interval_pp": [
+          -39.104934410983596,
+          90.54687942657694
+        ],
+        "reference_interval_pp": [
+          -39.10493441098358,
+          90.54687942657694
+        ],
+        "max_error": 1.4210854715202004e-14
+      },
+      {
+        "current": [
+          1,
+          1
+        ],
+        "reference": [
+          1,
+          10000
+        ],
+        "interval_pp": [
+          20.644917737649514,
+          99.99823473263989
+        ],
+        "reference_interval_pp": [
+          20.644917737649514,
+          99.99823473263989
+        ],
+        "max_error": 5.551115123125783e-17
+      },
+      {
+        "current": [
+          1,
+          1
+        ],
+        "reference": [
+          9999,
+          10000
+        ],
+        "interval_pp": [
+          -79.33506898959217,
+          0.05662688974013008
+        ],
+        "reference_interval_pp": [
+          -79.33506898959217,
+          0.05662688974013008
+        ],
+        "max_error": 5.551115123125783e-17
+      },
+      {
+        "current": [
+          1,
+          1
+        ],
+        "reference": [
+          40,
+          100
+        ],
+        "interval_pp": [
+          -19.947950787426404,
+          69.05987135675412
+        ],
+        "reference_interval_pp": [
+          -19.947950787426393,
+          69.05987135675412
+        ],
+        "max_error": 1.0658141036401503e-14
+      },
+      {
+        "current": [
+          0,
+          10
+        ],
+        "reference": [
+          0,
+          1
+        ],
+        "interval_pp": [
+          -79.34506856227625,
+          27.753279986288916
+        ],
+        "reference_interval_pp": [
+          -79.34506856227627,
+          27.753279986288927
+        ],
+        "max_error": 1.4210854715202004e-14
+      },
+      {
+        "current": [
+          0,
+          10
+        ],
+        "reference": [
+          1,
+          1
+        ],
+        "interval_pp": [
+          -100.0,
+          -15.941184548260113
+        ],
+        "reference_interval_pp": [
+          -100.0,
+          -15.941184548260113
+        ],
+        "max_error": 1.1102230246251565e-16
+      },
+      {
+        "current": [
+          0,
+          10
+        ],
+        "reference": [
+          0,
+          10
+        ],
+        "interval_pp": [
+          -27.753279986288916,
+          27.753279986288916
+        ],
+        "reference_interval_pp": [
+          -27.753279986288927,
+          27.753279986288927
+        ],
+        "max_error": 1.0658141036401503e-14
+      },
+      {
+        "current": [
+          0,
+          10
+        ],
+        "reference": [
+          10,
+          10
+        ],
+        "interval_pp": [
+          -100.0,
+          -60.750935043052436
+        ],
+        "reference_interval_pp": [
+          -100.0,
+          -60.750935043052415
+        ],
+        "max_error": 2.1316282072803006e-14
+      },
+      {
+        "current": [
+          0,
+          10
+        ],
+        "reference": [
+          1,
+          2
+        ],
+        "interval_pp": [
+          -90.54687942657694,
+          -0.8645343847164477
+        ],
+        "reference_interval_pp": [
+          -90.54687942657694,
+          -0.8645343847164422
+        ],
+        "max_error": 5.551115123125783e-15
+      },
+      {
+        "current": [
+          0,
+          10
+        ],
+        "reference": [
+          1,
+          10000
+        ],
+        "interval_pp": [
+          -0.05662688974013379,
+          27.743281207961097
+        ],
+        "reference_interval_pp": [
+          -0.056626889740133836,
+          27.743281207961108
+        ],
+        "max_error": 1.0658141036401503e-14
+      },
+      {
+        "current": [
+          0,
+          10
+        ],
+        "reference": [
+          9999,
+          10000
+        ],
+        "interval_pp": [
+          -99.99823473263989,
+          -72.23668084599264
+        ],
+        "reference_interval_pp": [
+          -99.99823473263989,
+          -72.23668084599264
+        ],
+        "max_error": 1.1102230246251565e-16
+      },
+      {
+        "current": [
+          0,
+          10
+        ],
+        "reference": [
+          40,
+          100
+        ],
+        "interval_pp": [
+          -49.79974132089382,
+          -10.805380307353236
+        ],
+        "reference_interval_pp": [
+          -49.79974132089382,
+          -10.805380307353229
+        ],
+        "max_error": 7.105427357601002e-15
+      },
+      {
+        "current": [
+          10,
+          10
+        ],
+        "reference": [
+          0,
+          1
+        ],
+        "interval_pp": [
+          15.941184548260113,
+          100.0
+        ],
+        "reference_interval_pp": [
+          15.94118454826009,
+          100.0
+        ],
+        "max_error": 2.3092638912203256e-14
+      },
+      {
+        "current": [
+          10,
+          10
+        ],
+        "reference": [
+          1,
+          1
+        ],
+        "interval_pp": [
+          -27.753279986288916,
+          79.34506856227625
+        ],
+        "reference_interval_pp": [
+          -27.753279986288938,
+          79.34506856227625
+        ],
+        "max_error": 2.1316282072803006e-14
+      },
+      {
+        "current": [
+          10,
+          10
+        ],
+        "reference": [
+          0,
+          10
+        ],
+        "interval_pp": [
+          60.750935043052436,
+          100.0
+        ],
+        "reference_interval_pp": [
+          60.750935043052415,
+          100.0
+        ],
+        "max_error": 2.1316282072803006e-14
+      },
+      {
+        "current": [
+          10,
+          10
+        ],
+        "reference": [
+          10,
+          10
+        ],
+        "interval_pp": [
+          -27.753279986288916,
+          27.753279986288916
+        ],
+        "reference_interval_pp": [
+          -27.753279986288938,
+          27.753279986288938
+        ],
+        "max_error": 2.1316282072803006e-14
+      },
+      {
+        "current": [
+          10,
+          10
+        ],
+        "reference": [
+          1,
+          2
+        ],
+        "interval_pp": [
+          0.8645343847164477,
+          90.54687942657694
+        ],
+        "reference_interval_pp": [
+          0.8645343847164366,
+          90.54687942657694
+        ],
+        "max_error": 1.1102230246251565e-14
+      },
+      {
+        "current": [
+          10,
+          10
+        ],
+        "reference": [
+          1,
+          10000
+        ],
+        "interval_pp": [
+          72.23668084599264,
+          99.99823473263989
+        ],
+        "reference_interval_pp": [
+          72.23668084599262,
+          99.99823473263989
+        ],
+        "max_error": 1.4210854715202004e-14
+      },
+      {
+        "current": [
+          10,
+          10
+        ],
+        "reference": [
+          9999,
+          10000
+        ],
+        "interval_pp": [
+          -27.743281207961097,
+          0.05662688974013008
+        ],
+        "reference_interval_pp": [
+          -27.743281207961118,
+          0.05662688974013008
+        ],
+        "max_error": 2.1316282072803006e-14
+      },
+      {
+        "current": [
+          10,
+          10
+        ],
+        "reference": [
+          40,
+          100
+        ],
+        "interval_pp": [
+          30.56737388621636,
+          69.05987135675412
+        ],
+        "reference_interval_pp": [
+          30.567373886216338,
+          69.05987135675412
+        ],
+        "max_error": 2.1316282072803006e-14
+      },
+      {
+        "current": [
+          1,
+          2
+        ],
+        "reference": [
+          0,
+          1
+        ],
+        "interval_pp": [
+          -39.10493441098358,
+          90.54687942657694
+        ],
+        "reference_interval_pp": [
+          -39.104934410983596,
+          90.54687942657694
+        ],
+        "max_error": 1.4210854715202004e-14
+      },
+      {
+        "current": [
+          1,
+          2
+        ],
+        "reference": [
+          1,
+          1
+        ],
+        "interval_pp": [
+          -90.54687942657694,
+          39.104934410983596
+        ],
+        "reference_interval_pp": [
+          -90.54687942657694,
+          39.10493441098358
+        ],
+        "max_error": 1.4210854715202004e-14
+      },
+      {
+        "current": [
+          1,
+          2
+        ],
+        "reference": [
+          0,
+          10
+        ],
+        "interval_pp": [
+          0.8645343847164477,
+          90.54687942657694
+        ],
+        "reference_interval_pp": [
+          0.8645343847164422,
+          90.54687942657694
+        ],
+        "max_error": 5.551115123125783e-15
+      },
+      {
+        "current": [
+          1,
+          2
+        ],
+        "reference": [
+          10,
+          10
+        ],
+        "interval_pp": [
+          -90.54687942657694,
+          -0.8645343847164477
+        ],
+        "reference_interval_pp": [
+          -90.54687942657694,
+          -0.8645343847164366
+        ],
+        "max_error": 1.1102230246251565e-14
+      },
+      {
+        "current": [
+          1,
+          2
+        ],
+        "reference": [
+          1,
+          2
+        ],
+        "interval_pp": [
+          -57.34194679697172,
+          57.34194679697172
+        ],
+        "reference_interval_pp": [
+          -57.34194679697172,
+          57.34194679697172
+        ],
+        "max_error": 5.551115123125783e-17
+      },
+      {
+        "current": [
+          1,
+          2
+        ],
+        "reference": [
+          1,
+          10000
+        ],
+        "interval_pp": [
+          9.44309376413271,
+          90.53688026277965
+        ],
+        "reference_interval_pp": [
+          9.443093764132705,
+          90.53688026277965
+        ],
+        "max_error": 5.329070518200751e-15
+      },
+      {
+        "current": [
+          1,
+          2
+        ],
+        "reference": [
+          9999,
+          10000
+        ],
+        "interval_pp": [
+          -90.53688026277965,
+          -9.443093764132705
+        ],
+        "reference_interval_pp": [
+          -90.53688026277965,
+          -9.443093764132705
+        ],
+        "max_error": 5.551115123125783e-17
+      },
+      {
+        "current": [
+          1,
+          2
+        ],
+        "reference": [
+          40,
+          100
+        ],
+        "interval_pp": [
+          -31.714318419336557,
+          51.54672911595208
+        ],
+        "reference_interval_pp": [
+          -31.714318419336564,
+          51.54672911595208
+        ],
+        "max_error": 7.105427357601002e-15
+      },
+      {
+        "current": [
+          1,
+          10000
+        ],
+        "reference": [
+          0,
+          1
+        ],
+        "interval_pp": [
+          -79.33506898959217,
+          0.05662688974013379
+        ],
+        "reference_interval_pp": [
+          -79.33506898959219,
+          0.056626889740133836
+        ],
+        "max_error": 1.4210854715202004e-14
+      },
+      {
+        "current": [
+          1,
+          10000
+        ],
+        "reference": [
+          1,
+          1
+        ],
+        "interval_pp": [
+          -99.99823473263989,
+          -20.644917737649514
+        ],
+        "reference_interval_pp": [
+          -99.99823473263989,
+          -20.644917737649514
+        ],
+        "max_error": 4.336808689942018e-19
+      },
+      {
+        "current": [
+          1,
+          10000
+        ],
+        "reference": [
+          0,
+          10
+        ],
+        "interval_pp": [
+          -27.743281207961097,
+          0.05662688974013379
+        ],
+        "reference_interval_pp": [
+          -27.743281207961108,
+          0.056626889740133836
+        ],
+        "max_error": 1.0658141036401503e-14
+      },
+      {
+        "current": [
+          1,
+          10000
+        ],
+        "reference": [
+          10,
+          10
+        ],
+        "interval_pp": [
+          -99.99823473263989,
+          -72.23668084599264
+        ],
+        "reference_interval_pp": [
+          -99.99823473263989,
+          -72.23668084599262
+        ],
+        "max_error": 1.4210854715202004e-14
+      },
+      {
+        "current": [
+          1,
+          10000
+        ],
+        "reference": [
+          1,
+          2
+        ],
+        "interval_pp": [
+          -90.53688026277965,
+          -9.44309376413271
+        ],
+        "reference_interval_pp": [
+          -90.53688026277965,
+          -9.443093764132705
+        ],
+        "max_error": 5.329070518200751e-15
+      },
+      {
+        "current": [
+          1,
+          10000
+        ],
+        "reference": [
+          1,
+          10000
+        ],
+        "interval_pp": [
+          -0.047348470603484405,
+          0.047348470603484405
+        ],
+        "reference_interval_pp": [
+          -0.04734847060348445,
+          0.04734847060348445
+        ],
+        "max_error": 4.163336342344337e-17
+      },
+      {
+        "current": [
+          1,
+          10000
+        ],
+        "reference": [
+          9999,
+          10000
+        ],
+        "interval_pp": [
+          -99.99164567058185,
+          -99.91405962015824
+        ],
+        "reference_interval_pp": [
+          -99.99164567058185,
+          -99.91405962015824
+        ],
+        "max_error": 4.336808689942018e-19
+      },
+      {
+        "current": [
+          1,
+          10000
+        ],
+        "reference": [
+          40,
+          100
+        ],
+        "interval_pp": [
+          -49.78974478072033,
+          -30.930008660722663
+        ],
+        "reference_interval_pp": [
+          -49.78974478072034,
+          -30.93000866072267
+        ],
+        "max_error": 7.105427357601002e-15
+      },
+      {
+        "current": [
+          9999,
+          10000
+        ],
+        "reference": [
+          0,
+          1
+        ],
+        "interval_pp": [
+          20.644917737649514,
+          99.99823473263989
+        ],
+        "reference_interval_pp": [
+          20.644917737649504,
+          99.99823473263989
+        ],
+        "max_error": 1.0658141036401503e-14
+      },
+      {
+        "current": [
+          9999,
+          10000
+        ],
+        "reference": [
+          1,
+          1
+        ],
+        "interval_pp": [
+          -0.05662688974013008,
+          79.33506898959217
+        ],
+        "reference_interval_pp": [
+          -0.05662688974013008,
+          79.33506898959217
+        ],
+        "max_error": 0.0
+      },
+      {
+        "current": [
+          9999,
+          10000
+        ],
+        "reference": [
+          0,
+          10
+        ],
+        "interval_pp": [
+          72.23668084599264,
+          99.99823473263989
+        ],
+        "reference_interval_pp": [
+          72.23668084599264,
+          99.99823473263989
+        ],
+        "max_error": 0.0
+      },
+      {
+        "current": [
+          9999,
+          10000
+        ],
+        "reference": [
+          10,
+          10
+        ],
+        "interval_pp": [
+          -0.05662688974013008,
+          27.743281207961097
+        ],
+        "reference_interval_pp": [
+          -0.05662688974013008,
+          27.743281207961118
+        ],
+        "max_error": 2.1316282072803006e-14
+      },
+      {
+        "current": [
+          9999,
+          10000
+        ],
+        "reference": [
+          1,
+          2
+        ],
+        "interval_pp": [
+          9.443093764132705,
+          90.53688026277965
+        ],
+        "reference_interval_pp": [
+          9.443093764132705,
+          90.53688026277965
+        ],
+        "max_error": 0.0
+      },
+      {
+        "current": [
+          9999,
+          10000
+        ],
+        "reference": [
+          1,
+          10000
+        ],
+        "interval_pp": [
+          99.91405962015824,
+          99.99164567058185
+        ],
+        "reference_interval_pp": [
+          99.91405962015824,
+          99.99164567058185
+        ],
+        "max_error": 0.0
+      },
+      {
+        "current": [
+          9999,
+          10000
+        ],
+        "reference": [
+          9999,
+          10000
+        ],
+        "interval_pp": [
+          -0.04734847060348206,
+          0.04734847060348206
+        ],
+        "reference_interval_pp": [
+          -0.04734847060348206,
+          0.04734847060348206
+        ],
+        "max_error": 0.0
+      },
+      {
+        "current": [
+          9999,
+          10000
+        ],
+        "reference": [
+          40,
+          100
+        ],
+        "interval_pp": [
+          50.190147755028114,
+          69.04987509912554
+        ],
+        "reference_interval_pp": [
+          50.1901477550281,
+          69.04987509912554
+        ],
+        "max_error": 1.4210854715202004e-14
+      },
+      {
+        "current": [
+          40,
+          100
+        ],
+        "reference": [
+          0,
+          1
+        ],
+        "interval_pp": [
+          -39.8606359488406,
+          49.79974132089382
+        ],
+        "reference_interval_pp": [
+          -39.86063594884062,
+          49.79974132089382
+        ],
+        "max_error": 1.4210854715202004e-14
+      },
+      {
+        "current": [
+          40,
+          100
+        ],
+        "reference": [
+          1,
+          1
+        ],
+        "interval_pp": [
+          -69.05987135675412,
+          19.947950787426404
+        ],
+        "reference_interval_pp": [
+          -69.05987135675412,
+          19.947950787426393
+        ],
+        "max_error": 1.0658141036401503e-14
+      },
+      {
+        "current": [
+          40,
+          100
+        ],
+        "reference": [
+          0,
+          10
+        ],
+        "interval_pp": [
+          10.805380307353236,
+          49.79974132089382
+        ],
+        "reference_interval_pp": [
+          10.805380307353229,
+          49.79974132089382
+        ],
+        "max_error": 7.105427357601002e-15
+      },
+      {
+        "current": [
+          40,
+          100
+        ],
+        "reference": [
+          10,
+          10
+        ],
+        "interval_pp": [
+          -69.05987135675412,
+          -30.56737388621636
+        ],
+        "reference_interval_pp": [
+          -69.05987135675412,
+          -30.567373886216338
+        ],
+        "max_error": 2.1316282072803006e-14
+      },
+      {
+        "current": [
+          40,
+          100
+        ],
+        "reference": [
+          1,
+          2
+        ],
+        "interval_pp": [
+          -51.54672911595208,
+          31.714318419336557
+        ],
+        "reference_interval_pp": [
+          -51.54672911595208,
+          31.714318419336564
+        ],
+        "max_error": 7.105427357601002e-15
+      },
+      {
+        "current": [
+          40,
+          100
+        ],
+        "reference": [
+          1,
+          10000
+        ],
+        "interval_pp": [
+          30.930008660722663,
+          49.78974478072033
+        ],
+        "reference_interval_pp": [
+          30.93000866072267,
+          49.78974478072034
+        ],
+        "max_error": 7.105427357601002e-15
+      },
+      {
+        "current": [
+          40,
+          100
+        ],
+        "reference": [
+          9999,
+          10000
+        ],
+        "interval_pp": [
+          -69.04987509912554,
+          -50.190147755028114
+        ],
+        "reference_interval_pp": [
+          -69.04987509912554,
+          -50.1901477550281
+        ],
+        "max_error": 1.4210854715202004e-14
+      },
+      {
+        "current": [
+          40,
+          100
+        ],
+        "reference": [
+          40,
+          100
+        ],
+        "interval_pp": [
+          -13.346018093699982,
+          13.346018093699982
+        ],
+        "reference_interval_pp": [
+          -13.346018093699982,
+          13.346018093699982
+        ],
+        "max_error": 5.551115123125783e-17
+      }
+    ]
+  },
+  "development": [
+    {
+      "seed": 7,
+      "scenario": "normal",
+      "logical_hash": "b8af6d695d1c4e2b9a18aa7732efe5fe5f8ffd6ad6b11782c56c2b8509e6d13d",
+      "independent_counts_agree": true,
+      "comparisons": {
+        "organic_retention": {
+          "current": {
+            "successes": 102,
+            "users": 210
+          },
+          "reference": {
+            "successes": 205,
+            "users": 414
+          },
+          "difference_pp": -0.9454796411318134,
+          "current_interval": [
+            0.4189827637032564,
+            0.5529590663184374
+          ],
+          "reference_interval": [
+            0.44727413406510697,
+            0.5431528570446563
+          ],
+          "difference_interval_pp": [
+            -9.164688049117817,
+            7.310298074031178
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "paid_retention": {
+          "current": {
+            "successes": 91,
+            "users": 210
+          },
+          "reference": {
+            "successes": 206,
+            "users": 414
+          },
+          "difference_pp": -6.425120772946857,
+          "current_interval": [
+            0.368103482166556,
+            0.5009583912680151
+          ],
+          "reference_interval": [
+            0.44966572339482264,
+            0.5455477721600589
+          ],
+          "difference_interval_pp": [
+            -14.521666345305977,
+            1.8630403906443216
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_retention": {
+          "current": {
+            "successes": 103,
+            "users": 210
+          },
+          "reference": {
+            "successes": 205,
+            "users": 414
+          },
+          "difference_pp": -0.4692891649413389,
+          "current_interval": [
+            0.4236441978793475,
+            0.5576503554684483
+          ],
+          "reference_interval": [
+            0.44727413406510697,
+            0.5431528570446563
+          ],
+          "difference_interval_pp": [
+            -8.696656842362085,
+            7.780737799938701
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_crash": {
+          "current": {
+            "successes": 8,
+            "users": 420
+          },
+          "reference": {
+            "successes": 13,
+            "users": 828
+          },
+          "difference_pp": 0.33471359558316094,
+          "current_interval": [
+            0.009682629437270296,
+            0.037130768374027914
+          ],
+          "reference_interval": [
+            0.00919806840960603,
+            0.026675905536102943
+          ],
+          "difference_interval_pp": [
+            -1.108071656050375,
+            2.2563839269882378
+          ],
+          "status": "below_anomaly_standard",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "increase"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        }
+      },
+      "standardized": {
+        "rate": 0.6803571428571429,
+        "interval": null,
+        "status": "descriptive_only",
+        "reason": "weighted_derived_quantity_has_no_validated_interval"
+      },
+      "coverage": [
+        {
+          "requested_start": "2026-01-01",
+          "requested_end": "2026-01-08",
+          "retention_end": "2026-01-08",
+          "playback_end": "2026-01-08",
+          "retention_complete": true,
+          "playback_complete": true
+        },
+        {
+          "requested_start": "2026-01-08",
+          "requested_end": "2026-01-15",
+          "retention_end": "2026-01-15",
+          "playback_end": "2026-01-15",
+          "retention_complete": true,
+          "playback_complete": true
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "scenario": "A1",
+      "logical_hash": "3b7b84d48966d16dfe89045945e18a5ad99d6692fb12f1dc723fda3fada2d5bc",
+      "independent_counts_agree": true,
+      "comparisons": {
+        "organic_retention": {
+          "current": {
+            "successes": 102,
+            "users": 210
+          },
+          "reference": {
+            "successes": 205,
+            "users": 414
+          },
+          "difference_pp": -0.9454796411318134,
+          "current_interval": [
+            0.4189827637032564,
+            0.5529590663184374
+          ],
+          "reference_interval": [
+            0.44727413406510697,
+            0.5431528570446563
+          ],
+          "difference_interval_pp": [
+            -9.164688049117817,
+            7.310298074031178
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "paid_retention": {
+          "current": {
+            "successes": 91,
+            "users": 210
+          },
+          "reference": {
+            "successes": 206,
+            "users": 414
+          },
+          "difference_pp": -6.425120772946857,
+          "current_interval": [
+            0.368103482166556,
+            0.5009583912680151
+          ],
+          "reference_interval": [
+            0.44966572339482264,
+            0.5455477721600589
+          ],
+          "difference_interval_pp": [
+            -14.521666345305977,
+            1.8630403906443216
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_retention": {
+          "current": {
+            "successes": 49,
+            "users": 210
+          },
+          "reference": {
+            "successes": 205,
+            "users": 414
+          },
+          "difference_pp": -26.183574879227052,
+          "current_interval": [
+            0.18123335100028015,
+            0.29501414273800425
+          ],
+          "reference_interval": [
+            0.44727413406510697,
+            0.5431528570446563
+          ],
+          "difference_interval_pp": [
+            -33.26654799408972,
+            -18.374318641573534
+          ],
+          "status": "anomaly_supported",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_crash": {
+          "current": {
+            "successes": 255,
+            "users": 420
+          },
+          "reference": {
+            "successes": 13,
+            "users": 828
+          },
+          "difference_pp": 59.14423740510697,
+          "current_interval": [
+            0.5596663255642418,
+            0.6526772244282908
+          ],
+          "reference_interval": [
+            0.00919806840960603,
+            0.026675905536102943
+          ],
+          "difference_interval_pp": [
+            54.27137279733626,
+            63.74386782589495
+          ],
+          "status": "anomaly_supported",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "increase"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        }
+      },
+      "standardized": {
+        "rate": 0.6214285714285714,
+        "interval": null,
+        "status": "descriptive_only",
+        "reason": "weighted_derived_quantity_has_no_validated_interval"
+      },
+      "coverage": [
+        {
+          "requested_start": "2026-01-01",
+          "requested_end": "2026-01-08",
+          "retention_end": "2026-01-08",
+          "playback_end": "2026-01-08",
+          "retention_complete": true,
+          "playback_complete": true
+        },
+        {
+          "requested_start": "2026-01-08",
+          "requested_end": "2026-01-15",
+          "retention_end": "2026-01-15",
+          "playback_end": "2026-01-15",
+          "retention_complete": true,
+          "playback_complete": true
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "scenario": "A2",
+      "logical_hash": "1f961c829b3ca61d68d8b11eb47fdbb1be3774b8a0199d3f2c65d5473826184d",
+      "independent_counts_agree": true,
+      "comparisons": {
+        "organic_retention": {
+          "current": {
+            "successes": 102,
+            "users": 210
+          },
+          "reference": {
+            "successes": 205,
+            "users": 414
+          },
+          "difference_pp": -0.9454796411318134,
+          "current_interval": [
+            0.4189827637032564,
+            0.5529590663184374
+          ],
+          "reference_interval": [
+            0.44727413406510697,
+            0.5431528570446563
+          ],
+          "difference_interval_pp": [
+            -9.164688049117817,
+            7.310298074031178
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "paid_retention": {
+          "current": {
+            "successes": 77,
+            "users": 630
+          },
+          "reference": {
+            "successes": 206,
+            "users": 414
+          },
+          "difference_pp": -37.53623188405797,
+          "current_interval": [
+            0.09891008123205824,
+            0.15011348234860292
+          ],
+          "reference_interval": [
+            0.44966572339482264,
+            0.5455477721600589
+          ],
+          "difference_interval_pp": [
+            -42.86908051760661,
+            -31.991743198764727
+          ],
+          "status": "anomaly_supported",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_retention": {
+          "current": {
+            "successes": 103,
+            "users": 210
+          },
+          "reference": {
+            "successes": 205,
+            "users": 414
+          },
+          "difference_pp": -0.4692891649413389,
+          "current_interval": [
+            0.4236441978793475,
+            0.5576503554684483
+          ],
+          "reference_interval": [
+            0.44727413406510697,
+            0.5431528570446563
+          ],
+          "difference_interval_pp": [
+            -8.696656842362085,
+            7.780737799938701
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_crash": {
+          "current": {
+            "successes": 13,
+            "users": 840
+          },
+          "reference": {
+            "successes": 13,
+            "users": 828
+          },
+          "difference_pp": -0.022429261559696323,
+          "current_interval": [
+            0.009066352674798685,
+            0.0262974689397483
+          ],
+          "reference_interval": [
+            0.00919806840960603,
+            0.026675905536102943
+          ],
+          "difference_interval_pp": [
+            -1.2934364152426945,
+            1.240034457859237
+          ],
+          "status": "below_anomaly_standard",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "increase"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        }
+      },
+      "standardized": {
+        "rate": 0.2604166666666667,
+        "interval": null,
+        "status": "descriptive_only",
+        "reason": "weighted_derived_quantity_has_no_validated_interval"
+      },
+      "coverage": [
+        {
+          "requested_start": "2026-01-01",
+          "requested_end": "2026-01-08",
+          "retention_end": "2026-01-08",
+          "playback_end": "2026-01-08",
+          "retention_complete": true,
+          "playback_complete": true
+        },
+        {
+          "requested_start": "2026-01-08",
+          "requested_end": "2026-01-15",
+          "retention_end": "2026-01-15",
+          "playback_end": "2026-01-15",
+          "retention_complete": true,
+          "playback_complete": true
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "scenario": "A3",
+      "logical_hash": "015045f0026e80bf7ad51833b9958b8eda0d6f86f0ded73ec6698ee02c36e703",
+      "independent_counts_agree": true,
+      "comparisons": {
+        "organic_retention": {
+          "current": {
+            "successes": 102,
+            "users": 210
+          },
+          "reference": {
+            "successes": 205,
+            "users": 414
+          },
+          "difference_pp": -0.9454796411318134,
+          "current_interval": [
+            0.4189827637032564,
+            0.5529590663184374
+          ],
+          "reference_interval": [
+            0.44727413406510697,
+            0.5431528570446563
+          ],
+          "difference_interval_pp": [
+            -9.164688049117817,
+            7.310298074031178
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "paid_retention": {
+          "current": {
+            "successes": 91,
+            "users": 210
+          },
+          "reference": {
+            "successes": 206,
+            "users": 414
+          },
+          "difference_pp": -6.425120772946857,
+          "current_interval": [
+            0.368103482166556,
+            0.5009583912680151
+          ],
+          "reference_interval": [
+            0.44966572339482264,
+            0.5455477721600589
+          ],
+          "difference_interval_pp": [
+            -14.521666345305977,
+            1.8630403906443216
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_retention": {
+          "current": {
+            "successes": 103,
+            "users": 210
+          },
+          "reference": {
+            "successes": 205,
+            "users": 414
+          },
+          "difference_pp": -0.4692891649413389,
+          "current_interval": [
+            0.4236441978793475,
+            0.5576503554684483
+          ],
+          "reference_interval": [
+            0.44727413406510697,
+            0.5431528570446563
+          ],
+          "difference_interval_pp": [
+            -8.696656842362085,
+            7.780737799938701
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_crash": {
+          "current": {
+            "successes": 8,
+            "users": 420
+          },
+          "reference": {
+            "successes": 13,
+            "users": 828
+          },
+          "difference_pp": 0.33471359558316094,
+          "current_interval": [
+            0.009682629437270296,
+            0.037130768374027914
+          ],
+          "reference_interval": [
+            0.00919806840960603,
+            0.026675905536102943
+          ],
+          "difference_interval_pp": [
+            -1.108071656050375,
+            2.2563839269882378
+          ],
+          "status": "below_anomaly_standard",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "increase"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        }
+      },
+      "standardized": {
+        "rate": 0.6803571428571429,
+        "interval": null,
+        "status": "descriptive_only",
+        "reason": "weighted_derived_quantity_has_no_validated_interval"
+      },
+      "coverage": [
+        {
+          "requested_start": "2026-01-01",
+          "requested_end": "2026-01-08",
+          "retention_end": "2026-01-08",
+          "playback_end": "2026-01-08",
+          "retention_complete": true,
+          "playback_complete": true
+        },
+        {
+          "requested_start": "2026-01-08",
+          "requested_end": "2026-01-15",
+          "retention_end": "2026-01-15",
+          "playback_end": "2026-01-15",
+          "retention_complete": true,
+          "playback_complete": true
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "scenario": "A4",
+      "logical_hash": "bf10c5924e899c237d9fa53e2cf1b3d1e7b638d9386dd27a12b9b2cc3844509f",
+      "independent_counts_agree": true,
+      "comparisons": {
+        "organic_retention": {
+          "current": {
+            "successes": 40,
+            "users": 140
+          },
+          "reference": {
+            "successes": 205,
+            "users": 414
+          },
+          "difference_pp": -20.945479641131815,
+          "current_interval": [
+            0.21738979502274602,
+            0.36548429084985956
+          ],
+          "reference_interval": [
+            0.44727413406510697,
+            0.5431528570446563
+          ],
+          "difference_interval_pp": [
+            -29.294538680173627,
+            -11.641082955130527
+          ],
+          "status": "anomaly_supported",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "paid_retention": {
+          "current": {
+            "successes": 46,
+            "users": 140
+          },
+          "reference": {
+            "successes": 206,
+            "users": 414
+          },
+          "difference_pp": -16.901311249137336,
+          "current_interval": [
+            0.25625571531552516,
+            0.41004355338255927
+          ],
+          "reference_interval": [
+            0.44966572339482264,
+            0.5455477721600589
+          ],
+          "difference_interval_pp": [
+            -25.57888805432836,
+            -7.449369539659065
+          ],
+          "status": "anomaly_supported",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_retention": {
+          "current": {
+            "successes": 36,
+            "users": 140
+          },
+          "reference": {
+            "successes": 205,
+            "users": 414
+          },
+          "difference_pp": -23.802622498274673,
+          "current_interval": [
+            0.19191048647976902,
+            0.3353468108425173
+          ],
+          "reference_interval": [
+            0.44727413406510697,
+            0.5431528570446563
+          ],
+          "difference_interval_pp": [
+            -31.900588192082473,
+            -14.632134820960951
+          ],
+          "status": "anomaly_supported",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_crash": {
+          "current": {
+            "successes": 4,
+            "users": 280
+          },
+          "reference": {
+            "successes": 13,
+            "users": 828
+          },
+          "difference_pp": -0.14147688060731547,
+          "current_interval": [
+            0.0055690880340429905,
+            0.036149478625997
+          ],
+          "reference_interval": [
+            0.00919806840960603,
+            0.026675905536102943
+          ],
+          "difference_interval_pp": [
+            -1.5430455412248025,
+            2.1395439168131434
+          ],
+          "status": "below_anomaly_standard",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "increase"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        }
+      },
+      "standardized": {
+        "rate": 0.5919642857142857,
+        "interval": null,
+        "status": "descriptive_only",
+        "reason": "weighted_derived_quantity_has_no_validated_interval"
+      },
+      "coverage": [
+        {
+          "requested_start": "2026-01-01",
+          "requested_end": "2026-01-08",
+          "retention_end": "2026-01-08",
+          "playback_end": "2026-01-08",
+          "retention_complete": true,
+          "playback_complete": true
+        },
+        {
+          "requested_start": "2026-01-08",
+          "requested_end": "2026-01-15",
+          "retention_end": "2026-01-15",
+          "playback_end": "2026-01-15",
+          "retention_complete": true,
+          "playback_complete": true
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "scenario": "insufficient",
+      "logical_hash": "21176ea48d1e0e451cc505dde1b5f75db3c6a712793a44d02556ae04eed7771d",
+      "independent_counts_agree": true,
+      "comparisons": {
+        "organic_retention": {
+          "current": {
+            "successes": 42,
+            "users": 90
+          },
+          "reference": {
+            "successes": 205,
+            "users": 414
+          },
+          "difference_pp": -2.850241545893717,
+          "current_interval": null,
+          "reference_interval": null,
+          "difference_interval_pp": null,
+          "status": "insufficient_evidence",
+          "reason": "incomplete_collection",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "paid_retention": {
+          "current": {
+            "successes": 36,
+            "users": 90
+          },
+          "reference": {
+            "successes": 206,
+            "users": 414
+          },
+          "difference_pp": -9.75845410628019,
+          "current_interval": null,
+          "reference_interval": null,
+          "difference_interval_pp": null,
+          "status": "insufficient_evidence",
+          "reason": "incomplete_collection",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_retention": {
+          "current": {
+            "successes": 40,
+            "users": 90
+          },
+          "reference": {
+            "successes": 205,
+            "users": 414
+          },
+          "difference_pp": -5.072463768115942,
+          "current_interval": null,
+          "reference_interval": null,
+          "difference_interval_pp": null,
+          "status": "insufficient_evidence",
+          "reason": "incomplete_collection",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_crash": {
+          "current": {
+            "successes": 2,
+            "users": 180
+          },
+          "reference": {
+            "successes": 13,
+            "users": 828
+          },
+          "difference_pp": -0.45893719806763283,
+          "current_interval": null,
+          "reference_interval": null,
+          "difference_interval_pp": null,
+          "status": "insufficient_evidence",
+          "reason": "incomplete_collection",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "increase"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        }
+      },
+      "standardized": {
+        "rate": 0.6722222222222223,
+        "interval": null,
+        "status": "insufficient_evidence",
+        "reason": "incomplete_collection"
+      },
+      "coverage": [
+        {
+          "requested_start": "2026-01-01",
+          "requested_end": "2026-01-08",
+          "retention_end": "2026-01-08",
+          "playback_end": "2026-01-08",
+          "retention_complete": true,
+          "playback_complete": true
+        },
+        {
+          "requested_start": "2026-01-08",
+          "requested_end": "2026-01-15",
+          "retention_end": "2026-01-11",
+          "playback_end": "2026-01-08",
+          "retention_complete": false,
+          "playback_complete": false
+        }
+      ]
+    },
+    {
+      "seed": 19,
+      "scenario": "normal",
+      "logical_hash": "076c19c6a732d4a2189fcccd1e8c6b6bc5f2e0f2a9ef6c9caef4d6bd8d0fa4d4",
+      "independent_counts_agree": true,
+      "comparisons": {
+        "organic_retention": {
+          "current": {
+            "successes": 106,
+            "users": 210
+          },
+          "reference": {
+            "successes": 212,
+            "users": 414
+          },
+          "difference_pp": -0.7315389924085647,
+          "current_interval": [
+            0.437664327972431,
+            0.571688395353671
+          ],
+          "reference_interval": [
+            0.46403854148839885,
+            0.5598939807371931
+          ],
+          "difference_interval_pp": [
+            -8.970786698321168,
+            7.506711399336571
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "paid_retention": {
+          "current": {
+            "successes": 100,
+            "users": 210
+          },
+          "reference": {
+            "successes": 190,
+            "users": 414
+          },
+          "difference_pp": 1.725327812284333,
+          "current_interval": [
+            0.4096778307048371,
+            0.5435585526646526
+          ],
+          "reference_interval": [
+            0.41153358944467944,
+            0.5070958349883082
+          ],
+          "difference_interval_pp": [
+            -6.486362829450622,
+            9.962778776210385
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_retention": {
+          "current": {
+            "successes": 89,
+            "users": 210
+          },
+          "reference": {
+            "successes": 212,
+            "users": 414
+          },
+          "difference_pp": -8.82677708764666,
+          "current_interval": [
+            0.3589316671415249,
+            0.4914247596408421
+          ],
+          "reference_interval": [
+            0.46403854148839885,
+            0.5598939807371931
+          ],
+          "difference_interval_pp": [
+            -16.886288084445837,
+            -0.5324766799546993
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_crash": {
+          "current": {
+            "successes": 9,
+            "users": 420
+          },
+          "reference": {
+            "successes": 20,
+            "users": 828
+          },
+          "difference_pp": -0.27260179434092474,
+          "current_interval": [
+            0.011313786149558061,
+            0.04021835721712976
+          ],
+          "reference_interval": [
+            0.01568993148699844,
+            0.037014172589334066
+          ],
+          "difference_interval_pp": [
+            -1.9086878610396862,
+            1.7882390124408625
+          ],
+          "status": "below_anomaly_standard",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "increase"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        }
+      },
+      "standardized": {
+        "rate": 0.694047619047619,
+        "interval": null,
+        "status": "descriptive_only",
+        "reason": "weighted_derived_quantity_has_no_validated_interval"
+      },
+      "coverage": [
+        {
+          "requested_start": "2026-01-01",
+          "requested_end": "2026-01-08",
+          "retention_end": "2026-01-08",
+          "playback_end": "2026-01-08",
+          "retention_complete": true,
+          "playback_complete": true
+        },
+        {
+          "requested_start": "2026-01-08",
+          "requested_end": "2026-01-15",
+          "retention_end": "2026-01-15",
+          "playback_end": "2026-01-15",
+          "retention_complete": true,
+          "playback_complete": true
+        }
+      ]
+    },
+    {
+      "seed": 19,
+      "scenario": "A1",
+      "logical_hash": "e07b591f9c3b7a9dc818c6895eadeb2d165c00cd0417bf5d05979bbcfbe1d0ba",
+      "independent_counts_agree": true,
+      "comparisons": {
+        "organic_retention": {
+          "current": {
+            "successes": 106,
+            "users": 210
+          },
+          "reference": {
+            "successes": 212,
+            "users": 414
+          },
+          "difference_pp": -0.7315389924085647,
+          "current_interval": [
+            0.437664327972431,
+            0.571688395353671
+          ],
+          "reference_interval": [
+            0.46403854148839885,
+            0.5598939807371931
+          ],
+          "difference_interval_pp": [
+            -8.970786698321168,
+            7.506711399336571
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "paid_retention": {
+          "current": {
+            "successes": 100,
+            "users": 210
+          },
+          "reference": {
+            "successes": 190,
+            "users": 414
+          },
+          "difference_pp": 1.725327812284333,
+          "current_interval": [
+            0.4096778307048371,
+            0.5435585526646526
+          ],
+          "reference_interval": [
+            0.41153358944467944,
+            0.5070958349883082
+          ],
+          "difference_interval_pp": [
+            -6.486362829450622,
+            9.962778776210385
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_retention": {
+          "current": {
+            "successes": 31,
+            "users": 210
+          },
+          "reference": {
+            "successes": 212,
+            "users": 414
+          },
+          "difference_pp": -36.445824706694275,
+          "current_interval": [
+            0.10598627365052599,
+            0.20191220021792128
+          ],
+          "reference_interval": [
+            0.46403854148839885,
+            0.5598939807371931
+          ],
+          "difference_interval_pp": [
+            -42.78595351708393,
+            -29.19636387991295
+          ],
+          "status": "anomaly_supported",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_crash": {
+          "current": {
+            "successes": 284,
+            "users": 420
+          },
+          "reference": {
+            "successes": 20,
+            "users": 828
+          },
+          "difference_pp": 65.20358868184955,
+          "current_interval": [
+            0.6300172299414001,
+            0.7191699411574314
+          ],
+          "reference_interval": [
+            0.01568993148699844,
+            0.037014172589334066
+          ],
+          "difference_interval_pp": [
+            60.41053375862797,
+            69.5840964628671
+          ],
+          "status": "anomaly_supported",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "increase"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        }
+      },
+      "standardized": {
+        "rate": 0.6202380952380953,
+        "interval": null,
+        "status": "descriptive_only",
+        "reason": "weighted_derived_quantity_has_no_validated_interval"
+      },
+      "coverage": [
+        {
+          "requested_start": "2026-01-01",
+          "requested_end": "2026-01-08",
+          "retention_end": "2026-01-08",
+          "playback_end": "2026-01-08",
+          "retention_complete": true,
+          "playback_complete": true
+        },
+        {
+          "requested_start": "2026-01-08",
+          "requested_end": "2026-01-15",
+          "retention_end": "2026-01-15",
+          "playback_end": "2026-01-15",
+          "retention_complete": true,
+          "playback_complete": true
+        }
+      ]
+    },
+    {
+      "seed": 19,
+      "scenario": "A2",
+      "logical_hash": "20115e0174005c9fbbc3214ffc73a1e461c763b985af8e65b3c3cbd2ef382d4c",
+      "independent_counts_agree": true,
+      "comparisons": {
+        "organic_retention": {
+          "current": {
+            "successes": 106,
+            "users": 210
+          },
+          "reference": {
+            "successes": 212,
+            "users": 414
+          },
+          "difference_pp": -0.7315389924085647,
+          "current_interval": [
+            0.437664327972431,
+            0.571688395353671
+          ],
+          "reference_interval": [
+            0.46403854148839885,
+            0.5598939807371931
+          ],
+          "difference_interval_pp": [
+            -8.970786698321168,
+            7.506711399336571
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "paid_retention": {
+          "current": {
+            "successes": 90,
+            "users": 630
+          },
+          "reference": {
+            "successes": 190,
+            "users": 414
+          },
+          "difference_pp": -31.608005521048998,
+          "current_interval": [
+            0.11769401532521741,
+            0.17234926957246643
+          ],
+          "reference_interval": [
+            0.41153358944467944,
+            0.5070958349883082
+          ],
+          "difference_interval_pp": [
+            -37.04163901738033,
+            -26.025096200031108
+          ],
+          "status": "anomaly_supported",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_retention": {
+          "current": {
+            "successes": 89,
+            "users": 210
+          },
+          "reference": {
+            "successes": 212,
+            "users": 414
+          },
+          "difference_pp": -8.82677708764666,
+          "current_interval": [
+            0.3589316671415249,
+            0.4914247596408421
+          ],
+          "reference_interval": [
+            0.46403854148839885,
+            0.5598939807371931
+          ],
+          "difference_interval_pp": [
+            -16.886288084445837,
+            -0.5324766799546993
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_crash": {
+          "current": {
+            "successes": 15,
+            "users": 840
+          },
+          "reference": {
+            "successes": 20,
+            "users": 828
+          },
+          "difference_pp": -0.629744651483782,
+          "current_interval": [
+            0.0108510587011889,
+            0.02925298983417112
+          ],
+          "reference_interval": [
+            0.01568993148699844,
+            0.037014172589334066
+          ],
+          "difference_interval_pp": [
+            -2.09416978007297,
+            0.7898178213705698
+          ],
+          "status": "below_anomaly_standard",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "increase"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        }
+      },
+      "standardized": {
+        "rate": 0.26875,
+        "interval": null,
+        "status": "descriptive_only",
+        "reason": "weighted_derived_quantity_has_no_validated_interval"
+      },
+      "coverage": [
+        {
+          "requested_start": "2026-01-01",
+          "requested_end": "2026-01-08",
+          "retention_end": "2026-01-08",
+          "playback_end": "2026-01-08",
+          "retention_complete": true,
+          "playback_complete": true
+        },
+        {
+          "requested_start": "2026-01-08",
+          "requested_end": "2026-01-15",
+          "retention_end": "2026-01-15",
+          "playback_end": "2026-01-15",
+          "retention_complete": true,
+          "playback_complete": true
+        }
+      ]
+    },
+    {
+      "seed": 19,
+      "scenario": "A3",
+      "logical_hash": "e91b7c1f6edbb9fc491f941e7115a3d36306827c104632829d0b189c2b264a92",
+      "independent_counts_agree": true,
+      "comparisons": {
+        "organic_retention": {
+          "current": {
+            "successes": 106,
+            "users": 210
+          },
+          "reference": {
+            "successes": 212,
+            "users": 414
+          },
+          "difference_pp": -0.7315389924085647,
+          "current_interval": [
+            0.437664327972431,
+            0.571688395353671
+          ],
+          "reference_interval": [
+            0.46403854148839885,
+            0.5598939807371931
+          ],
+          "difference_interval_pp": [
+            -8.970786698321168,
+            7.506711399336571
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "paid_retention": {
+          "current": {
+            "successes": 100,
+            "users": 210
+          },
+          "reference": {
+            "successes": 190,
+            "users": 414
+          },
+          "difference_pp": 1.725327812284333,
+          "current_interval": [
+            0.4096778307048371,
+            0.5435585526646526
+          ],
+          "reference_interval": [
+            0.41153358944467944,
+            0.5070958349883082
+          ],
+          "difference_interval_pp": [
+            -6.486362829450622,
+            9.962778776210385
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_retention": {
+          "current": {
+            "successes": 89,
+            "users": 210
+          },
+          "reference": {
+            "successes": 212,
+            "users": 414
+          },
+          "difference_pp": -8.82677708764666,
+          "current_interval": [
+            0.3589316671415249,
+            0.4914247596408421
+          ],
+          "reference_interval": [
+            0.46403854148839885,
+            0.5598939807371931
+          ],
+          "difference_interval_pp": [
+            -16.886288084445837,
+            -0.5324766799546993
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_crash": {
+          "current": {
+            "successes": 9,
+            "users": 420
+          },
+          "reference": {
+            "successes": 20,
+            "users": 828
+          },
+          "difference_pp": -0.27260179434092474,
+          "current_interval": [
+            0.011313786149558061,
+            0.04021835721712976
+          ],
+          "reference_interval": [
+            0.01568993148699844,
+            0.037014172589334066
+          ],
+          "difference_interval_pp": [
+            -1.9086878610396862,
+            1.7882390124408625
+          ],
+          "status": "below_anomaly_standard",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "increase"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        }
+      },
+      "standardized": {
+        "rate": 0.694047619047619,
+        "interval": null,
+        "status": "descriptive_only",
+        "reason": "weighted_derived_quantity_has_no_validated_interval"
+      },
+      "coverage": [
+        {
+          "requested_start": "2026-01-01",
+          "requested_end": "2026-01-08",
+          "retention_end": "2026-01-08",
+          "playback_end": "2026-01-08",
+          "retention_complete": true,
+          "playback_complete": true
+        },
+        {
+          "requested_start": "2026-01-08",
+          "requested_end": "2026-01-15",
+          "retention_end": "2026-01-15",
+          "playback_end": "2026-01-15",
+          "retention_complete": true,
+          "playback_complete": true
+        }
+      ]
+    },
+    {
+      "seed": 19,
+      "scenario": "A4",
+      "logical_hash": "3437dd0a6acebe474d30cb14bb2caa2114f54d38d040c0d005b50c41bcaba297",
+      "independent_counts_agree": true,
+      "comparisons": {
+        "organic_retention": {
+          "current": {
+            "successes": 38,
+            "users": 140
+          },
+          "reference": {
+            "successes": 212,
+            "users": 414
+          },
+          "difference_pp": -24.0648723257419,
+          "current_interval": [
+            0.2046044593860109,
+            0.350461232211435
+          ],
+          "reference_interval": [
+            0.46403854148839885,
+            0.5598939807371931
+          ],
+          "difference_interval_pp": [
+            -32.281865337297866,
+            -14.816151722762102
+          ],
+          "status": "anomaly_supported",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "paid_retention": {
+          "current": {
+            "successes": 40,
+            "users": 140
+          },
+          "reference": {
+            "successes": 190,
+            "users": 414
+          },
+          "difference_pp": -17.322291235334713,
+          "current_interval": [
+            0.21738979502274602,
+            0.36548429084985956
+          ],
+          "reference_interval": [
+            0.41153358944467944,
+            0.5070958349883082
+          ],
+          "difference_interval_pp": [
+            -25.68141220486,
+            -8.043090930455191
+          ],
+          "status": "anomaly_supported",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_retention": {
+          "current": {
+            "successes": 41,
+            "users": 140
+          },
+          "reference": {
+            "successes": 212,
+            "users": 414
+          },
+          "difference_pp": -21.922015182884753,
+          "current_interval": [
+            0.22381542565461754,
+            0.3729628573555679
+          ],
+          "reference_interval": [
+            0.46403854148839885,
+            0.5598939807371931
+          ],
+          "difference_interval_pp": [
+            -30.320344885386774,
+            -12.581433132454334
+          ],
+          "status": "anomaly_supported",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_crash": {
+          "current": {
+            "successes": 3,
+            "users": 280
+          },
+          "reference": {
+            "successes": 20,
+            "users": 828
+          },
+          "difference_pp": -1.344030365769496,
+          "current_interval": [
+            0.003650387458337581,
+            0.03102199219184977
+          ],
+          "reference_interval": [
+            0.01568993148699844,
+            0.037014172589334066
+          ],
+          "difference_interval_pp": [
+            -2.811230212737945,
+            0.8560909388150694
+          ],
+          "status": "below_anomaly_standard",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "increase"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        }
+      },
+      "standardized": {
+        "rate": 0.5964285714285714,
+        "interval": null,
+        "status": "descriptive_only",
+        "reason": "weighted_derived_quantity_has_no_validated_interval"
+      },
+      "coverage": [
+        {
+          "requested_start": "2026-01-01",
+          "requested_end": "2026-01-08",
+          "retention_end": "2026-01-08",
+          "playback_end": "2026-01-08",
+          "retention_complete": true,
+          "playback_complete": true
+        },
+        {
+          "requested_start": "2026-01-08",
+          "requested_end": "2026-01-15",
+          "retention_end": "2026-01-15",
+          "playback_end": "2026-01-15",
+          "retention_complete": true,
+          "playback_complete": true
+        }
+      ]
+    },
+    {
+      "seed": 19,
+      "scenario": "insufficient",
+      "logical_hash": "102e166258d14e3590f44724bd0af6e31c2fce5002c4a2720d6c5beaa0b42835",
+      "independent_counts_agree": true,
+      "comparisons": {
+        "organic_retention": {
+          "current": {
+            "successes": 45,
+            "users": 90
+          },
+          "reference": {
+            "successes": 212,
+            "users": 414
+          },
+          "difference_pp": -1.2077294685990392,
+          "current_interval": null,
+          "reference_interval": null,
+          "difference_interval_pp": null,
+          "status": "insufficient_evidence",
+          "reason": "incomplete_collection",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "paid_retention": {
+          "current": {
+            "successes": 44,
+            "users": 90
+          },
+          "reference": {
+            "successes": 190,
+            "users": 414
+          },
+          "difference_pp": 2.995169082125604,
+          "current_interval": null,
+          "reference_interval": null,
+          "difference_interval_pp": null,
+          "status": "insufficient_evidence",
+          "reason": "incomplete_collection",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_retention": {
+          "current": {
+            "successes": 39,
+            "users": 90
+          },
+          "reference": {
+            "successes": 212,
+            "users": 414
+          },
+          "difference_pp": -7.874396135265704,
+          "current_interval": null,
+          "reference_interval": null,
+          "difference_interval_pp": null,
+          "status": "insufficient_evidence",
+          "reason": "incomplete_collection",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_crash": {
+          "current": {
+            "successes": 3,
+            "users": 180
+          },
+          "reference": {
+            "successes": 20,
+            "users": 828
+          },
+          "difference_pp": -0.748792270531401,
+          "current_interval": null,
+          "reference_interval": null,
+          "difference_interval_pp": null,
+          "status": "insufficient_evidence",
+          "reason": "incomplete_collection",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "increase"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        }
+      },
+      "standardized": {
+        "rate": 0.7027777777777777,
+        "interval": null,
+        "status": "insufficient_evidence",
+        "reason": "incomplete_collection"
+      },
+      "coverage": [
+        {
+          "requested_start": "2026-01-01",
+          "requested_end": "2026-01-08",
+          "retention_end": "2026-01-08",
+          "playback_end": "2026-01-08",
+          "retention_complete": true,
+          "playback_complete": true
+        },
+        {
+          "requested_start": "2026-01-08",
+          "requested_end": "2026-01-15",
+          "retention_end": "2026-01-11",
+          "playback_end": "2026-01-08",
+          "retention_complete": false,
+          "playback_complete": false
+        }
+      ]
+    },
+    {
+      "seed": 41,
+      "scenario": "normal",
+      "logical_hash": "74321626b5eefec631136a5d4fe498be4df88d296b5f4a31c605c6811a8ec49a",
+      "independent_counts_agree": true,
+      "comparisons": {
+        "organic_retention": {
+          "current": {
+            "successes": 106,
+            "users": 210
+          },
+          "reference": {
+            "successes": 202,
+            "users": 414
+          },
+          "difference_pp": 1.6839199447895081,
+          "current_interval": [
+            0.437664327972431,
+            0.571688395353671
+          ],
+          "reference_interval": [
+            0.440106019262807,
+            0.5359614585116013
+          ],
+          "difference_interval_pp": [
+            -6.568235300840838,
+            9.909240976730484
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "paid_retention": {
+          "current": {
+            "successes": 107,
+            "users": 210
+          },
+          "reference": {
+            "successes": 205,
+            "users": 414
+          },
+          "difference_pp": 1.4354727398205647,
+          "current_interval": [
+            0.44234964453155157,
+            0.5763558021206525
+          ],
+          "reference_interval": [
+            0.44727413406510697,
+            0.5431528570446563
+          ],
+          "difference_interval_pp": [
+            -6.8197141738049405,
+            9.657663010169564
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_retention": {
+          "current": {
+            "successes": 86,
+            "users": 210
+          },
+          "reference": {
+            "successes": 202,
+            "users": 414
+          },
+          "difference_pp": -7.839889579020015,
+          "current_interval": [
+            0.345220366159241,
+            0.47707789064481976
+          ],
+          "reference_interval": [
+            0.440106019262807,
+            0.5359614585116013
+          ],
+          "difference_interval_pp": [
+            -15.866504455366947,
+            0.43657666027759334
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_crash": {
+          "current": {
+            "successes": 10,
+            "users": 420
+          },
+          "reference": {
+            "successes": 13,
+            "users": 828
+          },
+          "difference_pp": 0.8109040717736369,
+          "current_interval": [
+            0.01298327807474163,
+            0.043267610847335804
+          ],
+          "reference_interval": [
+            0.00919806840960603,
+            0.026675905536102943
+          ],
+          "difference_interval_pp": [
+            -0.7307427572409523,
+            2.862485286032813
+          ],
+          "status": "below_anomaly_standard",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "increase"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        }
+      },
+      "standardized": {
+        "rate": 0.6994047619047619,
+        "interval": null,
+        "status": "descriptive_only",
+        "reason": "weighted_derived_quantity_has_no_validated_interval"
+      },
+      "coverage": [
+        {
+          "requested_start": "2026-01-01",
+          "requested_end": "2026-01-08",
+          "retention_end": "2026-01-08",
+          "playback_end": "2026-01-08",
+          "retention_complete": true,
+          "playback_complete": true
+        },
+        {
+          "requested_start": "2026-01-08",
+          "requested_end": "2026-01-15",
+          "retention_end": "2026-01-15",
+          "playback_end": "2026-01-15",
+          "retention_complete": true,
+          "playback_complete": true
+        }
+      ]
+    },
+    {
+      "seed": 41,
+      "scenario": "A1",
+      "logical_hash": "74504d96dfe0e608416b94e8df86eac8ab44d076be79e479d2f19966b5ff84f0",
+      "independent_counts_agree": true,
+      "comparisons": {
+        "organic_retention": {
+          "current": {
+            "successes": 106,
+            "users": 210
+          },
+          "reference": {
+            "successes": 202,
+            "users": 414
+          },
+          "difference_pp": 1.6839199447895081,
+          "current_interval": [
+            0.437664327972431,
+            0.571688395353671
+          ],
+          "reference_interval": [
+            0.440106019262807,
+            0.5359614585116013
+          ],
+          "difference_interval_pp": [
+            -6.568235300840838,
+            9.909240976730484
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "paid_retention": {
+          "current": {
+            "successes": 107,
+            "users": 210
+          },
+          "reference": {
+            "successes": 205,
+            "users": 414
+          },
+          "difference_pp": 1.4354727398205647,
+          "current_interval": [
+            0.44234964453155157,
+            0.5763558021206525
+          ],
+          "reference_interval": [
+            0.44727413406510697,
+            0.5431528570446563
+          ],
+          "difference_interval_pp": [
+            -6.8197141738049405,
+            9.657663010169564
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_retention": {
+          "current": {
+            "successes": 35,
+            "users": 210
+          },
+          "reference": {
+            "successes": 202,
+            "users": 414
+          },
+          "difference_pp": -32.125603864734295,
+          "current_interval": [
+            0.12234699633555332,
+            0.22296237083730217
+          ],
+          "reference_interval": [
+            0.440106019262807,
+            0.5359614585116013
+          ],
+          "difference_interval_pp": [
+            -38.66162328563391,
+            -24.739372232171597
+          ],
+          "status": "anomaly_supported",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_crash": {
+          "current": {
+            "successes": 275,
+            "users": 420
+          },
+          "reference": {
+            "successes": 13,
+            "users": 828
+          },
+          "difference_pp": 63.90614216701174,
+          "current_interval": [
+            0.6080740750991764,
+            0.6986443860011484
+          ],
+          "reference_interval": [
+            0.00919806840960603,
+            0.026675905536102943
+          ],
+          "difference_interval_pp": [
+            59.11008823023505,
+            68.34230442329996
+          ],
+          "status": "anomaly_supported",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "increase"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        }
+      },
+      "standardized": {
+        "rate": 0.6339285714285714,
+        "interval": null,
+        "status": "descriptive_only",
+        "reason": "weighted_derived_quantity_has_no_validated_interval"
+      },
+      "coverage": [
+        {
+          "requested_start": "2026-01-01",
+          "requested_end": "2026-01-08",
+          "retention_end": "2026-01-08",
+          "playback_end": "2026-01-08",
+          "retention_complete": true,
+          "playback_complete": true
+        },
+        {
+          "requested_start": "2026-01-08",
+          "requested_end": "2026-01-15",
+          "retention_end": "2026-01-15",
+          "playback_end": "2026-01-15",
+          "retention_complete": true,
+          "playback_complete": true
+        }
+      ]
+    },
+    {
+      "seed": 41,
+      "scenario": "A2",
+      "logical_hash": "6b38ec1e19bc439a5ecd2c80c6e79ae557626cc652e34fbdf86bdfaef794cc0f",
+      "independent_counts_agree": true,
+      "comparisons": {
+        "organic_retention": {
+          "current": {
+            "successes": 106,
+            "users": 210
+          },
+          "reference": {
+            "successes": 202,
+            "users": 414
+          },
+          "difference_pp": 1.6839199447895081,
+          "current_interval": [
+            0.437664327972431,
+            0.571688395353671
+          ],
+          "reference_interval": [
+            0.440106019262807,
+            0.5359614585116013
+          ],
+          "difference_interval_pp": [
+            -6.568235300840838,
+            9.909240976730484
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "paid_retention": {
+          "current": {
+            "successes": 78,
+            "users": 630
+          },
+          "reference": {
+            "successes": 205,
+            "users": 414
+          },
+          "difference_pp": -37.135955831608,
+          "current_interval": [
+            0.10034735223570035,
+            0.1518315745231933
+          ],
+          "reference_interval": [
+            0.44727413406510697,
+            0.5431528570446563
+          ],
+          "difference_interval_pp": [
+            -42.47722548445443,
+            -31.586936660693958
+          ],
+          "status": "anomaly_supported",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_retention": {
+          "current": {
+            "successes": 86,
+            "users": 210
+          },
+          "reference": {
+            "successes": 202,
+            "users": 414
+          },
+          "difference_pp": -7.839889579020015,
+          "current_interval": [
+            0.345220366159241,
+            0.47707789064481976
+          ],
+          "reference_interval": [
+            0.440106019262807,
+            0.5359614585116013
+          ],
+          "difference_interval_pp": [
+            -15.866504455366947,
+            0.43657666027759334
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_crash": {
+          "current": {
+            "successes": 18,
+            "users": 840
+          },
+          "reference": {
+            "successes": 13,
+            "users": 828
+          },
+          "difference_pp": 0.5728088336783989,
+          "current_interval": [
+            0.01359688377528644,
+            0.033617505141293136
+          ],
+          "reference_interval": [
+            0.00919806840960603,
+            0.026675905536102943
+          ],
+          "difference_interval_pp": [
+            -0.7755057784570665,
+            1.9542989775164652
+          ],
+          "status": "below_anomaly_standard",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "increase"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        }
+      },
+      "standardized": {
+        "rate": 0.26279761904761906,
+        "interval": null,
+        "status": "descriptive_only",
+        "reason": "weighted_derived_quantity_has_no_validated_interval"
+      },
+      "coverage": [
+        {
+          "requested_start": "2026-01-01",
+          "requested_end": "2026-01-08",
+          "retention_end": "2026-01-08",
+          "playback_end": "2026-01-08",
+          "retention_complete": true,
+          "playback_complete": true
+        },
+        {
+          "requested_start": "2026-01-08",
+          "requested_end": "2026-01-15",
+          "retention_end": "2026-01-15",
+          "playback_end": "2026-01-15",
+          "retention_complete": true,
+          "playback_complete": true
+        }
+      ]
+    },
+    {
+      "seed": 41,
+      "scenario": "A3",
+      "logical_hash": "0239bd756cb3b8c781960e0138ab6c74e9f9fab3b9800921facbab4f84db3554",
+      "independent_counts_agree": true,
+      "comparisons": {
+        "organic_retention": {
+          "current": {
+            "successes": 106,
+            "users": 210
+          },
+          "reference": {
+            "successes": 202,
+            "users": 414
+          },
+          "difference_pp": 1.6839199447895081,
+          "current_interval": [
+            0.437664327972431,
+            0.571688395353671
+          ],
+          "reference_interval": [
+            0.440106019262807,
+            0.5359614585116013
+          ],
+          "difference_interval_pp": [
+            -6.568235300840838,
+            9.909240976730484
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "paid_retention": {
+          "current": {
+            "successes": 107,
+            "users": 210
+          },
+          "reference": {
+            "successes": 205,
+            "users": 414
+          },
+          "difference_pp": 1.4354727398205647,
+          "current_interval": [
+            0.44234964453155157,
+            0.5763558021206525
+          ],
+          "reference_interval": [
+            0.44727413406510697,
+            0.5431528570446563
+          ],
+          "difference_interval_pp": [
+            -6.8197141738049405,
+            9.657663010169564
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_retention": {
+          "current": {
+            "successes": 86,
+            "users": 210
+          },
+          "reference": {
+            "successes": 202,
+            "users": 414
+          },
+          "difference_pp": -7.839889579020015,
+          "current_interval": [
+            0.345220366159241,
+            0.47707789064481976
+          ],
+          "reference_interval": [
+            0.440106019262807,
+            0.5359614585116013
+          ],
+          "difference_interval_pp": [
+            -15.866504455366947,
+            0.43657666027759334
+          ],
+          "status": "indeterminate",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_crash": {
+          "current": {
+            "successes": 10,
+            "users": 420
+          },
+          "reference": {
+            "successes": 13,
+            "users": 828
+          },
+          "difference_pp": 0.8109040717736369,
+          "current_interval": [
+            0.01298327807474163,
+            0.043267610847335804
+          ],
+          "reference_interval": [
+            0.00919806840960603,
+            0.026675905536102943
+          ],
+          "difference_interval_pp": [
+            -0.7307427572409523,
+            2.862485286032813
+          ],
+          "status": "below_anomaly_standard",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "increase"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        }
+      },
+      "standardized": {
+        "rate": 0.6994047619047619,
+        "interval": null,
+        "status": "descriptive_only",
+        "reason": "weighted_derived_quantity_has_no_validated_interval"
+      },
+      "coverage": [
+        {
+          "requested_start": "2026-01-01",
+          "requested_end": "2026-01-08",
+          "retention_end": "2026-01-08",
+          "playback_end": "2026-01-08",
+          "retention_complete": true,
+          "playback_complete": true
+        },
+        {
+          "requested_start": "2026-01-08",
+          "requested_end": "2026-01-15",
+          "retention_end": "2026-01-15",
+          "playback_end": "2026-01-15",
+          "retention_complete": true,
+          "playback_complete": true
+        }
+      ]
+    },
+    {
+      "seed": 41,
+      "scenario": "A4",
+      "logical_hash": "eac4aa1c738a3574cce696f05d2af2ca918d9e552f8f77072812e1c65da0006b",
+      "independent_counts_agree": true,
+      "comparisons": {
+        "organic_retention": {
+          "current": {
+            "successes": 48,
+            "users": 140
+          },
+          "reference": {
+            "successes": 202,
+            "users": 414
+          },
+          "difference_pp": -14.50655624568668,
+          "current_interval": [
+            0.2693706116381197,
+            0.4247370513351244
+          ],
+          "reference_interval": [
+            0.440106019262807,
+            0.5359614585116013
+          ],
+          "difference_interval_pp": [
+            -23.286073361897333,
+            -5.024597124660102
+          ],
+          "status": "anomaly_supported",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "paid_retention": {
+          "current": {
+            "successes": 45,
+            "users": 140
+          },
+          "reference": {
+            "successes": 205,
+            "users": 414
+          },
+          "difference_pp": -17.37405106970324,
+          "current_interval": [
+            0.2497273302342034,
+            0.4026677413263013
+          ],
+          "reference_interval": [
+            0.44727413406510697,
+            0.5431528570446563
+          ],
+          "difference_interval_pp": [
+            -26.001629318722618,
+            -7.943394265752675
+          ],
+          "status": "anomaly_supported",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_retention": {
+          "current": {
+            "successes": 31,
+            "users": 140
+          },
+          "reference": {
+            "successes": 202,
+            "users": 414
+          },
+          "difference_pp": -26.649413388543824,
+          "current_interval": [
+            0.16060805138486434,
+            0.2971282602495228
+          ],
+          "reference_interval": [
+            0.440106019262807,
+            0.5359614585116013
+          ],
+          "difference_interval_pp": [
+            -34.39980529293556,
+            -17.69571116404018
+          ],
+          "status": "anomaly_supported",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_crash": {
+          "current": {
+            "successes": 5,
+            "users": 280
+          },
+          "reference": {
+            "successes": 13,
+            "users": 828
+          },
+          "difference_pp": 0.21566597653554162,
+          "current_interval": [
+            0.007651017654096145,
+            0.0411137360157965
+          ],
+          "reference_interval": [
+            0.00919806840960603,
+            0.026675905536102943
+          ],
+          "difference_interval_pp": [
+            -1.2830831335274127,
+            2.63051694925867
+          ],
+          "status": "below_anomaly_standard",
+          "reason": "interval_vs_frozen_business_threshold",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "increase"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        }
+      },
+      "standardized": {
+        "rate": 0.6084821428571429,
+        "interval": null,
+        "status": "descriptive_only",
+        "reason": "weighted_derived_quantity_has_no_validated_interval"
+      },
+      "coverage": [
+        {
+          "requested_start": "2026-01-01",
+          "requested_end": "2026-01-08",
+          "retention_end": "2026-01-08",
+          "playback_end": "2026-01-08",
+          "retention_complete": true,
+          "playback_complete": true
+        },
+        {
+          "requested_start": "2026-01-08",
+          "requested_end": "2026-01-15",
+          "retention_end": "2026-01-15",
+          "playback_end": "2026-01-15",
+          "retention_complete": true,
+          "playback_complete": true
+        }
+      ]
+    },
+    {
+      "seed": 41,
+      "scenario": "insufficient",
+      "logical_hash": "b2d919feb996758ac05f42d35fde36bb5f4ff3ef08e663867770521d7331e781",
+      "independent_counts_agree": true,
+      "comparisons": {
+        "organic_retention": {
+          "current": {
+            "successes": 51,
+            "users": 90
+          },
+          "reference": {
+            "successes": 202,
+            "users": 414
+          },
+          "difference_pp": 7.874396135265699,
+          "current_interval": null,
+          "reference_interval": null,
+          "difference_interval_pp": null,
+          "status": "insufficient_evidence",
+          "reason": "incomplete_collection",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "paid_retention": {
+          "current": {
+            "successes": 44,
+            "users": 90
+          },
+          "reference": {
+            "successes": 205,
+            "users": 414
+          },
+          "difference_pp": -0.628019323671497,
+          "current_interval": null,
+          "reference_interval": null,
+          "difference_interval_pp": null,
+          "status": "insufficient_evidence",
+          "reason": "incomplete_collection",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_retention": {
+          "current": {
+            "successes": 40,
+            "users": 90
+          },
+          "reference": {
+            "successes": 202,
+            "users": 414
+          },
+          "difference_pp": -4.347826086956524,
+          "current_interval": null,
+          "reference_interval": null,
+          "difference_interval_pp": null,
+          "status": "insufficient_evidence",
+          "reason": "incomplete_collection",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "decrease"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        },
+        "new_version_crash": {
+          "current": {
+            "successes": 5,
+            "users": 180
+          },
+          "reference": {
+            "successes": 13,
+            "users": 828
+          },
+          "difference_pp": 1.2077294685990336,
+          "current_interval": null,
+          "reference_interval": null,
+          "difference_interval_pp": null,
+          "status": "insufficient_evidence",
+          "reason": "incomplete_collection",
+          "rule": {
+            "version": "t04-v1",
+            "threshold_pp": 5.0,
+            "max_width_pp": 20.0,
+            "direction": "increase"
+          },
+          "confidence": 0.95,
+          "method": "Wilson / Newcombe hybrid score",
+          "limitation": "Exploratory nominal 95% interval for one prespecified comparison under independent homogeneous Bernoulli sampling. No adaptive-selection correction; no 95% guarantee for a selected diagnosis and no causal proof."
+        }
+      },
+      "standardized": {
+        "rate": 0.7055555555555555,
+        "interval": null,
+        "status": "insufficient_evidence",
+        "reason": "incomplete_collection"
+      },
+      "coverage": [
+        {
+          "requested_start": "2026-01-01",
+          "requested_end": "2026-01-08",
+          "retention_end": "2026-01-08",
+          "playback_end": "2026-01-08",
+          "retention_complete": true,
+          "playback_complete": true
+        },
+        {
+          "requested_start": "2026-01-08",
+          "requested_end": "2026-01-15",
+          "retention_end": "2026-01-11",
+          "playback_end": "2026-01-08",
+          "retention_complete": false,
+          "playback_complete": false
+        }
+      ]
+    }
+  ],
+  "candidate_rules": {
+    "delta3_width10": {
+      "normal_comparisons": 12,
+      "false_anomalies": 0,
+      "normal_below_standard": 3,
+      "normal_insufficient_or_indeterminate": 9,
+      "target_comparisons": 18,
+      "target_supported": 3,
+      "insufficient_or_indeterminate": 57,
+      "total_comparisons": 72
+    },
+    "delta3_width15": {
+      "normal_comparisons": 12,
+      "false_anomalies": 0,
+      "normal_below_standard": 3,
+      "normal_insufficient_or_indeterminate": 9,
+      "target_comparisons": 18,
+      "target_supported": 9,
+      "insufficient_or_indeterminate": 51,
+      "total_comparisons": 72
+    },
+    "delta3_width20": {
+      "normal_comparisons": 12,
+      "false_anomalies": 0,
+      "normal_below_standard": 3,
+      "normal_insufficient_or_indeterminate": 9,
+      "target_comparisons": 18,
+      "target_supported": 18,
+      "insufficient_or_indeterminate": 42,
+      "total_comparisons": 72
+    },
+    "delta5_width10": {
+      "normal_comparisons": 12,
+      "false_anomalies": 0,
+      "normal_below_standard": 3,
+      "normal_insufficient_or_indeterminate": 9,
+      "target_comparisons": 18,
+      "target_supported": 3,
+      "insufficient_or_indeterminate": 57,
+      "total_comparisons": 72
+    },
+    "delta5_width15": {
+      "normal_comparisons": 12,
+      "false_anomalies": 0,
+      "normal_below_standard": 3,
+      "normal_insufficient_or_indeterminate": 9,
+      "target_comparisons": 18,
+      "target_supported": 9,
+      "insufficient_or_indeterminate": 51,
+      "total_comparisons": 72
+    },
+    "delta5_width20": {
+      "normal_comparisons": 12,
+      "false_anomalies": 0,
+      "normal_below_standard": 3,
+      "normal_insufficient_or_indeterminate": 9,
+      "target_comparisons": 18,
+      "target_supported": 18,
+      "insufficient_or_indeterminate": 42,
+      "total_comparisons": 72
+    },
+    "delta8_width10": {
+      "normal_comparisons": 12,
+      "false_anomalies": 0,
+      "normal_below_standard": 3,
+      "normal_insufficient_or_indeterminate": 9,
+      "target_comparisons": 18,
+      "target_supported": 3,
+      "insufficient_or_indeterminate": 57,
+      "total_comparisons": 72
+    },
+    "delta8_width15": {
+      "normal_comparisons": 12,
+      "false_anomalies": 0,
+      "normal_below_standard": 3,
+      "normal_insufficient_or_indeterminate": 9,
+      "target_comparisons": 18,
+      "target_supported": 9,
+      "insufficient_or_indeterminate": 51,
+      "total_comparisons": 72
+    },
+    "delta8_width20": {
+      "normal_comparisons": 12,
+      "false_anomalies": 0,
+      "normal_below_standard": 6,
+      "normal_insufficient_or_indeterminate": 6,
+      "target_comparisons": 18,
+      "target_supported": 15,
+      "insufficient_or_indeterminate": 35,
+      "total_comparisons": 72
+    }
+  },
+  "frozen_rule": {
+    "version": "t04-v1",
+    "threshold_pp": 5.0,
+    "max_width_pp": 20.0,
+    "direction": "decrease",
+    "crash_direction": "increase",
+    "state": "frozen_for_subsequent_validation",
+    "reason": "5 pp exploratory business tolerance; width <=20 pp preserves the 18 strong target effects in this development grid (15 pp retains 9), without new normal false anomalies. Normal uncertainty remains indeterminate; 8 pp loses 3 target comparisons, while 3 pp adds no target support. This is a development design choice, not universal business truth."
+  },
+  "code_hashes": {
+    "D:\\ai coding\\metricguard\\experiments\\t04\\validation.py": "b74188e60fbf790fcaf0c829422c0ebf8e35d7c57b96861078fe3c715120fde9",
+    "D:\\ai coding\\metricguard\\experiments\\t04\\statistics.py": "6e356614882fa3fe77ec1b020f2767d62449a57aee5d6cfcfb3a76955c156738",
+    "experiments\\t01\\cohort.sql": "a7a1b6dd224a57abed0c3caf2901c046ce0d625c9e6b2511ba8acf897b148a8d",
+    "experiments\\t01\\snapshots.py": "823a07fb289f25c0579794922a32f66079360078e7258e634496c8214b4f8996",
+    "experiments\\t01\\references.py": "b7d52fd866287d84b510e47dc0e9050c1cafb61ea49d09befac657f508710cad"
+  },
+  "simulation": [
+    {
+      "method": "Wilson",
+      "n": 20,
+      "p": 0.0,
+      "repetitions": 2000,
+      "coverage": 1.0,
+      "mean_width_pp": 16.11251580528193
+    },
+    {
+      "method": "Wilson",
+      "n": 20,
+      "p": 0.01,
+      "repetitions": 2000,
+      "coverage": 0.986,
+      "mean_width_pp": 17.36217444015668
+    },
+    {
+      "method": "Wilson",
+      "n": 20,
+      "p": 0.5,
+      "repetitions": 2000,
+      "coverage": 0.9615,
+      "mean_width_pp": 39.25334887766256
+    },
+    {
+      "method": "Wilson",
+      "n": 20,
+      "p": 0.99,
+      "repetitions": 2000,
+      "coverage": 0.9865,
+      "mean_width_pp": 17.369797257177208
+    },
+    {
+      "method": "Wilson",
+      "n": 20,
+      "p": 1.0,
+      "repetitions": 2000,
+      "coverage": 1.0,
+      "mean_width_pp": 16.112515805281923
+    },
+    {
+      "method": "Wilson",
+      "n": 100,
+      "p": 0.0,
+      "repetitions": 2000,
+      "coverage": 1.0,
+      "mean_width_pp": 3.6993498206985658
+    },
+    {
+      "method": "Wilson",
+      "n": 100,
+      "p": 0.01,
+      "repetitions": 2000,
+      "coverage": 0.916,
+      "mean_width_pp": 5.132285447609418
+    },
+    {
+      "method": "Wilson",
+      "n": 100,
+      "p": 0.5,
+      "repetitions": 2000,
+      "coverage": 0.948,
+      "mean_width_pp": 19.143195995522863
+    },
+    {
+      "method": "Wilson",
+      "n": 100,
+      "p": 0.99,
+      "repetitions": 2000,
+      "coverage": 0.9185,
+      "mean_width_pp": 5.109563085228277
+    },
+    {
+      "method": "Wilson",
+      "n": 100,
+      "p": 1.0,
+      "repetitions": 2000,
+      "coverage": 1.0,
+      "mean_width_pp": 3.699349820698572
+    },
+    {
+      "method": "Wilson",
+      "n": 400,
+      "p": 0.0,
+      "repetitions": 2000,
+      "coverage": 1.0,
+      "mean_width_pp": 0.9512294334296503
+    },
+    {
+      "method": "Wilson",
+      "n": 400,
+      "p": 0.01,
+      "repetitions": 2000,
+      "coverage": 0.943,
+      "mean_width_pp": 2.105332036569985
+    },
+    {
+      "method": "Wilson",
+      "n": 400,
+      "p": 0.5,
+      "repetitions": 2000,
+      "coverage": 0.9455,
+      "mean_width_pp": 9.740705144281172
+    },
+    {
+      "method": "Wilson",
+      "n": 400,
+      "p": 0.99,
+      "repetitions": 2000,
+      "coverage": 0.9325,
+      "mean_width_pp": 2.1011526458573275
+    },
+    {
+      "method": "Wilson",
+      "n": 400,
+      "p": 1.0,
+      "repetitions": 2000,
+      "coverage": 1.0,
+      "mean_width_pp": 0.9512294334296456
+    },
+    {
+      "method": "Newcombe",
+      "n_current": 20,
+      "n_reference": 1000,
+      "p_current": 0.01,
+      "p_reference": 0.5,
+      "repetitions": 2000,
+      "coverage": 0.946,
+      "mean_width_pp": 20.360043013979688
+    },
+    {
+      "method": "Newcombe",
+      "n_current": 100,
+      "n_reference": 100,
+      "p_current": 0.5,
+      "p_reference": 0.5,
+      "repetitions": 2000,
+      "coverage": 0.9415,
+      "mean_width_pp": 27.06566266149216
+    },
+    {
+      "method": "Newcombe",
+      "n_current": 400,
+      "n_reference": 400,
+      "p_current": 0.3,
+      "p_reference": 0.5,
+      "repetitions": 2000,
+      "coverage": 0.9515,
+      "mean_width_pp": 13.222834665656016
+    },
+    {
+      "method": "Newcombe",
+      "n_current": 20,
+      "n_reference": 20,
+      "p_current": 0.0,
+      "p_reference": 1.0,
+      "repetitions": 2000,
+      "coverage": 1.0,
+      "mean_width_pp": 22.78653837578055
+    }
+  ],
+  "end_to_end_agent_false_positive_rate": null,
+  "limitations": [
+    "No adaptive Agent exists in T04; full-workflow false-positive rate requires integration/T20.",
+    "Development seeds and fixed-parameter simulations are not unseen evaluation.",
+    "Independent homogeneous Bernoulli assumptions declared per fixed stratum, no day/device shocks.",
+    "A4 standardized and mixed OS totals descriptive only; A3 same-play telemetry comparison has no independent interval."
+  ],
+  "reproduction_command": "uv run python -m experiments.t04 --output artifacts/t04-new-run --seeds 7 19 41 --simulations 2000"
+}

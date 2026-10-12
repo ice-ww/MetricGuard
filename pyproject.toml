@@ -9,7 +9,11 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = ["pytest>=8,<10", "mypy>=1.15,<2"]
+dev = [
+    "pytest>=8,<10",
+    "mypy>=1.15,<2",
+    "statsmodels==0.14.6",
+]
 
 [tool.uv]
 package = false
@@ -21,4 +25,4 @@ testpaths = ["tests"]
 [tool.mypy]
 python_version = "3.12"
 check_untyped_defs = true
-files = ["experiments/t01", "experiments/t02"]
+files = ["experiments/t01", "experiments/t02", "experiments/t03", "experiments/t04"]
