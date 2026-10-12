@@ -1,0 +1,223 @@
+{
+  "repository": "ice-ww/MetricGuard",
+  "parent": 1,
+  "parentBodyHash": "5C2CA6D253E83D33C2F6333202785235605D652FB88FFAC4CB55824E2F413905",
+  "parentTitle": "MetricGuard P0：受控增长指标诊断与实施前置验证",
+  "parentState": "open",
+  "tickets": [
+    {
+      "key": "T01",
+      "number": 2,
+      "id": 5811266146,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/2",
+      "title": "T01 验证合成数据与独立参考答案（V4）",
+      "blockedBy": []
+    },
+    {
+      "key": "T02",
+      "number": 3,
+      "id": 5811266394,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/3",
+      "title": "T02 验证 SQL 权限与数据隔离（V1 权限部分）",
+      "blockedBy": []
+    },
+    {
+      "key": "T03",
+      "number": 4,
+      "id": 5811266638,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/4",
+      "title": "T03 验证查询超时、资源限制与回收（V1 资源部分）",
+      "blockedBy": [
+        "T02"
+      ]
+    },
+    {
+      "key": "T04",
+      "number": 5,
+      "id": 5811266889,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/5",
+      "title": "T04 验证统计计算与异常判定规则（V2）",
+      "blockedBy": [
+        "T01"
+      ]
+    },
+    {
+      "key": "T05",
+      "number": 6,
+      "id": 5811267132,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/6",
+      "title": "T05 验证澄清、重放与预算账本（V3）",
+      "blockedBy": []
+    },
+    {
+      "key": "T06",
+      "number": 7,
+      "id": 5811267342,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/7",
+      "title": "T06 验证指标检索与澄清规则（V5 检索部分）",
+      "blockedBy": [
+        "T01"
+      ]
+    },
+    {
+      "key": "T07",
+      "number": 8,
+      "id": 5811267605,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/8",
+      "title": "T07 验证模型适配器与真实用量记账（V5 适配器部分）",
+      "blockedBy": [
+        "T05"
+      ]
+    },
+    {
+      "key": "T08",
+      "number": 9,
+      "id": 5811268081,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/9",
+      "title": "T08 验证证据断言与图表契约（V5 输出部分）",
+      "blockedBy": [
+        "T01"
+      ]
+    },
+    {
+      "key": "T09",
+      "number": 10,
+      "id": 5811268330,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/10",
+      "title": "T09 打通一次简单指标查询",
+      "blockedBy": [
+        "T03",
+        "T05",
+        "T06",
+        "T07",
+        "T08"
+      ]
+    },
+    {
+      "key": "T10",
+      "number": 11,
+      "id": 5811268618,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/11",
+      "title": "T10 打通澄清、中断与重跑",
+      "blockedBy": [
+        "T09"
+      ]
+    },
+    {
+      "key": "T11",
+      "number": 12,
+      "id": 5811269270,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/12",
+      "title": "T11 打通按证据下钻与有限 SQL 修复",
+      "blockedBy": [
+        "T09"
+      ]
+    },
+    {
+      "key": "T12",
+      "number": 13,
+      "id": 5811269615,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/13",
+      "title": "T12 交付 A1 版本崩溃关联诊断",
+      "blockedBy": [
+        "T04",
+        "T11"
+      ]
+    },
+    {
+      "key": "T13",
+      "number": 14,
+      "id": 5811269901,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/14",
+      "title": "T13 交付 A2 低留存渠道诊断",
+      "blockedBy": [
+        "T04",
+        "T11"
+      ]
+    },
+    {
+      "key": "T14",
+      "number": 15,
+      "id": 5811270157,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/15",
+      "title": "T14 交付 A3 完播采集异常诊断",
+      "blockedBy": [
+        "T11"
+      ]
+    },
+    {
+      "key": "T15",
+      "number": 16,
+      "id": 5811270393,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/16",
+      "title": "T15 交付 A4 用户结构变化诊断",
+      "blockedBy": [
+        "T04",
+        "T11"
+      ]
+    },
+    {
+      "key": "T16",
+      "number": 17,
+      "id": 5811270665,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/17",
+      "title": "T16 交付正常、证据不足与越权请求的正确结束",
+      "blockedBy": [
+        "T04",
+        "T11"
+      ]
+    },
+    {
+      "key": "T17",
+      "number": 18,
+      "id": 5811270908,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/18",
+      "title": "T17 交付可核验报告与证据图表",
+      "blockedBy": [
+        "T09"
+      ]
+    },
+    {
+      "key": "T18",
+      "number": 19,
+      "id": 5811271122,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/19",
+      "title": "T18 交付冻结任务集与可审计评测运行器",
+      "blockedBy": [
+        "T01",
+        "T04",
+        "T06",
+        "T07",
+        "T08"
+      ]
+    },
+    {
+      "key": "T19",
+      "number": 20,
+      "id": 5811271341,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/20",
+      "title": "T19 交付非迭代基线",
+      "blockedBy": [
+        "T09"
+      ]
+    },
+    {
+      "key": "T20",
+      "number": 21,
+      "id": 5811271593,
+      "url": "https://github.com/ice-ww/MetricGuard/issues/21",
+      "title": "T20 执行完整 P0 验收与基线对比",
+      "blockedBy": [
+        "T10",
+        "T12",
+        "T13",
+        "T14",
+        "T15",
+        "T16",
+        "T17",
+        "T18",
+        "T19"
+      ]
+    }
+  ]
+}
