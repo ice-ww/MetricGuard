@@ -54,7 +54,7 @@ def test_mature_cohort_health_matches_independent_membership_counts(tmp_path, im
         assert row['crash_rate'] == row['crashed_users'] / row['users']
     assert result['evidence'][0]['window'] == ['2026-01-01', '2026-01-15']
     assert all(f['context']['window'] == ['2026-01-01', '2026-01-08']
-               for f in result['report']['facts'] if f['context']['group']['period'] == 'previous')
+               for f in result['report']['facts'] if f['context']['comparison'] == 'previous')
 
 
 @pytest.mark.parametrize('scenario,expected_status', [('A1', 'association_candidate'), ('normal', 'no_supported_candidate')])
@@ -62,7 +62,12 @@ def test_version_association_requires_concordant_evidence_and_retains_controls(t
     snapshot = build_snapshot(tmp_path / 'data', scenario=scenario, seed=1212)
     with TaskService(tmp_path / 'service', image, {'dev': snapshot.database}, token='controlled',
                      transport=controlled(['releases', 'cohort_health', 'crash_versions'])) as service:
-        result = service.run(service.create('新增用户自然日次日留存下降原因', 'dev', ('2026-01-08', '2026-01-15'), mode='diagnose'))
+        task = service.create('新增用户自然日次日留存下降原因', 'dev', ('2026-01-08', '2026-01-15'), mode='diagnose')
+        result = service.run(task)
+        publication = service.publish_diagnosis(task)
+    assert publication['status'] == 'mechanically_valid'
+    # Numeric publication references cannot support a release-date assertion.
+    assert all('发布时间与当前窗口重合' not in inference['text'] for inference in publication['inferences'])
     assert result['outcome'] == 'facts_available', result['limitations']
     diagnosis = result['report']['diagnosis']
     assert diagnosis['status'] == expected_status

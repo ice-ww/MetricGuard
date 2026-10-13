@@ -61,7 +61,8 @@ def derived_evidence(evidence: list[dict], window: list[str], task: str, waterma
             crashes_by_group: dict[tuple,list]=defaultdict(list)
             for i,row in enumerate(source['rows']):
                 crashes_by_group[(row['period'],row['actual_os'],row['actual_version'])].append((i,row))
-            health=next((e for e in evidence if e['parameters'].get('kind')=='cohort_health' and not e['truncated']),None)
+            health=next((e for e in evidence if e['parameters'].get('kind')=='cohort_health' and not e['truncated']
+                         and all(not c['metric'].startswith('profile:') for c in e['contexts'].values())),None)
             keys=set(crashes_by_group)
             if health:
                 keys.update((r['period'],r['registration_os'],r['registration_version']) for r in health['rows'])

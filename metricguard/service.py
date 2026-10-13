@@ -476,9 +476,9 @@ class TaskService:
         rows = [dict(zip([c['name'] for c in columns], row, strict=True)) for row in result['rows']]
         eid = task + ':evidence:' + str(step)
         profile = action['action'] == 'profile'
-        from metricguard.metric_profiles import is_business_profile
+        from metricguard.metric_profiles import is_business_profile, COMPARISON_PROFILES
         evidence_window = data['actual_window']
-        if action.get('kind') in ('cohort_health', 'crash_versions', 'channel_health', 'system_retention', 'playback_events', 'playback_progress','play_start_counts'):
+        if action.get('kind') in COMPARISON_PROFILES:
             from metricguard.metric_profiles import comparison_window
             evidence_window = [comparison_window(data.get('requested_window') or data['actual_window'])[0], data['actual_window'][1]]
         limitations = ['business_definition_requires_independent_reference']
@@ -556,7 +556,7 @@ class TaskService:
             report['inference_status'] = 'bounded_descriptive_rule_requires_human_review'
         if data['outcome'] is None:
             data['outcome'] = 'facts_available' if report['validation']['passed'] else 'insufficient_evidence'
-        if 'requested_window_shortened_to_complete_sources' in data['limitations']:
+        if data['outcome']=='facts_available' and 'requested_window_shortened_to_complete_sources' in data['limitations']:
             data['outcome'] = 'insufficient_evidence'
         report['outcome'] = data['outcome']
         from metricguard.conclusion import conclude

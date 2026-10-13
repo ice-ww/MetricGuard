@@ -159,3 +159,20 @@ def test_partial_current_window_keeps_requested_comparison_and_discloses_insuffi
         artifact=service.comparison_result(task)
         assert 'incomplete_coverage_disclosed' in artifact['report']['behaviors']
         assert artifact['report']['inferences']
+
+
+def test_unknown_cohort_attribution_does_not_invent_zero_crash_groups(tmp_path, image):
+    import duckdb
+    from tests.test_t12_service import controlled
+    snapshot=build_snapshot(tmp_path/'data',scenario='A1',seed=202004)
+    with duckdb.connect(str(snapshot.database)) as db:
+        db.execute("UPDATE users SET registration_os=NULL WHERE user_id=(SELECT MIN(user_id) FROM users)")
+        db.execute("UPDATE sessions SET crashed=FALSE")
+    with TaskService(tmp_path/'service',image,{'dev':snapshot.database},token='controlled',
+                     transport=controlled(['cohort_health','crash_versions','releases'])) as service:
+        task=service.create('新增用户自然日次日留存下降原因','dev',('2026-01-08','2026-01-15'),mode='diagnose')
+        state=service.run(task)
+        assert state['evidence']
+        published=service.publish_diagnosis(task)
+        assert published['assertions']
+        assert not any(a['context']['metric']=='actual_first_day_crashed_users' for a in published['assertions'])
