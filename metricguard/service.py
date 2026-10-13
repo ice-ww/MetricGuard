@@ -38,6 +38,8 @@ class TaskService:
         self.adapter = ModelAdapter(self.ledger, 'deepseek-flash', base_url, token, transport=transport, fault_hook=fault_hook)
         with self.ledger.connect() as db:
             db.execute('CREATE TABLE IF NOT EXISTS analysis_requests(id TEXT PRIMARY KEY, payload TEXT NOT NULL)')
+            db.execute('CREATE TABLE IF NOT EXISTS report_publications(task TEXT, id TEXT, payload TEXT NOT NULL, PRIMARY KEY(task,id))')
+            db.execute('CREATE TABLE IF NOT EXISTS semantic_reviews(task TEXT, publication TEXT, id TEXT, payload TEXT NOT NULL, PRIMARY KEY(task,publication,id))')
 
     def close(self) -> None:
         self.adapter.close()
@@ -98,6 +100,47 @@ class TaskService:
 
     def trace(self, task: str) -> list[dict[str, Any]]:
         return self.ledger.inspect(task)['trace']
+
+    def publish_report(self, task: str, draft: dict[str, Any]) -> dict[str, Any]:
+        """Postprocess a controlled draft against this terminal task's owned evidence."""
+        from metricguard.publication import publish
+        from metricguard.semantic_rubric import digest
+        data=self.inspect(task)
+        if data['status'] not in ('ended','failed','interrupted'):
+            raise ValueError('terminal task required')
+        result=publish(data['evidence'],draft)
+        result['publication_id']=digest({'task':task,'publication':result})
+        # Persist a JSON-normalized immutable revision; no model or query call.
+        payload=json.dumps(result,ensure_ascii=False,allow_nan=False)
+        with self.ledger.connect() as db:
+            db.execute('INSERT OR IGNORE INTO report_publications VALUES(?,?,?)',(task,result['publication_id'],payload))
+        self._event(task,'report_published',{'publication_id':result['publication_id'],'status':result['status'],'counts':result['counts']})
+        return json.loads(payload)
+
+    def publication(self, task: str, publication_id: str) -> dict[str, Any]:
+        with self.ledger.connect() as db:
+            row=db.execute('SELECT payload FROM report_publications WHERE task=? AND id=?',(task,publication_id)).fetchone()
+        if row is None:
+            raise ValueError('unknown publication')
+        return json.loads(row[0])
+
+    def review_report(self, task: str, publication_id: str, reviewer: str, reviewer_kind: str, ratings: list[dict]) -> dict[str, Any]:
+        """Record identified offline review; never a model-callable approval action."""
+        from metricguard.semantic_rubric import validate_review, digest
+        publication=self.publication(task,publication_id)
+        review=validate_review({i['inference_id'] for i in publication['inferences']},reviewer,reviewer_kind,ratings)
+        review['publication_id']=publication_id
+        review['review_id']=digest(review)
+        payload=json.dumps(review,ensure_ascii=False,allow_nan=False)
+        with self.ledger.connect() as db:
+            db.execute('INSERT OR IGNORE INTO semantic_reviews VALUES(?,?,?,?)',(task,publication_id,review['review_id'],payload))
+        self._event(task,'semantic_review_recorded',review)
+        return json.loads(payload)
+
+    def semantic_reviews(self, task: str, publication_id: str) -> list[dict[str, Any]]:
+        self.publication(task,publication_id)
+        with self.ledger.connect() as db:
+            return [json.loads(row[0]) for row in db.execute('SELECT payload FROM semantic_reviews WHERE task=? AND publication=? ORDER BY rowid',(task,publication_id))]
 
     def _event(self, task: str, event: str, detail: Any) -> None:
         with self.ledger.connect() as db:
