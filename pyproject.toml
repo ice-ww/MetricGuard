@@ -29,4 +29,4 @@ testpaths = ["tests"]
 [tool.mypy]
 python_version = "3.12"
 check_untyped_defs = true
-files = ["experiments/t01", "experiments/t02", "experiments/t03", "experiments/t04", "experiments/t05", "experiments/t06", "experiments/t07", "experiments/t08", "experiments/t09", "metricguard"]
+files = ["experiments/t01", "experiments/t02", "experiments/t03", "experiments/t04", "experiments/t05", "experiments/t06", "experiments/t07", "experiments/t08", "experiments/t09", "experiments/t10", "metricguard"]

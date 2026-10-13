@@ -16,7 +16,9 @@ def main() -> None:
     create = sub.add_parser('create')
     create.add_argument('question'); create.add_argument('snapshot_id')
     create.add_argument('--window', nargs=2)
-    for name in ('run', 'inspect', 'report', 'trace'):
+    answer = sub.add_parser('answer')
+    answer.add_argument('task'); answer.add_argument('question_id'); answer.add_argument('version', type=int); answer.add_argument('answer')
+    for name in ('run', 'inspect', 'report', 'trace', 'rerun'):
         sub.add_parser(name).add_argument('task')
     args = parser.parse_args()
     snapshots = {}
@@ -27,6 +29,8 @@ def main() -> None:
                      token=os.environ.get('ANTHROPIC_AUTH_TOKEN', ''), base_url=args.base_url) as service:
         if args.command == 'create':
             result = {'task_id': service.create(args.question, args.snapshot_id, tuple(args.window) if args.window else None)}
+        elif args.command == 'answer':
+            result = service.answer(args.task, args.question_id, args.version, args.answer)
         else:
             result = getattr(service, args.command)(args.task)
         print(json.dumps(result, ensure_ascii=False, indent=2))

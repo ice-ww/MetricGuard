@@ -10,6 +10,7 @@ from typing import Any, Callable, TypedDict
 
 from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.sqlite import SqliteSaver
+from langgraph.types import Command, interrupt
 
 from experiments.t02.sandbox import Sandbox
 from experiments.t05.service import TaskService as RecoveryOwner
@@ -17,21 +18,24 @@ from experiments.t06.retrieval import retrieve
 from experiments.t07 import ModelAdapter, Request
 from experiments.t08.contract import EvidenceStore, EvidenceResult, FactContext, Assertion, Reference
 
-class State(TypedDict):
+class State(TypedDict, total=False):
     task: str
+    clarification_answer: str
+    answered_question: str
 
 class TaskService:
     """Configuration is administrator supplied; task input cannot alter capabilities."""
     def __init__(self, root: Path, image: str, snapshots: dict[str, Path], *, token: str,
                  base_url: str = 'https://api.deepseek.com/anthropic', transport: Any = None,
-                 limits: dict[str, Any] | None = None):
+                 limits: dict[str, Any] | None = None, fault_hook: Callable[[str], None] | None = None):
         self.root = Path(root)
         self.owner = RecoveryOwner(self.root)
         self.ledger = self.owner.ledger
         self.image = image
         self.snapshots = {key: Path(path).resolve() for key, path in snapshots.items()}
         self.limits = limits
-        self.adapter = ModelAdapter(self.ledger, 'deepseek-flash', base_url, token, transport=transport)
+        self.fault_hook = fault_hook
+        self.adapter = ModelAdapter(self.ledger, 'deepseek-flash', base_url, token, transport=transport, fault_hook=fault_hook)
         with self.ledger.connect() as db:
             db.execute('CREATE TABLE IF NOT EXISTS analysis_requests(id TEXT PRIMARY KEY, payload TEXT NOT NULL)')
 
@@ -58,7 +62,8 @@ class TaskService:
         task = self.ledger.create_task(limits=self.limits)
         self._save(task, {'question': question, 'snapshot_id': snapshot_id, 'snapshot_hash': digest,
                          'requested_window': window, 'actual_window': None, 'definition': None,
-                         'evidence': [], 'report': None, 'outcome': None, 'limitations': []})
+                         'evidence': [], 'report': None, 'outcome': None, 'limitations': [],
+                         'effective_question': question, 'pending_question': None, 'answers': []})
         return task
 
     def _save(self, task: str, data: dict[str, Any]) -> None:
@@ -70,7 +75,12 @@ class TaskService:
             row = db.execute('SELECT payload FROM analysis_requests WHERE id=?', (task,)).fetchone()
             if row is None:
                 raise ValueError('unknown analysis task')
-            return json.loads(row[0])
+            data = json.loads(row[0])
+            # T09 persisted requests predate clarification fields.
+            data.setdefault('effective_question', data['question'])
+            data.setdefault('answers', [])
+            data.setdefault('pending_question', None)
+            return data
 
     def inspect(self, task: str) -> dict[str, Any]:
         return {**self.ledger.inspect(task), **self._data(task)}
@@ -123,11 +133,19 @@ class TaskService:
         data = self._data(task)
         # Retrieval precedes execution; absent windows are handled by snapshot watermarks below.
         tentative = tuple(data['requested_window']) if data['requested_window'] else ('2000-01-01', '2000-01-02')
-        found = self._tool(task, 'retrieval', lambda: retrieve(data['question'], tentative))
+        round_index = len(data['answers'])
+        retrieval_id = 'retrieval' if round_index == 0 else 'retrieval:' + str(round_index)
+        found = self._tool(task, retrieval_id, lambda: retrieve(data['effective_question'], tentative))
         data['retrieval'] = found
         if found['status'] != 'adopt':
-            data['outcome'] = 'unsupported' if found['status'] == 'unsupported' else 'insufficient_evidence'
-            data['limitations'].append(found['reason'])
+            if found['status'] == 'clarify' and round_index < 2:
+                current = self.ledger.inspect(task)
+                data['pending_question'] = {'question_id': task + ':question:' + str(round_index + 1),
+                    'version': current['version'] + 1, 'reason': found['reason'],
+                    'prompt': clarification_prompt(found['reason'])}
+            else:
+                data['outcome'] = 'unsupported' if found['status'] == 'unsupported' else 'insufficient_evidence'
+                data['limitations'].append(found['reason'] if found['status'] == 'unsupported' else 'clarification_limit')
             self._save(task, data)
             return {}
         data['definition'] = found['definition']
@@ -159,7 +177,7 @@ class TaskService:
 
     def _model(self, task: str, name: str, system: str, shared: Any, *, final: bool = False) -> dict[str, Any]:
         request = Request(system, json.dumps(shared, ensure_ascii=False),
-                          [{'role': 'user', 'content': self._data(task)['question']}], max_output=2048)
+                          [{'role': 'user', 'content': self._data(task)['effective_question']}], max_output=2048)
         self.adapter.client.timeout = min(30.0, self._remaining(task))
         result = self.adapter.call(task, name, request, attempt_id=task + ':' + name, final_report=final)
         self._remaining(task)
@@ -219,6 +237,8 @@ class TaskService:
                 raise ValueError('invalid_query_evidence') from None
         self._save(task, data)
         self._event(task, 'query_completed', {'status': result['status'], 'cleanup_verified': result.get('cleanup_verified'), 'evidence_ids': [e['evidence_id'] for e in data['evidence']]})
+        if self.fault_hook:
+            self.fault_hook('before_checkpoint')
         return {}
 
     def _validated(self, data: dict[str, Any], facts: list[Any]) -> dict[str, Any]:
@@ -259,6 +279,8 @@ class TaskService:
         self._event(task, 'report_validated', report['validation'])
 
     def _report_node(self, state: State) -> dict[str, Any]:
+        if self.fault_hook:
+            self.fault_hook('after_checkpoint')
         task = state['task']; data = self._data(task)
         if data['outcome'] or not data['evidence']:
             self._finish_report(task, [], deterministic=True)
@@ -273,10 +295,28 @@ class TaskService:
         self._finish_report(task, result['facts'], deterministic=False)
         return {}
 
+    def _wait(self, state: State) -> dict[str, Any]:
+        pending = self._data(state['task'])['pending_question']
+        answer = interrupt(pending)
+        return {'clarification_answer': answer, 'answered_question': pending['question_id']}
+
+    def _apply_answer(self, state: State) -> dict[str, Any]:
+        task = state['task']; data = self._data(task)
+        if not any(a['question_id'] == state['answered_question'] for a in data['answers']):
+            data['answers'].append({'question_id': state['answered_question'], 'answer': state['clarification_answer']})
+            data['effective_question'] += ' ' + state['clarification_answer']
+        data['pending_question'] = None
+        self._save(task, data)
+        return {}
+
     def _graph(self, saver: SqliteSaver) -> Any:
         graph = StateGraph(State)
         graph.add_node('prepare', self._prepare); graph.add_node('query', self._query); graph.add_node('report', self._report_node)
-        graph.add_edge(START, 'prepare'); graph.add_edge('prepare', 'query'); graph.add_edge('query', 'report'); graph.add_edge('report', END)
+        graph.add_node('wait', self._wait); graph.add_node('apply_answer', self._apply_answer)
+        graph.add_edge(START, 'prepare')
+        graph.add_conditional_edges('prepare', lambda state: 'wait' if self._data(state['task'])['pending_question'] else 'query')
+        graph.add_edge('wait', 'apply_answer'); graph.add_edge('apply_answer', 'prepare')
+        graph.add_edge('query', 'report'); graph.add_edge('report', END)
         return graph.compile(checkpointer=saver)
 
     def run(self, task: str) -> dict[str, Any]:
@@ -285,11 +325,53 @@ class TaskService:
             cursor = db.execute("UPDATE tasks SET status='running' WHERE id=? AND status='created'", (task,))
             if cursor.rowcount != 1:
                 raise ValueError('task cannot run')
+        return self._execute(task, {'task': task})
+
+    def answer(self, task: str, question_id: str, version: int, answer: str) -> dict[str, Any]:
+        if not isinstance(answer, str) or not answer.strip() or len(answer) > 2000 or type(version) is not int:
+            raise ValueError('invalid answer')
+        data = self._data(task)
+        pending = data['pending_question']
+        if not pending or pending['question_id'] != question_id or pending['version'] != version:
+            raise ValueError('stale or repeated answer')
+        with SqliteSaver.from_conn_string(str(self.root / 'analysis-checkpoints.sqlite')) as saver:
+            snapshot = self._graph(saver).get_state({'configurable': {'thread_id': task}})
+            if not snapshot.interrupts or snapshot.interrupts[0].value != pending:
+                raise ValueError('checkpoint missing or question mismatch')
+        with self.ledger.connect() as db:
+            cursor = db.execute("UPDATE tasks SET status='running' WHERE id=? AND status='waiting' AND question=? AND version=?", (task, question_id, version))
+            if cursor.rowcount != 1:
+                raise ValueError('stale or repeated answer')
+        return self._execute(task, Command(resume=answer))
+
+    def rerun(self, task: str) -> str:
+        previous = self.inspect(task)
+        if previous['status'] not in ('ended', 'failed', 'interrupted'):
+            raise ValueError('only terminal tasks can rerun')
+        new = self.create(previous['question'], previous['snapshot_id'],
+                          tuple(previous['requested_window']) if previous['requested_window'] else None)
+        data = self._data(new)
+        data['effective_question'] = previous['effective_question']
+        data['inherited_answers'] = previous['answers']
+        self._save(new, data)
+        with self.ledger.connect() as db:
+            db.execute('UPDATE tasks SET parent=? WHERE id=?', (task, new))
+        self._event(new, 'rerun_created', {'parent': task})
+        return new
+
+    def _execute(self, task: str, value: Any) -> dict[str, Any]:
         self.ledger.start_activity(task)
         status = 'ended'
         try:
             with SqliteSaver.from_conn_string(str(self.root / 'analysis-checkpoints.sqlite')) as saver:
-                self._graph(saver).invoke({'task': task}, {'configurable': {'thread_id': task}}, durability='sync')
+                graph = self._graph(saver)
+                graph.invoke(value, {'configurable': {'thread_id': task}}, durability='sync')
+                snapshot = graph.get_state({'configurable': {'thread_id': task}})
+                if snapshot.interrupts:
+                    pending = self._data(task)['pending_question']
+                    with self.ledger.connect() as db:
+                        db.execute('UPDATE tasks SET rounds=rounds+1,version=?,question=? WHERE id=?', (pending['version'], pending['question_id'], task))
+                    status = 'waiting'
         except Exception as error:
             data = self._data(task)
             reason = str(error) if isinstance(error, ValueError) else type(error).__name__
@@ -304,7 +386,7 @@ class TaskService:
         finally:
             self.ledger.accrue_activity(task, stop=True)
             with self.ledger.connect() as db:
-                db.execute('UPDATE tasks SET status=? WHERE id=?', (status, task))
+                db.execute("UPDATE tasks SET status=?,question=CASE WHEN ?='waiting' THEN question ELSE NULL END WHERE id=?", (status, status, task))
         return self.inspect(task)
 
 
@@ -318,3 +400,11 @@ def canonical_type(db_type: str) -> str:
         return 'boolean'
     # Worker serializes DATE/TIMESTAMP and DECIMAL as strings, preserving precision.
     return 'string'
+
+
+def clarification_prompt(reason: str) -> str:
+    return {
+        'retention_population_required': '请明确留存人群，例如新增注册用户。',
+        'retention_horizon_required': '请明确留存周期，例如自然日次日。',
+        'candidate_ambiguity': '请明确要查询的指标名称。',
+    }.get(reason, '请补充明确的指标定义或时间窗口。')

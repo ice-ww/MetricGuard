@@ -1,0 +1,2193 @@
+{
+  "image": "sha256:4cadf9b4afae2394df26a2d518ab7d68fbbc4e086081f4273c45410fae456cb0",
+  "development_seed": 1010,
+  "passed": true,
+  "cases": [
+    {
+      "point": "after_reserve",
+      "exit_code": 73,
+      "provider_sends": 0,
+      "recovered": {
+        "id": "93ed48f6fd9944a5b7d5d7e355c6caac",
+        "status": "interrupted",
+        "rounds": 0,
+        "version": 0,
+        "question": "新增用户自然日次日留存",
+        "active": 180.0,
+        "limits": {
+          "tool": 12,
+          "model": 10,
+          "tokens": 30000,
+          "active_seconds": 180
+        },
+        "parent": null,
+        "attempts": [
+          {
+            "id": "93ed48f6fd9944a5b7d5d7e355c6caac:retrieval",
+            "task": "93ed48f6fd9944a5b7d5d7e355c6caac",
+            "operation": "retrieval",
+            "kind": "tool",
+            "reserved": 0,
+            "actual": 0,
+            "state": "completed",
+            "result": "{\"candidates\": [{\"id\": \"retention\", \"score\": 12.411109097808765}, {\"id\": \"retained_cost\", \"score\": 5.021965918050482}, {\"id\": \"crash\", \"score\": 1.8495032738117811}], \"corpus_version\": \"t06-v1\", \"definition\": {\"aliases\": [\"\\u65b0\\u7528\\u6237\\u6b21\\u65e5\\u7559\\u5b58\", \"\\u6ce8\\u518c\\u6b21\\u65e5\\u7559\\u5b58\\u7387\"], \"definition\": \"\\u65b0\\u589e\\u6ce8\\u518c\\u7528\\u6237\\u7b2c\\u4e8c\\u5929\\u56de\\u6765\\u4ea7\\u751f\\u4f1a\\u8bdd\\u7684\\u6bd4\\u4f8b\\u3002\", \"denominator\": \"D \\u65e5\\u9996\\u6b21\\u6ce8\\u518c\\u53bb\\u91cd\\u7528\\u6237\\u6570\\uff1b\\u4e3a\\u96f6\\u5219\\u4e0d\\u53ef\\u8ba1\\u7b97\", \"dimensions\": \"users.registration_os / registration_version / channel \\u56fa\\u5b9a\\u6ce8\\u518c\\u5f52\\u5c5e\", \"id\": \"retention\", \"joins\": \"users.user_id = sessions.user_id\\uff1bEXISTS \\u9632\\u6b62\\u591a\\u4f1a\\u8bdd\\u91cd\\u590d\\u8ba1\\u6570\", \"name\": \"\\u65b0\\u589e\\u7528\\u6237\\u81ea\\u7136\\u65e5\\u6b21\\u65e5\\u7559\\u5b58\", \"numerator\": \"D \\u65e5\\u6ce8\\u518c\\u4e14 D+1 \\u6709\\u81f3\\u5c11\\u4e00\\u6b21\\u4f1a\\u8bdd\\u7684\\u53bb\\u91cd user_id \\u6570\", \"pitfalls\": \"\\u4e0d\\u662f\\u6eda\\u52a8 24 \\u5c0f\\u65f6\\uff1b\\u4e0d\\u6df7\\u5165\\u6d3b\\u8dc3\\u8001\\u7528\\u6237\\uff1b\\u8de8\\u65e5\\u7528\\u603b\\u7559\\u5b58/\\u603b\\u65b0\\u589e\\uff0c\\u4e0d\\u5e73\\u5747\\u6bcf\\u65e5\\u6bd4\\u4f8b\", \"time\": \"Asia/Shanghai \\u81ea\\u7136\\u65e5\\uff1b\\u6ce8\\u518c\\u7a97\\u53e3 [start,end)\\uff1bD+1 \\u5b8c\\u6574\\u7ed3\\u675f\\u4e14 users/sessions \\u6c34\\u4f4d\\u9f50\\u5907\\uff1bD+2 <= sessions.complete_before\"}, \"method\": \"exact\", \"reason\": \"matched\", \"status\": \"adopt\", \"window\": [\"2026-01-01\", \"2026-01-08\"]}"
+          },
+          {
+            "id": "93ed48f6fd9944a5b7d5d7e355c6caac:schema",
+            "task": "93ed48f6fd9944a5b7d5d7e355c6caac",
+            "operation": "schema",
+            "kind": "tool",
+            "reserved": 0,
+            "actual": 0,
+            "state": "completed",
+            "result": "{\"channel_daily\": {\"channel\": \"VARCHAR\", \"day\": \"DATE\", \"spend_cents\": \"BIGINT\"}, \"content_events\": {\"event_id\": \"VARCHAR\", \"event_type\": \"VARCHAR\", \"occurred_at\": \"TIMESTAMP WITH TIME ZONE\", \"play_id\": \"VARCHAR\", \"session_id\": \"VARCHAR\"}, \"playback_telemetry\": {\"duration_seconds\": \"INTEGER\", \"observed_at\": \"TIMESTAMP WITH TIME ZONE\", \"play_id\": \"VARCHAR\", \"report_id\": \"VARCHAR\", \"session_id\": \"VARCHAR\", \"watched_seconds\": \"INTEGER\"}, \"release_calendar\": {\"os\": \"VARCHAR\", \"released_at\": \"TIMESTAMP WITH TIME ZONE\", \"version\": \"VARCHAR\"}, \"sessions\": {\"crashed\": \"BOOLEAN\", \"os\": \"VARCHAR\", \"session_id\": \"VARCHAR\", \"started_at\": \"TIMESTAMP WITH TIME ZONE\", \"user_id\": \"VARCHAR\", \"version\": \"VARCHAR\"}, \"source_watermarks\": {\"complete_before\": \"TIMESTAMP WITH TIME ZONE\", \"source\": \"VARCHAR\"}, \"users\": {\"channel\": \"VARCHAR\", \"registered_at\": \"TIMESTAMP WITH TIME ZONE\", \"registration_os\": \"VARCHAR\", \"registration_version\": \"VARCHAR\", \"user_id\": \"VARCHAR\"}}"
+          },
+          {
+            "id": "93ed48f6fd9944a5b7d5d7e355c6caac:watermarks",
+            "task": "93ed48f6fd9944a5b7d5d7e355c6caac",
+            "operation": "watermarks",
+            "kind": "tool",
+            "reserved": 0,
+            "actual": 0,
+            "state": "completed",
+            "result": "{\"cleanup_seconds\": 0.42099999997299165, \"cleanup_verified\": true, \"columns\": [{\"name\": \"source\", \"type\": \"VARCHAR\"}, {\"name\": \"complete_before\", \"type\": \"TIMESTAMP WITH TIME ZONE\"}], \"container_id\": \"b1b721ddc8827ef985bb622e294a5eced69141adf2258493430f0ef62c623b1a\", \"execute_seconds\": 0.003549210000073799, \"fault_events\": [], \"fetch_seconds\": 0.024004094999781955, \"parse_seconds\": 0.038245243000119444, \"query_seconds\": 0.32900000002700835, \"rows\": [[\"users\", \"2026-01-16 16:00:00+00:00\"], [\"sessions\", \"2026-01-16 16:00:00+00:00\"], [\"content_events\", \"2026-01-16 16:00:00+00:00\"], [\"playback_telemetry\", \"2026-01-16 16:00:00+00:00\"], [\"channel_daily\", \"2026-01-16 16:00:00+00:00\"], [\"release_calendar\", \"2026-01-16 16:00:00+00:00\"]], \"schema_profile\": \"business\", \"serialize_seconds\": 0.00011241500010328309, \"settings\": {\"access_mode\": \"read_only\", \"allow_community_extensions\": \"false\", \"allow_unsigned_extensions\": \"false\", \"allowed_configs\": \"[]\", \"allowed_directories\": \"[]\", \"allowed_paths\": \"[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]\", \"autoinstall_known_extensions\": \"false\", \"autoload_known_extensions\": \"false\", \"enable_external_access\": \"false\", \"lock_configuration\": \"true\", \"max_temp_directory_size\": \"0 bytes\", \"memory_limit\": \"122.0 MiB\", \"python_enable_replacements\": \"false\", \"python_scan_all_frames\": \"false\", \"temp_directory\": \"\", \"threads\": \"1\"}, \"startup_seconds\": 1.375, \"status\": \"ok\", \"termination_delay_seconds\": 0.0, \"total_seconds\": 2.125, \"truncated\": false, \"versions\": {\"duckdb\": \"1.5.6\", \"python\": \"3.12.10\", \"pytz\": \"2026.5\", \"sqlglot\": \"30.22.0\"}}"
+          },
+          {
+            "id": "93ed48f6fd9944a5b7d5d7e355c6caac:sql_plan",
+            "task": "93ed48f6fd9944a5b7d5d7e355c6caac",
+            "operation": "sql_plan:c06f6202f57021ac9171e8d5427d2a7a741a917315a62031ad5b9ff423a040f9",
+            "kind": "model",
+            "reserved": 5102,
+            "actual": null,
+            "state": "unknown",
+            "result": null
+          }
+        ],
+        "tool_calls": 3,
+        "model_calls": 1,
+        "tokens": 5102,
+        "trace": [
+          {
+            "seq": 1,
+            "task": "93ed48f6fd9944a5b7d5d7e355c6caac",
+            "event": "reserve",
+            "detail": "93ed48f6fd9944a5b7d5d7e355c6caac:retrieval"
+          },
+          {
+            "seq": 2,
+            "task": "93ed48f6fd9944a5b7d5d7e355c6caac",
+            "event": "sent",
+            "detail": "93ed48f6fd9944a5b7d5d7e355c6caac:retrieval"
+          },
+          {
+            "seq": 3,
+            "task": "93ed48f6fd9944a5b7d5d7e355c6caac",
+            "event": "completed",
+            "detail": "93ed48f6fd9944a5b7d5d7e355c6caac:retrieval"
+          },
+          {
+            "seq": 4,
+            "task": "93ed48f6fd9944a5b7d5d7e355c6caac",
+            "event": "reserve",
+            "detail": "93ed48f6fd9944a5b7d5d7e355c6caac:schema"
+          },
+          {
+            "seq": 5,
+            "task": "93ed48f6fd9944a5b7d5d7e355c6caac",
+            "event": "sent",
+            "detail": "93ed48f6fd9944a5b7d5d7e355c6caac:schema"
+          },
+          {
+            "seq": 6,
+            "task": "93ed48f6fd9944a5b7d5d7e355c6caac",
+            "event": "completed",
+            "detail": "93ed48f6fd9944a5b7d5d7e355c6caac:schema"
+          },
+          {
+            "seq": 7,
+            "task": "93ed48f6fd9944a5b7d5d7e355c6caac",
+            "event": "reserve",
+            "detail": "93ed48f6fd9944a5b7d5d7e355c6caac:watermarks"
+          },
+          {
+            "seq": 8,
+            "task": "93ed48f6fd9944a5b7d5d7e355c6caac",
+            "event": "sent",
+            "detail": "93ed48f6fd9944a5b7d5d7e355c6caac:watermarks"
+          },
+          {
+            "seq": 9,
+            "task": "93ed48f6fd9944a5b7d5d7e355c6caac",
+            "event": "completed",
+            "detail": "93ed48f6fd9944a5b7d5d7e355c6caac:watermarks"
+          },
+          {
+            "seq": 10,
+            "task": "93ed48f6fd9944a5b7d5d7e355c6caac",
+            "event": "definition_adopted",
+            "detail": "{\"definition\": {\"id\": \"retention\", \"name\": \"新增用户自然日次日留存\", \"aliases\": [\"新用户次日留存\", \"注册次日留存率\"], \"definition\": \"新增注册用户第二天回来产生会话的比例。\", \"numerator\": \"D 日注册且 D+1 有至少一次会话的去重 user_id 数\", \"denominator\": \"D 日首次注册去重用户数；为零则不可计算\", \"dimensions\": \"users.registration_os / registration_version / channel 固定注册归属\", \"joins\": \"users.user_id = sessions.user_id；EXISTS 防止多会话重复计数\", \"time\": \"Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before\", \"pitfalls\": \"不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例\"}, \"actual_window\": [\"2026-01-01\", \"2026-01-08\"]}"
+          },
+          {
+            "seq": 11,
+            "task": "93ed48f6fd9944a5b7d5d7e355c6caac",
+            "event": "reserve",
+            "detail": "93ed48f6fd9944a5b7d5d7e355c6caac:sql_plan"
+          },
+          {
+            "seq": 12,
+            "task": "93ed48f6fd9944a5b7d5d7e355c6caac",
+            "event": "interrupted",
+            "detail": "restart; active duration upper bound"
+          }
+        ],
+        "snapshot_id": "development",
+        "snapshot_hash": "d0ca00ef7ce75789a17f0dc8f144f7b737d2601f08c027924461e143ea5242f2",
+        "requested_window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "actual_window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "definition": {
+          "id": "retention",
+          "name": "新增用户自然日次日留存",
+          "aliases": [
+            "新用户次日留存",
+            "注册次日留存率"
+          ],
+          "definition": "新增注册用户第二天回来产生会话的比例。",
+          "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+          "denominator": "D 日首次注册去重用户数；为零则不可计算",
+          "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+          "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+          "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+          "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+        },
+        "evidence": [],
+        "report": null,
+        "outcome": null,
+        "limitations": [],
+        "effective_question": "新增用户自然日次日留存",
+        "pending_question": null,
+        "answers": [],
+        "retrieval": {
+          "status": "adopt",
+          "reason": "matched",
+          "method": "exact",
+          "definition": {
+            "id": "retention",
+            "name": "新增用户自然日次日留存",
+            "aliases": [
+              "新用户次日留存",
+              "注册次日留存率"
+            ],
+            "definition": "新增注册用户第二天回来产生会话的比例。",
+            "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+            "denominator": "D 日首次注册去重用户数；为零则不可计算",
+            "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+            "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+            "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+            "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+          },
+          "candidates": [
+            {
+              "id": "retention",
+              "score": 12.411109097808765
+            },
+            {
+              "id": "retained_cost",
+              "score": 5.021965918050482
+            },
+            {
+              "id": "crash",
+              "score": 1.8495032738117811
+            }
+          ],
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "corpus_version": "t06-v1"
+        },
+        "schema": {
+          "users": {
+            "user_id": "VARCHAR",
+            "registered_at": "TIMESTAMP WITH TIME ZONE",
+            "registration_os": "VARCHAR",
+            "registration_version": "VARCHAR",
+            "channel": "VARCHAR"
+          },
+          "sessions": {
+            "session_id": "VARCHAR",
+            "user_id": "VARCHAR",
+            "started_at": "TIMESTAMP WITH TIME ZONE",
+            "os": "VARCHAR",
+            "version": "VARCHAR",
+            "crashed": "BOOLEAN"
+          },
+          "content_events": {
+            "event_id": "VARCHAR",
+            "play_id": "VARCHAR",
+            "session_id": "VARCHAR",
+            "event_type": "VARCHAR",
+            "occurred_at": "TIMESTAMP WITH TIME ZONE"
+          },
+          "playback_telemetry": {
+            "report_id": "VARCHAR",
+            "play_id": "VARCHAR",
+            "session_id": "VARCHAR",
+            "observed_at": "TIMESTAMP WITH TIME ZONE",
+            "watched_seconds": "INTEGER",
+            "duration_seconds": "INTEGER"
+          },
+          "channel_daily": {
+            "day": "DATE",
+            "channel": "VARCHAR",
+            "spend_cents": "BIGINT"
+          },
+          "release_calendar": {
+            "os": "VARCHAR",
+            "version": "VARCHAR",
+            "released_at": "TIMESTAMP WITH TIME ZONE"
+          },
+          "source_watermarks": {
+            "source": "VARCHAR",
+            "complete_before": "TIMESTAMP WITH TIME ZONE"
+          }
+        },
+        "watermarks": {
+          "status": "ok",
+          "rows": [
+            [
+              "users",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "sessions",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "content_events",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "playback_telemetry",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "channel_daily",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "release_calendar",
+              "2026-01-16 16:00:00+00:00"
+            ]
+          ],
+          "truncated": false,
+          "columns": [
+            {
+              "name": "source",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "complete_before",
+              "type": "TIMESTAMP WITH TIME ZONE"
+            }
+          ],
+          "fetch_seconds": 0.024004094999781955,
+          "serialize_seconds": 0.00011241500010328309,
+          "parse_seconds": 0.038245243000119444,
+          "execute_seconds": 0.003549210000073799,
+          "schema_profile": "business",
+          "settings": {
+            "enable_external_access": "false",
+            "allow_community_extensions": "false",
+            "allow_unsigned_extensions": "false",
+            "autoinstall_known_extensions": "false",
+            "autoload_known_extensions": "false",
+            "python_enable_replacements": "false",
+            "python_scan_all_frames": "false",
+            "threads": "1",
+            "memory_limit": "122.0 MiB",
+            "max_temp_directory_size": "0 bytes",
+            "temp_directory": "",
+            "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+            "allowed_directories": "[]",
+            "allowed_configs": "[]",
+            "lock_configuration": "true",
+            "access_mode": "read_only"
+          },
+          "versions": {
+            "duckdb": "1.5.6",
+            "sqlglot": "30.22.0",
+            "pytz": "2026.5",
+            "python": "3.12.10"
+          },
+          "fault_events": [],
+          "query_seconds": 0.32900000002700835,
+          "startup_seconds": 1.375,
+          "container_id": "b1b721ddc8827ef985bb622e294a5eced69141adf2258493430f0ef62c623b1a",
+          "cleanup_verified": true,
+          "cleanup_seconds": 0.42099999997299165,
+          "total_seconds": 2.125,
+          "termination_delay_seconds": 0.0
+        }
+      },
+      "new_task": {
+        "id": "31fb265aa05c4df4869a157bec6e872b",
+        "status": "created",
+        "rounds": 0,
+        "version": 0,
+        "question": "新增用户自然日次日留存",
+        "active": 0.0,
+        "limits": {
+          "tool": 12,
+          "model": 10,
+          "tokens": 30000,
+          "active_seconds": 180
+        },
+        "parent": "93ed48f6fd9944a5b7d5d7e355c6caac",
+        "attempts": [],
+        "tool_calls": 0,
+        "model_calls": 0,
+        "tokens": 0,
+        "trace": [
+          {
+            "seq": 13,
+            "task": "31fb265aa05c4df4869a157bec6e872b",
+            "event": "rerun_created",
+            "detail": "{\"parent\": \"93ed48f6fd9944a5b7d5d7e355c6caac\"}"
+          }
+        ],
+        "snapshot_id": "development",
+        "snapshot_hash": "d0ca00ef7ce75789a17f0dc8f144f7b737d2601f08c027924461e143ea5242f2",
+        "requested_window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "actual_window": null,
+        "definition": null,
+        "evidence": [],
+        "report": null,
+        "outcome": null,
+        "limitations": [],
+        "effective_question": "新增用户自然日次日留存",
+        "pending_question": null,
+        "answers": []
+      },
+      "passed": true
+    },
+    {
+      "point": "after_send",
+      "exit_code": 73,
+      "provider_sends": 1,
+      "recovered": {
+        "id": "7d345869ce7e4f578b63703c6090994d",
+        "status": "interrupted",
+        "rounds": 0,
+        "version": 0,
+        "question": "新增用户自然日次日留存",
+        "active": 180.0,
+        "limits": {
+          "tool": 12,
+          "model": 10,
+          "tokens": 30000,
+          "active_seconds": 180
+        },
+        "parent": null,
+        "attempts": [
+          {
+            "id": "7d345869ce7e4f578b63703c6090994d:retrieval",
+            "task": "7d345869ce7e4f578b63703c6090994d",
+            "operation": "retrieval",
+            "kind": "tool",
+            "reserved": 0,
+            "actual": 0,
+            "state": "completed",
+            "result": "{\"candidates\": [{\"id\": \"retention\", \"score\": 12.411109097808765}, {\"id\": \"retained_cost\", \"score\": 5.021965918050482}, {\"id\": \"crash\", \"score\": 1.8495032738117811}], \"corpus_version\": \"t06-v1\", \"definition\": {\"aliases\": [\"\\u65b0\\u7528\\u6237\\u6b21\\u65e5\\u7559\\u5b58\", \"\\u6ce8\\u518c\\u6b21\\u65e5\\u7559\\u5b58\\u7387\"], \"definition\": \"\\u65b0\\u589e\\u6ce8\\u518c\\u7528\\u6237\\u7b2c\\u4e8c\\u5929\\u56de\\u6765\\u4ea7\\u751f\\u4f1a\\u8bdd\\u7684\\u6bd4\\u4f8b\\u3002\", \"denominator\": \"D \\u65e5\\u9996\\u6b21\\u6ce8\\u518c\\u53bb\\u91cd\\u7528\\u6237\\u6570\\uff1b\\u4e3a\\u96f6\\u5219\\u4e0d\\u53ef\\u8ba1\\u7b97\", \"dimensions\": \"users.registration_os / registration_version / channel \\u56fa\\u5b9a\\u6ce8\\u518c\\u5f52\\u5c5e\", \"id\": \"retention\", \"joins\": \"users.user_id = sessions.user_id\\uff1bEXISTS \\u9632\\u6b62\\u591a\\u4f1a\\u8bdd\\u91cd\\u590d\\u8ba1\\u6570\", \"name\": \"\\u65b0\\u589e\\u7528\\u6237\\u81ea\\u7136\\u65e5\\u6b21\\u65e5\\u7559\\u5b58\", \"numerator\": \"D \\u65e5\\u6ce8\\u518c\\u4e14 D+1 \\u6709\\u81f3\\u5c11\\u4e00\\u6b21\\u4f1a\\u8bdd\\u7684\\u53bb\\u91cd user_id \\u6570\", \"pitfalls\": \"\\u4e0d\\u662f\\u6eda\\u52a8 24 \\u5c0f\\u65f6\\uff1b\\u4e0d\\u6df7\\u5165\\u6d3b\\u8dc3\\u8001\\u7528\\u6237\\uff1b\\u8de8\\u65e5\\u7528\\u603b\\u7559\\u5b58/\\u603b\\u65b0\\u589e\\uff0c\\u4e0d\\u5e73\\u5747\\u6bcf\\u65e5\\u6bd4\\u4f8b\", \"time\": \"Asia/Shanghai \\u81ea\\u7136\\u65e5\\uff1b\\u6ce8\\u518c\\u7a97\\u53e3 [start,end)\\uff1bD+1 \\u5b8c\\u6574\\u7ed3\\u675f\\u4e14 users/sessions \\u6c34\\u4f4d\\u9f50\\u5907\\uff1bD+2 <= sessions.complete_before\"}, \"method\": \"exact\", \"reason\": \"matched\", \"status\": \"adopt\", \"window\": [\"2026-01-01\", \"2026-01-08\"]}"
+          },
+          {
+            "id": "7d345869ce7e4f578b63703c6090994d:schema",
+            "task": "7d345869ce7e4f578b63703c6090994d",
+            "operation": "schema",
+            "kind": "tool",
+            "reserved": 0,
+            "actual": 0,
+            "state": "completed",
+            "result": "{\"channel_daily\": {\"channel\": \"VARCHAR\", \"day\": \"DATE\", \"spend_cents\": \"BIGINT\"}, \"content_events\": {\"event_id\": \"VARCHAR\", \"event_type\": \"VARCHAR\", \"occurred_at\": \"TIMESTAMP WITH TIME ZONE\", \"play_id\": \"VARCHAR\", \"session_id\": \"VARCHAR\"}, \"playback_telemetry\": {\"duration_seconds\": \"INTEGER\", \"observed_at\": \"TIMESTAMP WITH TIME ZONE\", \"play_id\": \"VARCHAR\", \"report_id\": \"VARCHAR\", \"session_id\": \"VARCHAR\", \"watched_seconds\": \"INTEGER\"}, \"release_calendar\": {\"os\": \"VARCHAR\", \"released_at\": \"TIMESTAMP WITH TIME ZONE\", \"version\": \"VARCHAR\"}, \"sessions\": {\"crashed\": \"BOOLEAN\", \"os\": \"VARCHAR\", \"session_id\": \"VARCHAR\", \"started_at\": \"TIMESTAMP WITH TIME ZONE\", \"user_id\": \"VARCHAR\", \"version\": \"VARCHAR\"}, \"source_watermarks\": {\"complete_before\": \"TIMESTAMP WITH TIME ZONE\", \"source\": \"VARCHAR\"}, \"users\": {\"channel\": \"VARCHAR\", \"registered_at\": \"TIMESTAMP WITH TIME ZONE\", \"registration_os\": \"VARCHAR\", \"registration_version\": \"VARCHAR\", \"user_id\": \"VARCHAR\"}}"
+          },
+          {
+            "id": "7d345869ce7e4f578b63703c6090994d:watermarks",
+            "task": "7d345869ce7e4f578b63703c6090994d",
+            "operation": "watermarks",
+            "kind": "tool",
+            "reserved": 0,
+            "actual": 0,
+            "state": "completed",
+            "result": "{\"cleanup_seconds\": 0.4220000000204891, \"cleanup_verified\": true, \"columns\": [{\"name\": \"source\", \"type\": \"VARCHAR\"}, {\"name\": \"complete_before\", \"type\": \"TIMESTAMP WITH TIME ZONE\"}], \"container_id\": \"6f2e648210aabe49d7164f54d3921044718858eb53f412b2ec13f1741e87abb1\", \"execute_seconds\": 0.004241349000039918, \"fault_events\": [], \"fetch_seconds\": 0.019928831000243008, \"parse_seconds\": 0.03870182700006808, \"query_seconds\": 0.2809999999590218, \"rows\": [[\"users\", \"2026-01-16 16:00:00+00:00\"], [\"sessions\", \"2026-01-16 16:00:00+00:00\"], [\"content_events\", \"2026-01-16 16:00:00+00:00\"], [\"playback_telemetry\", \"2026-01-16 16:00:00+00:00\"], [\"channel_daily\", \"2026-01-16 16:00:00+00:00\"], [\"release_calendar\", \"2026-01-16 16:00:00+00:00\"]], \"schema_profile\": \"business\", \"serialize_seconds\": 9.422900006939017e-05, \"settings\": {\"access_mode\": \"read_only\", \"allow_community_extensions\": \"false\", \"allow_unsigned_extensions\": \"false\", \"allowed_configs\": \"[]\", \"allowed_directories\": \"[]\", \"allowed_paths\": \"[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]\", \"autoinstall_known_extensions\": \"false\", \"autoload_known_extensions\": \"false\", \"enable_external_access\": \"false\", \"lock_configuration\": \"true\", \"max_temp_directory_size\": \"0 bytes\", \"memory_limit\": \"122.0 MiB\", \"python_enable_replacements\": \"false\", \"python_scan_all_frames\": \"false\", \"temp_directory\": \"\", \"threads\": \"1\"}, \"startup_seconds\": 1.0310000000172295, \"status\": \"ok\", \"termination_delay_seconds\": 0.0, \"total_seconds\": 1.7339999999967404, \"truncated\": false, \"versions\": {\"duckdb\": \"1.5.6\", \"python\": \"3.12.10\", \"pytz\": \"2026.5\", \"sqlglot\": \"30.22.0\"}}"
+          },
+          {
+            "id": "7d345869ce7e4f578b63703c6090994d:sql_plan",
+            "task": "7d345869ce7e4f578b63703c6090994d",
+            "operation": "sql_plan:c06f6202f57021ac9171e8d5427d2a7a741a917315a62031ad5b9ff423a040f9",
+            "kind": "model",
+            "reserved": 5102,
+            "actual": null,
+            "state": "unknown",
+            "result": null
+          }
+        ],
+        "tool_calls": 3,
+        "model_calls": 1,
+        "tokens": 5102,
+        "trace": [
+          {
+            "seq": 1,
+            "task": "7d345869ce7e4f578b63703c6090994d",
+            "event": "reserve",
+            "detail": "7d345869ce7e4f578b63703c6090994d:retrieval"
+          },
+          {
+            "seq": 2,
+            "task": "7d345869ce7e4f578b63703c6090994d",
+            "event": "sent",
+            "detail": "7d345869ce7e4f578b63703c6090994d:retrieval"
+          },
+          {
+            "seq": 3,
+            "task": "7d345869ce7e4f578b63703c6090994d",
+            "event": "completed",
+            "detail": "7d345869ce7e4f578b63703c6090994d:retrieval"
+          },
+          {
+            "seq": 4,
+            "task": "7d345869ce7e4f578b63703c6090994d",
+            "event": "reserve",
+            "detail": "7d345869ce7e4f578b63703c6090994d:schema"
+          },
+          {
+            "seq": 5,
+            "task": "7d345869ce7e4f578b63703c6090994d",
+            "event": "sent",
+            "detail": "7d345869ce7e4f578b63703c6090994d:schema"
+          },
+          {
+            "seq": 6,
+            "task": "7d345869ce7e4f578b63703c6090994d",
+            "event": "completed",
+            "detail": "7d345869ce7e4f578b63703c6090994d:schema"
+          },
+          {
+            "seq": 7,
+            "task": "7d345869ce7e4f578b63703c6090994d",
+            "event": "reserve",
+            "detail": "7d345869ce7e4f578b63703c6090994d:watermarks"
+          },
+          {
+            "seq": 8,
+            "task": "7d345869ce7e4f578b63703c6090994d",
+            "event": "sent",
+            "detail": "7d345869ce7e4f578b63703c6090994d:watermarks"
+          },
+          {
+            "seq": 9,
+            "task": "7d345869ce7e4f578b63703c6090994d",
+            "event": "completed",
+            "detail": "7d345869ce7e4f578b63703c6090994d:watermarks"
+          },
+          {
+            "seq": 10,
+            "task": "7d345869ce7e4f578b63703c6090994d",
+            "event": "definition_adopted",
+            "detail": "{\"definition\": {\"id\": \"retention\", \"name\": \"新增用户自然日次日留存\", \"aliases\": [\"新用户次日留存\", \"注册次日留存率\"], \"definition\": \"新增注册用户第二天回来产生会话的比例。\", \"numerator\": \"D 日注册且 D+1 有至少一次会话的去重 user_id 数\", \"denominator\": \"D 日首次注册去重用户数；为零则不可计算\", \"dimensions\": \"users.registration_os / registration_version / channel 固定注册归属\", \"joins\": \"users.user_id = sessions.user_id；EXISTS 防止多会话重复计数\", \"time\": \"Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before\", \"pitfalls\": \"不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例\"}, \"actual_window\": [\"2026-01-01\", \"2026-01-08\"]}"
+          },
+          {
+            "seq": 11,
+            "task": "7d345869ce7e4f578b63703c6090994d",
+            "event": "reserve",
+            "detail": "7d345869ce7e4f578b63703c6090994d:sql_plan"
+          },
+          {
+            "seq": 12,
+            "task": "7d345869ce7e4f578b63703c6090994d",
+            "event": "sent",
+            "detail": "7d345869ce7e4f578b63703c6090994d:sql_plan"
+          },
+          {
+            "seq": 13,
+            "task": "7d345869ce7e4f578b63703c6090994d",
+            "event": "interrupted",
+            "detail": "restart; active duration upper bound"
+          }
+        ],
+        "snapshot_id": "development",
+        "snapshot_hash": "6d25112a81f6ffc7eaf9ad090c315edc8a501ca0fd41ba75cbfba55d2e14a5ac",
+        "requested_window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "actual_window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "definition": {
+          "id": "retention",
+          "name": "新增用户自然日次日留存",
+          "aliases": [
+            "新用户次日留存",
+            "注册次日留存率"
+          ],
+          "definition": "新增注册用户第二天回来产生会话的比例。",
+          "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+          "denominator": "D 日首次注册去重用户数；为零则不可计算",
+          "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+          "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+          "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+          "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+        },
+        "evidence": [],
+        "report": null,
+        "outcome": null,
+        "limitations": [],
+        "effective_question": "新增用户自然日次日留存",
+        "pending_question": null,
+        "answers": [],
+        "retrieval": {
+          "status": "adopt",
+          "reason": "matched",
+          "method": "exact",
+          "definition": {
+            "id": "retention",
+            "name": "新增用户自然日次日留存",
+            "aliases": [
+              "新用户次日留存",
+              "注册次日留存率"
+            ],
+            "definition": "新增注册用户第二天回来产生会话的比例。",
+            "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+            "denominator": "D 日首次注册去重用户数；为零则不可计算",
+            "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+            "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+            "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+            "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+          },
+          "candidates": [
+            {
+              "id": "retention",
+              "score": 12.411109097808765
+            },
+            {
+              "id": "retained_cost",
+              "score": 5.021965918050482
+            },
+            {
+              "id": "crash",
+              "score": 1.8495032738117811
+            }
+          ],
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "corpus_version": "t06-v1"
+        },
+        "schema": {
+          "users": {
+            "user_id": "VARCHAR",
+            "registered_at": "TIMESTAMP WITH TIME ZONE",
+            "registration_os": "VARCHAR",
+            "registration_version": "VARCHAR",
+            "channel": "VARCHAR"
+          },
+          "sessions": {
+            "session_id": "VARCHAR",
+            "user_id": "VARCHAR",
+            "started_at": "TIMESTAMP WITH TIME ZONE",
+            "os": "VARCHAR",
+            "version": "VARCHAR",
+            "crashed": "BOOLEAN"
+          },
+          "content_events": {
+            "event_id": "VARCHAR",
+            "play_id": "VARCHAR",
+            "session_id": "VARCHAR",
+            "event_type": "VARCHAR",
+            "occurred_at": "TIMESTAMP WITH TIME ZONE"
+          },
+          "playback_telemetry": {
+            "report_id": "VARCHAR",
+            "play_id": "VARCHAR",
+            "session_id": "VARCHAR",
+            "observed_at": "TIMESTAMP WITH TIME ZONE",
+            "watched_seconds": "INTEGER",
+            "duration_seconds": "INTEGER"
+          },
+          "channel_daily": {
+            "day": "DATE",
+            "channel": "VARCHAR",
+            "spend_cents": "BIGINT"
+          },
+          "release_calendar": {
+            "os": "VARCHAR",
+            "version": "VARCHAR",
+            "released_at": "TIMESTAMP WITH TIME ZONE"
+          },
+          "source_watermarks": {
+            "source": "VARCHAR",
+            "complete_before": "TIMESTAMP WITH TIME ZONE"
+          }
+        },
+        "watermarks": {
+          "status": "ok",
+          "rows": [
+            [
+              "users",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "sessions",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "content_events",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "playback_telemetry",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "channel_daily",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "release_calendar",
+              "2026-01-16 16:00:00+00:00"
+            ]
+          ],
+          "truncated": false,
+          "columns": [
+            {
+              "name": "source",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "complete_before",
+              "type": "TIMESTAMP WITH TIME ZONE"
+            }
+          ],
+          "fetch_seconds": 0.019928831000243008,
+          "serialize_seconds": 9.422900006939017e-05,
+          "parse_seconds": 0.03870182700006808,
+          "execute_seconds": 0.004241349000039918,
+          "schema_profile": "business",
+          "settings": {
+            "enable_external_access": "false",
+            "allow_community_extensions": "false",
+            "allow_unsigned_extensions": "false",
+            "autoinstall_known_extensions": "false",
+            "autoload_known_extensions": "false",
+            "python_enable_replacements": "false",
+            "python_scan_all_frames": "false",
+            "threads": "1",
+            "memory_limit": "122.0 MiB",
+            "max_temp_directory_size": "0 bytes",
+            "temp_directory": "",
+            "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+            "allowed_directories": "[]",
+            "allowed_configs": "[]",
+            "lock_configuration": "true",
+            "access_mode": "read_only"
+          },
+          "versions": {
+            "duckdb": "1.5.6",
+            "sqlglot": "30.22.0",
+            "pytz": "2026.5",
+            "python": "3.12.10"
+          },
+          "fault_events": [],
+          "query_seconds": 0.2809999999590218,
+          "startup_seconds": 1.0310000000172295,
+          "container_id": "6f2e648210aabe49d7164f54d3921044718858eb53f412b2ec13f1741e87abb1",
+          "cleanup_verified": true,
+          "cleanup_seconds": 0.4220000000204891,
+          "total_seconds": 1.7339999999967404,
+          "termination_delay_seconds": 0.0
+        }
+      },
+      "new_task": {
+        "id": "449f47eeda664bf898126f9ff3e8a313",
+        "status": "created",
+        "rounds": 0,
+        "version": 0,
+        "question": "新增用户自然日次日留存",
+        "active": 0.0,
+        "limits": {
+          "tool": 12,
+          "model": 10,
+          "tokens": 30000,
+          "active_seconds": 180
+        },
+        "parent": "7d345869ce7e4f578b63703c6090994d",
+        "attempts": [],
+        "tool_calls": 0,
+        "model_calls": 0,
+        "tokens": 0,
+        "trace": [
+          {
+            "seq": 14,
+            "task": "449f47eeda664bf898126f9ff3e8a313",
+            "event": "rerun_created",
+            "detail": "{\"parent\": \"7d345869ce7e4f578b63703c6090994d\"}"
+          }
+        ],
+        "snapshot_id": "development",
+        "snapshot_hash": "6d25112a81f6ffc7eaf9ad090c315edc8a501ca0fd41ba75cbfba55d2e14a5ac",
+        "requested_window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "actual_window": null,
+        "definition": null,
+        "evidence": [],
+        "report": null,
+        "outcome": null,
+        "limitations": [],
+        "effective_question": "新增用户自然日次日留存",
+        "pending_question": null,
+        "answers": []
+      },
+      "passed": true
+    },
+    {
+      "point": "after_result",
+      "exit_code": 73,
+      "provider_sends": 1,
+      "recovered": {
+        "id": "d2e96ca6545d40de9a289632ed13adef",
+        "status": "interrupted",
+        "rounds": 0,
+        "version": 0,
+        "question": "新增用户自然日次日留存",
+        "active": 180.0,
+        "limits": {
+          "tool": 12,
+          "model": 10,
+          "tokens": 30000,
+          "active_seconds": 180
+        },
+        "parent": null,
+        "attempts": [
+          {
+            "id": "d2e96ca6545d40de9a289632ed13adef:retrieval",
+            "task": "d2e96ca6545d40de9a289632ed13adef",
+            "operation": "retrieval",
+            "kind": "tool",
+            "reserved": 0,
+            "actual": 0,
+            "state": "completed",
+            "result": "{\"candidates\": [{\"id\": \"retention\", \"score\": 12.411109097808765}, {\"id\": \"retained_cost\", \"score\": 5.021965918050482}, {\"id\": \"crash\", \"score\": 1.8495032738117811}], \"corpus_version\": \"t06-v1\", \"definition\": {\"aliases\": [\"\\u65b0\\u7528\\u6237\\u6b21\\u65e5\\u7559\\u5b58\", \"\\u6ce8\\u518c\\u6b21\\u65e5\\u7559\\u5b58\\u7387\"], \"definition\": \"\\u65b0\\u589e\\u6ce8\\u518c\\u7528\\u6237\\u7b2c\\u4e8c\\u5929\\u56de\\u6765\\u4ea7\\u751f\\u4f1a\\u8bdd\\u7684\\u6bd4\\u4f8b\\u3002\", \"denominator\": \"D \\u65e5\\u9996\\u6b21\\u6ce8\\u518c\\u53bb\\u91cd\\u7528\\u6237\\u6570\\uff1b\\u4e3a\\u96f6\\u5219\\u4e0d\\u53ef\\u8ba1\\u7b97\", \"dimensions\": \"users.registration_os / registration_version / channel \\u56fa\\u5b9a\\u6ce8\\u518c\\u5f52\\u5c5e\", \"id\": \"retention\", \"joins\": \"users.user_id = sessions.user_id\\uff1bEXISTS \\u9632\\u6b62\\u591a\\u4f1a\\u8bdd\\u91cd\\u590d\\u8ba1\\u6570\", \"name\": \"\\u65b0\\u589e\\u7528\\u6237\\u81ea\\u7136\\u65e5\\u6b21\\u65e5\\u7559\\u5b58\", \"numerator\": \"D \\u65e5\\u6ce8\\u518c\\u4e14 D+1 \\u6709\\u81f3\\u5c11\\u4e00\\u6b21\\u4f1a\\u8bdd\\u7684\\u53bb\\u91cd user_id \\u6570\", \"pitfalls\": \"\\u4e0d\\u662f\\u6eda\\u52a8 24 \\u5c0f\\u65f6\\uff1b\\u4e0d\\u6df7\\u5165\\u6d3b\\u8dc3\\u8001\\u7528\\u6237\\uff1b\\u8de8\\u65e5\\u7528\\u603b\\u7559\\u5b58/\\u603b\\u65b0\\u589e\\uff0c\\u4e0d\\u5e73\\u5747\\u6bcf\\u65e5\\u6bd4\\u4f8b\", \"time\": \"Asia/Shanghai \\u81ea\\u7136\\u65e5\\uff1b\\u6ce8\\u518c\\u7a97\\u53e3 [start,end)\\uff1bD+1 \\u5b8c\\u6574\\u7ed3\\u675f\\u4e14 users/sessions \\u6c34\\u4f4d\\u9f50\\u5907\\uff1bD+2 <= sessions.complete_before\"}, \"method\": \"exact\", \"reason\": \"matched\", \"status\": \"adopt\", \"window\": [\"2026-01-01\", \"2026-01-08\"]}"
+          },
+          {
+            "id": "d2e96ca6545d40de9a289632ed13adef:schema",
+            "task": "d2e96ca6545d40de9a289632ed13adef",
+            "operation": "schema",
+            "kind": "tool",
+            "reserved": 0,
+            "actual": 0,
+            "state": "completed",
+            "result": "{\"channel_daily\": {\"channel\": \"VARCHAR\", \"day\": \"DATE\", \"spend_cents\": \"BIGINT\"}, \"content_events\": {\"event_id\": \"VARCHAR\", \"event_type\": \"VARCHAR\", \"occurred_at\": \"TIMESTAMP WITH TIME ZONE\", \"play_id\": \"VARCHAR\", \"session_id\": \"VARCHAR\"}, \"playback_telemetry\": {\"duration_seconds\": \"INTEGER\", \"observed_at\": \"TIMESTAMP WITH TIME ZONE\", \"play_id\": \"VARCHAR\", \"report_id\": \"VARCHAR\", \"session_id\": \"VARCHAR\", \"watched_seconds\": \"INTEGER\"}, \"release_calendar\": {\"os\": \"VARCHAR\", \"released_at\": \"TIMESTAMP WITH TIME ZONE\", \"version\": \"VARCHAR\"}, \"sessions\": {\"crashed\": \"BOOLEAN\", \"os\": \"VARCHAR\", \"session_id\": \"VARCHAR\", \"started_at\": \"TIMESTAMP WITH TIME ZONE\", \"user_id\": \"VARCHAR\", \"version\": \"VARCHAR\"}, \"source_watermarks\": {\"complete_before\": \"TIMESTAMP WITH TIME ZONE\", \"source\": \"VARCHAR\"}, \"users\": {\"channel\": \"VARCHAR\", \"registered_at\": \"TIMESTAMP WITH TIME ZONE\", \"registration_os\": \"VARCHAR\", \"registration_version\": \"VARCHAR\", \"user_id\": \"VARCHAR\"}}"
+          },
+          {
+            "id": "d2e96ca6545d40de9a289632ed13adef:watermarks",
+            "task": "d2e96ca6545d40de9a289632ed13adef",
+            "operation": "watermarks",
+            "kind": "tool",
+            "reserved": 0,
+            "actual": 0,
+            "state": "completed",
+            "result": "{\"cleanup_seconds\": 0.40700000000651926, \"cleanup_verified\": true, \"columns\": [{\"name\": \"source\", \"type\": \"VARCHAR\"}, {\"name\": \"complete_before\", \"type\": \"TIMESTAMP WITH TIME ZONE\"}], \"container_id\": \"c820a26cf36e394e3ab81d9e75277e95ab830e10c84e4fc39650819b4598de86\", \"execute_seconds\": 0.0030675820000851672, \"fault_events\": [], \"fetch_seconds\": 0.021354930999905264, \"parse_seconds\": 0.03866954000000078, \"query_seconds\": 0.3279999999795109, \"rows\": [[\"users\", \"2026-01-16 16:00:00+00:00\"], [\"sessions\", \"2026-01-16 16:00:00+00:00\"], [\"content_events\", \"2026-01-16 16:00:00+00:00\"], [\"playback_telemetry\", \"2026-01-16 16:00:00+00:00\"], [\"channel_daily\", \"2026-01-16 16:00:00+00:00\"], [\"release_calendar\", \"2026-01-16 16:00:00+00:00\"]], \"schema_profile\": \"business\", \"serialize_seconds\": 0.00010673399992811028, \"settings\": {\"access_mode\": \"read_only\", \"allow_community_extensions\": \"false\", \"allow_unsigned_extensions\": \"false\", \"allowed_configs\": \"[]\", \"allowed_directories\": \"[]\", \"allowed_paths\": \"[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]\", \"autoinstall_known_extensions\": \"false\", \"autoload_known_extensions\": \"false\", \"enable_external_access\": \"false\", \"lock_configuration\": \"true\", \"max_temp_directory_size\": \"0 bytes\", \"memory_limit\": \"122.0 MiB\", \"python_enable_replacements\": \"false\", \"python_scan_all_frames\": \"false\", \"temp_directory\": \"\", \"threads\": \"1\"}, \"startup_seconds\": 1.0310000000172295, \"status\": \"ok\", \"termination_delay_seconds\": 0.0, \"total_seconds\": 1.7660000000032596, \"truncated\": false, \"versions\": {\"duckdb\": \"1.5.6\", \"python\": \"3.12.10\", \"pytz\": \"2026.5\", \"sqlglot\": \"30.22.0\"}}"
+          },
+          {
+            "id": "d2e96ca6545d40de9a289632ed13adef:sql_plan",
+            "task": "d2e96ca6545d40de9a289632ed13adef",
+            "operation": "sql_plan:c06f6202f57021ac9171e8d5427d2a7a741a917315a62031ad5b9ff423a040f9",
+            "kind": "model",
+            "reserved": 5102,
+            "actual": 42,
+            "state": "completed",
+            "result": "{\"cap\": \"scheduler_guard\", \"content\": [{\"citations\": null, \"text\": \"{\\\"sql\\\": \\\"SELECT COUNT(*) AS users FROM users\\\"}\", \"type\": \"text\"}], \"fee_usd_range\": {\"currency\": \"USD\", \"kind\": \"estimate_not_invoice\", \"maximum\": 2.4299999999999998e-05, \"minimum\": 1.2149999999999999e-05, \"pricing\": \"DeepSeek-V4.1-Flash 2026-10-12\"}, \"model\": \"deepseek-flash\", \"raw_usage\": {\"cache_creation\": null, \"cache_creation_input_tokens\": null, \"cache_read_input_tokens\": null, \"inference_geo\": null, \"input_tokens\": 29, \"output_tokens\": 13, \"output_tokens_details\": null, \"server_tool_use\": null, \"service_tier\": null}, \"reservation\": 5102, \"status\": \"completed\", \"usage\": {\"input_cached\": 0, \"input_total\": 29, \"input_uncached\": 29, \"output\": 13, \"total\": 42}}"
+          }
+        ],
+        "tool_calls": 3,
+        "model_calls": 1,
+        "tokens": 42,
+        "trace": [
+          {
+            "seq": 1,
+            "task": "d2e96ca6545d40de9a289632ed13adef",
+            "event": "reserve",
+            "detail": "d2e96ca6545d40de9a289632ed13adef:retrieval"
+          },
+          {
+            "seq": 2,
+            "task": "d2e96ca6545d40de9a289632ed13adef",
+            "event": "sent",
+            "detail": "d2e96ca6545d40de9a289632ed13adef:retrieval"
+          },
+          {
+            "seq": 3,
+            "task": "d2e96ca6545d40de9a289632ed13adef",
+            "event": "completed",
+            "detail": "d2e96ca6545d40de9a289632ed13adef:retrieval"
+          },
+          {
+            "seq": 4,
+            "task": "d2e96ca6545d40de9a289632ed13adef",
+            "event": "reserve",
+            "detail": "d2e96ca6545d40de9a289632ed13adef:schema"
+          },
+          {
+            "seq": 5,
+            "task": "d2e96ca6545d40de9a289632ed13adef",
+            "event": "sent",
+            "detail": "d2e96ca6545d40de9a289632ed13adef:schema"
+          },
+          {
+            "seq": 6,
+            "task": "d2e96ca6545d40de9a289632ed13adef",
+            "event": "completed",
+            "detail": "d2e96ca6545d40de9a289632ed13adef:schema"
+          },
+          {
+            "seq": 7,
+            "task": "d2e96ca6545d40de9a289632ed13adef",
+            "event": "reserve",
+            "detail": "d2e96ca6545d40de9a289632ed13adef:watermarks"
+          },
+          {
+            "seq": 8,
+            "task": "d2e96ca6545d40de9a289632ed13adef",
+            "event": "sent",
+            "detail": "d2e96ca6545d40de9a289632ed13adef:watermarks"
+          },
+          {
+            "seq": 9,
+            "task": "d2e96ca6545d40de9a289632ed13adef",
+            "event": "completed",
+            "detail": "d2e96ca6545d40de9a289632ed13adef:watermarks"
+          },
+          {
+            "seq": 10,
+            "task": "d2e96ca6545d40de9a289632ed13adef",
+            "event": "definition_adopted",
+            "detail": "{\"definition\": {\"id\": \"retention\", \"name\": \"新增用户自然日次日留存\", \"aliases\": [\"新用户次日留存\", \"注册次日留存率\"], \"definition\": \"新增注册用户第二天回来产生会话的比例。\", \"numerator\": \"D 日注册且 D+1 有至少一次会话的去重 user_id 数\", \"denominator\": \"D 日首次注册去重用户数；为零则不可计算\", \"dimensions\": \"users.registration_os / registration_version / channel 固定注册归属\", \"joins\": \"users.user_id = sessions.user_id；EXISTS 防止多会话重复计数\", \"time\": \"Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before\", \"pitfalls\": \"不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例\"}, \"actual_window\": [\"2026-01-01\", \"2026-01-08\"]}"
+          },
+          {
+            "seq": 11,
+            "task": "d2e96ca6545d40de9a289632ed13adef",
+            "event": "reserve",
+            "detail": "d2e96ca6545d40de9a289632ed13adef:sql_plan"
+          },
+          {
+            "seq": 12,
+            "task": "d2e96ca6545d40de9a289632ed13adef",
+            "event": "sent",
+            "detail": "d2e96ca6545d40de9a289632ed13adef:sql_plan"
+          },
+          {
+            "seq": 13,
+            "task": "d2e96ca6545d40de9a289632ed13adef",
+            "event": "completed",
+            "detail": "d2e96ca6545d40de9a289632ed13adef:sql_plan"
+          },
+          {
+            "seq": 14,
+            "task": "d2e96ca6545d40de9a289632ed13adef",
+            "event": "interrupted",
+            "detail": "restart; active duration upper bound"
+          }
+        ],
+        "snapshot_id": "development",
+        "snapshot_hash": "a9b6f459b332eb183d3f549c5c2f2227c64c41dcaaa5834d0e0337c3ea086953",
+        "requested_window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "actual_window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "definition": {
+          "id": "retention",
+          "name": "新增用户自然日次日留存",
+          "aliases": [
+            "新用户次日留存",
+            "注册次日留存率"
+          ],
+          "definition": "新增注册用户第二天回来产生会话的比例。",
+          "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+          "denominator": "D 日首次注册去重用户数；为零则不可计算",
+          "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+          "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+          "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+          "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+        },
+        "evidence": [],
+        "report": null,
+        "outcome": null,
+        "limitations": [],
+        "effective_question": "新增用户自然日次日留存",
+        "pending_question": null,
+        "answers": [],
+        "retrieval": {
+          "status": "adopt",
+          "reason": "matched",
+          "method": "exact",
+          "definition": {
+            "id": "retention",
+            "name": "新增用户自然日次日留存",
+            "aliases": [
+              "新用户次日留存",
+              "注册次日留存率"
+            ],
+            "definition": "新增注册用户第二天回来产生会话的比例。",
+            "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+            "denominator": "D 日首次注册去重用户数；为零则不可计算",
+            "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+            "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+            "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+            "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+          },
+          "candidates": [
+            {
+              "id": "retention",
+              "score": 12.411109097808765
+            },
+            {
+              "id": "retained_cost",
+              "score": 5.021965918050482
+            },
+            {
+              "id": "crash",
+              "score": 1.8495032738117811
+            }
+          ],
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "corpus_version": "t06-v1"
+        },
+        "schema": {
+          "users": {
+            "user_id": "VARCHAR",
+            "registered_at": "TIMESTAMP WITH TIME ZONE",
+            "registration_os": "VARCHAR",
+            "registration_version": "VARCHAR",
+            "channel": "VARCHAR"
+          },
+          "sessions": {
+            "session_id": "VARCHAR",
+            "user_id": "VARCHAR",
+            "started_at": "TIMESTAMP WITH TIME ZONE",
+            "os": "VARCHAR",
+            "version": "VARCHAR",
+            "crashed": "BOOLEAN"
+          },
+          "content_events": {
+            "event_id": "VARCHAR",
+            "play_id": "VARCHAR",
+            "session_id": "VARCHAR",
+            "event_type": "VARCHAR",
+            "occurred_at": "TIMESTAMP WITH TIME ZONE"
+          },
+          "playback_telemetry": {
+            "report_id": "VARCHAR",
+            "play_id": "VARCHAR",
+            "session_id": "VARCHAR",
+            "observed_at": "TIMESTAMP WITH TIME ZONE",
+            "watched_seconds": "INTEGER",
+            "duration_seconds": "INTEGER"
+          },
+          "channel_daily": {
+            "day": "DATE",
+            "channel": "VARCHAR",
+            "spend_cents": "BIGINT"
+          },
+          "release_calendar": {
+            "os": "VARCHAR",
+            "version": "VARCHAR",
+            "released_at": "TIMESTAMP WITH TIME ZONE"
+          },
+          "source_watermarks": {
+            "source": "VARCHAR",
+            "complete_before": "TIMESTAMP WITH TIME ZONE"
+          }
+        },
+        "watermarks": {
+          "status": "ok",
+          "rows": [
+            [
+              "users",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "sessions",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "content_events",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "playback_telemetry",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "channel_daily",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "release_calendar",
+              "2026-01-16 16:00:00+00:00"
+            ]
+          ],
+          "truncated": false,
+          "columns": [
+            {
+              "name": "source",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "complete_before",
+              "type": "TIMESTAMP WITH TIME ZONE"
+            }
+          ],
+          "fetch_seconds": 0.021354930999905264,
+          "serialize_seconds": 0.00010673399992811028,
+          "parse_seconds": 0.03866954000000078,
+          "execute_seconds": 0.0030675820000851672,
+          "schema_profile": "business",
+          "settings": {
+            "enable_external_access": "false",
+            "allow_community_extensions": "false",
+            "allow_unsigned_extensions": "false",
+            "autoinstall_known_extensions": "false",
+            "autoload_known_extensions": "false",
+            "python_enable_replacements": "false",
+            "python_scan_all_frames": "false",
+            "threads": "1",
+            "memory_limit": "122.0 MiB",
+            "max_temp_directory_size": "0 bytes",
+            "temp_directory": "",
+            "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+            "allowed_directories": "[]",
+            "allowed_configs": "[]",
+            "lock_configuration": "true",
+            "access_mode": "read_only"
+          },
+          "versions": {
+            "duckdb": "1.5.6",
+            "sqlglot": "30.22.0",
+            "pytz": "2026.5",
+            "python": "3.12.10"
+          },
+          "fault_events": [],
+          "query_seconds": 0.3279999999795109,
+          "startup_seconds": 1.0310000000172295,
+          "container_id": "c820a26cf36e394e3ab81d9e75277e95ab830e10c84e4fc39650819b4598de86",
+          "cleanup_verified": true,
+          "cleanup_seconds": 0.40700000000651926,
+          "total_seconds": 1.7660000000032596,
+          "termination_delay_seconds": 0.0
+        }
+      },
+      "new_task": {
+        "id": "d278a2392ece47aa921bc95a638f844b",
+        "status": "created",
+        "rounds": 0,
+        "version": 0,
+        "question": "新增用户自然日次日留存",
+        "active": 0.0,
+        "limits": {
+          "tool": 12,
+          "model": 10,
+          "tokens": 30000,
+          "active_seconds": 180
+        },
+        "parent": "d2e96ca6545d40de9a289632ed13adef",
+        "attempts": [],
+        "tool_calls": 0,
+        "model_calls": 0,
+        "tokens": 0,
+        "trace": [
+          {
+            "seq": 15,
+            "task": "d278a2392ece47aa921bc95a638f844b",
+            "event": "rerun_created",
+            "detail": "{\"parent\": \"d2e96ca6545d40de9a289632ed13adef\"}"
+          }
+        ],
+        "snapshot_id": "development",
+        "snapshot_hash": "a9b6f459b332eb183d3f549c5c2f2227c64c41dcaaa5834d0e0337c3ea086953",
+        "requested_window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "actual_window": null,
+        "definition": null,
+        "evidence": [],
+        "report": null,
+        "outcome": null,
+        "limitations": [],
+        "effective_question": "新增用户自然日次日留存",
+        "pending_question": null,
+        "answers": []
+      },
+      "passed": true
+    },
+    {
+      "point": "before_checkpoint",
+      "exit_code": 73,
+      "provider_sends": 1,
+      "recovered": {
+        "id": "e72202afceb942e696edc352df818c94",
+        "status": "interrupted",
+        "rounds": 0,
+        "version": 0,
+        "question": "新增用户自然日次日留存",
+        "active": 180.0,
+        "limits": {
+          "tool": 12,
+          "model": 10,
+          "tokens": 30000,
+          "active_seconds": 180
+        },
+        "parent": null,
+        "attempts": [
+          {
+            "id": "e72202afceb942e696edc352df818c94:retrieval",
+            "task": "e72202afceb942e696edc352df818c94",
+            "operation": "retrieval",
+            "kind": "tool",
+            "reserved": 0,
+            "actual": 0,
+            "state": "completed",
+            "result": "{\"candidates\": [{\"id\": \"retention\", \"score\": 12.411109097808765}, {\"id\": \"retained_cost\", \"score\": 5.021965918050482}, {\"id\": \"crash\", \"score\": 1.8495032738117811}], \"corpus_version\": \"t06-v1\", \"definition\": {\"aliases\": [\"\\u65b0\\u7528\\u6237\\u6b21\\u65e5\\u7559\\u5b58\", \"\\u6ce8\\u518c\\u6b21\\u65e5\\u7559\\u5b58\\u7387\"], \"definition\": \"\\u65b0\\u589e\\u6ce8\\u518c\\u7528\\u6237\\u7b2c\\u4e8c\\u5929\\u56de\\u6765\\u4ea7\\u751f\\u4f1a\\u8bdd\\u7684\\u6bd4\\u4f8b\\u3002\", \"denominator\": \"D \\u65e5\\u9996\\u6b21\\u6ce8\\u518c\\u53bb\\u91cd\\u7528\\u6237\\u6570\\uff1b\\u4e3a\\u96f6\\u5219\\u4e0d\\u53ef\\u8ba1\\u7b97\", \"dimensions\": \"users.registration_os / registration_version / channel \\u56fa\\u5b9a\\u6ce8\\u518c\\u5f52\\u5c5e\", \"id\": \"retention\", \"joins\": \"users.user_id = sessions.user_id\\uff1bEXISTS \\u9632\\u6b62\\u591a\\u4f1a\\u8bdd\\u91cd\\u590d\\u8ba1\\u6570\", \"name\": \"\\u65b0\\u589e\\u7528\\u6237\\u81ea\\u7136\\u65e5\\u6b21\\u65e5\\u7559\\u5b58\", \"numerator\": \"D \\u65e5\\u6ce8\\u518c\\u4e14 D+1 \\u6709\\u81f3\\u5c11\\u4e00\\u6b21\\u4f1a\\u8bdd\\u7684\\u53bb\\u91cd user_id \\u6570\", \"pitfalls\": \"\\u4e0d\\u662f\\u6eda\\u52a8 24 \\u5c0f\\u65f6\\uff1b\\u4e0d\\u6df7\\u5165\\u6d3b\\u8dc3\\u8001\\u7528\\u6237\\uff1b\\u8de8\\u65e5\\u7528\\u603b\\u7559\\u5b58/\\u603b\\u65b0\\u589e\\uff0c\\u4e0d\\u5e73\\u5747\\u6bcf\\u65e5\\u6bd4\\u4f8b\", \"time\": \"Asia/Shanghai \\u81ea\\u7136\\u65e5\\uff1b\\u6ce8\\u518c\\u7a97\\u53e3 [start,end)\\uff1bD+1 \\u5b8c\\u6574\\u7ed3\\u675f\\u4e14 users/sessions \\u6c34\\u4f4d\\u9f50\\u5907\\uff1bD+2 <= sessions.complete_before\"}, \"method\": \"exact\", \"reason\": \"matched\", \"status\": \"adopt\", \"window\": [\"2026-01-01\", \"2026-01-08\"]}"
+          },
+          {
+            "id": "e72202afceb942e696edc352df818c94:schema",
+            "task": "e72202afceb942e696edc352df818c94",
+            "operation": "schema",
+            "kind": "tool",
+            "reserved": 0,
+            "actual": 0,
+            "state": "completed",
+            "result": "{\"channel_daily\": {\"channel\": \"VARCHAR\", \"day\": \"DATE\", \"spend_cents\": \"BIGINT\"}, \"content_events\": {\"event_id\": \"VARCHAR\", \"event_type\": \"VARCHAR\", \"occurred_at\": \"TIMESTAMP WITH TIME ZONE\", \"play_id\": \"VARCHAR\", \"session_id\": \"VARCHAR\"}, \"playback_telemetry\": {\"duration_seconds\": \"INTEGER\", \"observed_at\": \"TIMESTAMP WITH TIME ZONE\", \"play_id\": \"VARCHAR\", \"report_id\": \"VARCHAR\", \"session_id\": \"VARCHAR\", \"watched_seconds\": \"INTEGER\"}, \"release_calendar\": {\"os\": \"VARCHAR\", \"released_at\": \"TIMESTAMP WITH TIME ZONE\", \"version\": \"VARCHAR\"}, \"sessions\": {\"crashed\": \"BOOLEAN\", \"os\": \"VARCHAR\", \"session_id\": \"VARCHAR\", \"started_at\": \"TIMESTAMP WITH TIME ZONE\", \"user_id\": \"VARCHAR\", \"version\": \"VARCHAR\"}, \"source_watermarks\": {\"complete_before\": \"TIMESTAMP WITH TIME ZONE\", \"source\": \"VARCHAR\"}, \"users\": {\"channel\": \"VARCHAR\", \"registered_at\": \"TIMESTAMP WITH TIME ZONE\", \"registration_os\": \"VARCHAR\", \"registration_version\": \"VARCHAR\", \"user_id\": \"VARCHAR\"}}"
+          },
+          {
+            "id": "e72202afceb942e696edc352df818c94:watermarks",
+            "task": "e72202afceb942e696edc352df818c94",
+            "operation": "watermarks",
+            "kind": "tool",
+            "reserved": 0,
+            "actual": 0,
+            "state": "completed",
+            "result": "{\"cleanup_seconds\": 0.42199999996228144, \"cleanup_verified\": true, \"columns\": [{\"name\": \"source\", \"type\": \"VARCHAR\"}, {\"name\": \"complete_before\", \"type\": \"TIMESTAMP WITH TIME ZONE\"}], \"container_id\": \"549ed8613a87966d3adae768025ab60107aadfc10c892a4a5411b3c565183e83\", \"execute_seconds\": 0.0037902710000707884, \"fault_events\": [], \"fetch_seconds\": 0.019231122000064715, \"parse_seconds\": 0.034400212000036845, \"query_seconds\": 0.3130000000237487, \"rows\": [[\"users\", \"2026-01-16 16:00:00+00:00\"], [\"sessions\", \"2026-01-16 16:00:00+00:00\"], [\"content_events\", \"2026-01-16 16:00:00+00:00\"], [\"playback_telemetry\", \"2026-01-16 16:00:00+00:00\"], [\"channel_daily\", \"2026-01-16 16:00:00+00:00\"], [\"release_calendar\", \"2026-01-16 16:00:00+00:00\"]], \"schema_profile\": \"business\", \"serialize_seconds\": 0.0002033759999449103, \"settings\": {\"access_mode\": \"read_only\", \"allow_community_extensions\": \"false\", \"allow_unsigned_extensions\": \"false\", \"allowed_configs\": \"[]\", \"allowed_directories\": \"[]\", \"allowed_paths\": \"[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]\", \"autoinstall_known_extensions\": \"false\", \"autoload_known_extensions\": \"false\", \"enable_external_access\": \"false\", \"lock_configuration\": \"true\", \"max_temp_directory_size\": \"0 bytes\", \"memory_limit\": \"122.0 MiB\", \"python_enable_replacements\": \"false\", \"python_scan_all_frames\": \"false\", \"temp_directory\": \"\", \"threads\": \"1\"}, \"startup_seconds\": 1.0619999999762513, \"status\": \"ok\", \"termination_delay_seconds\": 0.0, \"total_seconds\": 1.7969999999622814, \"truncated\": false, \"versions\": {\"duckdb\": \"1.5.6\", \"python\": \"3.12.10\", \"pytz\": \"2026.5\", \"sqlglot\": \"30.22.0\"}}"
+          },
+          {
+            "id": "e72202afceb942e696edc352df818c94:sql_plan",
+            "task": "e72202afceb942e696edc352df818c94",
+            "operation": "sql_plan:c06f6202f57021ac9171e8d5427d2a7a741a917315a62031ad5b9ff423a040f9",
+            "kind": "model",
+            "reserved": 5102,
+            "actual": 42,
+            "state": "completed",
+            "result": "{\"cap\": \"scheduler_guard\", \"content\": [{\"citations\": null, \"text\": \"{\\\"sql\\\": \\\"SELECT COUNT(*) AS users FROM users\\\"}\", \"type\": \"text\"}], \"fee_usd_range\": {\"currency\": \"USD\", \"kind\": \"estimate_not_invoice\", \"maximum\": 2.4299999999999998e-05, \"minimum\": 1.2149999999999999e-05, \"pricing\": \"DeepSeek-V4.1-Flash 2026-10-12\"}, \"model\": \"deepseek-flash\", \"raw_usage\": {\"cache_creation\": null, \"cache_creation_input_tokens\": null, \"cache_read_input_tokens\": null, \"inference_geo\": null, \"input_tokens\": 29, \"output_tokens\": 13, \"output_tokens_details\": null, \"server_tool_use\": null, \"service_tier\": null}, \"reservation\": 5102, \"status\": \"completed\", \"usage\": {\"input_cached\": 0, \"input_total\": 29, \"input_uncached\": 29, \"output\": 13, \"total\": 42}}"
+          },
+          {
+            "id": "e72202afceb942e696edc352df818c94:sql",
+            "task": "e72202afceb942e696edc352df818c94",
+            "operation": "sql",
+            "kind": "tool",
+            "reserved": 0,
+            "actual": 0,
+            "state": "completed",
+            "result": "{\"cleanup_seconds\": 0.40700000000651926, \"cleanup_verified\": true, \"columns\": [{\"name\": \"users\", \"type\": \"BIGINT\"}], \"container_id\": \"0109fec793d1a630db5f11b5b5f68eaa523593d87ededbb1e0b2526b0ebb98ef\", \"execute_seconds\": 0.0005908670000280836, \"fault_events\": [], \"fetch_seconds\": 3.838699990410532e-05, \"parse_seconds\": 0.028011544000037247, \"query_seconds\": 0.2809999999590218, \"rows\": [[3816]], \"schema_profile\": \"business\", \"serialize_seconds\": 2.4628999881315394e-05, \"settings\": {\"access_mode\": \"read_only\", \"allow_community_extensions\": \"false\", \"allow_unsigned_extensions\": \"false\", \"allowed_configs\": \"[]\", \"allowed_directories\": \"[]\", \"allowed_paths\": \"[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]\", \"autoinstall_known_extensions\": \"false\", \"autoload_known_extensions\": \"false\", \"enable_external_access\": \"false\", \"lock_configuration\": \"true\", \"max_temp_directory_size\": \"0 bytes\", \"memory_limit\": \"122.0 MiB\", \"python_enable_replacements\": \"false\", \"python_scan_all_frames\": \"false\", \"temp_directory\": \"\", \"threads\": \"1\"}, \"startup_seconds\": 1.062000000034459, \"status\": \"ok\", \"termination_delay_seconds\": 0.0, \"total_seconds\": 1.75, \"truncated\": false, \"versions\": {\"duckdb\": \"1.5.6\", \"python\": \"3.12.10\", \"pytz\": \"2026.5\", \"sqlglot\": \"30.22.0\"}}"
+          }
+        ],
+        "tool_calls": 4,
+        "model_calls": 1,
+        "tokens": 42,
+        "trace": [
+          {
+            "seq": 1,
+            "task": "e72202afceb942e696edc352df818c94",
+            "event": "reserve",
+            "detail": "e72202afceb942e696edc352df818c94:retrieval"
+          },
+          {
+            "seq": 2,
+            "task": "e72202afceb942e696edc352df818c94",
+            "event": "sent",
+            "detail": "e72202afceb942e696edc352df818c94:retrieval"
+          },
+          {
+            "seq": 3,
+            "task": "e72202afceb942e696edc352df818c94",
+            "event": "completed",
+            "detail": "e72202afceb942e696edc352df818c94:retrieval"
+          },
+          {
+            "seq": 4,
+            "task": "e72202afceb942e696edc352df818c94",
+            "event": "reserve",
+            "detail": "e72202afceb942e696edc352df818c94:schema"
+          },
+          {
+            "seq": 5,
+            "task": "e72202afceb942e696edc352df818c94",
+            "event": "sent",
+            "detail": "e72202afceb942e696edc352df818c94:schema"
+          },
+          {
+            "seq": 6,
+            "task": "e72202afceb942e696edc352df818c94",
+            "event": "completed",
+            "detail": "e72202afceb942e696edc352df818c94:schema"
+          },
+          {
+            "seq": 7,
+            "task": "e72202afceb942e696edc352df818c94",
+            "event": "reserve",
+            "detail": "e72202afceb942e696edc352df818c94:watermarks"
+          },
+          {
+            "seq": 8,
+            "task": "e72202afceb942e696edc352df818c94",
+            "event": "sent",
+            "detail": "e72202afceb942e696edc352df818c94:watermarks"
+          },
+          {
+            "seq": 9,
+            "task": "e72202afceb942e696edc352df818c94",
+            "event": "completed",
+            "detail": "e72202afceb942e696edc352df818c94:watermarks"
+          },
+          {
+            "seq": 10,
+            "task": "e72202afceb942e696edc352df818c94",
+            "event": "definition_adopted",
+            "detail": "{\"definition\": {\"id\": \"retention\", \"name\": \"新增用户自然日次日留存\", \"aliases\": [\"新用户次日留存\", \"注册次日留存率\"], \"definition\": \"新增注册用户第二天回来产生会话的比例。\", \"numerator\": \"D 日注册且 D+1 有至少一次会话的去重 user_id 数\", \"denominator\": \"D 日首次注册去重用户数；为零则不可计算\", \"dimensions\": \"users.registration_os / registration_version / channel 固定注册归属\", \"joins\": \"users.user_id = sessions.user_id；EXISTS 防止多会话重复计数\", \"time\": \"Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before\", \"pitfalls\": \"不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例\"}, \"actual_window\": [\"2026-01-01\", \"2026-01-08\"]}"
+          },
+          {
+            "seq": 11,
+            "task": "e72202afceb942e696edc352df818c94",
+            "event": "reserve",
+            "detail": "e72202afceb942e696edc352df818c94:sql_plan"
+          },
+          {
+            "seq": 12,
+            "task": "e72202afceb942e696edc352df818c94",
+            "event": "sent",
+            "detail": "e72202afceb942e696edc352df818c94:sql_plan"
+          },
+          {
+            "seq": 13,
+            "task": "e72202afceb942e696edc352df818c94",
+            "event": "completed",
+            "detail": "e72202afceb942e696edc352df818c94:sql_plan"
+          },
+          {
+            "seq": 14,
+            "task": "e72202afceb942e696edc352df818c94",
+            "event": "reserve",
+            "detail": "e72202afceb942e696edc352df818c94:sql"
+          },
+          {
+            "seq": 15,
+            "task": "e72202afceb942e696edc352df818c94",
+            "event": "sent",
+            "detail": "e72202afceb942e696edc352df818c94:sql"
+          },
+          {
+            "seq": 16,
+            "task": "e72202afceb942e696edc352df818c94",
+            "event": "completed",
+            "detail": "e72202afceb942e696edc352df818c94:sql"
+          },
+          {
+            "seq": 17,
+            "task": "e72202afceb942e696edc352df818c94",
+            "event": "query_completed",
+            "detail": "{\"status\": \"ok\", \"cleanup_verified\": true, \"evidence_ids\": [\"e72202afceb942e696edc352df818c94:query\"]}"
+          },
+          {
+            "seq": 18,
+            "task": "e72202afceb942e696edc352df818c94",
+            "event": "interrupted",
+            "detail": "restart; active duration upper bound"
+          }
+        ],
+        "snapshot_id": "development",
+        "snapshot_hash": "440e83fb25a3a2f17891371737edb8db993b3df50c3fa085d01a67ddd9e1b387",
+        "requested_window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "actual_window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "definition": {
+          "id": "retention",
+          "name": "新增用户自然日次日留存",
+          "aliases": [
+            "新用户次日留存",
+            "注册次日留存率"
+          ],
+          "definition": "新增注册用户第二天回来产生会话的比例。",
+          "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+          "denominator": "D 日首次注册去重用户数；为零则不可计算",
+          "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+          "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+          "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+          "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+        },
+        "evidence": [
+          {
+            "evidence_id": "e72202afceb942e696edc352df818c94:query",
+            "tool": "query",
+            "parameters": {
+              "sql": "SELECT COUNT(*) AS users FROM users"
+            },
+            "source": "SELECT COUNT(*) AS users FROM users",
+            "snapshot_id": "440e83fb25a3a2f17891371737edb8db993b3df50c3fa085d01a67ddd9e1b387",
+            "columns": {
+              "users": "integer"
+            },
+            "actual_db_types": {
+              "users": "BIGINT"
+            },
+            "rows": [
+              {
+                "users": 3816
+              }
+            ],
+            "window": [
+              "2026-01-01",
+              "2026-01-08"
+            ],
+            "truncated": false,
+            "business_definition_status": "requires_independent_reference",
+            "group": {},
+            "sample": {
+              "returned_rows": 1
+            },
+            "limitations": [
+              "business_definition_requires_independent_reference"
+            ],
+            "contexts": {
+              "/rows/0/users": {
+                "metric": "query_result:retention",
+                "window": [
+                  "2026-01-01",
+                  "2026-01-08"
+                ],
+                "group": {},
+                "comparison": null
+              }
+            }
+          }
+        ],
+        "report": null,
+        "outcome": null,
+        "limitations": [],
+        "effective_question": "新增用户自然日次日留存",
+        "pending_question": null,
+        "answers": [],
+        "retrieval": {
+          "status": "adopt",
+          "reason": "matched",
+          "method": "exact",
+          "definition": {
+            "id": "retention",
+            "name": "新增用户自然日次日留存",
+            "aliases": [
+              "新用户次日留存",
+              "注册次日留存率"
+            ],
+            "definition": "新增注册用户第二天回来产生会话的比例。",
+            "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+            "denominator": "D 日首次注册去重用户数；为零则不可计算",
+            "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+            "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+            "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+            "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+          },
+          "candidates": [
+            {
+              "id": "retention",
+              "score": 12.411109097808765
+            },
+            {
+              "id": "retained_cost",
+              "score": 5.021965918050482
+            },
+            {
+              "id": "crash",
+              "score": 1.8495032738117811
+            }
+          ],
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "corpus_version": "t06-v1"
+        },
+        "schema": {
+          "users": {
+            "user_id": "VARCHAR",
+            "registered_at": "TIMESTAMP WITH TIME ZONE",
+            "registration_os": "VARCHAR",
+            "registration_version": "VARCHAR",
+            "channel": "VARCHAR"
+          },
+          "sessions": {
+            "session_id": "VARCHAR",
+            "user_id": "VARCHAR",
+            "started_at": "TIMESTAMP WITH TIME ZONE",
+            "os": "VARCHAR",
+            "version": "VARCHAR",
+            "crashed": "BOOLEAN"
+          },
+          "content_events": {
+            "event_id": "VARCHAR",
+            "play_id": "VARCHAR",
+            "session_id": "VARCHAR",
+            "event_type": "VARCHAR",
+            "occurred_at": "TIMESTAMP WITH TIME ZONE"
+          },
+          "playback_telemetry": {
+            "report_id": "VARCHAR",
+            "play_id": "VARCHAR",
+            "session_id": "VARCHAR",
+            "observed_at": "TIMESTAMP WITH TIME ZONE",
+            "watched_seconds": "INTEGER",
+            "duration_seconds": "INTEGER"
+          },
+          "channel_daily": {
+            "day": "DATE",
+            "channel": "VARCHAR",
+            "spend_cents": "BIGINT"
+          },
+          "release_calendar": {
+            "os": "VARCHAR",
+            "version": "VARCHAR",
+            "released_at": "TIMESTAMP WITH TIME ZONE"
+          },
+          "source_watermarks": {
+            "source": "VARCHAR",
+            "complete_before": "TIMESTAMP WITH TIME ZONE"
+          }
+        },
+        "watermarks": {
+          "status": "ok",
+          "rows": [
+            [
+              "users",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "sessions",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "content_events",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "playback_telemetry",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "channel_daily",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "release_calendar",
+              "2026-01-16 16:00:00+00:00"
+            ]
+          ],
+          "truncated": false,
+          "columns": [
+            {
+              "name": "source",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "complete_before",
+              "type": "TIMESTAMP WITH TIME ZONE"
+            }
+          ],
+          "fetch_seconds": 0.019231122000064715,
+          "serialize_seconds": 0.0002033759999449103,
+          "parse_seconds": 0.034400212000036845,
+          "execute_seconds": 0.0037902710000707884,
+          "schema_profile": "business",
+          "settings": {
+            "enable_external_access": "false",
+            "allow_community_extensions": "false",
+            "allow_unsigned_extensions": "false",
+            "autoinstall_known_extensions": "false",
+            "autoload_known_extensions": "false",
+            "python_enable_replacements": "false",
+            "python_scan_all_frames": "false",
+            "threads": "1",
+            "memory_limit": "122.0 MiB",
+            "max_temp_directory_size": "0 bytes",
+            "temp_directory": "",
+            "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+            "allowed_directories": "[]",
+            "allowed_configs": "[]",
+            "lock_configuration": "true",
+            "access_mode": "read_only"
+          },
+          "versions": {
+            "duckdb": "1.5.6",
+            "sqlglot": "30.22.0",
+            "pytz": "2026.5",
+            "python": "3.12.10"
+          },
+          "fault_events": [],
+          "query_seconds": 0.3130000000237487,
+          "startup_seconds": 1.0619999999762513,
+          "container_id": "549ed8613a87966d3adae768025ab60107aadfc10c892a4a5411b3c565183e83",
+          "cleanup_verified": true,
+          "cleanup_seconds": 0.42199999996228144,
+          "total_seconds": 1.7969999999622814,
+          "termination_delay_seconds": 0.0
+        },
+        "query_result": {
+          "status": "ok",
+          "rows": [
+            [
+              3816
+            ]
+          ],
+          "truncated": false,
+          "columns": [
+            {
+              "name": "users",
+              "type": "BIGINT"
+            }
+          ],
+          "fetch_seconds": 3.838699990410532e-05,
+          "serialize_seconds": 2.4628999881315394e-05,
+          "parse_seconds": 0.028011544000037247,
+          "execute_seconds": 0.0005908670000280836,
+          "schema_profile": "business",
+          "settings": {
+            "enable_external_access": "false",
+            "allow_community_extensions": "false",
+            "allow_unsigned_extensions": "false",
+            "autoinstall_known_extensions": "false",
+            "autoload_known_extensions": "false",
+            "python_enable_replacements": "false",
+            "python_scan_all_frames": "false",
+            "threads": "1",
+            "memory_limit": "122.0 MiB",
+            "max_temp_directory_size": "0 bytes",
+            "temp_directory": "",
+            "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+            "allowed_directories": "[]",
+            "allowed_configs": "[]",
+            "lock_configuration": "true",
+            "access_mode": "read_only"
+          },
+          "versions": {
+            "duckdb": "1.5.6",
+            "sqlglot": "30.22.0",
+            "pytz": "2026.5",
+            "python": "3.12.10"
+          },
+          "fault_events": [],
+          "query_seconds": 0.2809999999590218,
+          "startup_seconds": 1.062000000034459,
+          "container_id": "0109fec793d1a630db5f11b5b5f68eaa523593d87ededbb1e0b2526b0ebb98ef",
+          "cleanup_verified": true,
+          "cleanup_seconds": 0.40700000000651926,
+          "total_seconds": 1.75,
+          "termination_delay_seconds": 0.0
+        },
+        "sql": "SELECT COUNT(*) AS users FROM users"
+      },
+      "new_task": {
+        "id": "f6a245c5753f4f09ad66b354ea3a0733",
+        "status": "created",
+        "rounds": 0,
+        "version": 0,
+        "question": "新增用户自然日次日留存",
+        "active": 0.0,
+        "limits": {
+          "tool": 12,
+          "model": 10,
+          "tokens": 30000,
+          "active_seconds": 180
+        },
+        "parent": "e72202afceb942e696edc352df818c94",
+        "attempts": [],
+        "tool_calls": 0,
+        "model_calls": 0,
+        "tokens": 0,
+        "trace": [
+          {
+            "seq": 19,
+            "task": "f6a245c5753f4f09ad66b354ea3a0733",
+            "event": "rerun_created",
+            "detail": "{\"parent\": \"e72202afceb942e696edc352df818c94\"}"
+          }
+        ],
+        "snapshot_id": "development",
+        "snapshot_hash": "440e83fb25a3a2f17891371737edb8db993b3df50c3fa085d01a67ddd9e1b387",
+        "requested_window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "actual_window": null,
+        "definition": null,
+        "evidence": [],
+        "report": null,
+        "outcome": null,
+        "limitations": [],
+        "effective_question": "新增用户自然日次日留存",
+        "pending_question": null,
+        "answers": []
+      },
+      "passed": true
+    },
+    {
+      "point": "after_checkpoint",
+      "exit_code": 73,
+      "provider_sends": 1,
+      "recovered": {
+        "id": "ec6b072a1e4e4451a859a80fda8098b4",
+        "status": "interrupted",
+        "rounds": 0,
+        "version": 0,
+        "question": "新增用户自然日次日留存",
+        "active": 180.0,
+        "limits": {
+          "tool": 12,
+          "model": 10,
+          "tokens": 30000,
+          "active_seconds": 180
+        },
+        "parent": null,
+        "attempts": [
+          {
+            "id": "ec6b072a1e4e4451a859a80fda8098b4:retrieval",
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "operation": "retrieval",
+            "kind": "tool",
+            "reserved": 0,
+            "actual": 0,
+            "state": "completed",
+            "result": "{\"candidates\": [{\"id\": \"retention\", \"score\": 12.411109097808765}, {\"id\": \"retained_cost\", \"score\": 5.021965918050482}, {\"id\": \"crash\", \"score\": 1.8495032738117811}], \"corpus_version\": \"t06-v1\", \"definition\": {\"aliases\": [\"\\u65b0\\u7528\\u6237\\u6b21\\u65e5\\u7559\\u5b58\", \"\\u6ce8\\u518c\\u6b21\\u65e5\\u7559\\u5b58\\u7387\"], \"definition\": \"\\u65b0\\u589e\\u6ce8\\u518c\\u7528\\u6237\\u7b2c\\u4e8c\\u5929\\u56de\\u6765\\u4ea7\\u751f\\u4f1a\\u8bdd\\u7684\\u6bd4\\u4f8b\\u3002\", \"denominator\": \"D \\u65e5\\u9996\\u6b21\\u6ce8\\u518c\\u53bb\\u91cd\\u7528\\u6237\\u6570\\uff1b\\u4e3a\\u96f6\\u5219\\u4e0d\\u53ef\\u8ba1\\u7b97\", \"dimensions\": \"users.registration_os / registration_version / channel \\u56fa\\u5b9a\\u6ce8\\u518c\\u5f52\\u5c5e\", \"id\": \"retention\", \"joins\": \"users.user_id = sessions.user_id\\uff1bEXISTS \\u9632\\u6b62\\u591a\\u4f1a\\u8bdd\\u91cd\\u590d\\u8ba1\\u6570\", \"name\": \"\\u65b0\\u589e\\u7528\\u6237\\u81ea\\u7136\\u65e5\\u6b21\\u65e5\\u7559\\u5b58\", \"numerator\": \"D \\u65e5\\u6ce8\\u518c\\u4e14 D+1 \\u6709\\u81f3\\u5c11\\u4e00\\u6b21\\u4f1a\\u8bdd\\u7684\\u53bb\\u91cd user_id \\u6570\", \"pitfalls\": \"\\u4e0d\\u662f\\u6eda\\u52a8 24 \\u5c0f\\u65f6\\uff1b\\u4e0d\\u6df7\\u5165\\u6d3b\\u8dc3\\u8001\\u7528\\u6237\\uff1b\\u8de8\\u65e5\\u7528\\u603b\\u7559\\u5b58/\\u603b\\u65b0\\u589e\\uff0c\\u4e0d\\u5e73\\u5747\\u6bcf\\u65e5\\u6bd4\\u4f8b\", \"time\": \"Asia/Shanghai \\u81ea\\u7136\\u65e5\\uff1b\\u6ce8\\u518c\\u7a97\\u53e3 [start,end)\\uff1bD+1 \\u5b8c\\u6574\\u7ed3\\u675f\\u4e14 users/sessions \\u6c34\\u4f4d\\u9f50\\u5907\\uff1bD+2 <= sessions.complete_before\"}, \"method\": \"exact\", \"reason\": \"matched\", \"status\": \"adopt\", \"window\": [\"2026-01-01\", \"2026-01-08\"]}"
+          },
+          {
+            "id": "ec6b072a1e4e4451a859a80fda8098b4:schema",
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "operation": "schema",
+            "kind": "tool",
+            "reserved": 0,
+            "actual": 0,
+            "state": "completed",
+            "result": "{\"channel_daily\": {\"channel\": \"VARCHAR\", \"day\": \"DATE\", \"spend_cents\": \"BIGINT\"}, \"content_events\": {\"event_id\": \"VARCHAR\", \"event_type\": \"VARCHAR\", \"occurred_at\": \"TIMESTAMP WITH TIME ZONE\", \"play_id\": \"VARCHAR\", \"session_id\": \"VARCHAR\"}, \"playback_telemetry\": {\"duration_seconds\": \"INTEGER\", \"observed_at\": \"TIMESTAMP WITH TIME ZONE\", \"play_id\": \"VARCHAR\", \"report_id\": \"VARCHAR\", \"session_id\": \"VARCHAR\", \"watched_seconds\": \"INTEGER\"}, \"release_calendar\": {\"os\": \"VARCHAR\", \"released_at\": \"TIMESTAMP WITH TIME ZONE\", \"version\": \"VARCHAR\"}, \"sessions\": {\"crashed\": \"BOOLEAN\", \"os\": \"VARCHAR\", \"session_id\": \"VARCHAR\", \"started_at\": \"TIMESTAMP WITH TIME ZONE\", \"user_id\": \"VARCHAR\", \"version\": \"VARCHAR\"}, \"source_watermarks\": {\"complete_before\": \"TIMESTAMP WITH TIME ZONE\", \"source\": \"VARCHAR\"}, \"users\": {\"channel\": \"VARCHAR\", \"registered_at\": \"TIMESTAMP WITH TIME ZONE\", \"registration_os\": \"VARCHAR\", \"registration_version\": \"VARCHAR\", \"user_id\": \"VARCHAR\"}}"
+          },
+          {
+            "id": "ec6b072a1e4e4451a859a80fda8098b4:watermarks",
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "operation": "watermarks",
+            "kind": "tool",
+            "reserved": 0,
+            "actual": 0,
+            "state": "completed",
+            "result": "{\"cleanup_seconds\": 0.4059999999590218, \"cleanup_verified\": true, \"columns\": [{\"name\": \"source\", \"type\": \"VARCHAR\"}, {\"name\": \"complete_before\", \"type\": \"TIMESTAMP WITH TIME ZONE\"}], \"container_id\": \"a19031a0e14b1f0f279aed3122ec1ecedfd89f453ecafcf6c6de219560c0ad2d\", \"execute_seconds\": 0.00351172000000588, \"fault_events\": [], \"fetch_seconds\": 0.018416227000216168, \"parse_seconds\": 0.032140161999905104, \"query_seconds\": 0.2970000000204891, \"rows\": [[\"users\", \"2026-01-16 16:00:00+00:00\"], [\"sessions\", \"2026-01-16 16:00:00+00:00\"], [\"content_events\", \"2026-01-16 16:00:00+00:00\"], [\"playback_telemetry\", \"2026-01-16 16:00:00+00:00\"], [\"channel_daily\", \"2026-01-16 16:00:00+00:00\"], [\"release_calendar\", \"2026-01-16 16:00:00+00:00\"]], \"schema_profile\": \"business\", \"serialize_seconds\": 0.00016737099986130488, \"settings\": {\"access_mode\": \"read_only\", \"allow_community_extensions\": \"false\", \"allow_unsigned_extensions\": \"false\", \"allowed_configs\": \"[]\", \"allowed_directories\": \"[]\", \"allowed_paths\": \"[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]\", \"autoinstall_known_extensions\": \"false\", \"autoload_known_extensions\": \"false\", \"enable_external_access\": \"false\", \"lock_configuration\": \"true\", \"max_temp_directory_size\": \"0 bytes\", \"memory_limit\": \"122.0 MiB\", \"python_enable_replacements\": \"false\", \"python_scan_all_frames\": \"false\", \"temp_directory\": \"\", \"threads\": \"1\"}, \"startup_seconds\": 1.047000000020489, \"status\": \"ok\", \"termination_delay_seconds\": 0.0, \"total_seconds\": 1.75, \"truncated\": false, \"versions\": {\"duckdb\": \"1.5.6\", \"python\": \"3.12.10\", \"pytz\": \"2026.5\", \"sqlglot\": \"30.22.0\"}}"
+          },
+          {
+            "id": "ec6b072a1e4e4451a859a80fda8098b4:sql_plan",
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "operation": "sql_plan:c06f6202f57021ac9171e8d5427d2a7a741a917315a62031ad5b9ff423a040f9",
+            "kind": "model",
+            "reserved": 5102,
+            "actual": 42,
+            "state": "completed",
+            "result": "{\"cap\": \"scheduler_guard\", \"content\": [{\"citations\": null, \"text\": \"{\\\"sql\\\": \\\"SELECT COUNT(*) AS users FROM users\\\"}\", \"type\": \"text\"}], \"fee_usd_range\": {\"currency\": \"USD\", \"kind\": \"estimate_not_invoice\", \"maximum\": 2.4299999999999998e-05, \"minimum\": 1.2149999999999999e-05, \"pricing\": \"DeepSeek-V4.1-Flash 2026-10-12\"}, \"model\": \"deepseek-flash\", \"raw_usage\": {\"cache_creation\": null, \"cache_creation_input_tokens\": null, \"cache_read_input_tokens\": null, \"inference_geo\": null, \"input_tokens\": 29, \"output_tokens\": 13, \"output_tokens_details\": null, \"server_tool_use\": null, \"service_tier\": null}, \"reservation\": 5102, \"status\": \"completed\", \"usage\": {\"input_cached\": 0, \"input_total\": 29, \"input_uncached\": 29, \"output\": 13, \"total\": 42}}"
+          },
+          {
+            "id": "ec6b072a1e4e4451a859a80fda8098b4:sql",
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "operation": "sql",
+            "kind": "tool",
+            "reserved": 0,
+            "actual": 0,
+            "state": "completed",
+            "result": "{\"cleanup_seconds\": 0.4380000000237487, \"cleanup_verified\": true, \"columns\": [{\"name\": \"users\", \"type\": \"BIGINT\"}], \"container_id\": \"47af15f4169a4a0a09a91cdc74869f9621023004f400786eb3f29d30cc2f20c5\", \"execute_seconds\": 0.0005741530001159845, \"fault_events\": [], \"fetch_seconds\": 4.138200029046857e-05, \"parse_seconds\": 0.03162815700011379, \"query_seconds\": 0.2809999999590218, \"rows\": [[3816]], \"schema_profile\": \"business\", \"serialize_seconds\": 2.8657000029852497e-05, \"settings\": {\"access_mode\": \"read_only\", \"allow_community_extensions\": \"false\", \"allow_unsigned_extensions\": \"false\", \"allowed_configs\": \"[]\", \"allowed_directories\": \"[]\", \"allowed_paths\": \"[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]\", \"autoinstall_known_extensions\": \"false\", \"autoload_known_extensions\": \"false\", \"enable_external_access\": \"false\", \"lock_configuration\": \"true\", \"max_temp_directory_size\": \"0 bytes\", \"memory_limit\": \"122.0 MiB\", \"python_enable_replacements\": \"false\", \"python_scan_all_frames\": \"false\", \"temp_directory\": \"\", \"threads\": \"1\"}, \"startup_seconds\": 1.062000000034459, \"status\": \"ok\", \"termination_delay_seconds\": 0.0, \"total_seconds\": 1.7810000000172295, \"truncated\": false, \"versions\": {\"duckdb\": \"1.5.6\", \"python\": \"3.12.10\", \"pytz\": \"2026.5\", \"sqlglot\": \"30.22.0\"}}"
+          }
+        ],
+        "tool_calls": 4,
+        "model_calls": 1,
+        "tokens": 42,
+        "trace": [
+          {
+            "seq": 1,
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "event": "reserve",
+            "detail": "ec6b072a1e4e4451a859a80fda8098b4:retrieval"
+          },
+          {
+            "seq": 2,
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "event": "sent",
+            "detail": "ec6b072a1e4e4451a859a80fda8098b4:retrieval"
+          },
+          {
+            "seq": 3,
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "event": "completed",
+            "detail": "ec6b072a1e4e4451a859a80fda8098b4:retrieval"
+          },
+          {
+            "seq": 4,
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "event": "reserve",
+            "detail": "ec6b072a1e4e4451a859a80fda8098b4:schema"
+          },
+          {
+            "seq": 5,
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "event": "sent",
+            "detail": "ec6b072a1e4e4451a859a80fda8098b4:schema"
+          },
+          {
+            "seq": 6,
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "event": "completed",
+            "detail": "ec6b072a1e4e4451a859a80fda8098b4:schema"
+          },
+          {
+            "seq": 7,
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "event": "reserve",
+            "detail": "ec6b072a1e4e4451a859a80fda8098b4:watermarks"
+          },
+          {
+            "seq": 8,
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "event": "sent",
+            "detail": "ec6b072a1e4e4451a859a80fda8098b4:watermarks"
+          },
+          {
+            "seq": 9,
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "event": "completed",
+            "detail": "ec6b072a1e4e4451a859a80fda8098b4:watermarks"
+          },
+          {
+            "seq": 10,
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "event": "definition_adopted",
+            "detail": "{\"definition\": {\"id\": \"retention\", \"name\": \"新增用户自然日次日留存\", \"aliases\": [\"新用户次日留存\", \"注册次日留存率\"], \"definition\": \"新增注册用户第二天回来产生会话的比例。\", \"numerator\": \"D 日注册且 D+1 有至少一次会话的去重 user_id 数\", \"denominator\": \"D 日首次注册去重用户数；为零则不可计算\", \"dimensions\": \"users.registration_os / registration_version / channel 固定注册归属\", \"joins\": \"users.user_id = sessions.user_id；EXISTS 防止多会话重复计数\", \"time\": \"Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before\", \"pitfalls\": \"不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例\"}, \"actual_window\": [\"2026-01-01\", \"2026-01-08\"]}"
+          },
+          {
+            "seq": 11,
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "event": "reserve",
+            "detail": "ec6b072a1e4e4451a859a80fda8098b4:sql_plan"
+          },
+          {
+            "seq": 12,
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "event": "sent",
+            "detail": "ec6b072a1e4e4451a859a80fda8098b4:sql_plan"
+          },
+          {
+            "seq": 13,
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "event": "completed",
+            "detail": "ec6b072a1e4e4451a859a80fda8098b4:sql_plan"
+          },
+          {
+            "seq": 14,
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "event": "reserve",
+            "detail": "ec6b072a1e4e4451a859a80fda8098b4:sql"
+          },
+          {
+            "seq": 15,
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "event": "sent",
+            "detail": "ec6b072a1e4e4451a859a80fda8098b4:sql"
+          },
+          {
+            "seq": 16,
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "event": "completed",
+            "detail": "ec6b072a1e4e4451a859a80fda8098b4:sql"
+          },
+          {
+            "seq": 17,
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "event": "query_completed",
+            "detail": "{\"status\": \"ok\", \"cleanup_verified\": true, \"evidence_ids\": [\"ec6b072a1e4e4451a859a80fda8098b4:query\"]}"
+          },
+          {
+            "seq": 18,
+            "task": "ec6b072a1e4e4451a859a80fda8098b4",
+            "event": "interrupted",
+            "detail": "restart; active duration upper bound"
+          }
+        ],
+        "snapshot_id": "development",
+        "snapshot_hash": "202c9185f811e7140bb125d2946f389d350c2ae41fa3ed5d5cc0b9e724b65204",
+        "requested_window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "actual_window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "definition": {
+          "id": "retention",
+          "name": "新增用户自然日次日留存",
+          "aliases": [
+            "新用户次日留存",
+            "注册次日留存率"
+          ],
+          "definition": "新增注册用户第二天回来产生会话的比例。",
+          "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+          "denominator": "D 日首次注册去重用户数；为零则不可计算",
+          "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+          "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+          "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+          "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+        },
+        "evidence": [
+          {
+            "evidence_id": "ec6b072a1e4e4451a859a80fda8098b4:query",
+            "tool": "query",
+            "parameters": {
+              "sql": "SELECT COUNT(*) AS users FROM users"
+            },
+            "source": "SELECT COUNT(*) AS users FROM users",
+            "snapshot_id": "202c9185f811e7140bb125d2946f389d350c2ae41fa3ed5d5cc0b9e724b65204",
+            "columns": {
+              "users": "integer"
+            },
+            "actual_db_types": {
+              "users": "BIGINT"
+            },
+            "rows": [
+              {
+                "users": 3816
+              }
+            ],
+            "window": [
+              "2026-01-01",
+              "2026-01-08"
+            ],
+            "truncated": false,
+            "business_definition_status": "requires_independent_reference",
+            "group": {},
+            "sample": {
+              "returned_rows": 1
+            },
+            "limitations": [
+              "business_definition_requires_independent_reference"
+            ],
+            "contexts": {
+              "/rows/0/users": {
+                "metric": "query_result:retention",
+                "window": [
+                  "2026-01-01",
+                  "2026-01-08"
+                ],
+                "group": {},
+                "comparison": null
+              }
+            }
+          }
+        ],
+        "report": null,
+        "outcome": null,
+        "limitations": [],
+        "effective_question": "新增用户自然日次日留存",
+        "pending_question": null,
+        "answers": [],
+        "retrieval": {
+          "status": "adopt",
+          "reason": "matched",
+          "method": "exact",
+          "definition": {
+            "id": "retention",
+            "name": "新增用户自然日次日留存",
+            "aliases": [
+              "新用户次日留存",
+              "注册次日留存率"
+            ],
+            "definition": "新增注册用户第二天回来产生会话的比例。",
+            "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+            "denominator": "D 日首次注册去重用户数；为零则不可计算",
+            "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+            "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+            "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+            "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+          },
+          "candidates": [
+            {
+              "id": "retention",
+              "score": 12.411109097808765
+            },
+            {
+              "id": "retained_cost",
+              "score": 5.021965918050482
+            },
+            {
+              "id": "crash",
+              "score": 1.8495032738117811
+            }
+          ],
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "corpus_version": "t06-v1"
+        },
+        "schema": {
+          "users": {
+            "user_id": "VARCHAR",
+            "registered_at": "TIMESTAMP WITH TIME ZONE",
+            "registration_os": "VARCHAR",
+            "registration_version": "VARCHAR",
+            "channel": "VARCHAR"
+          },
+          "sessions": {
+            "session_id": "VARCHAR",
+            "user_id": "VARCHAR",
+            "started_at": "TIMESTAMP WITH TIME ZONE",
+            "os": "VARCHAR",
+            "version": "VARCHAR",
+            "crashed": "BOOLEAN"
+          },
+          "content_events": {
+            "event_id": "VARCHAR",
+            "play_id": "VARCHAR",
+            "session_id": "VARCHAR",
+            "event_type": "VARCHAR",
+            "occurred_at": "TIMESTAMP WITH TIME ZONE"
+          },
+          "playback_telemetry": {
+            "report_id": "VARCHAR",
+            "play_id": "VARCHAR",
+            "session_id": "VARCHAR",
+            "observed_at": "TIMESTAMP WITH TIME ZONE",
+            "watched_seconds": "INTEGER",
+            "duration_seconds": "INTEGER"
+          },
+          "channel_daily": {
+            "day": "DATE",
+            "channel": "VARCHAR",
+            "spend_cents": "BIGINT"
+          },
+          "release_calendar": {
+            "os": "VARCHAR",
+            "version": "VARCHAR",
+            "released_at": "TIMESTAMP WITH TIME ZONE"
+          },
+          "source_watermarks": {
+            "source": "VARCHAR",
+            "complete_before": "TIMESTAMP WITH TIME ZONE"
+          }
+        },
+        "watermarks": {
+          "status": "ok",
+          "rows": [
+            [
+              "users",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "sessions",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "content_events",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "playback_telemetry",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "channel_daily",
+              "2026-01-16 16:00:00+00:00"
+            ],
+            [
+              "release_calendar",
+              "2026-01-16 16:00:00+00:00"
+            ]
+          ],
+          "truncated": false,
+          "columns": [
+            {
+              "name": "source",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "complete_before",
+              "type": "TIMESTAMP WITH TIME ZONE"
+            }
+          ],
+          "fetch_seconds": 0.018416227000216168,
+          "serialize_seconds": 0.00016737099986130488,
+          "parse_seconds": 0.032140161999905104,
+          "execute_seconds": 0.00351172000000588,
+          "schema_profile": "business",
+          "settings": {
+            "enable_external_access": "false",
+            "allow_community_extensions": "false",
+            "allow_unsigned_extensions": "false",
+            "autoinstall_known_extensions": "false",
+            "autoload_known_extensions": "false",
+            "python_enable_replacements": "false",
+            "python_scan_all_frames": "false",
+            "threads": "1",
+            "memory_limit": "122.0 MiB",
+            "max_temp_directory_size": "0 bytes",
+            "temp_directory": "",
+            "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+            "allowed_directories": "[]",
+            "allowed_configs": "[]",
+            "lock_configuration": "true",
+            "access_mode": "read_only"
+          },
+          "versions": {
+            "duckdb": "1.5.6",
+            "sqlglot": "30.22.0",
+            "pytz": "2026.5",
+            "python": "3.12.10"
+          },
+          "fault_events": [],
+          "query_seconds": 0.2970000000204891,
+          "startup_seconds": 1.047000000020489,
+          "container_id": "a19031a0e14b1f0f279aed3122ec1ecedfd89f453ecafcf6c6de219560c0ad2d",
+          "cleanup_verified": true,
+          "cleanup_seconds": 0.4059999999590218,
+          "total_seconds": 1.75,
+          "termination_delay_seconds": 0.0
+        },
+        "query_result": {
+          "status": "ok",
+          "rows": [
+            [
+              3816
+            ]
+          ],
+          "truncated": false,
+          "columns": [
+            {
+              "name": "users",
+              "type": "BIGINT"
+            }
+          ],
+          "fetch_seconds": 4.138200029046857e-05,
+          "serialize_seconds": 2.8657000029852497e-05,
+          "parse_seconds": 0.03162815700011379,
+          "execute_seconds": 0.0005741530001159845,
+          "schema_profile": "business",
+          "settings": {
+            "enable_external_access": "false",
+            "allow_community_extensions": "false",
+            "allow_unsigned_extensions": "false",
+            "autoinstall_known_extensions": "false",
+            "autoload_known_extensions": "false",
+            "python_enable_replacements": "false",
+            "python_scan_all_frames": "false",
+            "threads": "1",
+            "memory_limit": "122.0 MiB",
+            "max_temp_directory_size": "0 bytes",
+            "temp_directory": "",
+            "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+            "allowed_directories": "[]",
+            "allowed_configs": "[]",
+            "lock_configuration": "true",
+            "access_mode": "read_only"
+          },
+          "versions": {
+            "duckdb": "1.5.6",
+            "sqlglot": "30.22.0",
+            "pytz": "2026.5",
+            "python": "3.12.10"
+          },
+          "fault_events": [],
+          "query_seconds": 0.2809999999590218,
+          "startup_seconds": 1.062000000034459,
+          "container_id": "47af15f4169a4a0a09a91cdc74869f9621023004f400786eb3f29d30cc2f20c5",
+          "cleanup_verified": true,
+          "cleanup_seconds": 0.4380000000237487,
+          "total_seconds": 1.7810000000172295,
+          "termination_delay_seconds": 0.0
+        },
+        "sql": "SELECT COUNT(*) AS users FROM users"
+      },
+      "new_task": {
+        "id": "844c6741e2e94e989a440d831a8b7e9e",
+        "status": "created",
+        "rounds": 0,
+        "version": 0,
+        "question": "新增用户自然日次日留存",
+        "active": 0.0,
+        "limits": {
+          "tool": 12,
+          "model": 10,
+          "tokens": 30000,
+          "active_seconds": 180
+        },
+        "parent": "ec6b072a1e4e4451a859a80fda8098b4",
+        "attempts": [],
+        "tool_calls": 0,
+        "model_calls": 0,
+        "tokens": 0,
+        "trace": [
+          {
+            "seq": 19,
+            "task": "844c6741e2e94e989a440d831a8b7e9e",
+            "event": "rerun_created",
+            "detail": "{\"parent\": \"ec6b072a1e4e4451a859a80fda8098b4\"}"
+          }
+        ],
+        "snapshot_id": "development",
+        "snapshot_hash": "202c9185f811e7140bb125d2946f389d350c2ae41fa3ed5d5cc0b9e724b65204",
+        "requested_window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "actual_window": null,
+        "definition": null,
+        "evidence": [],
+        "report": null,
+        "outcome": null,
+        "limitations": [],
+        "effective_question": "新增用户自然日次日留存",
+        "pending_question": null,
+        "answers": []
+      },
+      "passed": true
+    }
+  ]
+}

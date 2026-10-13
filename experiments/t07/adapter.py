@@ -2,7 +2,7 @@
 import json
 import hashlib
 from dataclasses import dataclass, field
-from typing import Any, cast
+from typing import Any, Callable, cast
 
 import anthropic
 import httpx2
@@ -28,12 +28,15 @@ class Request:
 
 class ModelAdapter:
     def __init__(self, ledger: Ledger, model: str, base_url: str, token: str,
-                 transport: Any = None, timeout: float = 30, report_reserve: int = 1024):
+                 transport: Any = None, timeout: float = 30, report_reserve: int = 1024,
+                 fault_hook: Callable[[str], None] | None = None):
         if report_reserve < 1:
             raise ValueError('report reserve must be positive')
         if model != 'deepseek-flash':
             raise ValueError('only the validated deepseek-flash pricing contract is supported')
         self.ledger, self.model, self.report_reserve = ledger, model, report_reserve
+        # Administrator-only process-failure injection; never part of a task payload.
+        self.fault_hook = fault_hook
         self.client = anthropic.Anthropic(api_key=token, base_url=base_url,
             max_retries=0, timeout=timeout,
             http_client=httpx2.Client(transport=transport, timeout=timeout))
@@ -78,6 +81,8 @@ class ModelAdapter:
         self.ledger.reserve(task, operation, 'model', reserved, attempt_id,
                             headroom_tokens=0 if final_report else self.report_reserve,
                             headroom_calls=0 if final_report else 1)
+        if self.fault_hook:
+            self.fault_hook('after_reserve')
         self.ledger.mark_sent(attempt_id)
         result: dict[str, Any]
         try:
@@ -101,6 +106,8 @@ class ModelAdapter:
                       'usage': None, 'fee_usd_range': None, 'reservation': reserved,
                       'cap': 'scheduler_guard'}
             self.ledger.settle(attempt_id, result, failed=True)
+        if self.fault_hook:
+            self.fault_hook('after_result')
         return result
 
 
