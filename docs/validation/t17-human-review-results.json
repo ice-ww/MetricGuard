@@ -1,0 +1,117 @@
+{
+  "source": "Explicit user reply to T17 review question in this conversation",
+  "user_reply": "认可四项评分与理由",
+  "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+  "task": "5b59b3068a414d09891bb1c0173af47e",
+  "records": [
+    {
+      "case": "bounded",
+      "review": {
+        "rubric_version": "semantic-v1",
+        "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+        "reviewer": "repository owner (user confirmation in this conversation)",
+        "reviewer_kind": "human",
+        "ratings": [
+          {
+            "inference_id": "bounded",
+            "scores": {
+              "relevance": 2,
+              "counterevidence": 2,
+              "causal_restraint": 2
+            },
+            "reasons": {
+              "relevance": "系统分群与留存事实对准描述性候选，独立参考已核验。",
+              "counterevidence": "保留iOS对照并声明渠道与版本未排除。",
+              "causal_restraint": "只提出结构掩盖候选，未宣称确定因果。"
+            }
+          }
+        ],
+        "status": "passed",
+        "publication_id": "bc76b5d07ddb3b9fb37e11c189b21244389f34ae018574a1aef5fbc62168035a",
+        "review_id": "bb3fde9ce63ffac46c22cd8736a5485bb8c34cbe5cf2adaedcbcec7aadb60fc3"
+      }
+    },
+    {
+      "case": "irrelevant",
+      "review": {
+        "rubric_version": "semantic-v1",
+        "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+        "reviewer": "repository owner (user confirmation in this conversation)",
+        "reviewer_kind": "human",
+        "ratings": [
+          {
+            "inference_id": "irrelevant",
+            "scores": {
+              "relevance": 0,
+              "counterevidence": 0,
+              "causal_restraint": 0
+            },
+            "reasons": {
+              "relevance": "基期iOS人数不能支持Android崩溃原因。",
+              "counterevidence": "忽略已有系统留存对照及没有崩溃证据的限制。",
+              "causal_restraint": "没有崩溃数据或因果实验却宣称原因已证明。"
+            }
+          }
+        ],
+        "status": "failed",
+        "publication_id": "3af1ec9f8331d4073cd586b86801b582317bec23ff4a4d4c5bc9dc7dae793b29",
+        "review_id": "695d8098ebd945c4d87a8e257f01fdfe289750086e4cec4d32f59ad784614f0f"
+      }
+    },
+    {
+      "case": "ignored_counterevidence",
+      "review": {
+        "rubric_version": "semantic-v1",
+        "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+        "reviewer": "repository owner (user confirmation in this conversation)",
+        "reviewer_kind": "human",
+        "ratings": [
+          {
+            "inference_id": "ignored_counterevidence",
+            "scores": {
+              "relevance": 1,
+              "counterevidence": 0,
+              "causal_restraint": 2
+            },
+            "reasons": {
+              "relevance": "Android变化有支持，但不足以外推所有系统。",
+              "counterevidence": "iOS留存上升是已取得的关键反证却被忽略。",
+              "causal_restraint": "此例是错误的描述性外推，没有额外确定因果主张。"
+            }
+          }
+        ],
+        "status": "failed",
+        "publication_id": "791d280b950d0f4f6f156cb57a714c91eb0bcc896ad81ca913903a1bcd64ad8c",
+        "review_id": "25437a2294a2ecd85eb5317fbef2b6f034fadebd47f52864e40cb1a0032b7052"
+      }
+    },
+    {
+      "case": "causal_overclaim",
+      "review": {
+        "rubric_version": "semantic-v1",
+        "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+        "reviewer": "repository owner (user confirmation in this conversation)",
+        "reviewer_kind": "human",
+        "ratings": [
+          {
+            "inference_id": "causal_overclaim",
+            "scores": {
+              "relevance": 1,
+              "counterevidence": 1,
+              "causal_restraint": 0
+            },
+            "reasons": {
+              "relevance": "结构与分群事实有部分相关性，但无法支持唯一原因。",
+              "counterevidence": "列出iOS对照但未解释其对唯一因果结论的限制。",
+              "causal_restraint": "观察关联不足以证明系统结构是唯一确定原因。"
+            }
+          }
+        ],
+        "status": "failed",
+        "publication_id": "38f9460c7d0839a90fce0c657780deda90210ac2b784a5f99a39fe4c46e373f5",
+        "review_id": "27068c26bf124503fe242f923fadd7dcbecdc90c9fe9036e9eed21725482d01c"
+      }
+    }
+  ],
+  "acceptance": "positive passes and all three semantic counterexamples fail"
+}

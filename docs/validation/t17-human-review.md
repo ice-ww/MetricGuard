@@ -39,3 +39,5 @@ Android留存下降，因此本期所有系统留存都下降。
 
 建议评分（待人类核对，不是已完成人工评分）：bounded=2/2/2；irrelevant=0/0/0；ignored_counterevidence=1/0/2；causal_overclaim=1/1/0。
 理由：有效例保持描述性关联并保留对照及未排除项；无关例用iOS人数解释未观测的崩溃；遗漏例把Android变化外推到与之不符的iOS；因果例缺少因果识别却断言唯一原因。
+
+2026-10-13 实际用户答复：「认可四项评分与理由」。已绑定上述原始发布版本记录 human 评分，完整记录见 `t17-human-review-results.json`。上方建议文字保留作为原始提交材料。
