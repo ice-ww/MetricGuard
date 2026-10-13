@@ -1,0 +1,49 @@
+{
+  "freeze": {
+    "version": "p0-independent-v1",
+    "content_hash": "a45463eec93d8d21492a21d28a5c997c9b1b8af8a565d1bed70b38eb2ec9a650",
+    "counts": {
+      "simple": 6,
+      "A1": 3,
+      "A2": 3,
+      "A3": 3,
+      "A4": 3,
+      "normal": 2,
+      "insufficient": 2,
+      "clarification": 1,
+      "recovery": 1
+    },
+    "purpose": "formal"
+  },
+  "audit": [
+    {
+      "time": "2026-10-13T09:00:21.679757+00:00",
+      "kind": "freeze",
+      "detail": {
+        "version": "p0-independent-v1",
+        "family": "metricguard-p0-independent",
+        "content_hash": "a45463eec93d8d21492a21d28a5c997c9b1b8af8a565d1bed70b38eb2ec9a650",
+        "purpose": "formal"
+      }
+    },
+    {
+      "time": "2026-10-13T09:00:21.710298+00:00",
+      "kind": "private_access",
+      "detail": {
+        "version": "p0-independent-v1",
+        "actor": "freeze builder",
+        "purpose": "generation_audit",
+        "status": {
+          "version": "p0-independent-v1",
+          "purpose": "formal",
+          "regression_reasons": []
+        }
+      }
+    }
+  ],
+  "status": {
+    "version": "p0-independent-v1",
+    "purpose": "formal",
+    "regression_reasons": []
+  }
+}
