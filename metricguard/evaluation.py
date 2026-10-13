@@ -35,7 +35,7 @@ def safe_json(value,depth=0,ancestors=None):
 def failure_usage(raw,elapsed: float) -> dict:
     try:
         return deepcopy(usage(raw['usage']))
-    except (KeyError,ValueError,TypeError):
+    except (KeyError,ValueError,TypeError,AttributeError,OverflowError):
         return {'seconds':elapsed,'steps':None,'model_calls':None,'tokens':None,'cost':None}
 
 

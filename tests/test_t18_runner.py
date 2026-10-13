@@ -182,7 +182,7 @@ def test_freeze_builder_uses_independent_references_on_separate_development_data
     assert 'category' not in case['public'] and 'required' not in case['public']
 
 
-@pytest.mark.parametrize('invalid', ['nan','object','null','list','missing_materials'])
+@pytest.mark.parametrize('invalid', ['nan','object','null','list','missing_materials','usage_list','usage_overflow'])
 def test_malformed_adapter_output_preserves_all_rounds_and_failures(tmp_path,invalid):
     runner,case,artifact,config=setup_bundle(tmp_path)
     def prepare(*args):
@@ -195,6 +195,8 @@ def test_malformed_adapter_output_preserves_all_rounds_and_failures(tmp_path,inv
         if invalid=='object': result['extra']=object()
         if invalid=='null': return None
         if invalid=='list': return []
+        if invalid=='usage_list': result['usage']=list(result['usage'])
+        if invalid=='usage_overflow': result['usage']['seconds']=10**400
         return result
     result=runner.results(runner.run('selftest-v1',prepare,execute,actor='invalid adapter selftest'))
     assert result['complete'] and len(result['records'])==6

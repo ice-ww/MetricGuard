@@ -9,11 +9,14 @@ def context(raw: dict) -> FactContext:
 
 
 def numeric(value) -> bool:
-    return type(value) in (int,float) and math.isfinite(value)
+    try:
+        return type(value) in (int,float) and math.isfinite(value)
+    except OverflowError:
+        return False
 
 
 def usage(raw: dict) -> dict:
-    if set(raw)!={'seconds','steps','model_calls','tokens','cost'}:
+    if not isinstance(raw,dict) or set(raw)!={'seconds','steps','model_calls','tokens','cost'}:
         raise ValueError('usage fields required')
     for key,value in raw.items():
         if value is None and key in ('steps','model_calls','tokens','cost'):
