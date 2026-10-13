@@ -10,7 +10,8 @@ from metricguard.metric_profiles import is_business_profile
 
 
 def version_diagnosis(evidence: list[dict[str, Any]]) -> dict[str, Any] | None:
-    profiles = {e['parameters']['kind']: e for e in evidence if is_business_profile(e['parameters']) and not e['truncated']}
+    profiles = {e['parameters']['kind']: e for e in evidence if is_business_profile(e['parameters']) and not e['truncated']
+                and e['parameters']['kind'] in ('cohort_health', 'crash_versions', 'releases')}
     if not profiles:
         return None
     report: dict[str, Any] = {

@@ -41,9 +41,15 @@ def draw(seed: int, *key: object) -> float:
 
 
 def build_snapshot(root: Path, *, scenario: str, seed: int, base_start: datetime = START,
-                   new_version: str = "2.0", crash_probability: float = .65) -> Snapshot:
+                   new_version: str = "2.0", crash_probability: float = .65,
+                   campaign_channel: str = "paid", campaign_growth: float = 3.0,
+                   campaign_retention: float = .12, campaign_unit_cost: int = 200) -> Snapshot:
     if base_start.tzinfo is None or not new_version or new_version == "1.0" or not 0 <= crash_probability <= 1:
         raise ValueError("Invalid development parameters")
+    if (not campaign_channel or campaign_channel in ("organic", "idle")
+            or not 0 <= campaign_growth <= 10 or not 0 <= campaign_retention <= 1
+            or type(campaign_unit_cost) is not int or campaign_unit_cost < 0):
+        raise ValueError("Invalid development channel parameters")
     if scenario not in MECHANISMS:
         raise ValueError(f"Unknown development scenario: {scenario}")
     if root.exists():
@@ -55,13 +61,13 @@ def build_snapshot(root: Path, *, scenario: str, seed: int, base_start: datetime
     rows: dict[str, list[tuple[Any, ...]]] = {table: [] for table in TABLES}
     for day in range(16):
         date = base_start + timedelta(days=day)
-        counts = {"organic": 0, "paid": 0}
+        counts = {"organic": 0, campaign_channel: 0}
         for os in ("Android", "iOS"):
-            for channel in ("organic", "paid"):
+            for channel in ("organic", campaign_channel):
                 scale = 1 + (day % 3 - 1) * .1
                 volume = 60
-                if scenario == "A2" and day >= 7 and channel == "paid":
-                    volume = 180
+                if scenario == "A2" and day >= 7 and channel == campaign_channel:
+                    volume = round(60 * campaign_growth)
                 if scenario == "A4" and day >= 7:
                     volume = 40 if os == "Android" else 80
                 for index in range(round(volume * scale)):
@@ -78,8 +84,8 @@ def build_snapshot(root: Path, *, scenario: str, seed: int, base_start: datetime
                     probability = .5 if os == "Android" else .9
                     if scenario == "A1" and affected_version and crashed:
                         probability = .05
-                    if scenario == "A2" and day >= 7 and channel == "paid":
-                        probability = .12
+                    if scenario == "A2" and day >= 7 and channel == campaign_channel:
+                        probability = campaign_retention
                     if scenario == "A4" and day >= 7 and os == "Android":
                         probability = .3
                     if draw(seed, uid, "retention") < probability:
@@ -99,9 +105,9 @@ def build_snapshot(root: Path, *, scenario: str, seed: int, base_start: datetime
                             rows["content_events"].append((pid + "-dup", pid, sid, "start", at))
                             rows["playback_telemetry"].append((pid + "-td", pid, sid, at + timedelta(seconds=31), 30 if complete else 3, 30))
         for channel, count in counts.items():
-            unit_cost = 100 if channel == "paid" else 20
-            if scenario == "A2" and day >= 7 and channel == "paid":
-                unit_cost = 200
+            unit_cost = 100 if channel == campaign_channel else 20
+            if scenario == "A2" and day >= 7 and channel == campaign_channel:
+                unit_cost = campaign_unit_cost
             rows["channel_daily"].append((date.date(), channel, count * unit_cost))
         rows["channel_daily"].append((date.date(), "idle", 100))
     rows["release_calendar"] = [("Android", "1.0", base_start - timedelta(days=30)),
@@ -132,7 +138,7 @@ def build_snapshot(root: Path, *, scenario: str, seed: int, base_start: datetime
     logical_hash = hashlib.sha256(json.dumps(rows, default=str, sort_keys=True).encode()).hexdigest()
     manifest = private / "manifest.json"
     manifest.write_text(json.dumps({"scenario": scenario, "seed": seed,
-        "logical_hash": logical_hash, "human_review": "pending", "mechanism": (f"Android {new_version} first-day crash probability {crash_probability}; crashed users return with probability .05." if scenario == "A1" else MECHANISMS[scenario]),
-        "parameters": {"base_start": base_start.date().isoformat(), "current_start": (base_start + timedelta(days=7)).date().isoformat(), "end": (base_start + timedelta(days=14)).date().isoformat(), "new_version": new_version, "crash_probability": crash_probability},
+        "logical_hash": logical_hash, "human_review": "pending", "mechanism": (f"Android {new_version} first-day crash probability {crash_probability}; crashed users return with probability .05." if scenario == "A1" else f"{campaign_channel} current volume multiplier {campaign_growth}; return probability {campaign_retention}; unit spend {campaign_unit_cost} cents." if scenario == "A2" else MECHANISMS[scenario]),
+        "parameters": {"base_start": base_start.date().isoformat(), "current_start": (base_start + timedelta(days=7)).date().isoformat(), "end": (base_start + timedelta(days=14)).date().isoformat(), "new_version": new_version, "crash_probability": crash_probability, "campaign_channel": campaign_channel, "campaign_growth": campaign_growth, "campaign_retention": campaign_retention, "campaign_unit_cost": campaign_unit_cost},
         "purpose": "development_only"}, indent=2), encoding="utf-8")
     return Snapshot(database, manifest, logical_hash)

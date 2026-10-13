@@ -301,8 +301,13 @@ class TaskService:
             if failure and action.get('action') != 'query':
                 raise ValueError('repair requires query or stop')
             sql = action_sql(action, data['schema'], data['actual_window'])
-            if action.get('kind') == 'cohort_health' and data['definition']['id'] not in ('retention', 'retained_cost'):
-                raise ValueError('cohort_health requires mature retention definition')
+            if action.get('kind') in ('cohort_health', 'channel_health') and data['definition']['id'] not in ('retention', 'retained_cost'):
+                raise ValueError('business profile requires mature retention definition')
+            if action.get('kind') == 'channel_health':
+                cutoffs = {r[0]: datetime.fromisoformat(r[1]).astimezone(timezone(timedelta(hours=8))).date()
+                           for r in data['watermarks']['rows']}
+                if cutoffs.get('channel_daily', date.min) < date.fromisoformat(data['actual_window'][1]):
+                    raise ValueError('channel_daily_incomplete_for_channel_health')
             # Conservative equality avoids rewriting SQL literals or claiming semantic equivalence.
             if any(evidence['source'].strip() == sql.strip() for evidence in data['evidence']):
                 data['outcome'] = 'insufficient_evidence'
@@ -341,11 +346,13 @@ class TaskService:
             profile = action['action'] == 'profile'
             from metricguard.metric_profiles import is_business_profile
             evidence_window = data['actual_window']
-            if action.get('kind') in ('cohort_health', 'crash_versions'):
+            if action.get('kind') in ('cohort_health', 'crash_versions', 'channel_health'):
                 from metricguard.metric_profiles import comparison_window
                 evidence_window = comparison_window(data['actual_window'])
             limitations = ['business_definition_requires_independent_reference']
-            if profile and is_business_profile(action):
+            if action.get('kind') == 'channel_health':
+                limitations += ['current_and_previous_cohorts_exact_windows', 'costs_use_registration_window', 'missing_spend_or_zero_denominator_is_unavailable']
+            elif profile and is_business_profile(action):
                 limitations += (['release_history_before_current_end_includes_older_dates'] if action['kind'] == 'releases'
                                 else ['current_and_previous_cohorts_exact_windows', 'registration_attribution_separate_from_actual_crash_attribution'])
             elif profile:
@@ -357,7 +364,7 @@ class TaskService:
                 'limitations': limitations, 'business_definition_status': 'requires_independent_reference',
                 'contexts': {Reference(eid, i, k).pointer: asdict(FactContext(
                     ('profile:' + action['table'] + ':' + action['kind']) if profile else 'query_result:' + data['definition']['id'],
-                    (row['window_start'], row['window_end']) if action.get('kind') in ('cohort_health', 'crash_versions') else tuple(evidence_window),
+                    (row['window_start'], row['window_end']) if action.get('kind') in ('cohort_health', 'crash_versions', 'channel_health') else tuple(evidence_window),
                     {key: str(v) for key, v in row.items() if v is not None and type(v) not in (int, float)}, None))
                     for i, row in enumerate(rows) for k, value in row.items() if type(value) in (int, float)}}
             data['evidence'].append(evidence)
@@ -409,7 +416,12 @@ class TaskService:
             limitations=data['limitations'], unsupported_hypotheses=data['unsupported_hypotheses'],
             unresolved_questions=data['unresolved_questions'], business_definition_status='requires_independent_reference', inference_status='not_assessed')
         from metricguard.version_diagnosis import version_diagnosis
-        diagnosis = version_diagnosis(data['evidence'])
+        from metricguard.channel_diagnosis import channel_diagnosis
+        version = version_diagnosis(data['evidence'])
+        channel = channel_diagnosis(data['evidence'])
+        diagnosis = channel if channel is not None else version
+        if version is not None and channel is not None:
+            report['additional_diagnoses'] = [version]
         if diagnosis is not None:
             report['diagnosis'] = diagnosis
             report['inference_status'] = 'bounded_descriptive_rule_requires_human_review'

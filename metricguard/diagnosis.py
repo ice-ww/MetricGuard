@@ -6,6 +6,11 @@ ACTION_PROMPT = '''Choose the next test from actual evidence; do not assume a ca
 {"action":"profile","table":"users","column":"channel","kind":"distribution"},
 {"action":"stop","unsupported_hypotheses":["untested hypothesis"],"unresolved_questions":["remaining question"]}.
 Profile kinds: distribution, missing, time_coverage (DATE/TIMESTAMP columns only).
+For channel acquisition, mature D1 retention and matching registration-window costs use:
+{"action":"profile","table":"users","column":"channel","kind":"channel_health"}.
+It compares current and immediately preceding equal-length windows, including idle spend with zero users.
+This profile suffices for bounded channel contribution interpretation; no version/crash profiles are required.
+Low retention does not establish fraud, and cost per new user need not rise. Zero denominators are unavailable, not zero costs.
 For mature retention/crash comparison use the trusted business profile:
 {"action":"profile","table":"users","column":"registration_version","kind":"cohort_health"}.
 It computes current and immediately preceding equal-length mature cohorts by registration system/version,
