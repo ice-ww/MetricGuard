@@ -6,9 +6,12 @@ def render_svg(chart: dict) -> str:
     points=chart['points']
     low=min(0,min(float(y) for _,y in points))
     high=max(0,max(float(y) for _,y in points))
-    extent=high-low or 1
+    # Normalize first: subtracting two finite extremes can overflow a float.
+    scale=max(abs(low),abs(high)) or 1
+    normalized_low=low/scale
+    extent=high/scale-normalized_low or 1
     def y_at(value):
-        return 210-(float(value)-low)/extent*170
+        return 210-(float(value)/scale-normalized_low)/extent*170
     width=540/len(points)
     parts=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img">',
            '<title>'+escape(chart['chart_id'])+'</title>',

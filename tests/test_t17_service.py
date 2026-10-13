@@ -94,6 +94,28 @@ def test_publication_is_immutable_and_foreign_task_cannot_read(publication_task)
         service.publication('other',publication['publication_id'])
 
 
+def test_offline_reviews_keep_each_rating_and_require_complete_reasons(publication_task):
+    service,task,base=publication_task; draft=deepcopy(base)
+    draft['inferences']=[{'inference_id':'review-fixture','text':'Synthetic review contract fixture',
+        'supporting_assertion_ids':['0'],'opposing_assertion_ids':[],'unexcluded_factors':[]}]
+    publication=service.publish_report(task,draft); pid=publication['publication_id']
+    rating={'inference_id':'review-fixture',
+        'scores':{'relevance':2,'counterevidence':2,'causal_restraint':2},
+        'reasons':{'relevance':'synthetic fixture','counterevidence':'synthetic fixture','causal_restraint':'synthetic fixture'}}
+    malformed=deepcopy(rating); malformed['reasons']['relevance']=''
+    with pytest.raises(ValueError,match='reason required'):
+        service.review_report(task,pid,'synthetic reviewer','human',[malformed])
+    with pytest.raises(ValueError,match='all inferences'):
+        service.review_report(task,pid,'synthetic reviewer','human',[])
+    first=service.review_report(task,pid,'synthetic reviewer','human',[rating])
+    rating['scores']['relevance']=0
+    second=service.review_report(task,pid,'synthetic reviewer','human',[rating])
+    assert first['status']=='passed' and second['status']=='failed'
+    assert first['review_id']!=second['review_id']
+    assert service.semantic_reviews(task,pid)==[first,second]
+    assert service.publication(task,pid)==publication
+
+
 def test_truncated_evidence_only_supports_cells_and_partial_chart(tmp_path,fixture_snapshot,image):
     with TaskService(tmp_path/'service',image,{'dev':fixture_snapshot.database},token='controlled',limits={'model':2},
                      transport=httpx.MockTransport(lambda request: response({'sql':'SELECT user_id,1 AS observed FROM users ORDER BY user_id'}))) as service:
@@ -125,6 +147,25 @@ def test_svg_escapes_visible_material_and_publication_survives_reopen(tmp_path,f
         assert '&lt;script&gt;' in publication['charts'][0]['svg']
     with TaskService(root,image,{'dev':fixture_snapshot.database},token='controlled') as service:
         assert service.publication(task,publication['publication_id'])==publication
+
+
+def test_chart_coordinates_stay_finite_for_extreme_finite_values(tmp_path,fixture_snapshot,image):
+    import math
+    import xml.etree.ElementTree as ET
+    with TaskService(tmp_path/'service',image,{'dev':fixture_snapshot.database},token='controlled',limits={'model':2},
+                     transport=httpx.MockTransport(lambda request: response({'sql':"SELECT 'negative' AS label,-1e308 AS observed UNION ALL SELECT 'positive',1e308"}))) as service:
+        task=service.create('新增用户自然日次日留存','dev',('2026-01-01','2026-01-08'))
+        result=service.run(task); e=result['evidence'][0]; eid=e['evidence_id']; ref=Reference(eid,0,'observed')
+        publication=service.publish_report(task,{'assertions':[{'assertion_id':'cell','reference':asdict(ref),
+            'context':e['contexts'][ref.pointer],'value':e['rows'][0]['observed'],'scope':'cell'}],
+            'inferences':[],'charts':[{'chart_id':'extremes','kind':'bar',
+                'x_refs':[asdict(Reference(eid,i,'label')) for i in range(2)],
+                'y_refs':[asdict(Reference(eid,i,'observed')) for i in range(2)]}]})
+        xml=ET.fromstring(publication['charts'][0]['svg'])
+        bars=[node for node in xml.iter() if node.tag.endswith('rect') and 'x' in node.attrib]
+        assert len(bars)==2
+        assert all(math.isfinite(float(node.attrib[key])) for node in bars for key in ('x','y','width','height'))
+        assert all(float(node.attrib['height'])>0 for node in bars)
 
 
 def test_publication_preserves_rejected_original_and_denominator(tmp_path, fixture_snapshot, image):
