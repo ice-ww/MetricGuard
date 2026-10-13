@@ -192,7 +192,8 @@ def assemble(data: dict, task: str) -> tuple[list[dict],dict]:
                 'supporting_assertion_ids':sorted({a for row in supports for a in row_ids.get(row,[])}),
                 'opposing_assertion_ids':sorted({a for row in opposition for a in row_ids.get(row,[])}),
                 'unexcluded_factors':diagnosis.get('unexcluded_factors',[])})
-    if not inferences and assertions and (diagnoses or report.get('analysis_result')=='insufficient_evidence'):
+    if not inferences and assertions and (diagnoses or
+            'requested_window_shortened_to_complete_sources' in report.get('limitations',[])):
         inferences.append({'inference_id':'assessment:0','text':report['summary'],
             'supporting_assertion_ids':[a['assertion_id'] for a in assertions],
             'opposing_assertion_ids':[],
