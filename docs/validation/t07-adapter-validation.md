@@ -1,5 +1,7 @@
 # T07 实测结果（2026-10-12）
 
+> 历史记录（2026-10-12）：下文保留当时的严格 Token 上限阻塞结论。2026-10-13 用户批准调度保护值后的当前结论见 [T07 收口报告](t07-scheduler-closure.md)。
+
 真实 API 证据保存在 [t07-real-flash.json](t07-real-flash.json)，没有密钥。SDK 1.13.0、Python 3.12.10，`deepseek-flash`，温度 0、thinking disabled、最大输出 128、自动重试 0。
 
 | 实验 | 独立结果 |

@@ -1,0 +1,229 @@
+{
+  "date": "2026-10-13",
+  "contract": "30000 scheduler guard; not actual token hard cap",
+  "runtime_changed": false,
+  "new_paid_requests": 0,
+  "command": "uv run pytest tests/test_t05.py tests/test_t07_adapter.py tests/test_t07_scheduler.py -q --junitxml=artifacts/t07-scheduler-closure-final.xml",
+  "suite": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "28",
+    "time": "17.654",
+    "timestamp": "2026-10-13T10:10:50.889442+08:00",
+    "hostname": "Legion-R7000-2020"
+  },
+  "cases": [
+    {
+      "classname": "tests.test_t05",
+      "name": "test_durable_attempts_and_true_retry",
+      "time": "0.098",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t05",
+      "name": "test_clarification_survives_restart_without_repeating_call",
+      "time": "0.395",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t05",
+      "name": "test_waiting_does_not_consume_active_time_and_model_cannot_edit_state",
+      "time": "0.336",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t05",
+      "name": "test_real_process_crash_never_resumes[after_reserve-0-100-unknown]",
+      "time": "2.158",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t05",
+      "name": "test_real_process_crash_never_resumes[after_send-1-100-unknown]",
+      "time": "2.173",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t05",
+      "name": "test_real_process_crash_never_resumes[after_result-1-30-completed]",
+      "time": "2.124",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t05",
+      "name": "test_real_process_crash_never_resumes[before_checkpoint-1-30-completed]",
+      "time": "2.167",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t05",
+      "name": "test_real_process_crash_never_resumes[after_checkpoint-1-30-completed]",
+      "time": "2.184",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t05",
+      "name": "test_global_budgets_survive_failed_attempts_and_restart",
+      "time": "0.175",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t05",
+      "name": "test_single_service_owner_and_task_closed_cannot_dispatch",
+      "time": "0.155",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t05",
+      "name": "test_active_budget_blocks_next_send_inside_same_segment",
+      "time": "0.166",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t05",
+      "name": "test_missing_checkpoint_refuses_waiting_answer",
+      "time": "0.195",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t05",
+      "name": "test_nonfinite_or_fractional_policy_cannot_expand_budget[limits0]",
+      "time": "0.027",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t05",
+      "name": "test_nonfinite_or_fractional_policy_cannot_expand_budget[limits1]",
+      "time": "0.027",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t05",
+      "name": "test_nonfinite_or_fractional_policy_cannot_expand_budget[limits2]",
+      "time": "0.028",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t05",
+      "name": "test_nonfinite_or_fractional_policy_cannot_expand_budget[limits3]",
+      "time": "0.027",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t05",
+      "name": "test_nonfinite_or_fractional_policy_cannot_expand_budget[limits4]",
+      "time": "0.028",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t07_adapter",
+      "name": "test_real_sdk_settles_wire_usage_and_replay_does_not_send",
+      "time": "0.184",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t07_adapter",
+      "name": "test_unknown_usage_holds_reservation_and_prevents_more_sends[timeout]",
+      "time": "0.078",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t07_adapter",
+      "name": "test_unknown_usage_holds_reservation_and_prevents_more_sends[server_error]",
+      "time": "0.077",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t07_adapter",
+      "name": "test_unknown_usage_holds_reservation_and_prevents_more_sends[missing_usage]",
+      "time": "0.078",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t07_adapter",
+      "name": "test_report_headroom_and_call_limit_are_enforced",
+      "time": "0.136",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t07_adapter",
+      "name": "test_stream_cancel_keeps_unknown_and_complete_stream_accounts_reasoning_once",
+      "time": "0.156",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t07_scheduler",
+      "name": "test_actual_overrun_is_recorded_and_blocks_further_dispatch",
+      "time": "0.085",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t07_scheduler",
+      "name": "test_report_headroom_is_unavailable_to_normal_calls_but_report_can_use_it[limits0]",
+      "time": "0.077",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t07_scheduler",
+      "name": "test_report_headroom_is_unavailable_to_normal_calls_but_report_can_use_it[limits1]",
+      "time": "0.080",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t07_scheduler",
+      "name": "test_unknown_usage_survives_reopening_and_blocks_even_final_report",
+      "time": "0.084",
+      "outcome": "passed"
+    },
+    {
+      "classname": "tests.test_t07_scheduler",
+      "name": "test_default_ten_call_limit_preserves_last_call_for_report",
+      "time": "0.382",
+      "outcome": "passed"
+    }
+  ],
+  "python": "3.12.10",
+  "dependencies": {
+    "anthropic": "1.13.0",
+    "httpx2": "2.13.1",
+    "langgraph": "1.2.14",
+    "langgraph-checkpoint-sqlite": "3.1.1"
+  },
+  "sha256": {
+    "tests/test_t07_scheduler.py": "5dc68fb82370a8e16183a99d39d51ec672f19788932e476632fe78e77de33238",
+    "tests/test_t07_adapter.py": "b1336e1b3c65e4f302f9e5f350e5fe197005528fa0263f28e607d04a2ed3eaf9",
+    "tests/test_t05.py": "f5447fc7d2f0fcc7a4b8bc752c1edace9209672d9cf2445908cfea5a9b85b328",
+    "experiments/t07/adapter.py": "b930a9fc31109ee38538226b3ba49668632c089533662bc5e567281d12dbc847",
+    "experiments/t07/verify.py": "e5cbaca0f6825873cdbea9fe7a695fb05d86851c9de2b71f782cbf7d78160b58",
+    "experiments/t05/ledger.py": "c7c728873ef75282dd88aaa70a283eb3d846f05717d69ada915f23c422e11bc7",
+    "uv.lock": "6e529d8ba32a5d3334ecfc91d46856d9319dcee2a14e0afc4313722ca2bcda88",
+    "docs/validation/t07-real-flash.json": "b1903eb339f0d687d4e8c3451a3aa21290907eb4be06399b3a19548e82e464fb"
+  },
+  "historical_api_arithmetic_recheck": {
+    "provider_arithmetic": [
+      {
+        "case": "normal",
+        "input": 313,
+        "cached": 0,
+        "total": 314,
+        "peak_fee_usd": "0.0000951"
+      },
+      {
+        "case": "stream_complete",
+        "input": 313,
+        "cached": 128,
+        "total": 314,
+        "peak_fee_usd": "0.000057468"
+      }
+    ],
+    "unknown_preserved": true,
+    "strict_cap": "not_verified"
+  },
+  "checks": {
+    "mypy": "30 source files passed",
+    "uv_lock_check": "passed"
+  },
+  "human_observation": "User saw several hundred-token requests between 19:00 and 20:00 Asia/Shanghai on 2026-10-12; no per-request or exact invoice reconciliation."
+}
