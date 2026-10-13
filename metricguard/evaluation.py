@@ -1,5 +1,6 @@
 """Audited evaluation owner. Adapters receive public inputs, never expected answers."""
 from copy import deepcopy
+from contextlib import contextmanager
 from datetime import datetime,timezone
 import hashlib
 import json
@@ -15,6 +16,27 @@ COUNTS={'simple':6,'A1':3,'A2':3,'A3':3,'A4':3,'normal':2,'insufficient':2,'clar
 
 def file_hash(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def safe_json(value,depth=0,ancestors=None):
+    """Preserve invalid adapter material as explicit JSON diagnostics, never silence it."""
+    ancestors=set() if ancestors is None else ancestors
+    if depth>50 or id(value) in ancestors: return {'invalid_value':'circular_or_too_deep'}
+    path=ancestors|{id(value)}
+    if isinstance(value,dict): return {str(k):safe_json(v,depth+1,path) for k,v in value.items()}
+    if isinstance(value,(list,tuple)): return [safe_json(v,depth+1,path) for v in value]
+    try:
+        json.dumps(value,allow_nan=False)
+        return value
+    except (TypeError,ValueError):
+        return {'invalid_value':repr(value) if isinstance(value,float) else type(value).__name__}
+
+
+def failure_usage(raw,elapsed: float) -> dict:
+    try:
+        return deepcopy(usage(raw['usage']))
+    except (KeyError,ValueError,TypeError):
+        return {'seconds':elapsed,'steps':None,'model_calls':None,'tokens':None,'cost':None}
 
 
 def summarize(records: list[dict], formal: bool) -> dict:
@@ -76,8 +98,14 @@ class EvaluationRunner:
                 CREATE TABLE IF NOT EXISTS results(run TEXT,ordinal INTEGER,payload TEXT,PRIMARY KEY(run,ordinal));
                 CREATE TABLE IF NOT EXISTS reviews(id INTEGER PRIMARY KEY,run TEXT,ordinal INTEGER,payload TEXT);''')
 
+    @contextmanager
     def _db(self):
-        return sqlite3.connect(self.database)
+        connection=sqlite3.connect(self.database)
+        try:
+            with connection:
+                yield connection
+        finally:
+            connection.close()
 
     def _event(self,kind: str,detail: dict) -> None:
         with self._db() as db:
@@ -175,30 +203,38 @@ class EvaluationRunner:
             db.execute('INSERT INTO runs VALUES(?,?,?)',(run_id,version,json.dumps({'configuration':bundle['configuration'],'bundle_hash':digest(bundle)})))
         self._event('run_started',{'run_id':run_id,'version':version,'status':self.status(version)})
         ordinal=0
-        unknown={'seconds':0,'steps':None,'model_calls':None,'tokens':None,'cost':None}
         for round_no in (1,2,3):
             for case in bundle['cases']:
                 public=deepcopy(case['public'])
                 preflight_started=time.monotonic()
+                raw_prepared=None
                 try:
                     if bundle['purpose']=='formal':
                         if self.snapshot_root is None: raise ValueError('frozen snapshot root required')
                         snapshot=(self.snapshot_root/public['snapshot']).resolve()
                         if not snapshot.is_relative_to(self.snapshot_root) or file_hash(snapshot)!=case['snapshot_sha256']:
                             raise ValueError('frozen snapshot drift')
-                    prepared=prepare(deepcopy(public),deepcopy(bundle['configuration']),deepcopy(case.get('controls',{})))
-                    usage(prepared['usage'])
-                    if prepared['status'] not in ('ok','failed'): raise ValueError('invalid preflight')
+                    raw_prepared=prepare(deepcopy(public),deepcopy(bundle['configuration']),deepcopy(case.get('controls',{})))
+                    if not isinstance(raw_prepared,dict) or not isinstance(raw_prepared.get('materials'),dict) or raw_prepared.get('status') not in ('ok','failed'):
+                        raise ValueError('invalid preflight shape')
+                    usage(raw_prepared['usage'])
+                    json.dumps(raw_prepared,allow_nan=False)
+                    prepared=deepcopy(raw_prepared)
                 except Exception as error:
-                    prepared={'status':'failed','materials':{},'usage':{**unknown,'seconds':time.monotonic()-preflight_started},'error':type(error).__name__}
+                    prepared={'status':'failed','materials':{},'usage':failure_usage(raw_prepared,time.monotonic()-preflight_started),
+                        'error':{'type':type(error).__name__,'original':safe_json(raw_prepared)}}
                 for variant in ('agent','baseline'):
                     execution_started=time.monotonic()
+                    raw_artifact=None
                     try:
-                        artifact=execute(deepcopy(public),deepcopy(prepared['materials']),variant,deepcopy(bundle['configuration'])) if prepared['status']=='ok' else {'usage':{'seconds':0,'steps':0,'model_calls':0,'tokens':0,'cost':0}}
-                        if prepared['status']=='ok': usage(artifact['usage'])
+                        raw_artifact=execute(deepcopy(public),deepcopy(prepared['materials']),variant,deepcopy(bundle['configuration'])) if prepared['status']=='ok' else {'usage':{'seconds':0,'steps':0,'model_calls':0,'tokens':0,'cost':0}}
+                        if not isinstance(raw_artifact,dict): raise ValueError('invalid execution shape')
+                        usage(raw_artifact['usage'])
+                        json.dumps(raw_artifact,allow_nan=False)
+                        artifact=deepcopy(raw_artifact)
                     except Exception as error:
-                        artifact={'execution_error':type(error).__name__,'usage':{**unknown,'seconds':time.monotonic()-execution_started}}
-                    if 'usage' not in artifact: artifact['usage']=deepcopy(unknown)
+                        artifact=safe_json(raw_artifact) if isinstance(raw_artifact,dict) else {'original':safe_json(raw_artifact)}
+                        artifact.update(adapter_error=type(error).__name__,usage=failure_usage(raw_artifact,time.monotonic()-execution_started),safety_passed=False)
                     artifact['preflight']={**prepared['usage'],'status':prepared['status']}
                     if 'error' in prepared: artifact['preflight_error']=prepared['error']
                     artifact.setdefault('safety_passed',False)

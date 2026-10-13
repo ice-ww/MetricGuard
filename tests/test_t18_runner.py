@@ -160,13 +160,71 @@ def test_execution_exception_is_retained_with_unknown_usage(tmp_path):
     assert all(s['unknown_model_call_records']==1 and s['total_cost'] is None for s in result['summary']['rounds'])
 
 
-def test_freeze_builder_uses_independent_references_on_separate_development_data(tmp_path):
+@pytest.mark.parametrize('category',['A1','A2','A3','A4'])
+def test_freeze_builder_uses_independent_references_on_separate_development_data(tmp_path,category):
     from experiments.t18.freeze import build_case
-    recipe={'id':'builder-selftest','category':'A4','scenario':'A4','seed':180018,'base_start':'2026-11-01T00:00:00+08:00',
+    recipe={'id':'builder-selftest','category':category,'scenario':category,'seed':180018,'base_start':'2026-11-01T00:00:00+08:00',
         'new_version':'9.9','crash_probability':.61,'campaign_channel':'dev-only','campaign_growth':2.9,
         'campaign_retention':.18,'campaign_unit_cost':190,'completion_drop_probability':.85,
         'current_ios_share':.64,'current_android_retention':.32,'simple_metric':'users'}
     case,provenance=build_case(recipe,tmp_path)
     assert provenance['reference_agreement'] and case['required'] and case['snapshot_sha256']
-    assert any(r['context']['metric']=='baseline_standardized_retention_rate' for r in case['required'])
+    if category=='A4':
+        assert any(r['context']['metric']=='baseline_standardized_retention_rate' for r in case['required'])
+        assert any(r['context']['metric']=='retention_rate' and r['context']['group']=={} for r in case['required'])
+    if category in ('A2','A4'): assert any(r['context']['metric']=='new_user_share' for r in case['required'])
+    if category=='A1':
+        assert case['required_observations'][0]['context']['metric']=='release_date'
+        assert any(r['context']['metric']=='actual_first_day_crashed_users' for r in case['required'])
+    if category=='A3':
+        assert len(case['required_observations'])==2
+        assert any(r['context']['metric']=='unmatched' for r in case['required'])
     assert 'category' not in case['public'] and 'required' not in case['public']
+
+
+@pytest.mark.parametrize('invalid', ['nan','object','null','list','missing_materials'])
+def test_malformed_adapter_output_preserves_all_rounds_and_failures(tmp_path,invalid):
+    runner,case,artifact,config=setup_bundle(tmp_path)
+    def prepare(*args):
+        prepared={'status':'ok','materials':{},'usage':{k:v for k,v in artifact['preflight'].items() if k!='status'}}
+        if invalid=='missing_materials': prepared.pop('materials')
+        return prepared
+    def execute(*args):
+        result=deepcopy(artifact)
+        if invalid=='nan': result['report']['assertions'][0]['value']=float('nan')
+        if invalid=='object': result['extra']=object()
+        if invalid=='null': return None
+        if invalid=='list': return []
+        return result
+    result=runner.results(runner.run('selftest-v1',prepare,execute,actor='invalid adapter selftest'))
+    assert result['complete'] and len(result['records'])==6
+    assert all(not r['score']['complete_pass'] for r in result['records'])
+    if invalid=='nan': assert all(r['score']['assertion_count']==1 and r['score']['assertion_pass_rate']==0 for r in result['records'])
+
+
+def test_malformed_assertion_keeps_valid_siblings_and_input_denominator(tmp_path):
+    runner=EvaluationRunner(tmp_path); case,artifact=sample()
+    artifact['report']['assertions'].append({'assertion_id':'malformed'})
+    result=runner.score(case,artifact)
+    assert result['assertion_count']==2 and result['valid_assertion_count']==1 and result['assertion_pass_rate']==.5
+    assert not result['complete_pass']
+
+
+def test_textual_calendar_observation_requires_exact_evidence_and_context(tmp_path):
+    runner=EvaluationRunner(tmp_path); case,artifact=sample()
+    ctx={'metric':'release_date','window':['2026-01-01','2026-01-08'],'group':{'os':'Android','version':'2.0'},'comparison':'current'}
+    case['required_observations']=[{'context':ctx,'value':'2026-01-01'}]
+    assert not runner.score(case,artifact,human(case,artifact))['complete_pass']
+    e=artifact['evidence'][0]; e['columns']['released']='string'; e['rows'][0]['released']='2026-01-01'; e['contexts']['/rows/0/released']=ctx
+    artifact['report']['observations']=[{'reference':{'evidence_id':e['evidence_id'],'row':0,'column':'released'},'context':ctx,'value':'2026-01-01'}]
+    assert runner.score(case,artifact,human(case,artifact))['complete_pass']
+    artifact['report']['observations'][0]['value']='2026-01-02'
+    assert not runner.score(case,artifact,human(case,artifact))['complete_pass']
+
+
+def test_registry_releases_file_handles_after_each_operation(tmp_path):
+    runner,case,artifact,config=setup_bundle(tmp_path)
+    runner.audit(); runner.status('selftest-v1')
+    renamed=runner.database.with_suffix('.moved')
+    runner.database.rename(renamed)
+    renamed.rename(runner.database)

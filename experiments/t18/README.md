@@ -5,14 +5,16 @@
 ## 三个隔离用途
 
 - 开发生成器验证：测试文件 seed=180018，不属于冻结任务。
-- 评分器自测：`python -m experiments.t18.selftest --output <fresh-dir> --image <digest>`。11 个受控报告、3 轮、agent/baseline 两列，共 66 条。DuckDB `COUNT(range(7))` 与 Python 集合基数独立核对。所有模拟 human 收据明确标注 synthetic，不能冒充真实人工验收。
+- 评分器自测：`python -m experiments.t18.selftest --output <fresh-dir> --image <digest>`。14 个受控报告、3 轮、agent/baseline 两列，共 84 条。DuckDB `COUNT(range(7))` 与 Python 集合基数独立核对。所有模拟 human 收据明确标注 synthetic，不能冒充真实人工验收。
 - 冻结任务：`python -m experiments.t18.freeze --output <fresh-dir> --registry artifacts/evaluation-registry --image <digest>`。24 个不同快照，6 简单、A1–A4 各3、正常2、不足2、澄清1、恢复1。只运行生成器和两份独立参考，不运行诊断或评分。正式真实模型三轮由 T20 执行。
 
 ## 输入和计分契约
 
 每例私有 expected 包含必需的业务事实上下文、精确数值或绝对容差、禁止结论代码、候选解释、定位字段及行为要求。T08 断言先与真实证据精确校验，再按业务指标/窗口/分群/比较对象与独立答案及容差匹配；不要求 SQL、行号、工具或执行路径相同。工具适配器负责从实际查询语义产生可信的 canonical context，不能仅依据模型自报标签改写证据。规范指标名及所需分群见冻结 expected；指标语义来自公开 corpus。T20 需验证实际适配器的业务口径映射。
 
-报告包含 `assertions`（T08 Assertion 字典）、`inferences`（ID、文本、支持/反对 assertion IDs、未排除因素）、`explanation`、`localization`、`conclusions`、`behaviors`、`blocked`。blocked 每项保留 kind、original、reason、action（removed/downgraded）；被删除的数值断言仍纳入原始校验分母。存在拦截/降级时不能完整通过。归因命中独立计数，不等同完整通过；无事实或缺少必需事实不能通过。
+报告包含 `assertions`（T08 Assertion 字典）、`inferences`（ID、文本、支持/反对 assertion IDs、未排除因素）、`explanation`、`localization`、`conclusions`、`behaviors`、`blocked`。`observations` 用 reference/context/value 引用 T08 字符串单元格，精确核对日期等非数值事实，与数值断言分开计数；日期统一上海自然日 ISO 表示。A1 必须提供发布日历及注册/实际崩溃版本事实，A2 必须提供渠道新增占比，A3 必须提供两条链路完整截止时间和对齐计数，A4 必须提供系统占比、实际总体及标准化留存对照。
+
+blocked 每项保留 kind、original、reason、action（removed/downgraded）；被删除或格式错误的数值断言仍纳入原始校验分母，有效的同批断言仍独立核验。存在拦截/降级时不能完整通过。归因命中独立计数，不等同完整通过；无事实或缺少必需事实不能通过。适配器的空输出、缺字段、NaN 或不可序列化对象转为带原始诊断表示的失败记录，不中止后续任务、轮次或隐藏分母。
 
 禁止结论代码做确定性拒绝，但自由文本的相关性、遗漏反证、因果强度仍依赖固定 rubric 人工评分，不以字段存在或关键词证明正确。人工收据绑定 case_id、report_hash、evidence_hash、rubric_hash、reviewer 和逐推断三维评分/理由。agent 收据仅 advisory_only；缺少评分 pending；收据追加保存，读取最新评分时仍保留全部历史。
 
@@ -29,3 +31,5 @@ manifest 固定代码提交及文件哈希、uv.lock、模型/端点/参数、Pr
 registry 是持久审计权威，必须沿用同一个目录并备份，不能通过新建目录绕过历史。`access(...purpose='repair')` 在返回私有材料前永久标记 family 和 snapshot identity 为 regression；改版本名、改 family 但复用快照、同 family 重新生成快照均继承该标记。每次冻结、私有读取、运行、评分和结果读取留 hash-chain 事件。SQLite 与归档 JSON 防止应用内静默改写；拥有本地文件权限的管理员直接删库或绕开 API 读文件不属于这一应用边界，需要显式披露并保留审计备份。
 
 不得以 scorer_selftest 用途读取正式冻结集。generation_audit 只用于核查构建与参考一致性；若据冻结失败反馈修复 T12–T17，必须先用 repair 访问并披露回归用途。版本升级不是恢复未见性质的手段。T18 不运行正式诊断，故没有正式失败反馈用于调优。
+
+修订冻结配置/更正静态规格缺项时使用 `--revise-from <old-version> --version <new-version> --data-root <original-snapshot-root>`，保留原版本、原快照字节、family 和审计历史。它仍继承任何已有 regression 标记。v2 的收紧来自父规格复审和独立开发反例，并非冻结诊断失败反馈；正式 24 项未被执行或评分。

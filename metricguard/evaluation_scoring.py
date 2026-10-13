@@ -27,16 +27,27 @@ def score(case: dict, artifact: dict, review: dict | None = None) -> dict:
     result={'case_id':case['id'],'category':case['category'],'attribution_hit':False,'complete_pass':False,
         'semantic_status':'pending','assertion_count':0,'valid_assertion_count':0,'assertion_pass_rate':None,
         'citation_count':0,'inference_count':0,'citation_coverage':None,'required_count':len(case['required']),
-        'matched_count':0,'blocked_count':0,'failure_types':[],'rubric_hash':RUBRIC_HASH}
+        'matched_count':0,'observation_count':0,'valid_observation_count':0,'blocked_count':0,'failure_types':[],'rubric_hash':RUBRIC_HASH}
     try:
         _score(case,artifact,review,result)
     except (ValueError,TypeError,KeyError,IndexError,OverflowError,AttributeError) as error:
         result['complete_pass']=False
         result['failure_types'].append('invalid_artifact:'+str(error))
+    if result['inference_count']:
+        result['citation_coverage']=result['citation_count']/result['inference_count']
     return result
 
 
 def _score(case: dict, artifact: dict, review: dict | None, result: dict) -> None:
+    report=artifact.get('report',{})
+    submitted=report.get('assertions',[])
+    blocked=report.get('blocked',[])
+    if not isinstance(submitted,list) or not isinstance(blocked,list): raise ValueError('invalid assertion collection')
+    original_items=submitted+[item.get('original',{}) for item in blocked if isinstance(item,dict) and item.get('kind')=='assertion']
+    result['assertion_count']=len(original_items)
+    result['blocked_count']=len(blocked)
+    result['assertion_pass_rate']=0 if original_items else None
+    if artifact.get('adapter_error'): result['failure_types'].append('adapter_output_invalid')
     if artifact['preflight']['status']!='ok':
         result['failure_types'].append('preflight_failed')
         return
@@ -48,26 +59,47 @@ def _score(case: dict, artifact: dict, review: dict | None, result: dict) -> Non
             raw['columns'],tuple(raw['rows']),{k:context(v) for k,v in raw['contexts'].items()},
             tuple(raw['window']),raw['group'],raw['sample'],tuple(raw['limitations']),raw['truncated'],
             raw.get('kind','query'),tuple(raw.get('whole_population_fields',[]))))
-    report=artifact['report']
-    facts=[Assertion(f['assertion_id'],Reference(**f['reference']),context(f['context']),f['value'],f['scope']) for f in report['assertions']]
-    blocked_facts=[Assertion(f['assertion_id'],Reference(**f['reference']),context(f['context']),f['value'],f['scope'])
-        for item in report['blocked'] if item.get('kind')=='assertion' for f in [item['original']]]
-    originals=facts+blocked_facts
-    checked=store.validate_report(tuple(originals))
-    result['assertion_count']=len(originals)
+    facts=[]; published=[]
+    for index,f in enumerate(original_items):
+        try:
+            ref=Reference(**f['reference'])
+            if not isinstance(f['assertion_id'],str) or not f['assertion_id'] or not isinstance(ref.evidence_id,str) or not isinstance(ref.column,str):
+                raise ValueError('invalid assertion identity')
+            facts.append(Assertion(f['assertion_id'],ref,context(f['context']),f['value'],f['scope']))
+            published.append(index<len(submitted))
+        except (ValueError,TypeError,KeyError):
+            result['failure_types'].append('malformed_assertion')
+    checked=store.validate_report(tuple(facts))
     result['valid_assertion_count']=checked.valid_count
-    result['assertion_pass_rate']=checked.valid_count/len(originals) if originals else None
-    if not checked.passed:
+    result['assertion_pass_rate']=checked.valid_count/len(original_items) if original_items else None
+    if not checked.passed or not submitted:
         result['failure_types'].append('assertion_validation')
-    valid=[f for f,v in zip(facts,checked.results[:len(facts)],strict=True) if v.passed]
+    valid=[f for f,v,is_published in zip(facts,checked.results,published,strict=True) if v.passed and is_published]
     for required in case['required']:
         if any(digest(required['context'])==digest(f.context.__dict__) and
                math.isclose(f.value,required['value'],abs_tol=required['abs_tol'],rel_tol=required['rel_tol']) for f in valid):
             result['matched_count']+=1
     if not case['required'] or result['matched_count']!=len(case['required']):
         result['failure_types'].append('required_assertions_missing_or_wrong')
+    observations=report.get('observations',[]); valid_observations=[]
+    result['observation_count']=len(observations)
+    for observation in observations:
+        try:
+            ref=Reference(**observation['reference']); source=store.get(ref.evidence_id)
+            if type(ref.row) is not int or ref.row<0 or not isinstance(observation['value'],str): raise ValueError('invalid observation')
+            if source.rows[ref.row][ref.column]!=observation['value'] or source.contexts[ref.pointer]!=context(observation['context']):
+                raise ValueError('observation mismatch')
+            valid_observations.append(observation)
+        except (ValueError,TypeError,KeyError,IndexError):
+            result['failure_types'].append('observation_validation')
+    result['valid_observation_count']=len(valid_observations)
+    for required in case.get('required_observations',[]):
+        if not any(digest(required['context'])==digest(o['context']) and required['value']==o['value'] for o in valid_observations):
+            result['failure_types'].append('required_observation_missing_or_wrong')
     ids={f.assertion_id for f in valid}
     inference_ids=set()
+    if not isinstance(report['inferences'],list): raise ValueError('invalid inference collection')
+    result['inference_count']=len(report['inferences'])
     for inference in report['inferences']:
         identity=inference['inference_id']
         if not isinstance(identity,str) or not identity or identity in inference_ids or not inference['text'].strip():
@@ -80,8 +112,6 @@ def _score(case: dict, artifact: dict, review: dict | None, result: dict) -> Non
         result['citation_count']+=bool(support)
         if not support or not set(support+opposition)<=ids:
             result['failure_types'].append('inference_reference')
-    result['inference_count']=len(inference_ids)
-    result['citation_coverage']=result['citation_count']/len(inference_ids) if inference_ids else None
     result['attribution_hit']=case['category'] in ('A1','A2','A3','A4') and report['explanation']==case['explanation']
     if report['explanation']!=case['explanation']:
         result['failure_types'].append('explanation')

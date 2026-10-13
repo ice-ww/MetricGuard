@@ -10,7 +10,7 @@ from experiments.t18.freeze import configuration,ROOT
 from metricguard.evaluation import EvaluationRunner
 from metricguard.semantic_rubric import RUBRIC_HASH,digest
 
-NAMES=('correct','wrong_numeric','preflight_failed','missing_human','agent_review','semantic_rejected','blocked','forbidden','unknown_cost','empty','wrong_location')
+NAMES=('correct','wrong_numeric','preflight_failed','missing_human','agent_review','semantic_rejected','blocked','forbidden','unknown_cost','empty','wrong_location','malformed_nan','malformed_materials','malformed_assertion')
 
 
 def fixtures() -> tuple[list[dict],dict]:
@@ -42,11 +42,15 @@ def run(output: Path,image: str) -> dict:
     runner=EvaluationRunner(output/'registry',repository=ROOT); cases,base=fixtures()
     runner.freeze('scorer-selftest-v1','scorer-selftest',[*cases],configuration(image),purpose='scorer_selftest')
     def prepare(public,config,controls):
-        return {'status':'failed' if public['id']=='scorer-preflight_failed' else 'ok','materials':{'same_inputs':True},
+        prepared={'status':'failed' if public['id']=='scorer-preflight_failed' else 'ok','materials':{'same_inputs':True},
             'usage':{'seconds':1,'steps':1,'model_calls':1,'tokens':10,'cost':.01}}
+        if public['id']=='scorer-malformed_materials': prepared.pop('materials')
+        return prepared
     def execute(public,materials,variant,config):
         artifact=deepcopy(base); report=artifact['report']; name=public['id'].removeprefix('scorer-')
         if name=='wrong_numeric': report['assertions'][0]['value']=8
+        if name=='malformed_nan': report['assertions'][0]['value']=float('nan')
+        if name=='malformed_assertion': report['assertions'].append({'assertion_id':'invalid'})
         if name=='forbidden': report['conclusions']=['certain_cause']
         if name=='empty': report['assertions']=[]; report['inferences']=[]
         if name=='wrong_location': report['localization']={'os':'iOS'}
@@ -59,7 +63,7 @@ def run(output: Path,image: str) -> dict:
     result=runner.results(run_id)
     for ordinal,record in enumerate(result['records']):
         name=record['case_id'].removeprefix('scorer-'); artifact=record['artifact']
-        if name in ('preflight_failed','missing_human','empty'): continue
+        if name in ('preflight_failed','malformed_materials','missing_human','empty'): continue
         score=0 if name=='semantic_rejected' else 2
         review={'case_id':record['case_id'],'report_hash':digest(artifact['report']),'evidence_hash':digest(artifact['evidence']),
             'rubric_hash':RUBRIC_HASH,'reviewer':'SYNTHETIC human receipt for scorer testing; not real acceptance',
@@ -68,15 +72,15 @@ def run(output: Path,image: str) -> dict:
                         'reasons':{k:'controlled scorer fixture, not actual human assessment' for k in ('relevance','counterevidence','causal_restraint')}}]}
         runner.review(run_id,ordinal,review)
     result=runner.results(run_id)
-    assert len(result['records'])==66 and result['complete']
+    assert len(result['records'])==84 and result['complete']
     for record in result['records']:
         assert record['score']['complete_pass']==(record['case_id'] in ('scorer-correct','scorer-unknown_cost'))
         if record['case_id']=='scorer-blocked': assert record['score']['assertion_pass_rate']==.5
     for row in result['summary']['rounds']:
-        assert row['tasks']==11 and row['complete_passes']==2 and row['total_cost'] is None
-        assert row['unknown_cost_records']==1 and row['known_tokens']==310 and row['known_model_calls']==31
-        assert row['failure_types']['preflight_failed']==1
-    result['experiment']={'cases':11,'rounds':3,'variants':2,'expected_passes_per_round_variant':2,
+        assert row['tasks']==14 and row['complete_passes']==2 and row['total_cost'] is None
+        assert row['unknown_cost_records']==1 and row['known_tokens']==380 and row['known_model_calls']==38
+        assert row['failure_types']['preflight_failed']==2
+    result['experiment']={'cases':14,'rounds':3,'variants':2,'expected_passes_per_round_variant':2,
         'independent_reference':'DuckDB COUNT(range(7)) == Python set cardinality','frozen_cases_accessed':0,
         'human_receipts':'synthetic fixtures only; T17 actual human rubric acceptance remains separate','audit':runner.audit()}
     (output/'result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')

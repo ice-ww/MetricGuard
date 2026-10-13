@@ -5,7 +5,8 @@ import json
 from pathlib import Path
 import subprocess
 from typing import Any
-from experiments.t01.snapshots import build_snapshot
+import duckdb
+from experiments.t01.snapshots import build_snapshot,Snapshot
 from experiments.t01.references import sql_metrics,python_metrics
 from experiments.t05.ledger import DEFAULT_LIMITS
 from metricguard.evaluation import EvaluationRunner,file_hash
@@ -67,10 +68,43 @@ def summarize_reference(raw: dict) -> dict:
     return {'rows':rows,'coverage':raw['coverage']}
 
 
-def build_case(recipe: dict,output: Path) -> tuple[dict,dict]:
+def calendar_and_actual_crashes(database: Path,start: str,end: str) -> dict:
+    """Second independent SQL/set cross-check for actual rather than registration version."""
+    local=timezone(timedelta(hours=8))
+    with duckdb.connect(str(database),read_only=True) as con:
+        releases=con.execute("SELECT os,version,CAST(released_at AT TIME ZONE 'Asia/Shanghai' AS DATE) FROM release_calendar ORDER BY os,version").fetchall()
+        raw_releases=con.execute('SELECT os,version,released_at FROM release_calendar').fetchall()
+        cutoffs=dict(con.execute("SELECT source,CAST(complete_before AT TIME ZONE 'Asia/Shanghai' AS DATE) FROM source_watermarks").fetchall())
+        raw_cutoffs=dict(con.execute('SELECT source,complete_before FROM source_watermarks').fetchall())
+        sql=dict(((system,version),count) for system,version,count in con.execute("""SELECT s.os,s.version,COUNT(DISTINCT s.user_id)
+            FROM sessions s JOIN users u ON u.user_id=s.user_id
+            WHERE CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)>=CAST(? AS DATE)
+              AND CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)<CAST(? AS DATE)
+              AND CAST(s.started_at AT TIME ZONE 'Asia/Shanghai' AS DATE)=CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)
+              AND s.crashed GROUP BY s.os,s.version""",[start,end]).fetchall())
+        users=dict(con.execute('SELECT user_id,registered_at FROM users').fetchall())
+        sessions=con.execute('SELECT user_id,started_at,os,version,crashed FROM sessions').fetchall()
+    independent: dict[tuple,set]={}
+    for uid,at,system,version,crashed in sessions:
+        day=users[uid].astimezone(local).date().isoformat()
+        if crashed and start<=day<end and at.astimezone(local).date().isoformat()==day:
+            independent.setdefault((system,version),set()).add(uid)
+    assert sql=={key:len(values) for key,values in independent.items()}
+    assert releases==sorted((system,version,at.astimezone(local).date()) for system,version,at in raw_releases)
+    assert cutoffs=={source:at.astimezone(local).date() for source,at in raw_cutoffs.items()}
+    return {'releases':{(system,version):day.isoformat() for system,version,day in releases},'actual_crashes':sql,
+            'cutoffs':{source:day.isoformat() for source,day in cutoffs.items()}}
+
+
+def build_case(recipe: dict,output: Path, *, existing: bool = False) -> tuple[dict,dict]:
     params={k:v for k,v in recipe.items() if k not in ('id','category','simple_metric')}
     params['base_start']=datetime.fromisoformat(params['base_start'])
-    snapshot=build_snapshot(output/recipe['id'],**params)
+    if existing:
+        private=output/recipe['id']/'private'/'manifest.json'
+        metadata=json.loads(private.read_text(encoding='utf-8'))
+        snapshot=Snapshot(output/recipe['id']/'public'/'snapshot.duckdb',private,metadata['logical_hash'])
+    else:
+        snapshot=build_snapshot(output/recipe['id'],**params)
     first=params['base_start']; current=first+timedelta(days=7); end=first+timedelta(days=14)
     windows={'previous':(first.date().isoformat(),current.date().isoformat()),'current':(current.date().isoformat(),end.date().isoformat())}
     references={}
@@ -78,11 +112,12 @@ def build_case(recipe: dict,output: Path) -> tuple[dict,dict]:
         relational=sql_metrics(snapshot.database,*window); independent=python_metrics(snapshot.database,*window)
         if relational!=independent: raise ValueError('independent reference disagreement')
         references[period]=summarize_reference(relational)
-    category=recipe['category']; required=[]
+    category=recipe['category']; required=[]; observations=[]
     def append_fact(metric,value,group,period,right):
         required.append({'context':{'metric':metric,'window':[windows[period][0],right],'group':group,'comparison':period},
                          'value':value,'abs_tol':0 if type(value) is int else 1e-8,'rel_tol':0})
     for period,reference in references.items():
+        total_users=sum(row['metrics']['users'] for row in reference['rows'] if set(row['group'])=={'os'})
         for row in reference['rows']:
             group=row['group']; selected=[]
             if category=='simple' and period=='current':
@@ -93,13 +128,33 @@ def build_case(recipe: dict,output: Path) -> tuple[dict,dict]:
             elif category=='A1' and set(group)=={'os','version'}:
                 selected=['users','retained','crashed_users','retention_rate','crash_affected_rate']
             elif category=='A2' and set(group)=={'channel'} and group['channel']!='idle':
-                selected=['users','retained','retention_rate','spend_cents','cost_per_new_cents','cost_per_retained_cents']
+                selected=['users','retained','retention_rate','spend_cents','cost_per_new_cents','cost_per_retained_cents','new_user_share']
                 row['metrics']['retention_rate']=row['metrics']['retained']/row['metrics']['users']
+                row['metrics']['new_user_share']=row['metrics']['users']/total_users
             elif category=='A3' and group.get('population')=='play_instances':
-                selected=['starts','completions','telemetry_complete','missing_complete','observed_completion_rate','independent_completion_rate']
+                selected=['starts','completions','telemetry_complete','missing_complete','unmatched','observed_completion_rate','independent_completion_rate']
             elif category in ('A4','normal','clarification','recovery','insufficient') and set(group)=={'os'} and (category not in ('clarification','recovery') or period=='current'):
                 selected=['users','retained','retention_rate']
+                if category=='A4':
+                    selected.append('new_user_share'); row['metrics']['new_user_share']=row['metrics']['users']/total_users
+            elif category=='A4' and group=={}:
+                selected=['users','retained','retention_rate']
             for metric in selected: append_fact(metric,row['metrics'][metric],group,period,row['end'])
+        if category=='A1':
+            extra=calendar_and_actual_crashes(snapshot.database,*windows[period])
+            for row in reference['rows']:
+                if set(row['group'])=={'os','version'}:
+                    key=(row['group']['os'],row['group']['version'])
+                    append_fact('actual_first_day_crashed_users',extra['actual_crashes'].get(key,0),row['group'],period,row['end'])
+            if period=='current':
+                observations.append({'context':{'metric':'release_date','window':list(windows[period]),
+                    'group':{'os':'Android','version':recipe['new_version']},'comparison':period},
+                    'value':extra['releases'][('Android',recipe['new_version'])]})
+        if category=='A3' and period=='current':
+            extra=calendar_and_actual_crashes(snapshot.database,*windows[period])
+            for source in ('content_events','playback_telemetry'):
+                observations.append({'context':{'metric':'source_complete_before','window':list(windows[period]),
+                    'group':{'source':source},'comparison':period},'value':extra['cutoffs'][source]})
     if category=='A4':
         previous={r['group']['os']:r['metrics'] for r in references['previous']['rows'] if set(r['group'])=={'os'}}
         current_rows={r['group']['os']:r['metrics'] for r in references['current']['rows'] if set(r['group'])=={'os'}}
@@ -129,7 +184,7 @@ def build_case(recipe: dict,output: Path) -> tuple[dict,dict]:
         'definition':DEFINITIONS,'schema':SCHEMA}
     controls={'clarification_answer':'新增用户自然日次日留存，按已提供窗口。'} if category=='clarification' else {'transient_tool_fault_once':'query_timeout_before_dispatch'} if category=='recovery' else {}
     case={'id':recipe['id'],'category':category,'public':public,'snapshot_id':snapshot.logical_hash,'snapshot_sha256':file_hash(snapshot.database),
-        'required':required,'explanation':explanations[category],'localization':location,
+        'required':required,'required_observations':observations,'explanation':explanations[category],'localization':location,
         'forbidden':['certain_cause','fraud_proven']+(['no_anomaly','complete_coverage'] if category=='insufficient' else []),
         'behaviors':behaviors,'requires_review':category not in ('simple','clarification','recovery'), 'controls':controls}
     if not required: raise ValueError('empty expected assertions')
@@ -140,19 +195,31 @@ def build_case(recipe: dict,output: Path) -> tuple[dict,dict]:
 
 def main():
     parser=argparse.ArgumentParser(); parser.add_argument('--output',type=Path,required=True); parser.add_argument('--registry',type=Path,required=True)
-    parser.add_argument('--image',required=True); parser.add_argument('--version',default='p0-independent-v1'); args=parser.parse_args()
+    parser.add_argument('--image',required=True); parser.add_argument('--version',default='p0-independent-v1')
+    parser.add_argument('--revise-from'); parser.add_argument('--data-root',type=Path); args=parser.parse_args()
     args.output.mkdir(parents=True,exist_ok=False)
-    cases=[]; provenance=[]
-    for recipe in recipes():
-        case,source=build_case(recipe,args.output); cases.append(case); provenance.append(source)
-    config=configuration(args.image)
     runner=EvaluationRunner(args.registry,repository=ROOT)
-    frozen=runner.freeze(args.version,'metricguard-p0-independent',cases,config)
+    source_recipes=recipes(); data_root=args.output; family='metricguard-p0-independent'
+    if args.revise_from:
+        if args.data_root is None or args.version==args.revise_from: raise ValueError('new version and original data root required')
+        previous=runner.access(args.revise_from,actor='static-spec revision builder',purpose='generation_audit')
+        data_root=args.data_root; family=previous['family']
+        source_recipes=[p['recipe'] for p in json.loads((data_root/'provenance.json').read_text(encoding='utf-8'))]
+        if {r['id'] for r in source_recipes}!={c['id'] for c in previous['cases']}: raise ValueError('case identity drift')
+        for case in previous['cases']:
+            if file_hash(data_root/case['public']['snapshot'])!=case['snapshot_sha256']: raise ValueError('snapshot drift')
+    cases=[]; provenance=[]
+    for recipe in source_recipes:
+        case,source=build_case(recipe,data_root,existing=bool(args.revise_from)); cases.append(case); provenance.append(source)
+    config=configuration(args.image)
+    frozen=runner.freeze(args.version,family,cases,config)
     private=runner.access(args.version,actor='freeze builder',purpose='generation_audit')
     (args.output/'bundle.json').write_text(json.dumps(private,ensure_ascii=False,indent=2),encoding='utf-8')
     (args.output/'provenance.json').write_text(json.dumps(provenance,ensure_ascii=False,indent=2),encoding='utf-8')
     (args.output/'public-tasks.json').write_text(json.dumps([c['public'] for c in cases],ensure_ascii=False,indent=2),encoding='utf-8')
-    (args.output/'freeze-record.json').write_text(json.dumps({'freeze':frozen,'audit':runner.audit(),'status':runner.status(args.version)},ensure_ascii=False,indent=2),encoding='utf-8')
+    (args.output/'freeze-record.json').write_text(json.dumps({'freeze':frozen,'supersedes':args.revise_from,
+        'revision_basis':'static parent-spec review and dedicated development fixtures; no frozen diagnosis feedback' if args.revise_from else None,
+        'snapshot_root':str(data_root.resolve()),'audit':runner.audit(),'status':runner.status(args.version)},ensure_ascii=False,indent=2),encoding='utf-8')
     print(json.dumps({'freeze':frozen,'reference_agreements':len(provenance),'diagnosis_runs':0}))
 
 
