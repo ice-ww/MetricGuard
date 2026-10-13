@@ -116,7 +116,9 @@ class EvidenceStore:
         errors: list[str] = []
         ref = assertion.reference
         try:
-            evidence = self.get(ref.evidence_id)
+            # Validation only reads the owned snapshot. Copying the whole result for
+            # every cell makes bounded 1,000-row reports quadratic in data size.
+            evidence = self._evidence[ref.evidence_id]
             if type(ref.row) is not int or ref.row < 0:
                 raise IndexError()
             value = evidence.rows[ref.row][ref.column]

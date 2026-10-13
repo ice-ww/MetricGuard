@@ -14,9 +14,12 @@ def system_diagnosis(evidence: list[dict[str, Any]]) -> dict[str, Any] | None:
         'actual_retention': {}, 'standardized_retention': None, 'within_effect_pp': None,
         'composition_effect_pp': None, 'total_change_pp': None, 'difference_interval_pp': None,
         'missing_evidence': [], 'source_facts': [],
+        'sample_sufficiency': 'not_established_for_population_inference',
+        'evidence_scope': 'observed_snapshot_descriptive_only',
         'derivation': 'S=sum(base_user_share*current_system_retention); within=S-base_actual; composition=current_actual-S',
         'statistical_limitations': ['全窗口成熟注册用户计数加权，不平均每日比例。',
             '标准化为派生比较量，不是二项样本，不发布二项区间。',
+            '未建立样本精度及独立同质抽样条件，不能判断总体过程是否异常；极小分群样本的比例尤其不稳定，候选仅描述当前快照，不代表证据充分。',
             '5 个百分点为开发描述性业务阈值；总体差值未达阈值仅表示观测近似稳定，不证明统计等效。'],
         'unexcluded_factors': ['系统内渠道和版本构成、采集质量及同期产品变化仍未排除；不证明因果，也不泛称辛普森悖论。']}
     source = profiles[-1]
@@ -40,6 +43,8 @@ def system_diagnosis(evidence: list[dict[str, Any]]) -> dict[str, Any] | None:
         current_rate, previous_rate = rates['current'], rates['previous']
         delta = (current_rate - previous_rate) * 100 if current_rate is not None and previous_rate is not None else None
         result['system_metrics'].append({'registration_os': system, 'user_share': shares,
+            'users': {p: r['users'] if r else 0 for p, r in counts.items()},
+            'retained': {p: r['retained'] if r else 0 for p, r in counts.items()},
             'retention_rate': rates, 'retention_change_pp': delta,
             'source_facts': [ref for ref in refs if ref['values']['registration_os'] == system]})
         if not system:

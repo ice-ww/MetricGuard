@@ -1,0 +1,245 @@
+{
+  "purpose": "development only; not frozen acceptance or product input",
+  "cases": [
+    {
+      "case": "january",
+      "database": "D:\\ai coding\\metricguard\\artifacts\\t15-development\\january\\public\\snapshot.duckdb",
+      "current_start": "2026-01-08",
+      "end": "2026-01-15",
+      "logical_hash": "685595542696c0225e9823982b414e76bb56bac11168255e92ee934446093e1b",
+      "private_parameters": {
+        "seed": 1501,
+        "current_ios_share": 0.6666666666666666,
+        "current_android_retention": 0.3
+      },
+      "reference": {
+        "rows": [
+          {
+            "period": "current",
+            "registration_os": "Android",
+            "users": 560,
+            "retained": 170,
+            "retention_rate": 0.30357142857142855,
+            "window_start": "2026-01-08",
+            "window_end": "2026-01-15"
+          },
+          {
+            "period": "current",
+            "registration_os": "iOS",
+            "users": 1120,
+            "retained": 1010,
+            "retention_rate": 0.9017857142857143,
+            "window_start": "2026-01-08",
+            "window_end": "2026-01-15"
+          },
+          {
+            "period": "previous",
+            "registration_os": "Android",
+            "users": 828,
+            "retained": 386,
+            "retention_rate": 0.46618357487922707,
+            "window_start": "2026-01-01",
+            "window_end": "2026-01-08"
+          },
+          {
+            "period": "previous",
+            "registration_os": "iOS",
+            "users": 828,
+            "retained": 743,
+            "retention_rate": 0.8973429951690821,
+            "window_start": "2026-01-01",
+            "window_end": "2026-01-08"
+          }
+        ],
+        "actual_retention": {
+          "previous": 0.6817632850241546,
+          "current": 0.7023809523809523
+        },
+        "standardized_retention": 0.6026785714285715,
+        "within_effect_pp": -7.908471359558311,
+        "composition_effect_pp": 9.970238095238082,
+        "total_change_pp": 2.061766735679771
+      }
+    },
+    {
+      "case": "may",
+      "database": "D:\\ai coding\\metricguard\\artifacts\\t15-development\\may\\public\\snapshot.duckdb",
+      "current_start": "2026-05-10",
+      "end": "2026-05-17",
+      "logical_hash": "73c980eaca9f357e84c9310ae8ffa304047577e6471f6aff5cae9c20779c47af",
+      "private_parameters": {
+        "seed": 1502,
+        "current_ios_share": 0.6,
+        "current_android_retention": 0.38
+      },
+      "reference": {
+        "rows": [
+          {
+            "period": "current",
+            "registration_os": "Android",
+            "users": 672,
+            "retained": 246,
+            "retention_rate": 0.36607142857142855,
+            "window_start": "2026-05-10",
+            "window_end": "2026-05-17"
+          },
+          {
+            "period": "current",
+            "registration_os": "iOS",
+            "users": 1008,
+            "retained": 916,
+            "retention_rate": 0.9087301587301587,
+            "window_start": "2026-05-10",
+            "window_end": "2026-05-17"
+          },
+          {
+            "period": "previous",
+            "registration_os": "Android",
+            "users": 828,
+            "retained": 435,
+            "retention_rate": 0.5253623188405797,
+            "window_start": "2026-05-03",
+            "window_end": "2026-05-10"
+          },
+          {
+            "period": "previous",
+            "registration_os": "iOS",
+            "users": 828,
+            "retained": 732,
+            "retention_rate": 0.8840579710144928,
+            "window_start": "2026-05-03",
+            "window_end": "2026-05-10"
+          }
+        ],
+        "actual_retention": {
+          "previous": 0.7047101449275363,
+          "current": 0.6916666666666667
+        },
+        "standardized_retention": 0.6374007936507936,
+        "within_effect_pp": -6.730935127674265,
+        "composition_effect_pp": 5.426587301587304,
+        "total_change_pp": -1.30434782608696
+      }
+    },
+    {
+      "case": "september",
+      "database": "D:\\ai coding\\metricguard\\artifacts\\t15-development\\september\\public\\snapshot.duckdb",
+      "current_start": "2026-09-12",
+      "end": "2026-09-19",
+      "logical_hash": "34f3c9b2036d03eaa1e735b7a50be384217857c0aadea2bf5351b0b976edcac3",
+      "private_parameters": {
+        "seed": 1503,
+        "current_ios_share": 0.75,
+        "current_android_retention": 0.2
+      },
+      "reference": {
+        "rows": [
+          {
+            "period": "current",
+            "registration_os": "Android",
+            "users": 420,
+            "retained": 84,
+            "retention_rate": 0.2,
+            "window_start": "2026-09-12",
+            "window_end": "2026-09-19"
+          },
+          {
+            "period": "current",
+            "registration_os": "iOS",
+            "users": 1260,
+            "retained": 1124,
+            "retention_rate": 0.8920634920634921,
+            "window_start": "2026-09-12",
+            "window_end": "2026-09-19"
+          },
+          {
+            "period": "previous",
+            "registration_os": "Android",
+            "users": 828,
+            "retained": 416,
+            "retention_rate": 0.5024154589371981,
+            "window_start": "2026-09-05",
+            "window_end": "2026-09-12"
+          },
+          {
+            "period": "previous",
+            "registration_os": "iOS",
+            "users": 828,
+            "retained": 746,
+            "retention_rate": 0.9009661835748792,
+            "window_start": "2026-09-05",
+            "window_end": "2026-09-12"
+          }
+        ],
+        "actual_retention": {
+          "previous": 0.7016908212560387,
+          "current": 0.719047619047619
+        },
+        "standardized_retention": 0.5460317460317461,
+        "within_effect_pp": -15.565907522429256,
+        "composition_effect_pp": 17.301587301587297,
+        "total_change_pp": 1.7356797791580392
+      }
+    },
+    {
+      "case": "normal",
+      "database": "D:\\ai coding\\metricguard\\artifacts\\t15-development\\normal\\public\\snapshot.duckdb",
+      "current_start": "2026-01-08",
+      "end": "2026-01-15",
+      "logical_hash": "b6f485d1085ef1cf11b30393cac4b3bf30aa5609ceeedbc2b8a1695ff97c0a12",
+      "private_parameters": {
+        "seed": 1504,
+        "current_ios_share": 0.6666666666666666,
+        "current_android_retention": 0.3
+      },
+      "reference": {
+        "rows": [
+          {
+            "period": "current",
+            "registration_os": "Android",
+            "users": 840,
+            "retained": 425,
+            "retention_rate": 0.5059523809523809,
+            "window_start": "2026-01-08",
+            "window_end": "2026-01-15"
+          },
+          {
+            "period": "current",
+            "registration_os": "iOS",
+            "users": 840,
+            "retained": 737,
+            "retention_rate": 0.8773809523809524,
+            "window_start": "2026-01-08",
+            "window_end": "2026-01-15"
+          },
+          {
+            "period": "previous",
+            "registration_os": "Android",
+            "users": 828,
+            "retained": 398,
+            "retention_rate": 0.4806763285024155,
+            "window_start": "2026-01-01",
+            "window_end": "2026-01-08"
+          },
+          {
+            "period": "previous",
+            "registration_os": "iOS",
+            "users": 828,
+            "retained": 738,
+            "retention_rate": 0.8913043478260869,
+            "window_start": "2026-01-01",
+            "window_end": "2026-01-08"
+          }
+        ],
+        "actual_retention": {
+          "previous": 0.6859903381642513,
+          "current": 0.6916666666666667
+        },
+        "standardized_retention": 0.6916666666666665,
+        "within_effect_pp": 0.5676328502415284,
+        "composition_effect_pp": 1.1102230246251565e-14,
+        "total_change_pp": 0.5676328502415395
+      }
+    }
+  ]
+}

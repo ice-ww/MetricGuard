@@ -8,16 +8,15 @@ from metricguard import TaskService
 from tests.test_t09_service import image, response
 
 
-def controlled(request):
-    shared = json.loads(json.loads(request.content)['system'].split('Shared materials:\n')[1])
-    if not shared['evidence']:
-        return response({'action': 'profile', 'table': 'users', 'column': 'registration_os', 'kind': 'system_retention'})
-    return response({'action': 'stop', 'unsupported_hypotheses': [], 'unresolved_questions': []})
+def controlled():
+    actions = iter([{'action': 'profile', 'table': 'users', 'column': 'registration_os', 'kind': 'system_retention'},
+                    {'action': 'stop', 'unsupported_hypotheses': [], 'unresolved_questions': []}])
+    return lambda request: response(next(actions))
 
 
 def run(tmp_path, image, snapshot):
     with TaskService(tmp_path / 'service', image, {'dev': snapshot.database}, token='controlled',
-                     transport=httpx.MockTransport(controlled)) as service:
+                     transport=httpx.MockTransport(controlled())) as service:
         return service.run(service.create('新增用户自然日次日留存，分析系统占比变化', 'dev',
                                          ('2026-01-08', '2026-01-15'), mode='diagnose'))
 
@@ -85,4 +84,20 @@ def test_counts_pool_users_instead_of_averaging_daily_rates(tmp_path, image):
     diagnosis=result['report']['diagnosis']
     assert diagnosis['actual_retention'] == {'previous': .1, 'current': .1}
     assert diagnosis['standardized_retention'] == .1
+    assert diagnosis['sample_sufficiency'] == 'not_established_for_population_inference'
+    assert diagnosis['evidence_scope'] == 'observed_snapshot_descriptive_only'
+    assert diagnosis['system_metrics'][0]['users']=={'previous':10,'current':10}
     assert all(row['users']==10 and row['retained']==1 for row in result['evidence'][0]['rows'])
+
+
+def test_truncated_systems_cannot_support_population_shares(tmp_path, image):
+    snapshot = build_snapshot(tmp_path/'data', scenario='A4', seed=1511)
+    with duckdb.connect(str(snapshot.database)) as con:
+        con.execute('UPDATE users SET registration_os=user_id')
+    result = run(tmp_path,image,snapshot)
+    assert result['evidence'][0]['truncated']
+    diagnosis = result['report']['diagnosis']
+    assert diagnosis['status']=='insufficient_evidence'
+    assert diagnosis['standardized_retention'] is None
+    assert not diagnosis['system_metrics'] and not diagnosis['candidates']
+    assert 'complete_system_profile' in diagnosis['missing_evidence']

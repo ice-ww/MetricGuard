@@ -8,13 +8,14 @@ from metricguard import TaskService
 from experiments.t15.check_result import check
 
 
-def provider(request):
-    shared=json.loads(json.loads(request.content)['system'].split('Shared materials:\n')[1])
-    value=({'action':'profile','table':'users','column':'registration_os','kind':'system_retention'} if not shared['evidence']
-           else {'action':'stop','unsupported_hypotheses':[],'unresolved_questions':[]})
-    return httpx.Response(200,json=dict(id='controlled',type='message',role='assistant',model='deepseek-flash',
-        content=[dict(type='text',text=json.dumps(value))],stop_reason='end_turn',stop_sequence=None,
-        usage=dict(input_tokens=31,output_tokens=17)))
+def provider():
+    actions=iter([{'action':'profile','table':'users','column':'registration_os','kind':'system_retention'},
+                  {'action':'stop','unsupported_hypotheses':[],'unresolved_questions':[]}])
+    def respond(request):
+        return httpx.Response(200,json=dict(id='controlled',type='message',role='assistant',model='deepseek-flash',
+            content=[dict(type='text',text=json.dumps(next(actions)))],stop_reason='end_turn',stop_sequence=None,
+            usage=dict(input_tokens=31,output_tokens=17)))
+    return respond
 
 
 def main():
@@ -30,7 +31,7 @@ def main():
     for case in manifest['cases']:
         with TaskService(args.output/case['case'],args.image,{'dev':Path(case['database'])},
                          token=os.environ['ANTHROPIC_AUTH_TOKEN'] if args.real else 'controlled',
-                         transport=None if args.real else httpx.MockTransport(provider)) as service:
+                         transport=None if args.real else httpx.MockTransport(provider())) as service:
             result=service.run(service.create('新增用户自然日次日留存，分析系统占比变化是否掩盖分群恶化',
                 'dev',(case['current_start'],case['end']),mode='diagnose'))
         path=args.output/(case['case']+'.json')

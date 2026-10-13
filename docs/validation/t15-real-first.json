@@ -1,0 +1,1415 @@
+{
+  "id": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+  "status": "ended",
+  "rounds": 0,
+  "version": 0,
+  "question": "新增用户自然日次日留存，分析系统占比变化是否掩盖分群恶化",
+  "active": 14.171999999962281,
+  "limits": {
+    "tool": 12,
+    "model": 10,
+    "tokens": 30000,
+    "active_seconds": 180
+  },
+  "parent": null,
+  "attempts": [
+    {
+      "id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:retrieval",
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "operation": "retrieval",
+      "kind": "tool",
+      "reserved": 0,
+      "actual": 0,
+      "state": "completed",
+      "result": "{\"candidates\": [{\"id\": \"retention\", \"score\": 12.411109097808765}, {\"id\": \"retained_cost\", \"score\": 5.021965918050482}, {\"id\": \"crash\", \"score\": 3.244011416142884}], \"corpus_version\": \"t06-v1\", \"definition\": {\"aliases\": [\"\\u65b0\\u7528\\u6237\\u6b21\\u65e5\\u7559\\u5b58\", \"\\u6ce8\\u518c\\u6b21\\u65e5\\u7559\\u5b58\\u7387\"], \"definition\": \"\\u65b0\\u589e\\u6ce8\\u518c\\u7528\\u6237\\u7b2c\\u4e8c\\u5929\\u56de\\u6765\\u4ea7\\u751f\\u4f1a\\u8bdd\\u7684\\u6bd4\\u4f8b\\u3002\", \"denominator\": \"D \\u65e5\\u9996\\u6b21\\u6ce8\\u518c\\u53bb\\u91cd\\u7528\\u6237\\u6570\\uff1b\\u4e3a\\u96f6\\u5219\\u4e0d\\u53ef\\u8ba1\\u7b97\", \"dimensions\": \"users.registration_os / registration_version / channel \\u56fa\\u5b9a\\u6ce8\\u518c\\u5f52\\u5c5e\", \"id\": \"retention\", \"joins\": \"users.user_id = sessions.user_id\\uff1bEXISTS \\u9632\\u6b62\\u591a\\u4f1a\\u8bdd\\u91cd\\u590d\\u8ba1\\u6570\", \"name\": \"\\u65b0\\u589e\\u7528\\u6237\\u81ea\\u7136\\u65e5\\u6b21\\u65e5\\u7559\\u5b58\", \"numerator\": \"D \\u65e5\\u6ce8\\u518c\\u4e14 D+1 \\u6709\\u81f3\\u5c11\\u4e00\\u6b21\\u4f1a\\u8bdd\\u7684\\u53bb\\u91cd user_id \\u6570\", \"pitfalls\": \"\\u4e0d\\u662f\\u6eda\\u52a8 24 \\u5c0f\\u65f6\\uff1b\\u4e0d\\u6df7\\u5165\\u6d3b\\u8dc3\\u8001\\u7528\\u6237\\uff1b\\u8de8\\u65e5\\u7528\\u603b\\u7559\\u5b58/\\u603b\\u65b0\\u589e\\uff0c\\u4e0d\\u5e73\\u5747\\u6bcf\\u65e5\\u6bd4\\u4f8b\", \"time\": \"Asia/Shanghai \\u81ea\\u7136\\u65e5\\uff1b\\u6ce8\\u518c\\u7a97\\u53e3 [start,end)\\uff1bD+1 \\u5b8c\\u6574\\u7ed3\\u675f\\u4e14 users/sessions \\u6c34\\u4f4d\\u9f50\\u5907\\uff1bD+2 <= sessions.complete_before\"}, \"method\": \"bm25\", \"reason\": \"matched\", \"status\": \"adopt\", \"window\": [\"2026-01-08\", \"2026-01-15\"]}"
+    },
+    {
+      "id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:schema",
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "operation": "schema",
+      "kind": "tool",
+      "reserved": 0,
+      "actual": 0,
+      "state": "completed",
+      "result": "{\"channel_daily\": {\"channel\": \"VARCHAR\", \"day\": \"DATE\", \"spend_cents\": \"BIGINT\"}, \"content_events\": {\"event_id\": \"VARCHAR\", \"event_type\": \"VARCHAR\", \"occurred_at\": \"TIMESTAMP WITH TIME ZONE\", \"play_id\": \"VARCHAR\", \"session_id\": \"VARCHAR\"}, \"playback_telemetry\": {\"duration_seconds\": \"INTEGER\", \"observed_at\": \"TIMESTAMP WITH TIME ZONE\", \"play_id\": \"VARCHAR\", \"report_id\": \"VARCHAR\", \"session_id\": \"VARCHAR\", \"watched_seconds\": \"INTEGER\"}, \"release_calendar\": {\"os\": \"VARCHAR\", \"released_at\": \"TIMESTAMP WITH TIME ZONE\", \"version\": \"VARCHAR\"}, \"sessions\": {\"crashed\": \"BOOLEAN\", \"os\": \"VARCHAR\", \"session_id\": \"VARCHAR\", \"started_at\": \"TIMESTAMP WITH TIME ZONE\", \"user_id\": \"VARCHAR\", \"version\": \"VARCHAR\"}, \"source_watermarks\": {\"complete_before\": \"TIMESTAMP WITH TIME ZONE\", \"source\": \"VARCHAR\"}, \"users\": {\"channel\": \"VARCHAR\", \"registered_at\": \"TIMESTAMP WITH TIME ZONE\", \"registration_os\": \"VARCHAR\", \"registration_version\": \"VARCHAR\", \"user_id\": \"VARCHAR\"}}"
+    },
+    {
+      "id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:watermarks",
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "operation": "watermarks",
+      "kind": "tool",
+      "reserved": 0,
+      "actual": 0,
+      "state": "completed",
+      "result": "{\"cleanup_seconds\": 0.4690000000409782, \"cleanup_verified\": true, \"columns\": [{\"name\": \"source\", \"type\": \"VARCHAR\"}, {\"name\": \"complete_before\", \"type\": \"TIMESTAMP WITH TIME ZONE\"}], \"container_id\": \"03b2f4454e9e5f8f448924a71474d37cc8b0f074688b19a2b7b73f5fa08ede80\", \"execute_seconds\": 0.003748291999954745, \"fault_events\": [], \"fetch_seconds\": 0.02120260000003782, \"parse_seconds\": 0.05311360700000023, \"query_seconds\": 0.3119999999762513, \"rows\": [[\"users\", \"2026-01-16 16:00:00+00:00\"], [\"sessions\", \"2026-01-16 16:00:00+00:00\"], [\"content_events\", \"2026-01-16 16:00:00+00:00\"], [\"playback_telemetry\", \"2026-01-16 16:00:00+00:00\"], [\"channel_daily\", \"2026-01-16 16:00:00+00:00\"], [\"release_calendar\", \"2026-01-16 16:00:00+00:00\"]], \"schema_profile\": \"business\", \"serialize_seconds\": 9.867800002894e-05, \"settings\": {\"access_mode\": \"read_only\", \"allow_community_extensions\": \"false\", \"allow_unsigned_extensions\": \"false\", \"allowed_configs\": \"[]\", \"allowed_directories\": \"[]\", \"allowed_paths\": \"[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]\", \"autoinstall_known_extensions\": \"false\", \"autoload_known_extensions\": \"false\", \"enable_external_access\": \"false\", \"lock_configuration\": \"true\", \"max_temp_directory_size\": \"0 bytes\", \"memory_limit\": \"122.0 MiB\", \"python_enable_replacements\": \"false\", \"python_scan_all_frames\": \"false\", \"temp_directory\": \"\", \"threads\": \"1\"}, \"startup_seconds\": 1.2660000000032596, \"status\": \"ok\", \"termination_delay_seconds\": 0.0, \"total_seconds\": 2.047000000020489, \"truncated\": false, \"versions\": {\"duckdb\": \"1.5.6\", \"python\": \"3.12.10\", \"pytz\": \"2026.5\", \"sqlglot\": \"30.22.0\"}}"
+    },
+    {
+      "id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:diagnose:1",
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "operation": "diagnose:1:8a37b6fc8068e6025c342022f35cb77900258fe4e4151e567ffd35a050ae1cfc",
+      "kind": "model",
+      "reserved": 9070,
+      "actual": 1527,
+      "state": "completed",
+      "result": "{\"cap\": \"scheduler_guard\", \"content\": [{\"citations\": null, \"text\": \"{\\\"action\\\":\\\"profile\\\",\\\"table\\\":\\\"users\\\",\\\"column\\\":\\\"registration_os\\\",\\\"kind\\\":\\\"system_retention\\\"}\", \"type\": \"text\"}], \"fee_usd_range\": {\"currency\": \"USD\", \"kind\": \"estimate_not_invoice\", \"maximum\": 0.0004402679999999999, \"minimum\": 0.00022013399999999995, \"pricing\": \"DeepSeek-V4.1-Flash 2026-10-12\"}, \"model\": \"deepseek-flash\", \"raw_usage\": {\"cache_creation\": null, \"cache_creation_input_tokens\": 0, \"cache_read_input_tokens\": 128, \"inference_geo\": null, \"input_tokens\": 1377, \"output_tokens\": 22, \"output_tokens_details\": null, \"server_tool_use\": null, \"service_tier\": \"standard\"}, \"reservation\": 9070, \"status\": \"completed\", \"usage\": {\"input_cached\": 128, \"input_total\": 1505, \"input_uncached\": 1377, \"output\": 22, \"total\": 1527}}"
+    },
+    {
+      "id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:diagnostic_sql:1",
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "operation": "diagnostic_sql:1",
+      "kind": "tool",
+      "reserved": 0,
+      "actual": 0,
+      "state": "completed",
+      "result": "{\"cleanup_seconds\": 1.327999999979511, \"cleanup_verified\": true, \"columns\": [{\"name\": \"period\", \"type\": \"VARCHAR\"}, {\"name\": \"registration_os\", \"type\": \"VARCHAR\"}, {\"name\": \"users\", \"type\": \"BIGINT\"}, {\"name\": \"retained\", \"type\": \"HUGEINT\"}, {\"name\": \"retention_rate\", \"type\": \"DOUBLE\"}, {\"name\": \"window_start\", \"type\": \"VARCHAR\"}, {\"name\": \"window_end\", \"type\": \"VARCHAR\"}], \"container_id\": \"7a7c9dbafa2772d830800afda4a352d3978e0cde8e088fd14a9719b2710d46a2\", \"execute_seconds\": 0.06372736800000212, \"fault_events\": [], \"fetch_seconds\": 0.0005775760000688024, \"parse_seconds\": 0.15347885599999245, \"query_seconds\": 0.9689999999827705, \"rows\": [[\"current\", \"Android\", 560, 170, 0.30357142857142855, \"2026-01-08\", \"2026-01-15\"], [\"current\", \"iOS\", 1120, 1010, 0.9017857142857143, \"2026-01-08\", \"2026-01-15\"], [\"previous\", \"Android\", 828, 386, 0.46618357487922707, \"2026-01-01\", \"2026-01-08\"], [\"previous\", \"iOS\", 828, 743, 0.8973429951690821, \"2026-01-01\", \"2026-01-08\"]], \"schema_profile\": \"business\", \"serialize_seconds\": 0.00019844100000909748, \"settings\": {\"access_mode\": \"read_only\", \"allow_community_extensions\": \"false\", \"allow_unsigned_extensions\": \"false\", \"allowed_configs\": \"[]\", \"allowed_directories\": \"[]\", \"allowed_paths\": \"[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]\", \"autoinstall_known_extensions\": \"false\", \"autoload_known_extensions\": \"false\", \"enable_external_access\": \"false\", \"lock_configuration\": \"true\", \"max_temp_directory_size\": \"0 bytes\", \"memory_limit\": \"122.0 MiB\", \"python_enable_replacements\": \"false\", \"python_scan_all_frames\": \"false\", \"temp_directory\": \"\", \"threads\": \"1\"}, \"startup_seconds\": 3.110000000044238, \"status\": \"ok\", \"termination_delay_seconds\": 0.0, \"total_seconds\": 5.407000000006519, \"truncated\": false, \"versions\": {\"duckdb\": \"1.5.6\", \"python\": \"3.12.10\", \"pytz\": \"2026.5\", \"sqlglot\": \"30.22.0\"}}"
+    },
+    {
+      "id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:diagnose:2",
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "operation": "diagnose:2:55ada8f8a7075ef72bfa21d4a9f62e068408eafc73d719446f4276d9643bac9b",
+      "kind": "model",
+      "reserved": 10957,
+      "actual": null,
+      "state": "failed",
+      "result": "{\"cap\": \"scheduler_guard\", \"error_type\": \"APIConnectionError\", \"fee_usd_range\": null, \"reservation\": 10957, \"status\": \"unknown_usage\", \"usage\": null}"
+    }
+  ],
+  "tool_calls": 4,
+  "model_calls": 2,
+  "tokens": 12484,
+  "trace": [
+    {
+      "seq": 1,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "reserve",
+      "detail": "2dfa87c8a1ab408bb8986b0c5e65d7aa:retrieval"
+    },
+    {
+      "seq": 2,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "sent",
+      "detail": "2dfa87c8a1ab408bb8986b0c5e65d7aa:retrieval"
+    },
+    {
+      "seq": 3,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "completed",
+      "detail": "2dfa87c8a1ab408bb8986b0c5e65d7aa:retrieval"
+    },
+    {
+      "seq": 4,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "reserve",
+      "detail": "2dfa87c8a1ab408bb8986b0c5e65d7aa:schema"
+    },
+    {
+      "seq": 5,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "sent",
+      "detail": "2dfa87c8a1ab408bb8986b0c5e65d7aa:schema"
+    },
+    {
+      "seq": 6,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "completed",
+      "detail": "2dfa87c8a1ab408bb8986b0c5e65d7aa:schema"
+    },
+    {
+      "seq": 7,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "reserve",
+      "detail": "2dfa87c8a1ab408bb8986b0c5e65d7aa:watermarks"
+    },
+    {
+      "seq": 8,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "sent",
+      "detail": "2dfa87c8a1ab408bb8986b0c5e65d7aa:watermarks"
+    },
+    {
+      "seq": 9,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "completed",
+      "detail": "2dfa87c8a1ab408bb8986b0c5e65d7aa:watermarks"
+    },
+    {
+      "seq": 10,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "definition_adopted",
+      "detail": "{\"definition\": {\"id\": \"retention\", \"name\": \"新增用户自然日次日留存\", \"aliases\": [\"新用户次日留存\", \"注册次日留存率\"], \"definition\": \"新增注册用户第二天回来产生会话的比例。\", \"numerator\": \"D 日注册且 D+1 有至少一次会话的去重 user_id 数\", \"denominator\": \"D 日首次注册去重用户数；为零则不可计算\", \"dimensions\": \"users.registration_os / registration_version / channel 固定注册归属\", \"joins\": \"users.user_id = sessions.user_id；EXISTS 防止多会话重复计数\", \"time\": \"Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before\", \"pitfalls\": \"不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例\"}, \"actual_window\": [\"2026-01-08\", \"2026-01-15\"]}"
+    },
+    {
+      "seq": 11,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "reserve",
+      "detail": "2dfa87c8a1ab408bb8986b0c5e65d7aa:diagnose:1"
+    },
+    {
+      "seq": 12,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "sent",
+      "detail": "2dfa87c8a1ab408bb8986b0c5e65d7aa:diagnose:1"
+    },
+    {
+      "seq": 13,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "completed",
+      "detail": "2dfa87c8a1ab408bb8986b0c5e65d7aa:diagnose:1"
+    },
+    {
+      "seq": 14,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "reserve",
+      "detail": "2dfa87c8a1ab408bb8986b0c5e65d7aa:diagnostic_sql:1"
+    },
+    {
+      "seq": 15,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "sent",
+      "detail": "2dfa87c8a1ab408bb8986b0c5e65d7aa:diagnostic_sql:1"
+    },
+    {
+      "seq": 16,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "completed",
+      "detail": "2dfa87c8a1ab408bb8986b0c5e65d7aa:diagnostic_sql:1"
+    },
+    {
+      "seq": 17,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "query_completed",
+      "detail": "{\"status\": \"ok\", \"cleanup_verified\": true, \"action\": {\"action\": \"profile\", \"table\": \"users\", \"column\": \"registration_os\", \"kind\": \"system_retention\"}, \"repairs_used\": 0, \"error_type\": null}"
+    },
+    {
+      "seq": 18,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "reserve",
+      "detail": "2dfa87c8a1ab408bb8986b0c5e65d7aa:diagnose:2"
+    },
+    {
+      "seq": 19,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "sent",
+      "detail": "2dfa87c8a1ab408bb8986b0c5e65d7aa:diagnose:2"
+    },
+    {
+      "seq": 20,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "failed",
+      "detail": "2dfa87c8a1ab408bb8986b0c5e65d7aa:diagnose:2"
+    },
+    {
+      "seq": 21,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "execution_stopped",
+      "detail": "{\"reason\": \"unknown model usage\", \"error_type\": \"ValueError\"}"
+    },
+    {
+      "seq": 22,
+      "task": "2dfa87c8a1ab408bb8986b0c5e65d7aa",
+      "event": "report_validated",
+      "detail": "{\"passed\": true, \"assertion_count\": 12, \"valid_count\": 12, \"results\": [{\"assertion_id\": \"0\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"1\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"2\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"3\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"4\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"5\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"6\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"7\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"8\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"9\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"10\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"11\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}], \"errors\": [], \"protocol_version\": 1}"
+    }
+  ],
+  "snapshot_id": "dev",
+  "snapshot_hash": "e9324d7318f26f1595cfcb4e410ed3ed0c387e3e8e8156016047cb4ed8ba2e6a",
+  "requested_window": [
+    "2026-01-08",
+    "2026-01-15"
+  ],
+  "actual_window": [
+    "2026-01-08",
+    "2026-01-15"
+  ],
+  "definition": {
+    "id": "retention",
+    "name": "新增用户自然日次日留存",
+    "aliases": [
+      "新用户次日留存",
+      "注册次日留存率"
+    ],
+    "definition": "新增注册用户第二天回来产生会话的比例。",
+    "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+    "denominator": "D 日首次注册去重用户数；为零则不可计算",
+    "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+    "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+    "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+    "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+  },
+  "evidence": [
+    {
+      "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+      "tool": "profile",
+      "parameters": {
+        "action": "profile",
+        "table": "users",
+        "column": "registration_os",
+        "kind": "system_retention",
+        "sql": "WITH cohort AS (\n        SELECT u.registration_os,\n          CASE WHEN CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)<'2026-01-08' THEN 'previous' ELSE 'current' END AS period,\n          CASE WHEN EXISTS (SELECT 1 FROM sessions s WHERE s.user_id=u.user_id\n            AND CAST(s.started_at AT TIME ZONE 'Asia/Shanghai' AS DATE)=CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)+1) THEN 1 ELSE 0 END AS retained\n        FROM users u WHERE CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)>='2026-01-01'\n          AND CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)<'2026-01-15')\n        SELECT period,registration_os,COUNT(*) AS users,SUM(retained) AS retained,\n          SUM(retained)*1.0/COUNT(*) AS retention_rate,\n          CASE WHEN period='previous' THEN '2026-01-01' ELSE '2026-01-08' END AS window_start,\n          CASE WHEN period='previous' THEN '2026-01-08' ELSE '2026-01-15' END AS window_end\n        FROM cohort GROUP BY period,registration_os ORDER BY period,registration_os"
+      },
+      "source": "WITH cohort AS (\n        SELECT u.registration_os,\n          CASE WHEN CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)<'2026-01-08' THEN 'previous' ELSE 'current' END AS period,\n          CASE WHEN EXISTS (SELECT 1 FROM sessions s WHERE s.user_id=u.user_id\n            AND CAST(s.started_at AT TIME ZONE 'Asia/Shanghai' AS DATE)=CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)+1) THEN 1 ELSE 0 END AS retained\n        FROM users u WHERE CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)>='2026-01-01'\n          AND CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)<'2026-01-15')\n        SELECT period,registration_os,COUNT(*) AS users,SUM(retained) AS retained,\n          SUM(retained)*1.0/COUNT(*) AS retention_rate,\n          CASE WHEN period='previous' THEN '2026-01-01' ELSE '2026-01-08' END AS window_start,\n          CASE WHEN period='previous' THEN '2026-01-08' ELSE '2026-01-15' END AS window_end\n        FROM cohort GROUP BY period,registration_os ORDER BY period,registration_os",
+      "snapshot_id": "e9324d7318f26f1595cfcb4e410ed3ed0c387e3e8e8156016047cb4ed8ba2e6a",
+      "columns": {
+        "period": "string",
+        "registration_os": "string",
+        "users": "integer",
+        "retained": "integer",
+        "retention_rate": "number",
+        "window_start": "string",
+        "window_end": "string"
+      },
+      "actual_db_types": {
+        "period": "VARCHAR",
+        "registration_os": "VARCHAR",
+        "users": "BIGINT",
+        "retained": "HUGEINT",
+        "retention_rate": "DOUBLE",
+        "window_start": "VARCHAR",
+        "window_end": "VARCHAR"
+      },
+      "rows": [
+        {
+          "period": "current",
+          "registration_os": "Android",
+          "users": 560,
+          "retained": 170,
+          "retention_rate": 0.30357142857142855,
+          "window_start": "2026-01-08",
+          "window_end": "2026-01-15"
+        },
+        {
+          "period": "current",
+          "registration_os": "iOS",
+          "users": 1120,
+          "retained": 1010,
+          "retention_rate": 0.9017857142857143,
+          "window_start": "2026-01-08",
+          "window_end": "2026-01-15"
+        },
+        {
+          "period": "previous",
+          "registration_os": "Android",
+          "users": 828,
+          "retained": 386,
+          "retention_rate": 0.46618357487922707,
+          "window_start": "2026-01-01",
+          "window_end": "2026-01-08"
+        },
+        {
+          "period": "previous",
+          "registration_os": "iOS",
+          "users": 828,
+          "retained": 743,
+          "retention_rate": 0.8973429951690821,
+          "window_start": "2026-01-01",
+          "window_end": "2026-01-08"
+        }
+      ],
+      "window": [
+        "2026-01-01",
+        "2026-01-15"
+      ],
+      "truncated": false,
+      "group": {},
+      "sample": {
+        "returned_rows": 4
+      },
+      "limitations": [
+        "business_definition_requires_independent_reference",
+        "current_and_previous_cohorts_exact_windows",
+        "registration_attribution_separate_from_actual_crash_attribution"
+      ],
+      "business_definition_status": "requires_independent_reference",
+      "contexts": {
+        "/rows/0/users": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "registration_os": "Android",
+            "window_start": "2026-01-08",
+            "window_end": "2026-01-15"
+          },
+          "comparison": null
+        },
+        "/rows/0/retained": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "registration_os": "Android",
+            "window_start": "2026-01-08",
+            "window_end": "2026-01-15"
+          },
+          "comparison": null
+        },
+        "/rows/0/retention_rate": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "registration_os": "Android",
+            "window_start": "2026-01-08",
+            "window_end": "2026-01-15"
+          },
+          "comparison": null
+        },
+        "/rows/1/users": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "registration_os": "iOS",
+            "window_start": "2026-01-08",
+            "window_end": "2026-01-15"
+          },
+          "comparison": null
+        },
+        "/rows/1/retained": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "registration_os": "iOS",
+            "window_start": "2026-01-08",
+            "window_end": "2026-01-15"
+          },
+          "comparison": null
+        },
+        "/rows/1/retention_rate": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "registration_os": "iOS",
+            "window_start": "2026-01-08",
+            "window_end": "2026-01-15"
+          },
+          "comparison": null
+        },
+        "/rows/2/users": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "registration_os": "Android",
+            "window_start": "2026-01-01",
+            "window_end": "2026-01-08"
+          },
+          "comparison": null
+        },
+        "/rows/2/retained": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "registration_os": "Android",
+            "window_start": "2026-01-01",
+            "window_end": "2026-01-08"
+          },
+          "comparison": null
+        },
+        "/rows/2/retention_rate": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "registration_os": "Android",
+            "window_start": "2026-01-01",
+            "window_end": "2026-01-08"
+          },
+          "comparison": null
+        },
+        "/rows/3/users": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "registration_os": "iOS",
+            "window_start": "2026-01-01",
+            "window_end": "2026-01-08"
+          },
+          "comparison": null
+        },
+        "/rows/3/retained": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "registration_os": "iOS",
+            "window_start": "2026-01-01",
+            "window_end": "2026-01-08"
+          },
+          "comparison": null
+        },
+        "/rows/3/retention_rate": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "registration_os": "iOS",
+            "window_start": "2026-01-01",
+            "window_end": "2026-01-08"
+          },
+          "comparison": null
+        }
+      }
+    }
+  ],
+  "report": {
+    "facts": [
+      {
+        "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+        "row": 0,
+        "column": "users",
+        "value": 560,
+        "context": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "registration_os": "Android",
+            "window_start": "2026-01-08",
+            "window_end": "2026-01-15"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+        "row": 0,
+        "column": "retained",
+        "value": 170,
+        "context": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "registration_os": "Android",
+            "window_start": "2026-01-08",
+            "window_end": "2026-01-15"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+        "row": 0,
+        "column": "retention_rate",
+        "value": 0.30357142857142855,
+        "context": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "registration_os": "Android",
+            "window_start": "2026-01-08",
+            "window_end": "2026-01-15"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+        "row": 1,
+        "column": "users",
+        "value": 1120,
+        "context": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "registration_os": "iOS",
+            "window_start": "2026-01-08",
+            "window_end": "2026-01-15"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+        "row": 1,
+        "column": "retained",
+        "value": 1010,
+        "context": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "registration_os": "iOS",
+            "window_start": "2026-01-08",
+            "window_end": "2026-01-15"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+        "row": 1,
+        "column": "retention_rate",
+        "value": 0.9017857142857143,
+        "context": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "registration_os": "iOS",
+            "window_start": "2026-01-08",
+            "window_end": "2026-01-15"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+        "row": 2,
+        "column": "users",
+        "value": 828,
+        "context": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "registration_os": "Android",
+            "window_start": "2026-01-01",
+            "window_end": "2026-01-08"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+        "row": 2,
+        "column": "retained",
+        "value": 386,
+        "context": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "registration_os": "Android",
+            "window_start": "2026-01-01",
+            "window_end": "2026-01-08"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+        "row": 2,
+        "column": "retention_rate",
+        "value": 0.46618357487922707,
+        "context": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "registration_os": "Android",
+            "window_start": "2026-01-01",
+            "window_end": "2026-01-08"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+        "row": 3,
+        "column": "users",
+        "value": 828,
+        "context": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "registration_os": "iOS",
+            "window_start": "2026-01-01",
+            "window_end": "2026-01-08"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+        "row": 3,
+        "column": "retained",
+        "value": 743,
+        "context": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "registration_os": "iOS",
+            "window_start": "2026-01-01",
+            "window_end": "2026-01-08"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+        "row": 3,
+        "column": "retention_rate",
+        "value": 0.8973429951690821,
+        "context": {
+          "metric": "profile:users:system_retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "registration_os": "iOS",
+            "window_start": "2026-01-01",
+            "window_end": "2026-01-08"
+          },
+          "comparison": null
+        }
+      }
+    ],
+    "rejected_facts": [],
+    "validation": {
+      "passed": true,
+      "assertion_count": 12,
+      "valid_count": 12,
+      "results": [
+        {
+          "assertion_id": "0",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "1",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "2",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "3",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "4",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "5",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "6",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "7",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "8",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "9",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "10",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "11",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        }
+      ],
+      "errors": [],
+      "protocol_version": 1
+    },
+    "deterministic": true,
+    "definition": {
+      "id": "retention",
+      "name": "新增用户自然日次日留存",
+      "aliases": [
+        "新用户次日留存",
+        "注册次日留存率"
+      ],
+      "definition": "新增注册用户第二天回来产生会话的比例。",
+      "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+      "denominator": "D 日首次注册去重用户数；为零则不可计算",
+      "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+      "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+      "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+      "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+    },
+    "window": [
+      "2026-01-08",
+      "2026-01-15"
+    ],
+    "limitations": [
+      "unknown model usage"
+    ],
+    "unsupported_hypotheses": [],
+    "unresolved_questions": [
+      "Not fully resolved due to unknown model usage: 新增用户自然日次日留存，分析系统占比变化是否掩盖分群恶化"
+    ],
+    "business_definition_status": "requires_independent_reference",
+    "inference_status": "bounded_descriptive_rule_requires_human_review",
+    "diagnosis": {
+      "rule_version": "system-composition-v1",
+      "status": "association_candidate",
+      "business_threshold_pp": 5.0,
+      "candidates": [
+        {
+          "explanation": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。",
+          "causality": "not_established",
+          "worsening_systems": [
+            "Android"
+          ],
+          "supporting_facts": [
+            {
+              "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+              "row": 0,
+              "values": {
+                "period": "current",
+                "registration_os": "Android",
+                "users": 560,
+                "retained": 170,
+                "retention_rate": 0.30357142857142855,
+                "window_start": "2026-01-08",
+                "window_end": "2026-01-15"
+              }
+            },
+            {
+              "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+              "row": 1,
+              "values": {
+                "period": "current",
+                "registration_os": "iOS",
+                "users": 1120,
+                "retained": 1010,
+                "retention_rate": 0.9017857142857143,
+                "window_start": "2026-01-08",
+                "window_end": "2026-01-15"
+              }
+            },
+            {
+              "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+              "row": 2,
+              "values": {
+                "period": "previous",
+                "registration_os": "Android",
+                "users": 828,
+                "retained": 386,
+                "retention_rate": 0.46618357487922707,
+                "window_start": "2026-01-01",
+                "window_end": "2026-01-08"
+              }
+            },
+            {
+              "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+              "row": 3,
+              "values": {
+                "period": "previous",
+                "registration_os": "iOS",
+                "users": 828,
+                "retained": 743,
+                "retention_rate": 0.8973429951690821,
+                "window_start": "2026-01-01",
+                "window_end": "2026-01-08"
+              }
+            }
+          ],
+          "counterevidence": [
+            {
+              "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+              "row": 1,
+              "values": {
+                "period": "current",
+                "registration_os": "iOS",
+                "users": 1120,
+                "retained": 1010,
+                "retention_rate": 0.9017857142857143,
+                "window_start": "2026-01-08",
+                "window_end": "2026-01-15"
+              }
+            },
+            {
+              "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+              "row": 3,
+              "values": {
+                "period": "previous",
+                "registration_os": "iOS",
+                "users": 828,
+                "retained": 743,
+                "retention_rate": 0.8973429951690821,
+                "window_start": "2026-01-01",
+                "window_end": "2026-01-08"
+              }
+            }
+          ]
+        }
+      ],
+      "system_metrics": [
+        {
+          "registration_os": "Android",
+          "user_share": {
+            "previous": 0.5,
+            "current": 0.3333333333333333
+          },
+          "retention_rate": {
+            "previous": 0.46618357487922707,
+            "current": 0.30357142857142855
+          },
+          "retention_change_pp": -16.261214630779854,
+          "source_facts": [
+            {
+              "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+              "row": 0,
+              "values": {
+                "period": "current",
+                "registration_os": "Android",
+                "users": 560,
+                "retained": 170,
+                "retention_rate": 0.30357142857142855,
+                "window_start": "2026-01-08",
+                "window_end": "2026-01-15"
+              }
+            },
+            {
+              "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+              "row": 2,
+              "values": {
+                "period": "previous",
+                "registration_os": "Android",
+                "users": 828,
+                "retained": 386,
+                "retention_rate": 0.46618357487922707,
+                "window_start": "2026-01-01",
+                "window_end": "2026-01-08"
+              }
+            }
+          ]
+        },
+        {
+          "registration_os": "iOS",
+          "user_share": {
+            "previous": 0.5,
+            "current": 0.6666666666666666
+          },
+          "retention_rate": {
+            "previous": 0.8973429951690821,
+            "current": 0.9017857142857143
+          },
+          "retention_change_pp": 0.4442719116632188,
+          "source_facts": [
+            {
+              "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+              "row": 1,
+              "values": {
+                "period": "current",
+                "registration_os": "iOS",
+                "users": 1120,
+                "retained": 1010,
+                "retention_rate": 0.9017857142857143,
+                "window_start": "2026-01-08",
+                "window_end": "2026-01-15"
+              }
+            },
+            {
+              "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+              "row": 3,
+              "values": {
+                "period": "previous",
+                "registration_os": "iOS",
+                "users": 828,
+                "retained": 743,
+                "retention_rate": 0.8973429951690821,
+                "window_start": "2026-01-01",
+                "window_end": "2026-01-08"
+              }
+            }
+          ]
+        }
+      ],
+      "actual_retention": {
+        "previous": 0.6817632850241546,
+        "current": 0.7023809523809523
+      },
+      "standardized_retention": 0.6026785714285714,
+      "within_effect_pp": -7.908471359558322,
+      "composition_effect_pp": 9.970238095238093,
+      "total_change_pp": 2.061766735679771,
+      "difference_interval_pp": null,
+      "missing_evidence": [],
+      "source_facts": [
+        {
+          "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+          "row": 0,
+          "values": {
+            "period": "current",
+            "registration_os": "Android",
+            "users": 560,
+            "retained": 170,
+            "retention_rate": 0.30357142857142855,
+            "window_start": "2026-01-08",
+            "window_end": "2026-01-15"
+          }
+        },
+        {
+          "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+          "row": 1,
+          "values": {
+            "period": "current",
+            "registration_os": "iOS",
+            "users": 1120,
+            "retained": 1010,
+            "retention_rate": 0.9017857142857143,
+            "window_start": "2026-01-08",
+            "window_end": "2026-01-15"
+          }
+        },
+        {
+          "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+          "row": 2,
+          "values": {
+            "period": "previous",
+            "registration_os": "Android",
+            "users": 828,
+            "retained": 386,
+            "retention_rate": 0.46618357487922707,
+            "window_start": "2026-01-01",
+            "window_end": "2026-01-08"
+          }
+        },
+        {
+          "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+          "row": 3,
+          "values": {
+            "period": "previous",
+            "registration_os": "iOS",
+            "users": 828,
+            "retained": 743,
+            "retention_rate": 0.8973429951690821,
+            "window_start": "2026-01-01",
+            "window_end": "2026-01-08"
+          }
+        }
+      ],
+      "derivation": "S=sum(base_user_share*current_system_retention); within=S-base_actual; composition=current_actual-S",
+      "statistical_limitations": [
+        "全窗口成熟注册用户计数加权，不平均每日比例。",
+        "标准化为派生比较量，不是二项样本，不发布二项区间。",
+        "5 个百分点为开发描述性业务阈值；总体差值未达阈值仅表示观测近似稳定，不证明统计等效。"
+      ],
+      "unexcluded_factors": [
+        "系统内渠道和版本构成、采集质量及同期产品变化仍未排除；不证明因果，也不泛称辛普森悖论。"
+      ]
+    },
+    "outcome": "budget_exhausted"
+  },
+  "outcome": "budget_exhausted",
+  "limitations": [
+    "unknown model usage"
+  ],
+  "mode": "diagnose",
+  "diagnostic_history": [
+    {
+      "action": {
+        "action": "profile",
+        "table": "users",
+        "column": "registration_os",
+        "kind": "system_retention"
+      },
+      "result": {
+        "status": "ok",
+        "evidence_id": "2dfa87c8a1ab408bb8986b0c5e65d7aa:evidence:1",
+        "cleanup_verified": true,
+        "next": "Choose the next action using the actual evidence in shared materials."
+      }
+    }
+  ],
+  "repairs_used": 0,
+  "unsupported_hypotheses": [],
+  "unresolved_questions": [
+    "Not fully resolved due to unknown model usage: 新增用户自然日次日留存，分析系统占比变化是否掩盖分群恶化"
+  ],
+  "effective_question": "新增用户自然日次日留存，分析系统占比变化是否掩盖分群恶化",
+  "pending_question": null,
+  "answers": [],
+  "retrieval": {
+    "status": "adopt",
+    "reason": "matched",
+    "method": "bm25",
+    "definition": {
+      "id": "retention",
+      "name": "新增用户自然日次日留存",
+      "aliases": [
+        "新用户次日留存",
+        "注册次日留存率"
+      ],
+      "definition": "新增注册用户第二天回来产生会话的比例。",
+      "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+      "denominator": "D 日首次注册去重用户数；为零则不可计算",
+      "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+      "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+      "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+      "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+    },
+    "candidates": [
+      {
+        "id": "retention",
+        "score": 12.411109097808765
+      },
+      {
+        "id": "retained_cost",
+        "score": 5.021965918050482
+      },
+      {
+        "id": "crash",
+        "score": 3.244011416142884
+      }
+    ],
+    "window": [
+      "2026-01-08",
+      "2026-01-15"
+    ],
+    "corpus_version": "t06-v1"
+  },
+  "schema": {
+    "users": {
+      "user_id": "VARCHAR",
+      "registered_at": "TIMESTAMP WITH TIME ZONE",
+      "registration_os": "VARCHAR",
+      "registration_version": "VARCHAR",
+      "channel": "VARCHAR"
+    },
+    "sessions": {
+      "session_id": "VARCHAR",
+      "user_id": "VARCHAR",
+      "started_at": "TIMESTAMP WITH TIME ZONE",
+      "os": "VARCHAR",
+      "version": "VARCHAR",
+      "crashed": "BOOLEAN"
+    },
+    "content_events": {
+      "event_id": "VARCHAR",
+      "play_id": "VARCHAR",
+      "session_id": "VARCHAR",
+      "event_type": "VARCHAR",
+      "occurred_at": "TIMESTAMP WITH TIME ZONE"
+    },
+    "playback_telemetry": {
+      "report_id": "VARCHAR",
+      "play_id": "VARCHAR",
+      "session_id": "VARCHAR",
+      "observed_at": "TIMESTAMP WITH TIME ZONE",
+      "watched_seconds": "INTEGER",
+      "duration_seconds": "INTEGER"
+    },
+    "channel_daily": {
+      "day": "DATE",
+      "channel": "VARCHAR",
+      "spend_cents": "BIGINT"
+    },
+    "release_calendar": {
+      "os": "VARCHAR",
+      "version": "VARCHAR",
+      "released_at": "TIMESTAMP WITH TIME ZONE"
+    },
+    "source_watermarks": {
+      "source": "VARCHAR",
+      "complete_before": "TIMESTAMP WITH TIME ZONE"
+    }
+  },
+  "watermarks": {
+    "status": "ok",
+    "rows": [
+      [
+        "users",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "sessions",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "content_events",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "playback_telemetry",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "channel_daily",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "release_calendar",
+        "2026-01-16 16:00:00+00:00"
+      ]
+    ],
+    "truncated": false,
+    "columns": [
+      {
+        "name": "source",
+        "type": "VARCHAR"
+      },
+      {
+        "name": "complete_before",
+        "type": "TIMESTAMP WITH TIME ZONE"
+      }
+    ],
+    "fetch_seconds": 0.02120260000003782,
+    "serialize_seconds": 9.867800002894e-05,
+    "parse_seconds": 0.05311360700000023,
+    "execute_seconds": 0.003748291999954745,
+    "schema_profile": "business",
+    "settings": {
+      "enable_external_access": "false",
+      "allow_community_extensions": "false",
+      "allow_unsigned_extensions": "false",
+      "autoinstall_known_extensions": "false",
+      "autoload_known_extensions": "false",
+      "python_enable_replacements": "false",
+      "python_scan_all_frames": "false",
+      "threads": "1",
+      "memory_limit": "122.0 MiB",
+      "max_temp_directory_size": "0 bytes",
+      "temp_directory": "",
+      "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+      "allowed_directories": "[]",
+      "allowed_configs": "[]",
+      "lock_configuration": "true",
+      "access_mode": "read_only"
+    },
+    "versions": {
+      "duckdb": "1.5.6",
+      "sqlglot": "30.22.0",
+      "pytz": "2026.5",
+      "python": "3.12.10"
+    },
+    "fault_events": [],
+    "query_seconds": 0.3119999999762513,
+    "startup_seconds": 1.2660000000032596,
+    "container_id": "03b2f4454e9e5f8f448924a71474d37cc8b0f074688b19a2b7b73f5fa08ede80",
+    "cleanup_verified": true,
+    "cleanup_seconds": 0.4690000000409782,
+    "total_seconds": 2.047000000020489,
+    "termination_delay_seconds": 0.0
+  },
+  "query_result": {
+    "status": "ok",
+    "rows": [
+      [
+        "current",
+        "Android",
+        560,
+        170,
+        0.30357142857142855,
+        "2026-01-08",
+        "2026-01-15"
+      ],
+      [
+        "current",
+        "iOS",
+        1120,
+        1010,
+        0.9017857142857143,
+        "2026-01-08",
+        "2026-01-15"
+      ],
+      [
+        "previous",
+        "Android",
+        828,
+        386,
+        0.46618357487922707,
+        "2026-01-01",
+        "2026-01-08"
+      ],
+      [
+        "previous",
+        "iOS",
+        828,
+        743,
+        0.8973429951690821,
+        "2026-01-01",
+        "2026-01-08"
+      ]
+    ],
+    "truncated": false,
+    "columns": [
+      {
+        "name": "period",
+        "type": "VARCHAR"
+      },
+      {
+        "name": "registration_os",
+        "type": "VARCHAR"
+      },
+      {
+        "name": "users",
+        "type": "BIGINT"
+      },
+      {
+        "name": "retained",
+        "type": "HUGEINT"
+      },
+      {
+        "name": "retention_rate",
+        "type": "DOUBLE"
+      },
+      {
+        "name": "window_start",
+        "type": "VARCHAR"
+      },
+      {
+        "name": "window_end",
+        "type": "VARCHAR"
+      }
+    ],
+    "fetch_seconds": 0.0005775760000688024,
+    "serialize_seconds": 0.00019844100000909748,
+    "parse_seconds": 0.15347885599999245,
+    "execute_seconds": 0.06372736800000212,
+    "schema_profile": "business",
+    "settings": {
+      "enable_external_access": "false",
+      "allow_community_extensions": "false",
+      "allow_unsigned_extensions": "false",
+      "autoinstall_known_extensions": "false",
+      "autoload_known_extensions": "false",
+      "python_enable_replacements": "false",
+      "python_scan_all_frames": "false",
+      "threads": "1",
+      "memory_limit": "122.0 MiB",
+      "max_temp_directory_size": "0 bytes",
+      "temp_directory": "",
+      "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+      "allowed_directories": "[]",
+      "allowed_configs": "[]",
+      "lock_configuration": "true",
+      "access_mode": "read_only"
+    },
+    "versions": {
+      "duckdb": "1.5.6",
+      "sqlglot": "30.22.0",
+      "pytz": "2026.5",
+      "python": "3.12.10"
+    },
+    "fault_events": [],
+    "query_seconds": 0.9689999999827705,
+    "startup_seconds": 3.110000000044238,
+    "container_id": "7a7c9dbafa2772d830800afda4a352d3978e0cde8e088fd14a9719b2710d46a2",
+    "cleanup_verified": true,
+    "cleanup_seconds": 1.327999999979511,
+    "total_seconds": 5.407000000006519,
+    "termination_delay_seconds": 0.0
+  },
+  "sql": "WITH cohort AS (\n        SELECT u.registration_os,\n          CASE WHEN CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)<'2026-01-08' THEN 'previous' ELSE 'current' END AS period,\n          CASE WHEN EXISTS (SELECT 1 FROM sessions s WHERE s.user_id=u.user_id\n            AND CAST(s.started_at AT TIME ZONE 'Asia/Shanghai' AS DATE)=CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)+1) THEN 1 ELSE 0 END AS retained\n        FROM users u WHERE CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)>='2026-01-01'\n          AND CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)<'2026-01-15')\n        SELECT period,registration_os,COUNT(*) AS users,SUM(retained) AS retained,\n          SUM(retained)*1.0/COUNT(*) AS retention_rate,\n          CASE WHEN period='previous' THEN '2026-01-01' ELSE '2026-01-08' END AS window_start,\n          CASE WHEN period='previous' THEN '2026-01-08' ELSE '2026-01-15' END AS window_end\n        FROM cohort GROUP BY period,registration_os ORDER BY period,registration_os"
+}
