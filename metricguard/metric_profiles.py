@@ -75,9 +75,27 @@ def channel_health(window: list[str]) -> str:
         FROM base ORDER BY period,channel"""
 
 
+def system_retention(window: list[str]) -> str:
+    previous, end = comparison_window(window)
+    start = window[0]
+    return f"""WITH cohort AS (
+        SELECT u.registration_os,
+          CASE WHEN CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)<'{start}' THEN 'previous' ELSE 'current' END AS period,
+          CASE WHEN EXISTS (SELECT 1 FROM sessions s WHERE s.user_id=u.user_id
+            AND CAST(s.started_at AT TIME ZONE 'Asia/Shanghai' AS DATE)=CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)+1) THEN 1 ELSE 0 END AS retained
+        FROM users u WHERE CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)>='{previous}'
+          AND CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)<'{end}')
+        SELECT period,registration_os,COUNT(*) AS users,SUM(retained) AS retained,
+          SUM(retained)*1.0/COUNT(*) AS retention_rate,
+          CASE WHEN period='previous' THEN '{previous}' ELSE '{start}' END AS window_start,
+          CASE WHEN period='previous' THEN '{start}' ELSE '{end}' END AS window_end
+        FROM cohort GROUP BY period,registration_os ORDER BY period,registration_os"""
+
+
 from metricguard.playback_profiles import playback_events, playback_progress
 
 BUSINESS_PROFILES = {('content_events', 'play_id', 'playback_events'): playback_events,
+                     ('users', 'registration_os', 'system_retention'): system_retention,
                      ('playback_telemetry', 'play_id', 'playback_progress'): playback_progress,
                      ('users', 'channel', 'channel_health'): channel_health,
                      ('users', 'registration_version', 'cohort_health'): cohort_health,

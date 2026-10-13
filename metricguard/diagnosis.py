@@ -17,6 +17,11 @@ For channel acquisition, mature D1 retention and matching registration-window co
 It compares current and immediately preceding equal-length windows, including idle spend with zero users.
 This profile suffices for bounded channel contribution interpretation; no version/crash profiles are required.
 Low retention does not establish fraud, and cost per new user need not rise. Zero denominators are unavailable, not zero costs.
+For system composition and retention masking use:
+{"action":"profile","table":"users","column":"registration_os","kind":"system_retention"}.
+It returns full-window mature new-user and retained counts by registration system for both periods.
+Stop once available: program computes actual pooled rates, base-share standardization and composition decomposition.
+Never average daily percentages or use binomial intervals on standardized derived quantities.
 For mature retention/crash comparison use the trusted business profile:
 {"action":"profile","table":"users","column":"registration_version","kind":"cohort_health"}.
 It computes current and immediately preceding equal-length mature cohorts by registration system/version,
