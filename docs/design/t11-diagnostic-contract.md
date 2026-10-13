@@ -1,0 +1,25 @@
+# T11 diagnostic action contract
+
+`TaskService.create(question, snapshot_id, window=None, *, mode='query')` preserves the single-query default. `mode='diagnose'` opts into evidence-driven iteration; rerun copies mode, and legacy persisted tasks default to query.
+
+The model chooses one strictly validated JSON object at each step:
+
+- Query: `{"action":"query","sql":"SELECT ..."}`.
+- Profile: `{"action":"profile","table":"users","column":"channel","kind":"distribution"}`. Kinds are distribution, missing, or time_coverage; time coverage requires a DATE or timestamp column.
+- Stop: `{"action":"stop","unsupported_hypotheses":[],"unresolved_questions":[]}`. Both lists contain bounded nonempty strings when populated. Their contents remain explicitly unverified and are preserved in report and Trace.
+
+Model materials contain the metric definition, physical schema, effective window, actual accumulated evidence, last runtime failure and cumulative repairs used. No evaluation scenario or expected path enters these materials. Every profile and query executes through the same isolated SQL worker. Profiles compile only reviewed physical identifiers and filter the table's fixed natural-date column to the effective half-open window. They cover timestamped rows within that window, do not measure timestamps missing outside that population, and observed min/max do not assert source completeness. The separate watermarks retain the completeness contract.
+
+Only a cleaned-up `engine_denied` result with BinderException or ConversionException can request repair. A task has two repairs total, including repairs separated by successful queries. Every query attempt and repair model request is charged; changing SQL does not reset the counter. Security, environment, resource and timeout failures stop immediately. Invalid actions fail closed and appear in Trace. No implicit retry is added.
+
+Reports select numeric cells with `{"evidence_id":"...","row":0,"column":"...","value":1}`. All evidence enters the T08 evidence store, and every published fact is checked against its exact source and context. The old query-only mode can omit evidence_id. Reports still distinguish mechanical evidence validation from independent business-definition verification; candidate explanation assessment is not implemented by this numerical loop. Budget, unknown usage or tool failure use deterministic facts from all valid evidence rather than losing previous results.
+
+Validation uses public TaskService behavior, a controlled provider HTTP boundary and the actual digest-pinned Docker worker. The initial adaptive-query test was observed RED (mode unsupported), then GREEN. Additional public regression cases cover repair ceilings across successful queries, profiles, unknown usage, security stop, mismatched references, invalid profile parameters and mode inheritance. Independent actual-model and resource checks belong to experiments/t11 and the root acceptance record.
+
+## Review corrections
+
+Budget, unknown-usage and execution-error stops append an explicit unresolved item containing the effective user question and stop reason. A public budget-stop regression was observed failing on the missing item before the correction. Model-facing evidence keeps every actual row and column plus evidence ID, tool, source SQL once, window, truncation and limitations, while omitting duplicate parameters and derived assertion contexts. Persistent evidence remains complete. The action contract explicitly states that the effective window has already been matured by trusted source-watermark logic and must not be shortened again.
+
+Repeated successful SQL now stops the loop before tool dispatch. Equality is deliberately conservative: only leading/trailing whitespace is stripped; SQL literals are not rewritten and semantic equivalence is not assumed. This also catches repeated identical generated profiles. Failure retries remain separately governed by the repair ceiling. The stop records no_new_evidence, a Trace event and an unresolved question, returning existing validated facts deterministically. A public regression first observed 12 tool calls (RED), where only four including preparation were expected. Model materials additionally expose explicit inclusive/exclusive window endpoints with maturity_already_applied and the program-owned remaining budget.
+
+Diagnostic requests now carry actual conversation history: the original effective question once, followed by each returned assistant action and its program-generated execution status, evidence reference or runtime error. Successful result cells remain solely in shared evidence, avoiding row duplication. History is persisted on the task and defaults to empty for older storage. Query/report modes retain their original message construction. History is included in the normal provider payload token reservation. A provider-boundary regression observed only one message on the second request before correction, then verifies the actual prior action and evidence ID.

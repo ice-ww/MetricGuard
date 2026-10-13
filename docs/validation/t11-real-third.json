@@ -1,0 +1,640 @@
+{
+  "id": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+  "status": "ended",
+  "rounds": 0,
+  "version": 0,
+  "question": "新增用户自然日次日留存的分母核验：仅核对本窗口新增人数。先做注册系统分布画像，再选择其中一个实际出现的系统，查询该系统的渠道新增人数分布。完成这两项取证后停止，不计算留存分子，不追查异常原因。",
+  "active": 6.329000000027008,
+  "limits": {
+    "tool": 12,
+    "model": 10,
+    "tokens": 30000,
+    "active_seconds": 180
+  },
+  "parent": null,
+  "attempts": [
+    {
+      "id": "a0f2b37a9a5a43bc832fd15d6f8b259e:retrieval",
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "operation": "retrieval",
+      "kind": "tool",
+      "reserved": 0,
+      "actual": 0,
+      "state": "completed",
+      "result": "{\"candidates\": [{\"id\": \"retention\", \"score\": 13.0038956297276}, {\"id\": \"retained_cost\", \"score\": 9.010537411787562}, {\"id\": \"new_cost\", \"score\": 8.126587035407491}], \"corpus_version\": \"t06-v1\", \"definition\": {\"aliases\": [\"\\u65b0\\u7528\\u6237\\u6b21\\u65e5\\u7559\\u5b58\", \"\\u6ce8\\u518c\\u6b21\\u65e5\\u7559\\u5b58\\u7387\"], \"definition\": \"\\u65b0\\u589e\\u6ce8\\u518c\\u7528\\u6237\\u7b2c\\u4e8c\\u5929\\u56de\\u6765\\u4ea7\\u751f\\u4f1a\\u8bdd\\u7684\\u6bd4\\u4f8b\\u3002\", \"denominator\": \"D \\u65e5\\u9996\\u6b21\\u6ce8\\u518c\\u53bb\\u91cd\\u7528\\u6237\\u6570\\uff1b\\u4e3a\\u96f6\\u5219\\u4e0d\\u53ef\\u8ba1\\u7b97\", \"dimensions\": \"users.registration_os / registration_version / channel \\u56fa\\u5b9a\\u6ce8\\u518c\\u5f52\\u5c5e\", \"id\": \"retention\", \"joins\": \"users.user_id = sessions.user_id\\uff1bEXISTS \\u9632\\u6b62\\u591a\\u4f1a\\u8bdd\\u91cd\\u590d\\u8ba1\\u6570\", \"name\": \"\\u65b0\\u589e\\u7528\\u6237\\u81ea\\u7136\\u65e5\\u6b21\\u65e5\\u7559\\u5b58\", \"numerator\": \"D \\u65e5\\u6ce8\\u518c\\u4e14 D+1 \\u6709\\u81f3\\u5c11\\u4e00\\u6b21\\u4f1a\\u8bdd\\u7684\\u53bb\\u91cd user_id \\u6570\", \"pitfalls\": \"\\u4e0d\\u662f\\u6eda\\u52a8 24 \\u5c0f\\u65f6\\uff1b\\u4e0d\\u6df7\\u5165\\u6d3b\\u8dc3\\u8001\\u7528\\u6237\\uff1b\\u8de8\\u65e5\\u7528\\u603b\\u7559\\u5b58/\\u603b\\u65b0\\u589e\\uff0c\\u4e0d\\u5e73\\u5747\\u6bcf\\u65e5\\u6bd4\\u4f8b\", \"time\": \"Asia/Shanghai \\u81ea\\u7136\\u65e5\\uff1b\\u6ce8\\u518c\\u7a97\\u53e3 [start,end)\\uff1bD+1 \\u5b8c\\u6574\\u7ed3\\u675f\\u4e14 users/sessions \\u6c34\\u4f4d\\u9f50\\u5907\\uff1bD+2 <= sessions.complete_before\"}, \"method\": \"bm25\", \"reason\": \"matched\", \"status\": \"adopt\", \"window\": [\"2026-01-01\", \"2026-01-08\"]}"
+    },
+    {
+      "id": "a0f2b37a9a5a43bc832fd15d6f8b259e:schema",
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "operation": "schema",
+      "kind": "tool",
+      "reserved": 0,
+      "actual": 0,
+      "state": "completed",
+      "result": "{\"channel_daily\": {\"channel\": \"VARCHAR\", \"day\": \"DATE\", \"spend_cents\": \"BIGINT\"}, \"content_events\": {\"event_id\": \"VARCHAR\", \"event_type\": \"VARCHAR\", \"occurred_at\": \"TIMESTAMP WITH TIME ZONE\", \"play_id\": \"VARCHAR\", \"session_id\": \"VARCHAR\"}, \"playback_telemetry\": {\"duration_seconds\": \"INTEGER\", \"observed_at\": \"TIMESTAMP WITH TIME ZONE\", \"play_id\": \"VARCHAR\", \"report_id\": \"VARCHAR\", \"session_id\": \"VARCHAR\", \"watched_seconds\": \"INTEGER\"}, \"release_calendar\": {\"os\": \"VARCHAR\", \"released_at\": \"TIMESTAMP WITH TIME ZONE\", \"version\": \"VARCHAR\"}, \"sessions\": {\"crashed\": \"BOOLEAN\", \"os\": \"VARCHAR\", \"session_id\": \"VARCHAR\", \"started_at\": \"TIMESTAMP WITH TIME ZONE\", \"user_id\": \"VARCHAR\", \"version\": \"VARCHAR\"}, \"source_watermarks\": {\"complete_before\": \"TIMESTAMP WITH TIME ZONE\", \"source\": \"VARCHAR\"}, \"users\": {\"channel\": \"VARCHAR\", \"registered_at\": \"TIMESTAMP WITH TIME ZONE\", \"registration_os\": \"VARCHAR\", \"registration_version\": \"VARCHAR\", \"user_id\": \"VARCHAR\"}}"
+    },
+    {
+      "id": "a0f2b37a9a5a43bc832fd15d6f8b259e:watermarks",
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "operation": "watermarks",
+      "kind": "tool",
+      "reserved": 0,
+      "actual": 0,
+      "state": "completed",
+      "result": "{\"cleanup_seconds\": 0.46899999998277053, \"cleanup_verified\": true, \"columns\": [{\"name\": \"source\", \"type\": \"VARCHAR\"}, {\"name\": \"complete_before\", \"type\": \"TIMESTAMP WITH TIME ZONE\"}], \"container_id\": \"c06d09871c741f8288d665fac7ece4e5efb605e4a4bb3496fb9d81911f81502a\", \"execute_seconds\": 0.0053149500000699845, \"fault_events\": [], \"fetch_seconds\": 0.021428154999966864, \"parse_seconds\": 0.045241486999998415, \"query_seconds\": 0.32800000003771856, \"rows\": [[\"users\", \"2026-01-16 16:00:00+00:00\"], [\"sessions\", \"2026-01-16 16:00:00+00:00\"], [\"content_events\", \"2026-01-16 16:00:00+00:00\"], [\"playback_telemetry\", \"2026-01-16 16:00:00+00:00\"], [\"channel_daily\", \"2026-01-16 16:00:00+00:00\"], [\"release_calendar\", \"2026-01-16 16:00:00+00:00\"]], \"schema_profile\": \"business\", \"serialize_seconds\": 0.000501923999763676, \"settings\": {\"access_mode\": \"read_only\", \"allow_community_extensions\": \"false\", \"allow_unsigned_extensions\": \"false\", \"allowed_configs\": \"[]\", \"allowed_directories\": \"[]\", \"allowed_paths\": \"[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]\", \"autoinstall_known_extensions\": \"false\", \"autoload_known_extensions\": \"false\", \"enable_external_access\": \"false\", \"lock_configuration\": \"true\", \"max_temp_directory_size\": \"0 bytes\", \"memory_limit\": \"122.0 MiB\", \"python_enable_replacements\": \"false\", \"python_scan_all_frames\": \"false\", \"temp_directory\": \"\", \"threads\": \"1\"}, \"startup_seconds\": 1.2969999999622814, \"status\": \"ok\", \"termination_delay_seconds\": 0.0, \"total_seconds\": 2.0939999999827705, \"truncated\": false, \"versions\": {\"duckdb\": \"1.5.6\", \"python\": \"3.12.10\", \"pytz\": \"2026.5\", \"sqlglot\": \"30.22.0\"}}"
+    },
+    {
+      "id": "a0f2b37a9a5a43bc832fd15d6f8b259e:diagnose:1",
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "operation": "diagnose:1:8385fa4faba2778c72e7e4c044c2c4c3d549a89557cd29dbe7296e71920f7dd5",
+      "kind": "model",
+      "reserved": 6439,
+      "actual": 1060,
+      "state": "completed",
+      "result": "{\"cap\": \"scheduler_guard\", \"content\": [{\"citations\": null, \"text\": \"{\\\"action\\\":\\\"profile\\\",\\\"table\\\":\\\"users\\\",\\\"column\\\":\\\"registration_os\\\",\\\"kind\\\":\\\"distribution\\\"}\", \"type\": \"text\"}], \"fee_usd_range\": {\"currency\": \"USD\", \"kind\": \"estimate_not_invoice\", \"maximum\": 7.1676e-05, \"minimum\": 3.5838e-05, \"pricing\": \"DeepSeek-V4.1-Flash 2026-10-12\"}, \"model\": \"deepseek-flash\", \"raw_usage\": {\"cache_creation\": null, \"cache_creation_input_tokens\": 0, \"cache_read_input_tokens\": 896, \"inference_geo\": null, \"input_tokens\": 145, \"output_tokens\": 19, \"output_tokens_details\": null, \"server_tool_use\": null, \"service_tier\": \"standard\"}, \"reservation\": 6439, \"status\": \"completed\", \"usage\": {\"input_cached\": 896, \"input_total\": 1041, \"input_uncached\": 145, \"output\": 19, \"total\": 1060}}"
+    },
+    {
+      "id": "a0f2b37a9a5a43bc832fd15d6f8b259e:diagnostic_sql:1",
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "operation": "diagnostic_sql:1",
+      "kind": "tool",
+      "reserved": 0,
+      "actual": 0,
+      "state": "completed",
+      "result": "{\"cleanup_seconds\": 0.48399999999674037, \"cleanup_verified\": true, \"columns\": [{\"name\": \"value\", \"type\": \"VARCHAR\"}, {\"name\": \"count\", \"type\": \"BIGINT\"}], \"container_id\": \"719bbdaa023cbd817bc814f168b90e9343570b60bdf6ce2c10cb91fcc1f2fbe0\", \"execute_seconds\": 0.0077867290000313005, \"fault_events\": [], \"fetch_seconds\": 0.00017845599995780503, \"parse_seconds\": 0.03984241800003474, \"query_seconds\": 0.3119999999762513, \"rows\": [[\"Android\", 828], [\"iOS\", 828]], \"schema_profile\": \"business\", \"serialize_seconds\": 5.3337000053943484e-05, \"settings\": {\"access_mode\": \"read_only\", \"allow_community_extensions\": \"false\", \"allow_unsigned_extensions\": \"false\", \"allowed_configs\": \"[]\", \"allowed_directories\": \"[]\", \"allowed_paths\": \"[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]\", \"autoinstall_known_extensions\": \"false\", \"autoload_known_extensions\": \"false\", \"enable_external_access\": \"false\", \"lock_configuration\": \"true\", \"max_temp_directory_size\": \"0 bytes\", \"memory_limit\": \"122.0 MiB\", \"python_enable_replacements\": \"false\", \"python_scan_all_frames\": \"false\", \"temp_directory\": \"\", \"threads\": \"1\"}, \"startup_seconds\": 1.25, \"status\": \"ok\", \"termination_delay_seconds\": 0.0, \"total_seconds\": 2.0459999999729916, \"truncated\": false, \"versions\": {\"duckdb\": \"1.5.6\", \"python\": \"3.12.10\", \"pytz\": \"2026.5\", \"sqlglot\": \"30.22.0\"}}"
+    },
+    {
+      "id": "a0f2b37a9a5a43bc832fd15d6f8b259e:diagnose:2",
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "operation": "diagnose:2:a1b33b77db86a92f04a339791f0404d0bec6b9ba4ae659f7286098a669390e9d",
+      "kind": "model",
+      "reserved": 7248,
+      "actual": 1302,
+      "state": "completed",
+      "result": "{\"cap\": \"scheduler_guard\", \"content\": [{\"citations\": null, \"text\": \"{\\\"action\\\":\\\"profile\\\",\\\"table\\\":\\\"users\\\",\\\"column\\\":\\\"registration_os\\\",\\\"kind\\\":\\\"distribution\\\"}\", \"type\": \"text\"}], \"fee_usd_range\": {\"currency\": \"USD\", \"kind\": \"estimate_not_invoice\", \"maximum\": 0.00018190800000000002, \"minimum\": 9.095400000000001e-05, \"pricing\": \"DeepSeek-V4.1-Flash 2026-10-12\"}, \"model\": \"deepseek-flash\", \"raw_usage\": {\"cache_creation\": null, \"cache_creation_input_tokens\": 0, \"cache_read_input_tokens\": 768, \"inference_geo\": null, \"input_tokens\": 515, \"output_tokens\": 19, \"output_tokens_details\": null, \"server_tool_use\": null, \"service_tier\": \"standard\"}, \"reservation\": 7248, \"status\": \"completed\", \"usage\": {\"input_cached\": 768, \"input_total\": 1283, \"input_uncached\": 515, \"output\": 19, \"total\": 1302}}"
+    }
+  ],
+  "tool_calls": 4,
+  "model_calls": 2,
+  "tokens": 2362,
+  "trace": [
+    {
+      "seq": 1,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "reserve",
+      "detail": "a0f2b37a9a5a43bc832fd15d6f8b259e:retrieval"
+    },
+    {
+      "seq": 2,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "sent",
+      "detail": "a0f2b37a9a5a43bc832fd15d6f8b259e:retrieval"
+    },
+    {
+      "seq": 3,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "completed",
+      "detail": "a0f2b37a9a5a43bc832fd15d6f8b259e:retrieval"
+    },
+    {
+      "seq": 4,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "reserve",
+      "detail": "a0f2b37a9a5a43bc832fd15d6f8b259e:schema"
+    },
+    {
+      "seq": 5,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "sent",
+      "detail": "a0f2b37a9a5a43bc832fd15d6f8b259e:schema"
+    },
+    {
+      "seq": 6,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "completed",
+      "detail": "a0f2b37a9a5a43bc832fd15d6f8b259e:schema"
+    },
+    {
+      "seq": 7,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "reserve",
+      "detail": "a0f2b37a9a5a43bc832fd15d6f8b259e:watermarks"
+    },
+    {
+      "seq": 8,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "sent",
+      "detail": "a0f2b37a9a5a43bc832fd15d6f8b259e:watermarks"
+    },
+    {
+      "seq": 9,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "completed",
+      "detail": "a0f2b37a9a5a43bc832fd15d6f8b259e:watermarks"
+    },
+    {
+      "seq": 10,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "definition_adopted",
+      "detail": "{\"definition\": {\"id\": \"retention\", \"name\": \"新增用户自然日次日留存\", \"aliases\": [\"新用户次日留存\", \"注册次日留存率\"], \"definition\": \"新增注册用户第二天回来产生会话的比例。\", \"numerator\": \"D 日注册且 D+1 有至少一次会话的去重 user_id 数\", \"denominator\": \"D 日首次注册去重用户数；为零则不可计算\", \"dimensions\": \"users.registration_os / registration_version / channel 固定注册归属\", \"joins\": \"users.user_id = sessions.user_id；EXISTS 防止多会话重复计数\", \"time\": \"Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before\", \"pitfalls\": \"不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例\"}, \"actual_window\": [\"2026-01-01\", \"2026-01-08\"]}"
+    },
+    {
+      "seq": 11,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "reserve",
+      "detail": "a0f2b37a9a5a43bc832fd15d6f8b259e:diagnose:1"
+    },
+    {
+      "seq": 12,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "sent",
+      "detail": "a0f2b37a9a5a43bc832fd15d6f8b259e:diagnose:1"
+    },
+    {
+      "seq": 13,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "completed",
+      "detail": "a0f2b37a9a5a43bc832fd15d6f8b259e:diagnose:1"
+    },
+    {
+      "seq": 14,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "reserve",
+      "detail": "a0f2b37a9a5a43bc832fd15d6f8b259e:diagnostic_sql:1"
+    },
+    {
+      "seq": 15,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "sent",
+      "detail": "a0f2b37a9a5a43bc832fd15d6f8b259e:diagnostic_sql:1"
+    },
+    {
+      "seq": 16,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "completed",
+      "detail": "a0f2b37a9a5a43bc832fd15d6f8b259e:diagnostic_sql:1"
+    },
+    {
+      "seq": 17,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "query_completed",
+      "detail": "{\"status\": \"ok\", \"cleanup_verified\": true, \"action\": {\"action\": \"profile\", \"table\": \"users\", \"column\": \"registration_os\", \"kind\": \"distribution\"}, \"repairs_used\": 0, \"error_type\": null}"
+    },
+    {
+      "seq": 18,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "reserve",
+      "detail": "a0f2b37a9a5a43bc832fd15d6f8b259e:diagnose:2"
+    },
+    {
+      "seq": 19,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "sent",
+      "detail": "a0f2b37a9a5a43bc832fd15d6f8b259e:diagnose:2"
+    },
+    {
+      "seq": 20,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "completed",
+      "detail": "a0f2b37a9a5a43bc832fd15d6f8b259e:diagnose:2"
+    },
+    {
+      "seq": 21,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "diagnosis_no_progress",
+      "detail": "{\"reason\": \"successful_sql_repeated\", \"action\": {\"action\": \"profile\", \"table\": \"users\", \"column\": \"registration_os\", \"kind\": \"distribution\"}}"
+    },
+    {
+      "seq": 22,
+      "task": "a0f2b37a9a5a43bc832fd15d6f8b259e",
+      "event": "report_validated",
+      "detail": "{\"passed\": true, \"assertion_count\": 2, \"valid_count\": 2, \"results\": [{\"assertion_id\": \"0\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"1\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}], \"errors\": [], \"protocol_version\": 1}"
+    }
+  ],
+  "snapshot_id": "development",
+  "snapshot_hash": "c1297dcc5571e53b16a6c733028f16daaf3bca7a1c3eaa535f28f3f82ac470db",
+  "requested_window": [
+    "2026-01-01",
+    "2026-01-08"
+  ],
+  "actual_window": [
+    "2026-01-01",
+    "2026-01-08"
+  ],
+  "definition": {
+    "id": "retention",
+    "name": "新增用户自然日次日留存",
+    "aliases": [
+      "新用户次日留存",
+      "注册次日留存率"
+    ],
+    "definition": "新增注册用户第二天回来产生会话的比例。",
+    "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+    "denominator": "D 日首次注册去重用户数；为零则不可计算",
+    "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+    "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+    "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+    "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+  },
+  "evidence": [
+    {
+      "evidence_id": "a0f2b37a9a5a43bc832fd15d6f8b259e:evidence:1",
+      "tool": "profile",
+      "parameters": {
+        "action": "profile",
+        "table": "users",
+        "column": "registration_os",
+        "kind": "distribution",
+        "sql": "SELECT \"registration_os\" AS value, COUNT(*) AS count FROM \"users\" WHERE CAST(\"registered_at\" AT TIME ZONE 'Asia/Shanghai' AS DATE) >= '2026-01-01' AND CAST(\"registered_at\" AT TIME ZONE 'Asia/Shanghai' AS DATE) < '2026-01-08' GROUP BY \"registration_os\" ORDER BY count DESC"
+      },
+      "source": "SELECT \"registration_os\" AS value, COUNT(*) AS count FROM \"users\" WHERE CAST(\"registered_at\" AT TIME ZONE 'Asia/Shanghai' AS DATE) >= '2026-01-01' AND CAST(\"registered_at\" AT TIME ZONE 'Asia/Shanghai' AS DATE) < '2026-01-08' GROUP BY \"registration_os\" ORDER BY count DESC",
+      "snapshot_id": "c1297dcc5571e53b16a6c733028f16daaf3bca7a1c3eaa535f28f3f82ac470db",
+      "columns": {
+        "value": "string",
+        "count": "integer"
+      },
+      "actual_db_types": {
+        "value": "VARCHAR",
+        "count": "BIGINT"
+      },
+      "rows": [
+        {
+          "value": "Android",
+          "count": 828
+        },
+        {
+          "value": "iOS",
+          "count": 828
+        }
+      ],
+      "window": [
+        "2026-01-01",
+        "2026-01-08"
+      ],
+      "truncated": false,
+      "group": {},
+      "sample": {
+        "returned_rows": 2
+      },
+      "limitations": [
+        "business_definition_requires_independent_reference",
+        "profile_within_window_timestamped_rows_only",
+        "observed_time_coverage_does_not_prove_completeness"
+      ],
+      "business_definition_status": "requires_independent_reference",
+      "contexts": {
+        "/rows/0/count": {
+          "metric": "profile:users:distribution",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "value": "Android"
+          },
+          "comparison": null
+        },
+        "/rows/1/count": {
+          "metric": "profile:users:distribution",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "value": "iOS"
+          },
+          "comparison": null
+        }
+      }
+    }
+  ],
+  "report": {
+    "facts": [
+      {
+        "evidence_id": "a0f2b37a9a5a43bc832fd15d6f8b259e:evidence:1",
+        "row": 0,
+        "column": "count",
+        "value": 828,
+        "context": {
+          "metric": "profile:users:distribution",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "value": "Android"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "a0f2b37a9a5a43bc832fd15d6f8b259e:evidence:1",
+        "row": 1,
+        "column": "count",
+        "value": 828,
+        "context": {
+          "metric": "profile:users:distribution",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "value": "iOS"
+          },
+          "comparison": null
+        }
+      }
+    ],
+    "rejected_facts": [],
+    "validation": {
+      "passed": true,
+      "assertion_count": 2,
+      "valid_count": 2,
+      "results": [
+        {
+          "assertion_id": "0",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "1",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        }
+      ],
+      "errors": [],
+      "protocol_version": 1
+    },
+    "deterministic": true,
+    "definition": {
+      "id": "retention",
+      "name": "新增用户自然日次日留存",
+      "aliases": [
+        "新用户次日留存",
+        "注册次日留存率"
+      ],
+      "definition": "新增注册用户第二天回来产生会话的比例。",
+      "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+      "denominator": "D 日首次注册去重用户数；为零则不可计算",
+      "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+      "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+      "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+      "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+    },
+    "window": [
+      "2026-01-01",
+      "2026-01-08"
+    ],
+    "limitations": [
+      "no_new_evidence"
+    ],
+    "unsupported_hypotheses": [],
+    "unresolved_questions": [
+      "No new evidence proposed; question remains unresolved: 新增用户自然日次日留存的分母核验：仅核对本窗口新增人数。先做注册系统分布画像，再选择其中一个实际出现的系统，查询该系统的渠道新增人数分布。完成这两项取证后停止，不计算留存分子，不追查异常原因。"
+    ],
+    "business_definition_status": "requires_independent_reference",
+    "inference_status": "not_assessed",
+    "outcome": "insufficient_evidence"
+  },
+  "outcome": "insufficient_evidence",
+  "limitations": [
+    "no_new_evidence"
+  ],
+  "mode": "diagnose",
+  "repairs_used": 0,
+  "unsupported_hypotheses": [],
+  "unresolved_questions": [
+    "No new evidence proposed; question remains unresolved: 新增用户自然日次日留存的分母核验：仅核对本窗口新增人数。先做注册系统分布画像，再选择其中一个实际出现的系统，查询该系统的渠道新增人数分布。完成这两项取证后停止，不计算留存分子，不追查异常原因。"
+  ],
+  "effective_question": "新增用户自然日次日留存的分母核验：仅核对本窗口新增人数。先做注册系统分布画像，再选择其中一个实际出现的系统，查询该系统的渠道新增人数分布。完成这两项取证后停止，不计算留存分子，不追查异常原因。",
+  "pending_question": null,
+  "answers": [],
+  "retrieval": {
+    "status": "adopt",
+    "reason": "matched",
+    "method": "bm25",
+    "definition": {
+      "id": "retention",
+      "name": "新增用户自然日次日留存",
+      "aliases": [
+        "新用户次日留存",
+        "注册次日留存率"
+      ],
+      "definition": "新增注册用户第二天回来产生会话的比例。",
+      "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+      "denominator": "D 日首次注册去重用户数；为零则不可计算",
+      "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+      "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+      "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+      "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+    },
+    "candidates": [
+      {
+        "id": "retention",
+        "score": 13.0038956297276
+      },
+      {
+        "id": "retained_cost",
+        "score": 9.010537411787562
+      },
+      {
+        "id": "new_cost",
+        "score": 8.126587035407491
+      }
+    ],
+    "window": [
+      "2026-01-01",
+      "2026-01-08"
+    ],
+    "corpus_version": "t06-v1"
+  },
+  "schema": {
+    "users": {
+      "user_id": "VARCHAR",
+      "registered_at": "TIMESTAMP WITH TIME ZONE",
+      "registration_os": "VARCHAR",
+      "registration_version": "VARCHAR",
+      "channel": "VARCHAR"
+    },
+    "sessions": {
+      "session_id": "VARCHAR",
+      "user_id": "VARCHAR",
+      "started_at": "TIMESTAMP WITH TIME ZONE",
+      "os": "VARCHAR",
+      "version": "VARCHAR",
+      "crashed": "BOOLEAN"
+    },
+    "content_events": {
+      "event_id": "VARCHAR",
+      "play_id": "VARCHAR",
+      "session_id": "VARCHAR",
+      "event_type": "VARCHAR",
+      "occurred_at": "TIMESTAMP WITH TIME ZONE"
+    },
+    "playback_telemetry": {
+      "report_id": "VARCHAR",
+      "play_id": "VARCHAR",
+      "session_id": "VARCHAR",
+      "observed_at": "TIMESTAMP WITH TIME ZONE",
+      "watched_seconds": "INTEGER",
+      "duration_seconds": "INTEGER"
+    },
+    "channel_daily": {
+      "day": "DATE",
+      "channel": "VARCHAR",
+      "spend_cents": "BIGINT"
+    },
+    "release_calendar": {
+      "os": "VARCHAR",
+      "version": "VARCHAR",
+      "released_at": "TIMESTAMP WITH TIME ZONE"
+    },
+    "source_watermarks": {
+      "source": "VARCHAR",
+      "complete_before": "TIMESTAMP WITH TIME ZONE"
+    }
+  },
+  "watermarks": {
+    "status": "ok",
+    "rows": [
+      [
+        "users",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "sessions",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "content_events",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "playback_telemetry",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "channel_daily",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "release_calendar",
+        "2026-01-16 16:00:00+00:00"
+      ]
+    ],
+    "truncated": false,
+    "columns": [
+      {
+        "name": "source",
+        "type": "VARCHAR"
+      },
+      {
+        "name": "complete_before",
+        "type": "TIMESTAMP WITH TIME ZONE"
+      }
+    ],
+    "fetch_seconds": 0.021428154999966864,
+    "serialize_seconds": 0.000501923999763676,
+    "parse_seconds": 0.045241486999998415,
+    "execute_seconds": 0.0053149500000699845,
+    "schema_profile": "business",
+    "settings": {
+      "enable_external_access": "false",
+      "allow_community_extensions": "false",
+      "allow_unsigned_extensions": "false",
+      "autoinstall_known_extensions": "false",
+      "autoload_known_extensions": "false",
+      "python_enable_replacements": "false",
+      "python_scan_all_frames": "false",
+      "threads": "1",
+      "memory_limit": "122.0 MiB",
+      "max_temp_directory_size": "0 bytes",
+      "temp_directory": "",
+      "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+      "allowed_directories": "[]",
+      "allowed_configs": "[]",
+      "lock_configuration": "true",
+      "access_mode": "read_only"
+    },
+    "versions": {
+      "duckdb": "1.5.6",
+      "sqlglot": "30.22.0",
+      "pytz": "2026.5",
+      "python": "3.12.10"
+    },
+    "fault_events": [],
+    "query_seconds": 0.32800000003771856,
+    "startup_seconds": 1.2969999999622814,
+    "container_id": "c06d09871c741f8288d665fac7ece4e5efb605e4a4bb3496fb9d81911f81502a",
+    "cleanup_verified": true,
+    "cleanup_seconds": 0.46899999998277053,
+    "total_seconds": 2.0939999999827705,
+    "termination_delay_seconds": 0.0
+  },
+  "query_result": {
+    "status": "ok",
+    "rows": [
+      [
+        "Android",
+        828
+      ],
+      [
+        "iOS",
+        828
+      ]
+    ],
+    "truncated": false,
+    "columns": [
+      {
+        "name": "value",
+        "type": "VARCHAR"
+      },
+      {
+        "name": "count",
+        "type": "BIGINT"
+      }
+    ],
+    "fetch_seconds": 0.00017845599995780503,
+    "serialize_seconds": 5.3337000053943484e-05,
+    "parse_seconds": 0.03984241800003474,
+    "execute_seconds": 0.0077867290000313005,
+    "schema_profile": "business",
+    "settings": {
+      "enable_external_access": "false",
+      "allow_community_extensions": "false",
+      "allow_unsigned_extensions": "false",
+      "autoinstall_known_extensions": "false",
+      "autoload_known_extensions": "false",
+      "python_enable_replacements": "false",
+      "python_scan_all_frames": "false",
+      "threads": "1",
+      "memory_limit": "122.0 MiB",
+      "max_temp_directory_size": "0 bytes",
+      "temp_directory": "",
+      "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+      "allowed_directories": "[]",
+      "allowed_configs": "[]",
+      "lock_configuration": "true",
+      "access_mode": "read_only"
+    },
+    "versions": {
+      "duckdb": "1.5.6",
+      "sqlglot": "30.22.0",
+      "pytz": "2026.5",
+      "python": "3.12.10"
+    },
+    "fault_events": [],
+    "query_seconds": 0.3119999999762513,
+    "startup_seconds": 1.25,
+    "container_id": "719bbdaa023cbd817bc814f168b90e9343570b60bdf6ce2c10cb91fcc1f2fbe0",
+    "cleanup_verified": true,
+    "cleanup_seconds": 0.48399999999674037,
+    "total_seconds": 2.0459999999729916,
+    "termination_delay_seconds": 0.0
+  },
+  "sql": "SELECT \"registration_os\" AS value, COUNT(*) AS count FROM \"users\" WHERE CAST(\"registered_at\" AT TIME ZONE 'Asia/Shanghai' AS DATE) >= '2026-01-01' AND CAST(\"registered_at\" AT TIME ZONE 'Asia/Shanghai' AS DATE) < '2026-01-08' GROUP BY \"registration_os\" ORDER BY count DESC"
+}

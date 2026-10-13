@@ -49,7 +49,9 @@ class TaskService:
     def __exit__(self, *args: Any) -> None:
         self.close()
 
-    def create(self, question: str, snapshot_id: str, window: tuple[str, str] | None = None) -> str:
+    def create(self, question: str, snapshot_id: str, window: tuple[str, str] | None = None, *, mode: str = 'query') -> str:
+        if mode not in ('query', 'diagnose'):
+            raise ValueError('invalid task mode')
         if not isinstance(question, str) or not question.strip() or len(question) > 2000:
             raise ValueError('invalid question')
         if snapshot_id not in self.snapshots:
@@ -63,6 +65,7 @@ class TaskService:
         self._save(task, {'question': question, 'snapshot_id': snapshot_id, 'snapshot_hash': digest,
                          'requested_window': window, 'actual_window': None, 'definition': None,
                          'evidence': [], 'report': None, 'outcome': None, 'limitations': [],
+                         'mode': mode, 'diagnostic_history': [], 'repairs_used': 0, 'unsupported_hypotheses': [], 'unresolved_questions': [],
                          'effective_question': question, 'pending_question': None, 'answers': []})
         return task
 
@@ -80,6 +83,11 @@ class TaskService:
             data.setdefault('effective_question', data['question'])
             data.setdefault('answers', [])
             data.setdefault('pending_question', None)
+            data.setdefault('mode', 'query')
+            data.setdefault('diagnostic_history', [])
+            data.setdefault('repairs_used', 0)
+            data.setdefault('unsupported_hypotheses', [])
+            data.setdefault('unresolved_questions', [])
             return data
 
     def inspect(self, task: str) -> dict[str, Any]:
@@ -175,9 +183,9 @@ class TaskService:
         self._event(task, 'definition_adopted', {'definition': data['definition'], 'actual_window': data['actual_window']})
         return {}
 
-    def _model(self, task: str, name: str, system: str, shared: Any, *, final: bool = False) -> dict[str, Any]:
+    def _model(self, task: str, name: str, system: str, shared: Any, *, final: bool = False, messages: list[dict[str, Any]] | None = None) -> dict[str, Any]:
         request = Request(system, json.dumps(shared, ensure_ascii=False),
-                          [{'role': 'user', 'content': self._data(task)['effective_question']}], max_output=2048)
+                          messages if messages is not None else [{'role': 'user', 'content': self._data(task)['effective_question']}], max_output=1024 if final else 2048)
         self.adapter.client.timeout = min(30.0, self._remaining(task))
         result = self.adapter.call(task, name, request, attempt_id=task + ':' + name, final_report=final)
         self._remaining(task)
@@ -195,6 +203,8 @@ class TaskService:
         task = state['task']; data = self._data(task)
         if data['outcome']:
             return {}
+        if data['mode'] == 'diagnose':
+            return self._diagnose(task)
         plan = self._model(task, 'sql_plan',
             'Generate one DuckDB read-only SELECT for the requested metric and exact window. '
             'Return only JSON {"sql":"..."}. Use listed physical schema only. '
@@ -241,27 +251,135 @@ class TaskService:
             self.fault_hook('before_checkpoint')
         return {}
 
+    @staticmethod
+    def _known_facts(data: dict[str, Any]) -> list[dict[str, Any]]:
+        return [{'evidence_id': e['evidence_id'], 'row': i, 'column': k, 'value': v}
+                for e in data['evidence'] for i, row in enumerate(e['rows'])
+                for k, v in row.items() if type(v) in (int, float)]
+
+    @staticmethod
+    def _model_evidence(data: dict[str, Any]) -> list[dict[str, Any]]:
+        # Keep every actual result cell, but omit duplicated SQL and program-derived contexts.
+        fields = ('evidence_id', 'tool', 'source', 'columns', 'rows', 'window', 'truncated', 'limitations')
+        return [{key: evidence[key] for key in fields} for evidence in data['evidence']]
+
+    def _diagnose(self, task: str) -> dict[str, Any]:
+        from metricguard.diagnosis import ACTION_PROMPT, action_sql, validate_stop
+        data = self._data(task)
+        failure = None
+        step = 0
+        while True:
+            step += 1
+            budget = self.ledger.inspect(task)
+            messages = [{'role': 'user', 'content': data['effective_question']}]
+            for turn in data['diagnostic_history']:
+                messages.append({'role': 'assistant', 'content': json.dumps(turn['action'], ensure_ascii=False)})
+                messages.append({'role': 'user', 'content': json.dumps(turn['result'], ensure_ascii=False)})
+            action = self._model(task, ('repair:' if failure else 'diagnose:') + str(step), ACTION_PROMPT,
+                {'definition': data['definition'], 'schema': data['schema'], 'window': data['actual_window'],
+                 'evidence': self._model_evidence(data), 'last_failure': failure, 'repairs_used': data['repairs_used'],
+                 'window_contract': {'start_inclusive': data['actual_window'][0], 'end_exclusive': data['actual_window'][1],
+                                     'maturity_already_applied': True},
+                 'remaining_budget': {'tool_calls': budget['limits']['tool'] - budget['tool_calls'],
+                                      'model_calls': budget['limits']['model'] - budget['model_calls'],
+                                      'scheduler_tokens': budget['limits']['tokens'] - budget['tokens']}}, messages=messages)
+            if action.get('action') == 'stop':
+                validate_stop(action)
+                data['diagnostic_history'].append({'action': action, 'result': {'status': 'stopped'}})
+                data['unsupported_hypotheses'] = action['unsupported_hypotheses']
+                data['unresolved_questions'] = action['unresolved_questions']
+                self._save(task, data)
+                self._event(task, 'diagnosis_stopped', action)
+                return {}
+            if failure and action.get('action') != 'query':
+                raise ValueError('repair requires query or stop')
+            sql = action_sql(action, data['schema'], data['actual_window'])
+            # Conservative equality avoids rewriting SQL literals or claiming semantic equivalence.
+            if any(evidence['source'].strip() == sql.strip() for evidence in data['evidence']):
+                data['outcome'] = 'insufficient_evidence'
+                data['diagnostic_history'].append({'action': action, 'result': {'status': 'no_new_evidence'}})
+                data['limitations'].append('no_new_evidence')
+                data['unresolved_questions'].append('No new evidence proposed; question remains unresolved: ' + data['effective_question'])
+                self._save(task, data)
+                self._event(task, 'diagnosis_no_progress', {'reason': 'successful_sql_repeated', 'action': action})
+                return {}
+            if failure:
+                data['repairs_used'] += 1
+                self._save(task, data)
+            result = self._tool(task, 'diagnostic_sql:' + str(step), lambda: self._sandbox(task, data).query(sql))
+            data['query_result'] = result
+            data['sql'] = sql
+            self._save(task, data)
+            self._event(task, 'query_completed', {'status': result['status'], 'cleanup_verified': result.get('cleanup_verified'),
+                'action': action, 'repairs_used': data['repairs_used'], 'error_type': result.get('error_type')})
+            if result['status'] != 'ok':
+                failure = {'sql': sql, 'status': result['status'], 'error_type': result.get('error_type'), 'error': result.get('error')}
+                data['diagnostic_history'].append({'action': action, 'result': {**failure, 'cleanup_verified': result.get('cleanup_verified')}})
+                self._save(task, data)
+                self._event(task, 'query_failed', failure)
+                if (result['status'] == 'engine_denied' and result.get('cleanup_verified') is True
+                        and result.get('error_type') in ('BinderException', 'ConversionException') and data['repairs_used'] < 2):
+                    continue
+                data['outcome'] = 'refused' if result['status'] == 'policy_denied' else 'insufficient_evidence'
+                data['limitations'].append('query_' + result['status'])
+                data['unresolved_questions'].append('Query failed; remaining explanations could not be tested.')
+                self._save(task, data)
+                return {}
+            failure = None
+            columns = result['columns']
+            rows = [dict(zip([c['name'] for c in columns], row, strict=True)) for row in result['rows']]
+            eid = task + ':evidence:' + str(step)
+            profile = action['action'] == 'profile'
+            limitations = ['business_definition_requires_independent_reference']
+            if profile:
+                limitations += ['profile_within_window_timestamped_rows_only', 'observed_time_coverage_does_not_prove_completeness']
+            evidence = {'evidence_id': eid, 'tool': action['action'], 'parameters': {**action, 'sql': sql},
+                'source': sql, 'snapshot_id': data['snapshot_hash'], 'columns': {c['name']: canonical_type(c['type']) for c in columns},
+                'actual_db_types': {c['name']: c['type'] for c in columns}, 'rows': rows, 'window': data['actual_window'],
+                'truncated': result['truncated'], 'group': {}, 'sample': {'returned_rows': len(rows)},
+                'limitations': limitations, 'business_definition_status': 'requires_independent_reference',
+                'contexts': {Reference(eid, i, k).pointer: asdict(FactContext(
+                    ('profile:' + action['table'] + ':' + action['kind']) if profile else 'query_result:' + data['definition']['id'],
+                    tuple(data['actual_window']), {key: str(v) for key, v in row.items() if v is not None and type(v) not in (int, float)}, None))
+                    for i, row in enumerate(rows) for k, value in row.items() if type(value) in (int, float)}}
+            data['evidence'].append(evidence)
+            try:
+                self._validated(data, [])
+            except (ValueError, TypeError, KeyError):
+                data['evidence'].pop()
+                self._save(task, data)
+                raise ValueError('invalid_query_evidence') from None
+            data['diagnostic_history'].append({'action': action, 'result': {'status': 'ok', 'evidence_id': eid,
+                'cleanup_verified': result.get('cleanup_verified'), 'next': 'Choose the next action using the actual evidence in shared materials.'}})
+            self._save(task, data)
+            if self.fault_hook:
+                self.fault_hook('before_checkpoint')
+
     def _validated(self, data: dict[str, Any], facts: list[Any]) -> dict[str, Any]:
         store = EvidenceStore(); assertions = []
         if not data['evidence']:
             return {'facts': [], 'rejected_facts': [], 'validation': asdict(store.validate_report(()))}
-        raw = data['evidence'][0]
         window = (data['actual_window'][0], data['actual_window'][1])
-        contexts = {pointer: FactContext(value['metric'], tuple(value['window']), value['group'], value['comparison']) for pointer, value in raw['contexts'].items()}
-        evidence = EvidenceResult(raw['evidence_id'], 'query', raw['parameters'], raw['source'], raw['snapshot_id'],
-            raw['columns'], tuple(raw['rows']), contexts, window, raw['group'], raw['sample'], tuple(raw['limitations']), raw['truncated'])
-        store.add(evidence)
+        contexts_by_id = {}
+        for raw in data['evidence']:
+            contexts = {pointer: FactContext(value['metric'], tuple(value['window']), value['group'], value['comparison']) for pointer, value in raw['contexts'].items()}
+            contexts_by_id[raw['evidence_id']] = contexts
+            store.add(EvidenceResult(raw['evidence_id'], raw['tool'], raw['parameters'], raw['source'], raw['snapshot_id'],
+                raw['columns'], tuple(raw['rows']), contexts, tuple(raw['window']), raw['group'], raw['sample'], tuple(raw['limitations']), raw['truncated']))
         accepted = []; rejected = []
         for index, fact in enumerate(facts):
-            if not isinstance(fact, dict) or set(fact) != {'row', 'column', 'value'} or type(fact['row']) is not int or not isinstance(fact['column'], str):
+            if not isinstance(fact, dict) or set(fact) not in ({'row', 'column', 'value'}, {'evidence_id', 'row', 'column', 'value'}) or type(fact['row']) is not int or not isinstance(fact['column'], str):
                 rejected.append({'index': index, 'error': 'invalid_fact_shape'}); continue
-            ref = Reference(raw['evidence_id'], fact['row'], fact['column'])
-            context = contexts.get(ref.pointer, FactContext('unknown', window, {}, None))
+            evidence_id = fact.get('evidence_id', data['evidence'][0]['evidence_id'] if data['mode'] == 'query' else '')
+            if not isinstance(evidence_id, str) or evidence_id not in contexts_by_id:
+                rejected.append({'index': index, 'error': 'unknown_evidence_id'}); continue
+            ref = Reference(evidence_id, fact['row'], fact['column'])
+            context = contexts_by_id[evidence_id].get(ref.pointer, FactContext('unknown', window, {}, None))
             assertion = Assertion(str(index), ref, context, fact['value'])
             check = store.validate(assertion)
             if check.passed:
                 assertions.append(assertion)
-                accepted.append({**fact, 'evidence_id': raw['evidence_id'], 'context': asdict(context)})
+                accepted.append({**fact, 'evidence_id': evidence_id, 'context': asdict(context)})
             else:
                 rejected.append({'index': index, 'errors': list(check.errors)})
         return {'facts': accepted, 'rejected_facts': rejected, 'validation': asdict(store.validate_report(tuple(assertions)))}
@@ -270,7 +388,8 @@ class TaskService:
         data = self._data(task)
         report = self._validated(data, facts)
         report.update(deterministic=deterministic, definition=data['definition'], window=data['actual_window'],
-            limitations=data['limitations'], business_definition_status='requires_independent_reference', inference_status='not_assessed')
+            limitations=data['limitations'], unsupported_hypotheses=data['unsupported_hypotheses'],
+            unresolved_questions=data['unresolved_questions'], business_definition_status='requires_independent_reference', inference_status='not_assessed')
         if data['outcome'] is None:
             data['outcome'] = 'facts_available' if report['validation']['passed'] else 'insufficient_evidence'
         report['outcome'] = data['outcome']
@@ -283,13 +402,13 @@ class TaskService:
             self.fault_hook('after_checkpoint')
         task = state['task']; data = self._data(task)
         if data['outcome'] or not data['evidence']:
-            self._finish_report(task, [], deterministic=True)
+            self._finish_report(task, self._known_facts(data), deterministic=True)
             return {}
         result = self._model(task, 'report',
-            'Return only JSON {"facts":[{"row":0,"column":"numeric_column","value":1}]}. '
+            'Return only JSON {"facts":[{"evidence_id":"actual evidence id","row":0,"column":"numeric_column","value":1}]}. '
             'Select useful numeric facts from the actual rows, copying exact values. '
             'No prose, inferred values, contexts, budget fields, or unsupported claims. Empty facts cannot pass.',
-            {'definition': data['definition'], 'evidence': data['evidence']}, final=True)
+            {'definition': data['definition'], 'evidence': self._model_evidence(data)}, final=True)
         if set(result) != {'facts'} or not isinstance(result['facts'], list) or len(result['facts']) > 100:
             raise ValueError('invalid report response')
         self._finish_report(task, result['facts'], deterministic=False)
@@ -349,7 +468,7 @@ class TaskService:
         if previous['status'] not in ('ended', 'failed', 'interrupted'):
             raise ValueError('only terminal tasks can rerun')
         new = self.create(previous['question'], previous['snapshot_id'],
-                          tuple(previous['requested_window']) if previous['requested_window'] else None)
+                          tuple(previous['requested_window']) if previous['requested_window'] else None, mode=previous['mode'])
         data = self._data(new)
         data['effective_question'] = previous['effective_question']
         data['inherited_answers'] = previous['answers']
@@ -378,10 +497,11 @@ class TaskService:
             budget = any(word in reason for word in ('budget', 'unknown model usage', 'unknown usage'))
             data['outcome'] = 'budget_exhausted' if budget else 'insufficient_evidence'
             data['limitations'].append(reason)
+            data['unresolved_questions'].append('Not fully resolved due to ' + reason + ': ' + data['effective_question'])
             self._save(task, data)
             self._event(task, 'execution_stopped', {'reason': reason, 'error_type': type(error).__name__})
             status = 'ended' if budget else 'failed'
-            facts = [{'row': i, 'column': key, 'value': value} for evidence in data['evidence'] for i, row in enumerate(evidence['rows']) for key, value in row.items() if type(value) in (int, float)]
+            facts = self._known_facts(data)
             self._finish_report(task, facts, deterministic=True)
         finally:
             self.ledger.accrue_activity(task, stop=True)

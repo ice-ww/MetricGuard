@@ -1,0 +1,46 @@
+{
+  "reference": {
+    "window": [
+      "2026-01-01",
+      "2026-01-08"
+    ],
+    "users_by_system": {
+      "Android": 828,
+      "iOS": 828
+    },
+    "channels_by_system": {
+      "Android": {
+        "organic": 414,
+        "paid": 414
+      },
+      "iOS": {
+        "organic": 414,
+        "paid": 414
+      }
+    },
+    "retained_by_system": {
+      "Android": 412,
+      "iOS": 724
+    }
+  },
+  "fourth_run_pass": true,
+  "fourth_fact_count": 4,
+  "earlier_runs": [
+    {
+      "record": "t11-real-first.json",
+      "business_pass": false,
+      "reason": "extra maturity subtraction excludes Jan7"
+    },
+    {
+      "record": "t11-real-second.json",
+      "business_pass": false,
+      "reason": "repetition and extra maturity subtraction"
+    },
+    {
+      "record": "t11-real-third.json",
+      "business_pass": false,
+      "reason": "correct no-progress stop but no second evidence"
+    }
+  ],
+  "scope": "development denominator drilldown, not complete retention diagnosis"
+}
