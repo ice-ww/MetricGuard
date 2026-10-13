@@ -1,0 +1,49 @@
+........................................................................ [ 21%]
+........................................................................ [ 43%]
+........................................................................ [ 65%]
+..........F......................................F...................... [ 87%]
+..........................................                               [100%]
+================================== FAILURES ===================================
+__________ test_late_provider_result_is_charged_but_cannot_continue ___________
+
+tmp_path = WindowsPath('C:/Users/64341/AppData/Local/Temp/pytest-of-64341/pytest-160/test_late_provider_result_is_c0')
+fixture_snapshot = Snapshot(database=WindowsPath('C:/Users/64341/AppData/Local/Temp/pytest-of-64341/pytest-160/test_late_provider_result_...'users', 'sessions', 'content_events', 'playback_telemetry', 'channel_daily', 'release_calendar', 'source_watermarks'))
+image = 'sha256:4cadf9b4afae2394df26a2d518ab7d68fbbc4e086081f4273c45410fae456cb0'
+
+    def test_late_provider_result_is_charged_but_cannot_continue(tmp_path, fixture_snapshot, image):
+        import time
+        sent = []
+        def provider(request):
+            sent.append(request)
+            time.sleep(31)  # Actual external-boundary delay, not a fabricated clock.
+            return response({'sql': SQL})
+        with TaskService(tmp_path / 'service', image, {'development': fixture_snapshot.database},
+                         token='controlled', limits={'active_seconds': 30}, transport=httpx.MockTransport(provider)) as service:
+            task = service.create('新增用户自然日次日留存', 'development', ('2026-01-01', '2026-01-08'))
+            result = service.run(task)
+            assert result['active'] >= 30
+>           assert result['model_calls'] == 1 and result['tokens'] == 48
+E           assert (0 == 1)
+
+tests\test_t09_service.py:182: AssertionError
+______________ test_invalid_profile_parameters_stop_before_query ______________
+
+tmp_path = WindowsPath('C:/Users/64341/AppData/Local/Temp/pytest-of-64341/pytest-160/test_invalid_profile_parameter0')
+fixture_snapshot = Snapshot(database=WindowsPath('C:/Users/64341/AppData/Local/Temp/pytest-of-64341/pytest-160/test_invalid_profile_param...'users', 'sessions', 'content_events', 'playback_telemetry', 'channel_daily', 'release_calendar', 'source_watermarks'))
+image = 'sha256:4cadf9b4afae2394df26a2d518ab7d68fbbc4e086081f4273c45410fae456cb0'
+
+    def test_invalid_profile_parameters_stop_before_query(tmp_path, fixture_snapshot, image):
+        with TaskService(tmp_path / 'service', image, {'dev': fixture_snapshot.database}, token='controlled',
+                         transport=httpx.MockTransport(lambda request: response({'action': 'profile', 'table': 'users', 'column': 'channel', 'kind': 'distribution', 'limit': 999999}))) as service:
+            result = service.run(service.create('新增用户自然日次日留存', 'dev', mode='diagnose'))
+>           assert result['status'] == 'failed'
+E           AssertionError: assert 'ended' == 'failed'
+E             
+E             - failed
+E             + ended
+
+tests\test_t11_service.py:119: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_t09_service.py::test_late_provider_result_is_charged_but_cannot_continue
+FAILED tests/test_t11_service.py::test_invalid_profile_parameters_stop_before_query
+2 failed, 328 passed in 871.48s (0:14:31)

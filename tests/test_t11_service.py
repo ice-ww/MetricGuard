@@ -116,7 +116,8 @@ def test_invalid_profile_parameters_stop_before_query(tmp_path, fixture_snapshot
     with TaskService(tmp_path / 'service', image, {'dev': fixture_snapshot.database}, token='controlled',
                      transport=httpx.MockTransport(lambda request: response({'action': 'profile', 'table': 'users', 'column': 'channel', 'kind': 'distribution', 'limit': 999999}))) as service:
         result = service.run(service.create('新增用户自然日次日留存', 'dev', mode='diagnose'))
-        assert result['status'] == 'failed'
+        assert result['status'] == 'ended'
+        assert result['outcome'] == result['analysis_result'] == 'refused'
         assert result['tool_calls'] == 3 and result['model_calls'] == 1
         assert not result['evidence']
         assert any(e['event'] == 'execution_stopped' for e in result['trace'])
