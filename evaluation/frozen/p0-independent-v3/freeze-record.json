@@ -1,0 +1,128 @@
+{
+  "freeze": {
+    "version": "p0-independent-v3",
+    "content_hash": "d9dcf23bb2f4f069a30ccd0aa6c1b00673370503e630770eb6662956f7ae01a1",
+    "counts": {
+      "simple": 6,
+      "A1": 3,
+      "A2": 3,
+      "A3": 3,
+      "A4": 3,
+      "normal": 2,
+      "insufficient": 2,
+      "clarification": 1,
+      "recovery": 1
+    },
+    "purpose": "formal"
+  },
+  "supersedes": "p0-independent-v2",
+  "revision_basis": "static parent-spec review and dedicated development fixtures; no frozen diagnosis feedback",
+  "snapshot_root": "D:\\ai coding\\metricguard\\artifacts\\t18-frozen-v1",
+  "audit": [
+    {
+      "time": "2026-10-13T09:00:21.679757+00:00",
+      "kind": "freeze",
+      "detail": {
+        "version": "p0-independent-v1",
+        "family": "metricguard-p0-independent",
+        "content_hash": "a45463eec93d8d21492a21d28a5c997c9b1b8af8a565d1bed70b38eb2ec9a650",
+        "purpose": "formal"
+      }
+    },
+    {
+      "time": "2026-10-13T09:00:21.710298+00:00",
+      "kind": "private_access",
+      "detail": {
+        "version": "p0-independent-v1",
+        "actor": "freeze builder",
+        "purpose": "generation_audit",
+        "status": {
+          "version": "p0-independent-v1",
+          "purpose": "formal",
+          "regression_reasons": []
+        }
+      }
+    },
+    {
+      "time": "2026-10-13T09:12:05.458467+00:00",
+      "kind": "private_access",
+      "detail": {
+        "version": "p0-independent-v1",
+        "actor": "static-spec revision builder",
+        "purpose": "generation_audit",
+        "status": {
+          "version": "p0-independent-v1",
+          "purpose": "formal",
+          "regression_reasons": []
+        }
+      }
+    },
+    {
+      "time": "2026-10-13T09:12:35.006358+00:00",
+      "kind": "freeze",
+      "detail": {
+        "version": "p0-independent-v2",
+        "family": "metricguard-p0-independent",
+        "content_hash": "7b520e89650cbd9fa230997bfceb4fb39806c3e9fa8364b4315bef9871dd5523",
+        "purpose": "formal"
+      }
+    },
+    {
+      "time": "2026-10-13T09:12:35.034119+00:00",
+      "kind": "private_access",
+      "detail": {
+        "version": "p0-independent-v2",
+        "actor": "freeze builder",
+        "purpose": "generation_audit",
+        "status": {
+          "version": "p0-independent-v2",
+          "purpose": "formal",
+          "regression_reasons": []
+        }
+      }
+    },
+    {
+      "time": "2026-10-13T09:17:09.626013+00:00",
+      "kind": "private_access",
+      "detail": {
+        "version": "p0-independent-v2",
+        "actor": "static-spec revision builder",
+        "purpose": "generation_audit",
+        "status": {
+          "version": "p0-independent-v2",
+          "purpose": "formal",
+          "regression_reasons": []
+        }
+      }
+    },
+    {
+      "time": "2026-10-13T09:17:38.087210+00:00",
+      "kind": "freeze",
+      "detail": {
+        "version": "p0-independent-v3",
+        "family": "metricguard-p0-independent",
+        "content_hash": "d9dcf23bb2f4f069a30ccd0aa6c1b00673370503e630770eb6662956f7ae01a1",
+        "purpose": "formal"
+      }
+    },
+    {
+      "time": "2026-10-13T09:17:38.156519+00:00",
+      "kind": "private_access",
+      "detail": {
+        "version": "p0-independent-v3",
+        "actor": "freeze builder",
+        "purpose": "generation_audit",
+        "status": {
+          "version": "p0-independent-v3",
+          "purpose": "formal",
+          "regression_reasons": []
+        }
+      }
+    }
+  ],
+  "status": {
+    "version": "p0-independent-v3",
+    "purpose": "formal",
+    "regression_reasons": []
+  }
+}
