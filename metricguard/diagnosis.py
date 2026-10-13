@@ -1,9 +1,14 @@
 """Validated diagnostic actions; no model-controlled routing or capabilities."""
 from typing import Any
 
+
+class ActionDenied(ValueError):
+    """Untrusted action requested a capability outside the public contract."""
+
 ACTION_PROMPT = '''Choose the next test from actual evidence; do not assume a cause. Return only one JSON action:
 {"action":"query","sql":"SELECT ..."},
 {"action":"profile","table":"users","column":"channel","kind":"distribution"},
+{"action":"refuse","reason":"Requested access exceeds supported capabilities"},
 {"action":"stop","unsupported_hypotheses":["untested hypothesis"],"unresolved_questions":["remaining question"]}.
 For observed completion collection diagnosis use both trusted profiles, in evidence-based order:
 {"action":"profile","table":"content_events","column":"play_id","kind":"playback_events"},
@@ -51,23 +56,29 @@ TIMES = {'users': 'registered_at', 'sessions': 'started_at', 'content_events': '
 
 def validate_stop(action: dict[str, Any]) -> None:
     if set(action) != {'action', 'unsupported_hypotheses', 'unresolved_questions'}:
-        raise ValueError('invalid stop action')
+        raise ActionDenied('invalid stop action')
     for key in ('unsupported_hypotheses', 'unresolved_questions'):
         values = action[key]
         if not isinstance(values, list) or len(values) > 20 or any(not isinstance(v, str) or not v.strip() or len(v) > 1000 for v in values):
-            raise ValueError('invalid stop details')
+            raise ActionDenied('invalid stop details')
+
+
+def refuse_action(action: dict[str, Any]) -> None:
+    if set(action) != {'action', 'reason'} or not isinstance(action['reason'], str) or not 0 < len(action['reason'].strip()) <= 1000:
+        raise ActionDenied('invalid refusal action')
+    raise ActionDenied('model_declined_unsupported_capability: ' + action['reason'])
 
 
 def action_sql(action: dict[str, Any], schema: dict[str, Any], window: list[str]) -> str:
     if action.get('action') == 'query':
         if set(action) != {'action', 'sql'} or not isinstance(action['sql'], str) or not action['sql'].strip():
-            raise ValueError('invalid query action')
+            raise ActionDenied('invalid query action')
         return str(action['sql'])
     if action.get('action') != 'profile' or set(action) != {'action', 'table', 'column', 'kind'}:
-        raise ValueError('invalid diagnostic action')
+        raise ActionDenied('invalid diagnostic action')
     table, column, kind = action['table'], action['column'], action['kind']
     if not all(isinstance(v, str) for v in (table, column, kind)) or table not in schema or column not in schema[table]:
-        raise ValueError('invalid profile identifiers')
+        raise ActionDenied('invalid profile identifiers')
     from metricguard.metric_profiles import BUSINESS_PROFILES
     if (table, column, kind) in BUSINESS_PROFILES:
         return BUSINESS_PROFILES[(table, column, kind)](window)
@@ -80,4 +91,4 @@ def action_sql(action: dict[str, Any], schema: dict[str, Any], window: list[str]
         return f'SELECT COUNT(*) AS total_rows, SUM(CASE WHEN "{column}" IS NULL THEN 1 ELSE 0 END) AS missing_rows FROM "{table}"' + where
     if kind == 'time_coverage' and schema[table][column] in ('DATE', 'TIMESTAMP WITH TIME ZONE'):
         return f'SELECT MIN("{column}") AS first_observed, MAX("{column}") AS last_observed, COUNT("{column}") AS observed_rows FROM "{table}"' + where
-    raise ValueError('invalid profile kind or time column')
+    raise ActionDenied('invalid profile kind or time column')
