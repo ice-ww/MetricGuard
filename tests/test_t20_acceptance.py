@@ -63,3 +63,19 @@ def test_safety_binding_does_not_turn_scorer_fixture_into_formal_acceptance(tmp_
     assert all(not row['formal_acceptance_passed'] for row in result['summary']['rounds'])
     (runner.repository/'tests/test_t05.py').write_text('changed after binding')
     assert runner.results(run)['safety']['status']=='invalid'
+
+
+def test_safety_collection_preserves_escaped_parameter_identity(tmp_path):
+    import subprocess
+    import sys
+    from metricguard.acceptance import collect_tests
+    config={'version':'synthetic escaped ids'}
+    receipt=receipt_fixture(tmp_path,config)
+    source=tmp_path/'tests/test_t05.py'
+    source.write_text('import pytest\n@pytest.mark.parametrize("value", ["中文", r"\\n"])\ndef test_escaped(value):\n    pass\n',encoding='utf-8')
+    junit=tmp_path/'actual.xml'
+    run=subprocess.run([sys.executable,'-m','pytest','-q','--junitxml='+str(junit)],cwd=tmp_path,capture_output=True)
+    assert run.returncode==0
+    receipt.update(junit_xml=junit.read_text(encoding='utf-8'),collected_nodeids=collect_tests(tmp_path))
+    receipt['test_hashes']['tests/test_t05.py']=file_hash(source)
+    assert validate_safety(receipt,config,tmp_path)['tests']==len(REQUIRED_MODULES)+1

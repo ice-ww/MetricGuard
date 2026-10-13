@@ -15,8 +15,12 @@ def collect_tests(repository: Path) -> list[str]:
     result=subprocess.run([sys.executable,'-m','pytest','--collect-only','-q','tests'],cwd=repository,
         capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=60)
     if result.returncode: raise ValueError('safety collection failed')
-    identities=[line.strip().replace('\\','/') for line in result.stdout.splitlines()
-                if line.startswith('tests/') or line.startswith('tests\\')]
+    identities=[]
+    for line in result.stdout.splitlines():
+        if line.startswith(('tests/', 'tests\\')):
+            path, separator, name = line.strip().partition('::')
+            # Parameter names contain pytest escapes, not filesystem separators.
+            identities.append(path.replace('\\', '/') + separator + name)
     if not identities or any('::' not in value for value in identities) or len(identities)!=len(set(identities)):
         raise ValueError('invalid complete collection manifest')
     return sorted(identities)
