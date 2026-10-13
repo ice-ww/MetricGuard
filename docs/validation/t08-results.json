@@ -1,0 +1,445 @@
+{
+  "protocol_version": 1,
+  "passed": true,
+  "checks": {
+    "independent_membership_oracle_matches_relational_counts_and_rates": true,
+    "all_independently_expected_facts_pass": true,
+    "reject_missing_evidence": true,
+    "reject_missing_row": true,
+    "reject_missing_column": true,
+    "reject_wrong_value": true,
+    "reject_wrong_metric": true,
+    "reject_wrong_time": true,
+    "reject_wrong_group": true,
+    "reject_wrong_comparison": true,
+    "reject_definition_as_number": true,
+    "reject_truncated_population": true,
+    "reject_truncated_ranking": true,
+    "trusted_query_computed_population_field_allowed": true,
+    "wrong_business_denominator_can_match_its_own_cell": true,
+    "independent_oracle_rejects_wrong_denominator": true,
+    "chart_copies_existing_values_only": true,
+    "reject_four_charts": true,
+    "reject_missing_chart_reference": true,
+    "reject_chart_row_mismatch": true,
+    "empty_report_rejected": true
+  },
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "duckdb": "1.5.6"
+  },
+  "data": {
+    "purpose": "development validation, not frozen acceptance",
+    "seed": 809,
+    "scenario": "normal",
+    "snapshot_id": "abc452b49af7a781b04f1b5111711df7c336f51d6a7c12e94008b27bc9d7ae08",
+    "window": [
+      "2026-01-01",
+      "2026-01-08"
+    ]
+  },
+  "evidence": {
+    "evidence_id": "retention",
+    "tool": "reference_query",
+    "parameters": {
+      "start": "2026-01-01",
+      "end": "2026-01-08"
+    },
+    "source": "experiments/t01/references.py:sql_metrics; cohort.sql",
+    "snapshot_id": "abc452b49af7a781b04f1b5111711df7c336f51d6a7c12e94008b27bc9d7ae08",
+    "columns": {
+      "os": "string",
+      "version": "string",
+      "channel": "string",
+      "users": "number",
+      "retained": "number",
+      "crashed_users": "number",
+      "retention_rate": "number"
+    },
+    "rows": [
+      {
+        "os": "Android",
+        "version": "1.0",
+        "channel": "organic",
+        "users": 414,
+        "retained": 198,
+        "crashed_users": 9,
+        "retention_rate": 0.4782608695652174
+      },
+      {
+        "os": "Android",
+        "version": "1.0",
+        "channel": "paid",
+        "users": 414,
+        "retained": 213,
+        "crashed_users": 10,
+        "retention_rate": 0.5144927536231884
+      },
+      {
+        "os": "iOS",
+        "version": "1.0",
+        "channel": "organic",
+        "users": 414,
+        "retained": 372,
+        "crashed_users": 11,
+        "retention_rate": 0.8985507246376812
+      },
+      {
+        "os": "iOS",
+        "version": "1.0",
+        "channel": "paid",
+        "users": 414,
+        "retained": 376,
+        "crashed_users": 8,
+        "retention_rate": 0.9082125603864735
+      }
+    ],
+    "contexts": {
+      "/rows/0/users": {
+        "metric": "users",
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "group": {
+          "os": "Android",
+          "version": "1.0",
+          "channel": "organic"
+        },
+        "comparison": null
+      },
+      "/rows/0/retained": {
+        "metric": "retained",
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "group": {
+          "os": "Android",
+          "version": "1.0",
+          "channel": "organic"
+        },
+        "comparison": null
+      },
+      "/rows/0/crashed_users": {
+        "metric": "crashed_users",
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "group": {
+          "os": "Android",
+          "version": "1.0",
+          "channel": "organic"
+        },
+        "comparison": null
+      },
+      "/rows/0/retention_rate": {
+        "metric": "retention_rate",
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "group": {
+          "os": "Android",
+          "version": "1.0",
+          "channel": "organic"
+        },
+        "comparison": null
+      },
+      "/rows/1/users": {
+        "metric": "users",
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "group": {
+          "os": "Android",
+          "version": "1.0",
+          "channel": "paid"
+        },
+        "comparison": null
+      },
+      "/rows/1/retained": {
+        "metric": "retained",
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "group": {
+          "os": "Android",
+          "version": "1.0",
+          "channel": "paid"
+        },
+        "comparison": null
+      },
+      "/rows/1/crashed_users": {
+        "metric": "crashed_users",
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "group": {
+          "os": "Android",
+          "version": "1.0",
+          "channel": "paid"
+        },
+        "comparison": null
+      },
+      "/rows/1/retention_rate": {
+        "metric": "retention_rate",
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "group": {
+          "os": "Android",
+          "version": "1.0",
+          "channel": "paid"
+        },
+        "comparison": null
+      },
+      "/rows/2/users": {
+        "metric": "users",
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "group": {
+          "os": "iOS",
+          "version": "1.0",
+          "channel": "organic"
+        },
+        "comparison": null
+      },
+      "/rows/2/retained": {
+        "metric": "retained",
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "group": {
+          "os": "iOS",
+          "version": "1.0",
+          "channel": "organic"
+        },
+        "comparison": null
+      },
+      "/rows/2/crashed_users": {
+        "metric": "crashed_users",
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "group": {
+          "os": "iOS",
+          "version": "1.0",
+          "channel": "organic"
+        },
+        "comparison": null
+      },
+      "/rows/2/retention_rate": {
+        "metric": "retention_rate",
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "group": {
+          "os": "iOS",
+          "version": "1.0",
+          "channel": "organic"
+        },
+        "comparison": null
+      },
+      "/rows/3/users": {
+        "metric": "users",
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "group": {
+          "os": "iOS",
+          "version": "1.0",
+          "channel": "paid"
+        },
+        "comparison": null
+      },
+      "/rows/3/retained": {
+        "metric": "retained",
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "group": {
+          "os": "iOS",
+          "version": "1.0",
+          "channel": "paid"
+        },
+        "comparison": null
+      },
+      "/rows/3/crashed_users": {
+        "metric": "crashed_users",
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "group": {
+          "os": "iOS",
+          "version": "1.0",
+          "channel": "paid"
+        },
+        "comparison": null
+      },
+      "/rows/3/retention_rate": {
+        "metric": "retention_rate",
+        "window": [
+          "2026-01-01",
+          "2026-01-08"
+        ],
+        "group": {
+          "os": "iOS",
+          "version": "1.0",
+          "channel": "paid"
+        },
+        "comparison": null
+      }
+    },
+    "window": [
+      "2026-01-01",
+      "2026-01-08"
+    ],
+    "group": {},
+    "sample": {
+      "groups": 4
+    },
+    "limitations": [
+      "Natural days Asia/Shanghai; registration dimensions; mature cohorts only."
+    ],
+    "truncated": false,
+    "kind": "query",
+    "whole_population_fields": []
+  },
+  "independent_expected_rows": [
+    {
+      "os": "Android",
+      "version": "1.0",
+      "channel": "organic",
+      "users": 414,
+      "retained": 198,
+      "crashed_users": 9,
+      "retention_rate": 0.4782608695652174
+    },
+    {
+      "os": "Android",
+      "version": "1.0",
+      "channel": "paid",
+      "users": 414,
+      "retained": 213,
+      "crashed_users": 10,
+      "retention_rate": 0.5144927536231884
+    },
+    {
+      "os": "iOS",
+      "version": "1.0",
+      "channel": "organic",
+      "users": 414,
+      "retained": 372,
+      "crashed_users": 11,
+      "retention_rate": 0.8985507246376812
+    },
+    {
+      "os": "iOS",
+      "version": "1.0",
+      "channel": "paid",
+      "users": 414,
+      "retained": 376,
+      "crashed_users": 8,
+      "retention_rate": 0.9082125603864735
+    }
+  ],
+  "report_validation": {
+    "passed": true,
+    "assertion_count": 4,
+    "valid_count": 4,
+    "results": [
+      {
+        "assertion_id": "fact-0",
+        "passed": true,
+        "errors": [],
+        "business_definition_status": "requires_independent_reference",
+        "inference_status": "not_assessed"
+      },
+      {
+        "assertion_id": "fact-1",
+        "passed": true,
+        "errors": [],
+        "business_definition_status": "requires_independent_reference",
+        "inference_status": "not_assessed"
+      },
+      {
+        "assertion_id": "fact-2",
+        "passed": true,
+        "errors": [],
+        "business_definition_status": "requires_independent_reference",
+        "inference_status": "not_assessed"
+      },
+      {
+        "assertion_id": "fact-3",
+        "passed": true,
+        "errors": [],
+        "business_definition_status": "requires_independent_reference",
+        "inference_status": "not_assessed"
+      }
+    ],
+    "errors": [],
+    "protocol_version": 1
+  },
+  "chart": {
+    "chart_id": "chart",
+    "kind": "bar",
+    "points": [
+      [
+        "Android",
+        0.4782608695652174
+      ],
+      [
+        "iOS",
+        0.8985507246376812
+      ]
+    ],
+    "evidence_ids": [
+      "retention"
+    ],
+    "references": [
+      [
+        {
+          "evidence_id": "retention",
+          "row": 0,
+          "column": "os"
+        },
+        {
+          "evidence_id": "retention",
+          "row": 0,
+          "column": "retention_rate"
+        }
+      ],
+      [
+        {
+          "evidence_id": "retention",
+          "row": 2,
+          "column": "os"
+        },
+        {
+          "evidence_id": "retention",
+          "row": 2,
+          "column": "retention_rate"
+        }
+      ]
+    ],
+    "limitations": [
+      "Natural days Asia/Shanghai; registration dimensions; mature cohorts only."
+    ]
+  },
+  "boundary": "Mechanical agreement only; independent oracle checks this fixture business definition; inference not assessed."
+}
