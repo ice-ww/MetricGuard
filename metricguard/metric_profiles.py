@@ -75,7 +75,11 @@ def channel_health(window: list[str]) -> str:
         FROM base ORDER BY period,channel"""
 
 
-BUSINESS_PROFILES = {('users', 'channel', 'channel_health'): channel_health,
+from metricguard.playback_profiles import playback_events, playback_progress
+
+BUSINESS_PROFILES = {('content_events', 'play_id', 'playback_events'): playback_events,
+                     ('playback_telemetry', 'play_id', 'playback_progress'): playback_progress,
+                     ('users', 'channel', 'channel_health'): channel_health,
                      ('users', 'registration_version', 'cohort_health'): cohort_health,
                      ('sessions', 'version', 'crash_versions'): crash_versions,
                      ('release_calendar', 'version', 'releases'): releases}

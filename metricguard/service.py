@@ -346,11 +346,13 @@ class TaskService:
             profile = action['action'] == 'profile'
             from metricguard.metric_profiles import is_business_profile
             evidence_window = data['actual_window']
-            if action.get('kind') in ('cohort_health', 'crash_versions', 'channel_health'):
+            if action.get('kind') in ('cohort_health', 'crash_versions', 'channel_health', 'playback_events', 'playback_progress'):
                 from metricguard.metric_profiles import comparison_window
                 evidence_window = comparison_window(data['actual_window'])
             limitations = ['business_definition_requires_independent_reference']
-            if action.get('kind') == 'channel_health':
+            if action.get('kind') in ('playback_events', 'playback_progress'):
+                limitations += ['start_play_instances_not_users', 'independent_progress_requires_alignment_and_complete_sources', 'playback_rates_are_descriptive_only', 'independent_complete_without_event_is_raw_gap_not_verified_missing' ]
+            elif action.get('kind') == 'channel_health':
                 limitations += ['current_and_previous_cohorts_exact_windows', 'costs_use_registration_window', 'missing_spend_or_zero_denominator_is_unavailable']
             elif profile and is_business_profile(action):
                 limitations += (['release_history_before_current_end_includes_older_dates'] if action['kind'] == 'releases'
@@ -364,7 +366,7 @@ class TaskService:
                 'limitations': limitations, 'business_definition_status': 'requires_independent_reference',
                 'contexts': {Reference(eid, i, k).pointer: asdict(FactContext(
                     ('profile:' + action['table'] + ':' + action['kind']) if profile else 'query_result:' + data['definition']['id'],
-                    (row['window_start'], row['window_end']) if action.get('kind') in ('cohort_health', 'crash_versions', 'channel_health') else tuple(evidence_window),
+                    (row['window_start'], row['window_end']) if action.get('kind') in ('cohort_health', 'crash_versions', 'channel_health') else ((evidence_window[0], data['actual_window'][0]) if row['period']=='previous' else tuple(data['actual_window'])) if action.get('kind') in ('playback_events', 'playback_progress') else tuple(evidence_window),
                     {key: str(v) for key, v in row.items() if v is not None and type(v) not in (int, float)}, None))
                     for i, row in enumerate(rows) for k, value in row.items() if type(value) in (int, float)}}
             data['evidence'].append(evidence)
@@ -419,7 +421,9 @@ class TaskService:
         from metricguard.channel_diagnosis import channel_diagnosis
         version = version_diagnosis(data['evidence'])
         channel = channel_diagnosis(data['evidence'])
-        diagnosis = channel if channel is not None else version
+        from metricguard.playback_diagnosis import playback_diagnosis
+        playback = playback_diagnosis(data['evidence'], data.get('watermarks', {}).get('rows', []), data['actual_window'])
+        diagnosis = playback if playback is not None else channel if channel is not None else version
         if version is not None and channel is not None:
             report['additional_diagnoses'] = [version]
         if diagnosis is not None:

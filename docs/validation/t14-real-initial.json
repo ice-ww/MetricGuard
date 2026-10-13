@@ -1,0 +1,3266 @@
+{
+  "id": "dd31539e4b7941c2a5b9aa8248ba4d32",
+  "status": "ended",
+  "rounds": 0,
+  "version": 0,
+  "question": "完播率",
+  "active": 9.89100000000326,
+  "limits": {
+    "tool": 12,
+    "model": 10,
+    "tokens": 30000,
+    "active_seconds": 180
+  },
+  "parent": null,
+  "attempts": [
+    {
+      "id": "dd31539e4b7941c2a5b9aa8248ba4d32:retrieval",
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "operation": "retrieval",
+      "kind": "tool",
+      "reserved": 0,
+      "actual": 0,
+      "state": "completed",
+      "result": "{\"candidates\": [{\"id\": \"completion\", \"score\": 3.426430775302147}, {\"id\": \"crash\", \"score\": 0.0}, {\"id\": \"effective\", \"score\": 0.0}], \"corpus_version\": \"t06-v1\", \"definition\": {\"aliases\": [\"\\u5b8c\\u6210\\u64ad\\u653e\\u7387\", \"\\u89c6\\u9891\\u64ad\\u5b8c\\u6bd4\\u4f8b\"], \"definition\": \"\\u64ad\\u653e\\u5f00\\u59cb\\u4e2d\\u6709\\u5b8c\\u6210\\u4e8b\\u4ef6\\u7684\\u64ad\\u653e\\u6b21\\u6570\\u6bd4\\u4f8b\\u3002\", \"denominator\": \"\\u6709 start \\u7684\\u53bb\\u91cd play_id \\u6570\\uff1b\\u4e3a\\u96f6\\u5219\\u4e0d\\u53ef\\u8ba1\\u7b97\", \"dimensions\": \"sessions.os / version \\u4e0e users.channel\", \"id\": \"completion\", \"joins\": \"content_events.session_id = sessions.session_id\\uff1bsessions.user_id = users.user_id\\uff1bstart/complete \\u6309 play_id \\u5173\\u8054\", \"name\": \"\\u5b8c\\u64ad\\u7387\", \"numerator\": \"content_events \\u4e2d\\u6709 complete \\u7684\\u53bb\\u91cd play_id \\u6570\", \"pitfalls\": \"\\u91cd\\u590d\\u4e0a\\u62a5\\u53bb\\u91cd\\uff1b\\u91cd\\u590d\\u89c2\\u770b\\u65b0 play_id\\uff1b\\u5b8c\\u6210\\u4e8b\\u4ef6\\u7f3a\\u5931\\u5f71\\u54cd\\u89c2\\u6d4b\\uff0c\\u72ec\\u7acb playback_telemetry \\u53ef\\u4ea4\\u53c9\\u6838\\u5bf9\\uff0c\\u4e0d\\u80fd\\u4ec5\\u51ed\\u5dee\\u5f02\\u8bc1\\u660e\\u91c7\\u96c6\\u6545\\u969c\", \"time\": \"Asia/Shanghai\\uff1b\\u64ad\\u653e\\u5f00\\u59cb\\u65e5\\u5728 [start,end)\\uff1bcontent_events/sessions \\u6c34\\u4f4d\\u5b8c\\u6574\\uff1b\\u4e0d\\u80fd\\u628a\\u7f3a\\u5931\\u5f53\\u96f6\"}, \"method\": \"exact\", \"reason\": \"matched\", \"status\": \"adopt\", \"window\": [\"2026-01-08\", \"2026-01-15\"]}"
+    },
+    {
+      "id": "dd31539e4b7941c2a5b9aa8248ba4d32:schema",
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "operation": "schema",
+      "kind": "tool",
+      "reserved": 0,
+      "actual": 0,
+      "state": "completed",
+      "result": "{\"channel_daily\": {\"channel\": \"VARCHAR\", \"day\": \"DATE\", \"spend_cents\": \"BIGINT\"}, \"content_events\": {\"event_id\": \"VARCHAR\", \"event_type\": \"VARCHAR\", \"occurred_at\": \"TIMESTAMP WITH TIME ZONE\", \"play_id\": \"VARCHAR\", \"session_id\": \"VARCHAR\"}, \"playback_telemetry\": {\"duration_seconds\": \"INTEGER\", \"observed_at\": \"TIMESTAMP WITH TIME ZONE\", \"play_id\": \"VARCHAR\", \"report_id\": \"VARCHAR\", \"session_id\": \"VARCHAR\", \"watched_seconds\": \"INTEGER\"}, \"release_calendar\": {\"os\": \"VARCHAR\", \"released_at\": \"TIMESTAMP WITH TIME ZONE\", \"version\": \"VARCHAR\"}, \"sessions\": {\"crashed\": \"BOOLEAN\", \"os\": \"VARCHAR\", \"session_id\": \"VARCHAR\", \"started_at\": \"TIMESTAMP WITH TIME ZONE\", \"user_id\": \"VARCHAR\", \"version\": \"VARCHAR\"}, \"source_watermarks\": {\"complete_before\": \"TIMESTAMP WITH TIME ZONE\", \"source\": \"VARCHAR\"}, \"users\": {\"channel\": \"VARCHAR\", \"registered_at\": \"TIMESTAMP WITH TIME ZONE\", \"registration_os\": \"VARCHAR\", \"registration_version\": \"VARCHAR\", \"user_id\": \"VARCHAR\"}}"
+    },
+    {
+      "id": "dd31539e4b7941c2a5b9aa8248ba4d32:watermarks",
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "operation": "watermarks",
+      "kind": "tool",
+      "reserved": 0,
+      "actual": 0,
+      "state": "completed",
+      "result": "{\"cleanup_seconds\": 0.4220000000204891, \"cleanup_verified\": true, \"columns\": [{\"name\": \"source\", \"type\": \"VARCHAR\"}, {\"name\": \"complete_before\", \"type\": \"TIMESTAMP WITH TIME ZONE\"}], \"container_id\": \"887cf48615111179f736990925a6f212f2a8e75dbe8f7184cea5ada55b3ca253\", \"execute_seconds\": 0.004299160999835294, \"fault_events\": [], \"fetch_seconds\": 0.02036303200020484, \"parse_seconds\": 0.03559871000015846, \"query_seconds\": 0.2970000000204891, \"rows\": [[\"users\", \"2026-01-16 16:00:00+00:00\"], [\"sessions\", \"2026-01-16 16:00:00+00:00\"], [\"content_events\", \"2026-01-16 16:00:00+00:00\"], [\"playback_telemetry\", \"2026-01-16 16:00:00+00:00\"], [\"channel_daily\", \"2026-01-16 16:00:00+00:00\"], [\"release_calendar\", \"2026-01-16 16:00:00+00:00\"]], \"schema_profile\": \"business\", \"serialize_seconds\": 0.00016219099961745087, \"settings\": {\"access_mode\": \"read_only\", \"allow_community_extensions\": \"false\", \"allow_unsigned_extensions\": \"false\", \"allowed_configs\": \"[]\", \"allowed_directories\": \"[]\", \"allowed_paths\": \"[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]\", \"autoinstall_known_extensions\": \"false\", \"autoload_known_extensions\": \"false\", \"enable_external_access\": \"false\", \"lock_configuration\": \"true\", \"max_temp_directory_size\": \"0 bytes\", \"memory_limit\": \"122.0 MiB\", \"python_enable_replacements\": \"false\", \"python_scan_all_frames\": \"false\", \"temp_directory\": \"\", \"threads\": \"1\"}, \"startup_seconds\": 1.4209999999729916, \"status\": \"ok\", \"termination_delay_seconds\": 0.0, \"total_seconds\": 2.14000000001397, \"truncated\": false, \"versions\": {\"duckdb\": \"1.5.6\", \"python\": \"3.12.10\", \"pytz\": \"2026.5\", \"sqlglot\": \"30.22.0\"}}"
+    },
+    {
+      "id": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnose:1",
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "operation": "diagnose:1:d5de4188602314b96eff6482b69995ed5d081dab80d4891261c92d983e8768dc",
+      "kind": "model",
+      "reserved": 8523,
+      "actual": 1429,
+      "state": "completed",
+      "result": "{\"cap\": \"scheduler_guard\", \"content\": [{\"citations\": null, \"text\": \"{\\\"action\\\":\\\"profile\\\",\\\"table\\\":\\\"content_events\\\",\\\"column\\\":\\\"play_id\\\",\\\"kind\\\":\\\"playback_events\\\"}\", \"type\": \"text\"}], \"fee_usd_range\": {\"currency\": \"USD\", \"kind\": \"estimate_not_invoice\", \"maximum\": 0.00044940000000000003, \"minimum\": 0.00022470000000000001, \"pricing\": \"DeepSeek-V4.1-Flash 2026-10-12\"}, \"model\": \"deepseek-flash\", \"raw_usage\": {\"cache_creation\": null, \"cache_creation_input_tokens\": 0, \"cache_read_input_tokens\": 0, \"inference_geo\": null, \"input_tokens\": 1406, \"output_tokens\": 23, \"output_tokens_details\": null, \"server_tool_use\": null, \"service_tier\": \"standard\"}, \"reservation\": 8523, \"status\": \"completed\", \"usage\": {\"input_cached\": 0, \"input_total\": 1406, \"input_uncached\": 1406, \"output\": 23, \"total\": 1429}}"
+    },
+    {
+      "id": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnostic_sql:1",
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "operation": "diagnostic_sql:1",
+      "kind": "tool",
+      "reserved": 0,
+      "actual": 0,
+      "state": "completed",
+      "result": "{\"cleanup_seconds\": 0.42099999997299165, \"cleanup_verified\": true, \"columns\": [{\"name\": \"period\", \"type\": \"VARCHAR\"}, {\"name\": \"actual_os\", \"type\": \"VARCHAR\"}, {\"name\": \"actual_version\", \"type\": \"VARCHAR\"}, {\"name\": \"starts\", \"type\": \"HUGEINT\"}, {\"name\": \"observed_completed\", \"type\": \"HUGEINT\"}, {\"name\": \"invalid_alignment\", \"type\": \"HUGEINT\"}], \"container_id\": \"73012db53c0441930ba747bed5262e6ead16b80d01cf233e94f5eb2d458a8279\", \"execute_seconds\": 0.04129957999975886, \"fault_events\": [], \"fetch_seconds\": 0.00023390399974232423, \"parse_seconds\": 0.06005511499961358, \"query_seconds\": 0.35999999998603016, \"rows\": [[\"current\", \"Android\", \"1.0\", 840, 640, 0], [\"current\", \"Android\", \"2.0\", 840, 0, 0], [\"current\", \"iOS\", \"1.0\", 1680, 1270, 0], [\"previous\", \"Android\", \"1.0\", 1656, 1245, 0], [\"previous\", \"iOS\", \"1.0\", 1656, 1220, 0]], \"schema_profile\": \"business\", \"serialize_seconds\": 0.00011123900048914948, \"settings\": {\"access_mode\": \"read_only\", \"allow_community_extensions\": \"false\", \"allow_unsigned_extensions\": \"false\", \"allowed_configs\": \"[]\", \"allowed_directories\": \"[]\", \"allowed_paths\": \"[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]\", \"autoinstall_known_extensions\": \"false\", \"autoload_known_extensions\": \"false\", \"enable_external_access\": \"false\", \"lock_configuration\": \"true\", \"max_temp_directory_size\": \"0 bytes\", \"memory_limit\": \"122.0 MiB\", \"python_enable_replacements\": \"false\", \"python_scan_all_frames\": \"false\", \"temp_directory\": \"\", \"threads\": \"1\"}, \"startup_seconds\": 1.172000000020489, \"status\": \"ok\", \"termination_delay_seconds\": 0.0, \"total_seconds\": 1.952999999979511, \"truncated\": false, \"versions\": {\"duckdb\": \"1.5.6\", \"python\": \"3.12.10\", \"pytz\": \"2026.5\", \"sqlglot\": \"30.22.0\"}}"
+    },
+    {
+      "id": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnose:2",
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "operation": "diagnose:2:f60f7de9a285d5f777a1e981aa9417e2a9a3805dcfb16cb6fc2204e3f6d65e5f",
+      "kind": "model",
+      "reserved": 10391,
+      "actual": 1964,
+      "state": "completed",
+      "result": "{\"cap\": \"scheduler_guard\", \"content\": [{\"citations\": null, \"text\": \"{\\\"action\\\":\\\"profile\\\",\\\"table\\\":\\\"playback_telemetry\\\",\\\"column\\\":\\\"play_id\\\",\\\"kind\\\":\\\"playback_progress\\\"}\", \"type\": \"text\"}], \"fee_usd_range\": {\"currency\": \"USD\", \"kind\": \"estimate_not_invoice\", \"maximum\": 0.000273012, \"minimum\": 0.000136506, \"pricing\": \"DeepSeek-V4.1-Flash 2026-10-12\"}, \"model\": \"deepseek-flash\", \"raw_usage\": {\"cache_creation\": null, \"cache_creation_input_tokens\": 0, \"cache_read_input_tokens\": 1152, \"inference_geo\": null, \"input_tokens\": 787, \"output_tokens\": 25, \"output_tokens_details\": null, \"server_tool_use\": null, \"service_tier\": \"standard\"}, \"reservation\": 10391, \"status\": \"completed\", \"usage\": {\"input_cached\": 1152, \"input_total\": 1939, \"input_uncached\": 787, \"output\": 25, \"total\": 1964}}"
+    },
+    {
+      "id": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnostic_sql:2",
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "operation": "diagnostic_sql:2",
+      "kind": "tool",
+      "reserved": 0,
+      "actual": 0,
+      "state": "completed",
+      "result": "{\"cleanup_seconds\": 0.4529999999795109, \"cleanup_verified\": true, \"columns\": [{\"name\": \"period\", \"type\": \"VARCHAR\"}, {\"name\": \"actual_os\", \"type\": \"VARCHAR\"}, {\"name\": \"actual_version\", \"type\": \"VARCHAR\"}, {\"name\": \"instances\", \"type\": \"BIGINT\"}, {\"name\": \"invalid_alignment\", \"type\": \"HUGEINT\"}, {\"name\": \"unmatched\", \"type\": \"HUGEINT\"}, {\"name\": \"invalid_telemetry\", \"type\": \"HUGEINT\"}, {\"name\": \"independent_complete\", \"type\": \"HUGEINT\"}, {\"name\": \"missing_completion\", \"type\": \"HUGEINT\"}, {\"name\": \"effective\", \"type\": \"HUGEINT\"}], \"container_id\": \"6c18526bad2b97286872805c38f848d40ea93c4135d681382cfb3ece9b6ed120\", \"execute_seconds\": 0.05417905200010864, \"fault_events\": [], \"fetch_seconds\": 0.00046907599971746095, \"parse_seconds\": 0.08050884800013591, \"query_seconds\": 0.39000000001396984, \"rows\": [[\"previous\", \"Android\", \"1.0\", 1656, 0, 0, 0, 1245, 0, 1245], [\"previous\", \"iOS\", \"1.0\", 1656, 0, 0, 0, 1220, 0, 1220], [\"current\", \"Android\", \"2.0\", 840, 0, 0, 0, 658, 658, 658], [\"current\", \"Android\", \"1.0\", 840, 0, 0, 0, 640, 0, 640], [\"current\", \"iOS\", \"1.0\", 1680, 0, 0, 0, 1270, 0, 1270]], \"schema_profile\": \"business\", \"serialize_seconds\": 0.0002008459996432066, \"settings\": {\"access_mode\": \"read_only\", \"allow_community_extensions\": \"false\", \"allow_unsigned_extensions\": \"false\", \"allowed_configs\": \"[]\", \"allowed_directories\": \"[]\", \"allowed_paths\": \"[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]\", \"autoinstall_known_extensions\": \"false\", \"autoload_known_extensions\": \"false\", \"enable_external_access\": \"false\", \"lock_configuration\": \"true\", \"max_temp_directory_size\": \"0 bytes\", \"memory_limit\": \"122.0 MiB\", \"python_enable_replacements\": \"false\", \"python_scan_all_frames\": \"false\", \"temp_directory\": \"\", \"threads\": \"1\"}, \"startup_seconds\": 1.125, \"status\": \"ok\", \"termination_delay_seconds\": 0.0, \"total_seconds\": 1.9679999999934807, \"truncated\": false, \"versions\": {\"duckdb\": \"1.5.6\", \"python\": \"3.12.10\", \"pytz\": \"2026.5\", \"sqlglot\": \"30.22.0\"}}"
+    },
+    {
+      "id": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnose:3",
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "operation": "diagnose:3:65fe931dc51665e94e79ccd6e67924ec39f855de9efd6d18e512dd471bed47fe",
+      "kind": "model",
+      "reserved": 12895,
+      "actual": 2768,
+      "state": "completed",
+      "result": "{\"cap\": \"scheduler_guard\", \"content\": [{\"citations\": null, \"text\": \"{\\\"action\\\":\\\"stop\\\",\\\"unsupported_hypotheses\\\":[\\\"Android 2.0 \\u5b8c\\u64ad\\u7387\\u4e0b\\u964d\\u7531\\u7528\\u6237\\u884c\\u4e3a\\u6076\\u5316\\u5bfc\\u81f4\\\",\\\"Android 2.0 \\u5b8c\\u6210\\u4e8b\\u4ef6\\u7f3a\\u5931\\u8bc1\\u660e\\u91c7\\u96c6\\u6545\\u969c\\\"],\\\"unresolved_questions\\\":[\\\"Android 2.0 \\u7684\\u72ec\\u7acb\\u8fdb\\u5ea6\\u663e\\u793a 658 \\u6b21\\u6709\\u6548\\u5b8c\\u64ad\\uff0c\\u4f46 content_events \\u89c2\\u6d4b\\u5b8c\\u6210\\u6570\\u4e3a 0\\uff0c\\u9700\\u786e\\u8ba4\\u5b8c\\u6210\\u4e8b\\u4ef6\\u4e0a\\u62a5\\u94fe\\u8def\\u662f\\u5426\\u5f02\\u5e38\\\",\\\"Android 2.0 \\u662f\\u5426\\u4e3a\\u65b0\\u7248\\u672c\\u53d1\\u5e03\\uff0c\\u5176\\u5b8c\\u64ad\\u7387\\u4e0e\\u65e7\\u7248\\u672c\\u662f\\u5426\\u53ef\\u6bd4\\\"]}\", \"type\": \"text\"}], \"fee_usd_range\": {\"currency\": \"USD\", \"kind\": \"estimate_not_invoice\", \"maximum\": 0.000477816, \"minimum\": 0.000238908, \"pricing\": \"DeepSeek-V4.1-Flash 2026-10-12\"}, \"model\": \"deepseek-flash\", \"raw_usage\": {\"cache_creation\": null, \"cache_creation_input_tokens\": 0, \"cache_read_input_tokens\": 1536, \"inference_geo\": null, \"input_tokens\": 1122, \"output_tokens\": 110, \"output_tokens_details\": null, \"server_tool_use\": null, \"service_tier\": \"standard\"}, \"reservation\": 12895, \"status\": \"completed\", \"usage\": {\"input_cached\": 1536, \"input_total\": 2658, \"input_uncached\": 1122, \"output\": 110, \"total\": 2768}}"
+    }
+  ],
+  "tool_calls": 5,
+  "model_calls": 3,
+  "tokens": 6161,
+  "trace": [
+    {
+      "seq": 1,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "reserve",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:retrieval"
+    },
+    {
+      "seq": 2,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "sent",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:retrieval"
+    },
+    {
+      "seq": 3,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "completed",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:retrieval"
+    },
+    {
+      "seq": 4,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "reserve",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:schema"
+    },
+    {
+      "seq": 5,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "sent",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:schema"
+    },
+    {
+      "seq": 6,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "completed",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:schema"
+    },
+    {
+      "seq": 7,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "reserve",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:watermarks"
+    },
+    {
+      "seq": 8,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "sent",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:watermarks"
+    },
+    {
+      "seq": 9,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "completed",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:watermarks"
+    },
+    {
+      "seq": 10,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "definition_adopted",
+      "detail": "{\"definition\": {\"id\": \"completion\", \"name\": \"完播率\", \"aliases\": [\"完成播放率\", \"视频播完比例\"], \"definition\": \"播放开始中有完成事件的播放次数比例。\", \"numerator\": \"content_events 中有 complete 的去重 play_id 数\", \"denominator\": \"有 start 的去重 play_id 数；为零则不可计算\", \"dimensions\": \"sessions.os / version 与 users.channel\", \"joins\": \"content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联\", \"time\": \"Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零\", \"pitfalls\": \"重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障\"}, \"actual_window\": [\"2026-01-08\", \"2026-01-15\"]}"
+    },
+    {
+      "seq": 11,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "reserve",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnose:1"
+    },
+    {
+      "seq": 12,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "sent",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnose:1"
+    },
+    {
+      "seq": 13,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "completed",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnose:1"
+    },
+    {
+      "seq": 14,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "reserve",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnostic_sql:1"
+    },
+    {
+      "seq": 15,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "sent",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnostic_sql:1"
+    },
+    {
+      "seq": 16,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "completed",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnostic_sql:1"
+    },
+    {
+      "seq": 17,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "query_completed",
+      "detail": "{\"status\": \"ok\", \"cleanup_verified\": true, \"action\": {\"action\": \"profile\", \"table\": \"content_events\", \"column\": \"play_id\", \"kind\": \"playback_events\"}, \"repairs_used\": 0, \"error_type\": null}"
+    },
+    {
+      "seq": 18,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "reserve",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnose:2"
+    },
+    {
+      "seq": 19,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "sent",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnose:2"
+    },
+    {
+      "seq": 20,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "completed",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnose:2"
+    },
+    {
+      "seq": 21,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "reserve",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnostic_sql:2"
+    },
+    {
+      "seq": 22,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "sent",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnostic_sql:2"
+    },
+    {
+      "seq": 23,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "completed",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnostic_sql:2"
+    },
+    {
+      "seq": 24,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "query_completed",
+      "detail": "{\"status\": \"ok\", \"cleanup_verified\": true, \"action\": {\"action\": \"profile\", \"table\": \"playback_telemetry\", \"column\": \"play_id\", \"kind\": \"playback_progress\"}, \"repairs_used\": 0, \"error_type\": null}"
+    },
+    {
+      "seq": 25,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "reserve",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnose:3"
+    },
+    {
+      "seq": 26,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "sent",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnose:3"
+    },
+    {
+      "seq": 27,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "completed",
+      "detail": "dd31539e4b7941c2a5b9aa8248ba4d32:diagnose:3"
+    },
+    {
+      "seq": 28,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "diagnosis_stopped",
+      "detail": "{\"action\": \"stop\", \"unsupported_hypotheses\": [\"Android 2.0 完播率下降由用户行为恶化导致\", \"Android 2.0 完成事件缺失证明采集故障\"], \"unresolved_questions\": [\"Android 2.0 的独立进度显示 658 次有效完播，但 content_events 观测完成数为 0，需确认完成事件上报链路是否异常\", \"Android 2.0 是否为新版本发布，其完播率与旧版本是否可比\"]}"
+    },
+    {
+      "seq": 29,
+      "task": "dd31539e4b7941c2a5b9aa8248ba4d32",
+      "event": "report_validated",
+      "detail": "{\"passed\": true, \"assertion_count\": 50, \"valid_count\": 50, \"results\": [{\"assertion_id\": \"0\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"1\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"2\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"3\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"4\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"5\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"6\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"7\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"8\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"9\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"10\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"11\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"12\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"13\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"14\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"15\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"16\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"17\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"18\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"19\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"20\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"21\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"22\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"23\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"24\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"25\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"26\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"27\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"28\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"29\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"30\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"31\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"32\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"33\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"34\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"35\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"36\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"37\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"38\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"39\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"40\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"41\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"42\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"43\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"44\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"45\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"46\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"47\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"48\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"49\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}], \"errors\": [], \"protocol_version\": 1}"
+    }
+  ],
+  "snapshot_id": "development",
+  "snapshot_hash": "a793e9656358743875de56c7c2a283c23e372d8e4230dd9d3cdaca9d45810203",
+  "requested_window": [
+    "2026-01-08",
+    "2026-01-15"
+  ],
+  "actual_window": [
+    "2026-01-08",
+    "2026-01-15"
+  ],
+  "definition": {
+    "id": "completion",
+    "name": "完播率",
+    "aliases": [
+      "完成播放率",
+      "视频播完比例"
+    ],
+    "definition": "播放开始中有完成事件的播放次数比例。",
+    "numerator": "content_events 中有 complete 的去重 play_id 数",
+    "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+    "dimensions": "sessions.os / version 与 users.channel",
+    "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+    "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+    "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+  },
+  "evidence": [
+    {
+      "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+      "tool": "profile",
+      "parameters": {
+        "action": "profile",
+        "table": "content_events",
+        "column": "play_id",
+        "kind": "playback_events",
+        "sql": "WITH e AS (SELECT play_id, MIN(session_id) AS sid, COUNT(DISTINCT session_id) AS sessions,\n      MIN(CASE WHEN event_type='start' THEN occurred_at END) AS began,\n      MIN(occurred_at) AS first_event,\n      COUNT(DISTINCT CASE WHEN event_type='start' THEN occurred_at END) AS start_times,\n      MAX(CASE WHEN event_type='complete' THEN 1 ELSE 0 END) AS completed,\n      SUM(CASE WHEN session_id IS NULL OR play_id IS NULL OR occurred_at IS NULL THEN 1 ELSE 0 END) AS invalid\n      FROM content_events GROUP BY play_id)\n      SELECT CASE WHEN CAST(COALESCE(e.began,e.first_event) AT TIME ZONE 'Asia/Shanghai' AS DATE)<'2026-01-08' THEN 'previous' ELSE 'current' END AS period,s.os AS actual_os,s.version AS actual_version,\n      SUM(CASE WHEN e.began IS NOT NULL THEN 1 ELSE 0 END) AS starts,\n      SUM(CASE WHEN e.began IS NOT NULL THEN e.completed ELSE 0 END) AS observed_completed,\n      SUM(CASE WHEN e.began IS NULL OR e.sessions<>1 OR e.invalid>0 OR e.start_times<>1 OR e.first_event<e.began OR s.session_id IS NULL OR s.started_at>e.began THEN 1 ELSE 0 END) AS invalid_alignment\n      FROM e LEFT JOIN sessions s ON e.sid=s.session_id WHERE CAST(COALESCE(e.began,e.first_event) AT TIME ZONE 'Asia/Shanghai' AS DATE)>='2026-01-01' AND CAST(COALESCE(e.began,e.first_event) AT TIME ZONE 'Asia/Shanghai' AS DATE)<'2026-01-15'\n      GROUP BY period,s.os,s.version ORDER BY period,s.os,s.version"
+      },
+      "source": "WITH e AS (SELECT play_id, MIN(session_id) AS sid, COUNT(DISTINCT session_id) AS sessions,\n      MIN(CASE WHEN event_type='start' THEN occurred_at END) AS began,\n      MIN(occurred_at) AS first_event,\n      COUNT(DISTINCT CASE WHEN event_type='start' THEN occurred_at END) AS start_times,\n      MAX(CASE WHEN event_type='complete' THEN 1 ELSE 0 END) AS completed,\n      SUM(CASE WHEN session_id IS NULL OR play_id IS NULL OR occurred_at IS NULL THEN 1 ELSE 0 END) AS invalid\n      FROM content_events GROUP BY play_id)\n      SELECT CASE WHEN CAST(COALESCE(e.began,e.first_event) AT TIME ZONE 'Asia/Shanghai' AS DATE)<'2026-01-08' THEN 'previous' ELSE 'current' END AS period,s.os AS actual_os,s.version AS actual_version,\n      SUM(CASE WHEN e.began IS NOT NULL THEN 1 ELSE 0 END) AS starts,\n      SUM(CASE WHEN e.began IS NOT NULL THEN e.completed ELSE 0 END) AS observed_completed,\n      SUM(CASE WHEN e.began IS NULL OR e.sessions<>1 OR e.invalid>0 OR e.start_times<>1 OR e.first_event<e.began OR s.session_id IS NULL OR s.started_at>e.began THEN 1 ELSE 0 END) AS invalid_alignment\n      FROM e LEFT JOIN sessions s ON e.sid=s.session_id WHERE CAST(COALESCE(e.began,e.first_event) AT TIME ZONE 'Asia/Shanghai' AS DATE)>='2026-01-01' AND CAST(COALESCE(e.began,e.first_event) AT TIME ZONE 'Asia/Shanghai' AS DATE)<'2026-01-15'\n      GROUP BY period,s.os,s.version ORDER BY period,s.os,s.version",
+      "snapshot_id": "a793e9656358743875de56c7c2a283c23e372d8e4230dd9d3cdaca9d45810203",
+      "columns": {
+        "period": "string",
+        "actual_os": "string",
+        "actual_version": "string",
+        "starts": "integer",
+        "observed_completed": "integer",
+        "invalid_alignment": "integer"
+      },
+      "actual_db_types": {
+        "period": "VARCHAR",
+        "actual_os": "VARCHAR",
+        "actual_version": "VARCHAR",
+        "starts": "HUGEINT",
+        "observed_completed": "HUGEINT",
+        "invalid_alignment": "HUGEINT"
+      },
+      "rows": [
+        {
+          "period": "current",
+          "actual_os": "Android",
+          "actual_version": "1.0",
+          "starts": 840,
+          "observed_completed": 640,
+          "invalid_alignment": 0
+        },
+        {
+          "period": "current",
+          "actual_os": "Android",
+          "actual_version": "2.0",
+          "starts": 840,
+          "observed_completed": 0,
+          "invalid_alignment": 0
+        },
+        {
+          "period": "current",
+          "actual_os": "iOS",
+          "actual_version": "1.0",
+          "starts": 1680,
+          "observed_completed": 1270,
+          "invalid_alignment": 0
+        },
+        {
+          "period": "previous",
+          "actual_os": "Android",
+          "actual_version": "1.0",
+          "starts": 1656,
+          "observed_completed": 1245,
+          "invalid_alignment": 0
+        },
+        {
+          "period": "previous",
+          "actual_os": "iOS",
+          "actual_version": "1.0",
+          "starts": 1656,
+          "observed_completed": 1220,
+          "invalid_alignment": 0
+        }
+      ],
+      "window": [
+        "2026-01-01",
+        "2026-01-15"
+      ],
+      "truncated": false,
+      "group": {},
+      "sample": {
+        "returned_rows": 5
+      },
+      "limitations": [
+        "business_definition_requires_independent_reference",
+        "start_play_instances_not_users",
+        "independent_progress_requires_alignment_and_complete_sources",
+        "playback_rates_are_descriptive_only"
+      ],
+      "business_definition_status": "requires_independent_reference",
+      "contexts": {
+        "/rows/0/starts": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/0/observed_completed": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/0/invalid_alignment": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/1/starts": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        },
+        "/rows/1/observed_completed": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        },
+        "/rows/1/invalid_alignment": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        },
+        "/rows/2/starts": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/2/observed_completed": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/2/invalid_alignment": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/3/starts": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/3/observed_completed": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/3/invalid_alignment": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/4/starts": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/4/observed_completed": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/4/invalid_alignment": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      }
+    },
+    {
+      "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+      "tool": "profile",
+      "parameters": {
+        "action": "profile",
+        "table": "playback_telemetry",
+        "column": "play_id",
+        "kind": "playback_progress",
+        "sql": "WITH e AS (SELECT play_id,MIN(session_id) AS sid,COUNT(DISTINCT session_id) AS sessions,\n      MIN(CASE WHEN event_type='start' THEN occurred_at END) AS began,\n      MAX(CASE WHEN event_type='complete' THEN 1 ELSE 0 END) AS completed FROM content_events GROUP BY play_id),\n      t AS (SELECT play_id,MIN(session_id) AS sid,COUNT(DISTINCT session_id) AS sessions,\n        MIN(observed_at) AS observed, MAX(watched_seconds) AS watched,\n        MIN(duration_seconds) AS duration,MAX(duration_seconds) AS max_duration,\n        SUM(CASE WHEN session_id IS NULL OR play_id IS NULL OR observed_at IS NULL OR watched_seconds IS NULL OR duration_seconds IS NULL OR watched_seconds<0 OR duration_seconds<=0 THEN 1 ELSE 0 END) AS invalid\n        FROM playback_telemetry GROUP BY play_id),\n      p AS (SELECT CASE WHEN CAST(COALESCE(e.began,t.observed) AT TIME ZONE 'Asia/Shanghai' AS DATE)<'2026-01-08' THEN 'previous' ELSE 'current' END AS period,s.os AS actual_os,s.version AS actual_version,\n        e.completed,t.duration,\n        CASE WHEN e.sessions=1 AND s.started_at<=e.began AND t.sid=e.sid AND t.sessions=1 AND t.invalid=0 AND t.duration=t.max_duration AND t.observed>=e.began AND t.watched<=t.duration THEN t.watched END AS valid_watched,\n        CASE WHEN e.began IS NULL OR t.sid<>e.sid OR t.sessions<>1 THEN 1 ELSE 0 END AS unaligned,\n        CASE WHEN t.play_id IS NULL THEN 1 ELSE 0 END AS unmatched,\n        CASE WHEN t.invalid>0 OR t.duration<>t.max_duration OR t.observed<e.began OR t.watched>t.duration THEN 1 ELSE 0 END AS invalid\n        FROM e FULL JOIN t ON e.play_id=t.play_id LEFT JOIN sessions s ON e.sid=s.session_id WHERE CAST(COALESCE(e.began,t.observed) AT TIME ZONE 'Asia/Shanghai' AS DATE)>='2026-01-01' AND CAST(COALESCE(e.began,t.observed) AT TIME ZONE 'Asia/Shanghai' AS DATE)<'2026-01-15')\n      SELECT period,actual_os,actual_version,COUNT(*) AS instances,\n        SUM(unaligned) AS invalid_alignment,SUM(unmatched) AS unmatched,SUM(invalid) AS invalid_telemetry,\n        SUM(CASE WHEN valid_watched>=duration THEN 1 ELSE 0 END) AS independent_complete,\n        SUM(CASE WHEN valid_watched>=duration AND completed=0 THEN 1 ELSE 0 END) AS missing_completion,\n        SUM(CASE WHEN valid_watched>=CASE WHEN duration<5 THEN duration ELSE 5 END THEN 1 ELSE 0 END) AS effective\n      FROM p GROUP BY period,actual_os,actual_version"
+      },
+      "source": "WITH e AS (SELECT play_id,MIN(session_id) AS sid,COUNT(DISTINCT session_id) AS sessions,\n      MIN(CASE WHEN event_type='start' THEN occurred_at END) AS began,\n      MAX(CASE WHEN event_type='complete' THEN 1 ELSE 0 END) AS completed FROM content_events GROUP BY play_id),\n      t AS (SELECT play_id,MIN(session_id) AS sid,COUNT(DISTINCT session_id) AS sessions,\n        MIN(observed_at) AS observed, MAX(watched_seconds) AS watched,\n        MIN(duration_seconds) AS duration,MAX(duration_seconds) AS max_duration,\n        SUM(CASE WHEN session_id IS NULL OR play_id IS NULL OR observed_at IS NULL OR watched_seconds IS NULL OR duration_seconds IS NULL OR watched_seconds<0 OR duration_seconds<=0 THEN 1 ELSE 0 END) AS invalid\n        FROM playback_telemetry GROUP BY play_id),\n      p AS (SELECT CASE WHEN CAST(COALESCE(e.began,t.observed) AT TIME ZONE 'Asia/Shanghai' AS DATE)<'2026-01-08' THEN 'previous' ELSE 'current' END AS period,s.os AS actual_os,s.version AS actual_version,\n        e.completed,t.duration,\n        CASE WHEN e.sessions=1 AND s.started_at<=e.began AND t.sid=e.sid AND t.sessions=1 AND t.invalid=0 AND t.duration=t.max_duration AND t.observed>=e.began AND t.watched<=t.duration THEN t.watched END AS valid_watched,\n        CASE WHEN e.began IS NULL OR t.sid<>e.sid OR t.sessions<>1 THEN 1 ELSE 0 END AS unaligned,\n        CASE WHEN t.play_id IS NULL THEN 1 ELSE 0 END AS unmatched,\n        CASE WHEN t.invalid>0 OR t.duration<>t.max_duration OR t.observed<e.began OR t.watched>t.duration THEN 1 ELSE 0 END AS invalid\n        FROM e FULL JOIN t ON e.play_id=t.play_id LEFT JOIN sessions s ON e.sid=s.session_id WHERE CAST(COALESCE(e.began,t.observed) AT TIME ZONE 'Asia/Shanghai' AS DATE)>='2026-01-01' AND CAST(COALESCE(e.began,t.observed) AT TIME ZONE 'Asia/Shanghai' AS DATE)<'2026-01-15')\n      SELECT period,actual_os,actual_version,COUNT(*) AS instances,\n        SUM(unaligned) AS invalid_alignment,SUM(unmatched) AS unmatched,SUM(invalid) AS invalid_telemetry,\n        SUM(CASE WHEN valid_watched>=duration THEN 1 ELSE 0 END) AS independent_complete,\n        SUM(CASE WHEN valid_watched>=duration AND completed=0 THEN 1 ELSE 0 END) AS missing_completion,\n        SUM(CASE WHEN valid_watched>=CASE WHEN duration<5 THEN duration ELSE 5 END THEN 1 ELSE 0 END) AS effective\n      FROM p GROUP BY period,actual_os,actual_version",
+      "snapshot_id": "a793e9656358743875de56c7c2a283c23e372d8e4230dd9d3cdaca9d45810203",
+      "columns": {
+        "period": "string",
+        "actual_os": "string",
+        "actual_version": "string",
+        "instances": "integer",
+        "invalid_alignment": "integer",
+        "unmatched": "integer",
+        "invalid_telemetry": "integer",
+        "independent_complete": "integer",
+        "missing_completion": "integer",
+        "effective": "integer"
+      },
+      "actual_db_types": {
+        "period": "VARCHAR",
+        "actual_os": "VARCHAR",
+        "actual_version": "VARCHAR",
+        "instances": "BIGINT",
+        "invalid_alignment": "HUGEINT",
+        "unmatched": "HUGEINT",
+        "invalid_telemetry": "HUGEINT",
+        "independent_complete": "HUGEINT",
+        "missing_completion": "HUGEINT",
+        "effective": "HUGEINT"
+      },
+      "rows": [
+        {
+          "period": "previous",
+          "actual_os": "Android",
+          "actual_version": "1.0",
+          "instances": 1656,
+          "invalid_alignment": 0,
+          "unmatched": 0,
+          "invalid_telemetry": 0,
+          "independent_complete": 1245,
+          "missing_completion": 0,
+          "effective": 1245
+        },
+        {
+          "period": "previous",
+          "actual_os": "iOS",
+          "actual_version": "1.0",
+          "instances": 1656,
+          "invalid_alignment": 0,
+          "unmatched": 0,
+          "invalid_telemetry": 0,
+          "independent_complete": 1220,
+          "missing_completion": 0,
+          "effective": 1220
+        },
+        {
+          "period": "current",
+          "actual_os": "Android",
+          "actual_version": "2.0",
+          "instances": 840,
+          "invalid_alignment": 0,
+          "unmatched": 0,
+          "invalid_telemetry": 0,
+          "independent_complete": 658,
+          "missing_completion": 658,
+          "effective": 658
+        },
+        {
+          "period": "current",
+          "actual_os": "Android",
+          "actual_version": "1.0",
+          "instances": 840,
+          "invalid_alignment": 0,
+          "unmatched": 0,
+          "invalid_telemetry": 0,
+          "independent_complete": 640,
+          "missing_completion": 0,
+          "effective": 640
+        },
+        {
+          "period": "current",
+          "actual_os": "iOS",
+          "actual_version": "1.0",
+          "instances": 1680,
+          "invalid_alignment": 0,
+          "unmatched": 0,
+          "invalid_telemetry": 0,
+          "independent_complete": 1270,
+          "missing_completion": 0,
+          "effective": 1270
+        }
+      ],
+      "window": [
+        "2026-01-01",
+        "2026-01-15"
+      ],
+      "truncated": false,
+      "group": {},
+      "sample": {
+        "returned_rows": 5
+      },
+      "limitations": [
+        "business_definition_requires_independent_reference",
+        "start_play_instances_not_users",
+        "independent_progress_requires_alignment_and_complete_sources",
+        "playback_rates_are_descriptive_only"
+      ],
+      "business_definition_status": "requires_independent_reference",
+      "contexts": {
+        "/rows/0/instances": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/0/invalid_alignment": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/0/unmatched": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/0/invalid_telemetry": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/0/independent_complete": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/0/missing_completion": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/0/effective": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/1/instances": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/1/invalid_alignment": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/1/unmatched": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/1/invalid_telemetry": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/1/independent_complete": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/1/missing_completion": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/1/effective": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/2/instances": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        },
+        "/rows/2/invalid_alignment": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        },
+        "/rows/2/unmatched": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        },
+        "/rows/2/invalid_telemetry": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        },
+        "/rows/2/independent_complete": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        },
+        "/rows/2/missing_completion": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        },
+        "/rows/2/effective": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        },
+        "/rows/3/instances": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/3/invalid_alignment": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/3/unmatched": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/3/invalid_telemetry": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/3/independent_complete": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/3/missing_completion": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/3/effective": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/4/instances": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/4/invalid_alignment": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/4/unmatched": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/4/invalid_telemetry": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/4/independent_complete": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/4/missing_completion": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        },
+        "/rows/4/effective": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      }
+    }
+  ],
+  "report": {
+    "facts": [
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+        "row": 0,
+        "column": "starts",
+        "value": 840,
+        "context": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+        "row": 0,
+        "column": "observed_completed",
+        "value": 640,
+        "context": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+        "row": 0,
+        "column": "invalid_alignment",
+        "value": 0,
+        "context": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+        "row": 1,
+        "column": "starts",
+        "value": 840,
+        "context": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+        "row": 1,
+        "column": "observed_completed",
+        "value": 0,
+        "context": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+        "row": 1,
+        "column": "invalid_alignment",
+        "value": 0,
+        "context": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+        "row": 2,
+        "column": "starts",
+        "value": 1680,
+        "context": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+        "row": 2,
+        "column": "observed_completed",
+        "value": 1270,
+        "context": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+        "row": 2,
+        "column": "invalid_alignment",
+        "value": 0,
+        "context": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+        "row": 3,
+        "column": "starts",
+        "value": 1656,
+        "context": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+        "row": 3,
+        "column": "observed_completed",
+        "value": 1245,
+        "context": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+        "row": 3,
+        "column": "invalid_alignment",
+        "value": 0,
+        "context": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+        "row": 4,
+        "column": "starts",
+        "value": 1656,
+        "context": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+        "row": 4,
+        "column": "observed_completed",
+        "value": 1220,
+        "context": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+        "row": 4,
+        "column": "invalid_alignment",
+        "value": 0,
+        "context": {
+          "metric": "profile:content_events:playback_events",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 0,
+        "column": "instances",
+        "value": 1656,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 0,
+        "column": "invalid_alignment",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 0,
+        "column": "unmatched",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 0,
+        "column": "invalid_telemetry",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 0,
+        "column": "independent_complete",
+        "value": 1245,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 0,
+        "column": "missing_completion",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 0,
+        "column": "effective",
+        "value": 1245,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 1,
+        "column": "instances",
+        "value": 1656,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 1,
+        "column": "invalid_alignment",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 1,
+        "column": "unmatched",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 1,
+        "column": "invalid_telemetry",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 1,
+        "column": "independent_complete",
+        "value": 1220,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 1,
+        "column": "missing_completion",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 1,
+        "column": "effective",
+        "value": 1220,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "period": "previous",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 2,
+        "column": "instances",
+        "value": 840,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 2,
+        "column": "invalid_alignment",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 2,
+        "column": "unmatched",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 2,
+        "column": "invalid_telemetry",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 2,
+        "column": "independent_complete",
+        "value": 658,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 2,
+        "column": "missing_completion",
+        "value": 658,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 2,
+        "column": "effective",
+        "value": 658,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 3,
+        "column": "instances",
+        "value": 840,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 3,
+        "column": "invalid_alignment",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 3,
+        "column": "unmatched",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 3,
+        "column": "invalid_telemetry",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 3,
+        "column": "independent_complete",
+        "value": 640,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 3,
+        "column": "missing_completion",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 3,
+        "column": "effective",
+        "value": 640,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "Android",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 4,
+        "column": "instances",
+        "value": 1680,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 4,
+        "column": "invalid_alignment",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 4,
+        "column": "unmatched",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 4,
+        "column": "invalid_telemetry",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 4,
+        "column": "independent_complete",
+        "value": 1270,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 4,
+        "column": "missing_completion",
+        "value": 0,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "row": 4,
+        "column": "effective",
+        "value": 1270,
+        "context": {
+          "metric": "profile:playback_telemetry:playback_progress",
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "group": {
+            "period": "current",
+            "actual_os": "iOS",
+            "actual_version": "1.0"
+          },
+          "comparison": null
+        }
+      }
+    ],
+    "rejected_facts": [],
+    "validation": {
+      "passed": true,
+      "assertion_count": 50,
+      "valid_count": 50,
+      "results": [
+        {
+          "assertion_id": "0",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "1",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "2",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "3",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "4",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "5",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "6",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "7",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "8",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "9",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "10",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "11",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "12",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "13",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "14",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "15",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "16",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "17",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "18",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "19",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "20",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "21",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "22",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "23",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "24",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "25",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "26",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "27",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "28",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "29",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "30",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "31",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "32",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "33",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "34",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "35",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "36",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "37",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "38",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "39",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "40",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "41",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "42",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "43",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "44",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "45",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "46",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "47",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "48",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "49",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        }
+      ],
+      "errors": [],
+      "protocol_version": 1
+    },
+    "deterministic": true,
+    "definition": {
+      "id": "completion",
+      "name": "完播率",
+      "aliases": [
+        "完成播放率",
+        "视频播完比例"
+      ],
+      "definition": "播放开始中有完成事件的播放次数比例。",
+      "numerator": "content_events 中有 complete 的去重 play_id 数",
+      "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+      "dimensions": "sessions.os / version 与 users.channel",
+      "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+      "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+      "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+    },
+    "window": [
+      "2026-01-08",
+      "2026-01-15"
+    ],
+    "limitations": [],
+    "unsupported_hypotheses": [
+      "Android 2.0 完播率下降由用户行为恶化导致",
+      "Android 2.0 完成事件缺失证明采集故障"
+    ],
+    "unresolved_questions": [
+      "Android 2.0 的独立进度显示 658 次有效完播，但 content_events 观测完成数为 0，需确认完成事件上报链路是否异常",
+      "Android 2.0 是否为新版本发布，其完播率与旧版本是否可比"
+    ],
+    "business_definition_status": "requires_independent_reference",
+    "inference_status": "bounded_descriptive_rule_requires_human_review",
+    "diagnosis": {
+      "rule_version": "playback-collection-v1",
+      "status": "association_candidate",
+      "candidates": [
+        {
+          "group": {
+            "actual_os": "Android",
+            "actual_version": "2.0"
+          },
+          "window": [
+            "2026-01-08",
+            "2026-01-15"
+          ],
+          "causality": "not_established",
+          "explanation": "两条采集链路齐备且实例可对齐，独立观看进度达到完整时长但缺完成事件，支持完成事件采集缺失候选。",
+          "supporting_facts": [
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+              "row": 1,
+              "values": {
+                "period": "current",
+                "actual_os": "Android",
+                "actual_version": "2.0",
+                "starts": 840,
+                "observed_completed": 0,
+                "invalid_alignment": 0
+              }
+            },
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+              "row": 2,
+              "values": {
+                "period": "current",
+                "actual_os": "Android",
+                "actual_version": "2.0",
+                "instances": 840,
+                "invalid_alignment": 0,
+                "unmatched": 0,
+                "invalid_telemetry": 0,
+                "independent_complete": 658,
+                "missing_completion": 658,
+                "effective": 658
+              }
+            }
+          ],
+          "counterevidence": [
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+              "row": 0,
+              "values": {
+                "period": "current",
+                "actual_os": "Android",
+                "actual_version": "1.0",
+                "starts": 840,
+                "observed_completed": 640,
+                "invalid_alignment": 0
+              }
+            },
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+              "row": 3,
+              "values": {
+                "period": "current",
+                "actual_os": "Android",
+                "actual_version": "1.0",
+                "instances": 840,
+                "invalid_alignment": 0,
+                "unmatched": 0,
+                "invalid_telemetry": 0,
+                "independent_complete": 640,
+                "missing_completion": 0,
+                "effective": 640
+              }
+            },
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+              "row": 2,
+              "values": {
+                "period": "current",
+                "actual_os": "iOS",
+                "actual_version": "1.0",
+                "starts": 1680,
+                "observed_completed": 1270,
+                "invalid_alignment": 0
+              }
+            },
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+              "row": 4,
+              "values": {
+                "period": "current",
+                "actual_os": "iOS",
+                "actual_version": "1.0",
+                "instances": 1680,
+                "invalid_alignment": 0,
+                "unmatched": 0,
+                "invalid_telemetry": 0,
+                "independent_complete": 1270,
+                "missing_completion": 0,
+                "effective": 1270
+              }
+            },
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+              "row": 3,
+              "values": {
+                "period": "previous",
+                "actual_os": "Android",
+                "actual_version": "1.0",
+                "starts": 1656,
+                "observed_completed": 1245,
+                "invalid_alignment": 0
+              }
+            },
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+              "row": 0,
+              "values": {
+                "period": "previous",
+                "actual_os": "Android",
+                "actual_version": "1.0",
+                "instances": 1656,
+                "invalid_alignment": 0,
+                "unmatched": 0,
+                "invalid_telemetry": 0,
+                "independent_complete": 1245,
+                "missing_completion": 0,
+                "effective": 1245
+              }
+            },
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+              "row": 4,
+              "values": {
+                "period": "previous",
+                "actual_os": "iOS",
+                "actual_version": "1.0",
+                "starts": 1656,
+                "observed_completed": 1220,
+                "invalid_alignment": 0
+              }
+            },
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+              "row": 1,
+              "values": {
+                "period": "previous",
+                "actual_os": "iOS",
+                "actual_version": "1.0",
+                "instances": 1656,
+                "invalid_alignment": 0,
+                "unmatched": 0,
+                "invalid_telemetry": 0,
+                "independent_complete": 1220,
+                "missing_completion": 0,
+                "effective": 1220
+              }
+            }
+          ]
+        }
+      ],
+      "playback_metrics": [
+        {
+          "period": "current",
+          "actual_os": "Android",
+          "actual_version": "1.0",
+          "starts": 840,
+          "observed_completed": 640,
+          "independent_complete": 640,
+          "effective": 640,
+          "missing_completion": 0,
+          "unmatched": 0,
+          "observed_completion_rate": 0.7619047619047619,
+          "independent_completion_rate": 0.7619047619047619,
+          "effective_playback_rate": 0.7619047619047619,
+          "source_facts": [
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+              "row": 0,
+              "values": {
+                "period": "current",
+                "actual_os": "Android",
+                "actual_version": "1.0",
+                "starts": 840,
+                "observed_completed": 640,
+                "invalid_alignment": 0
+              }
+            },
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+              "row": 3,
+              "values": {
+                "period": "current",
+                "actual_os": "Android",
+                "actual_version": "1.0",
+                "instances": 840,
+                "invalid_alignment": 0,
+                "unmatched": 0,
+                "invalid_telemetry": 0,
+                "independent_complete": 640,
+                "missing_completion": 0,
+                "effective": 640
+              }
+            }
+          ]
+        },
+        {
+          "period": "current",
+          "actual_os": "Android",
+          "actual_version": "2.0",
+          "starts": 840,
+          "observed_completed": 0,
+          "independent_complete": 658,
+          "effective": 658,
+          "missing_completion": 658,
+          "unmatched": 0,
+          "observed_completion_rate": 0.0,
+          "independent_completion_rate": 0.7833333333333333,
+          "effective_playback_rate": 0.7833333333333333,
+          "source_facts": [
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+              "row": 1,
+              "values": {
+                "period": "current",
+                "actual_os": "Android",
+                "actual_version": "2.0",
+                "starts": 840,
+                "observed_completed": 0,
+                "invalid_alignment": 0
+              }
+            },
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+              "row": 2,
+              "values": {
+                "period": "current",
+                "actual_os": "Android",
+                "actual_version": "2.0",
+                "instances": 840,
+                "invalid_alignment": 0,
+                "unmatched": 0,
+                "invalid_telemetry": 0,
+                "independent_complete": 658,
+                "missing_completion": 658,
+                "effective": 658
+              }
+            }
+          ]
+        },
+        {
+          "period": "current",
+          "actual_os": "iOS",
+          "actual_version": "1.0",
+          "starts": 1680,
+          "observed_completed": 1270,
+          "independent_complete": 1270,
+          "effective": 1270,
+          "missing_completion": 0,
+          "unmatched": 0,
+          "observed_completion_rate": 0.7559523809523809,
+          "independent_completion_rate": 0.7559523809523809,
+          "effective_playback_rate": 0.7559523809523809,
+          "source_facts": [
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+              "row": 2,
+              "values": {
+                "period": "current",
+                "actual_os": "iOS",
+                "actual_version": "1.0",
+                "starts": 1680,
+                "observed_completed": 1270,
+                "invalid_alignment": 0
+              }
+            },
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+              "row": 4,
+              "values": {
+                "period": "current",
+                "actual_os": "iOS",
+                "actual_version": "1.0",
+                "instances": 1680,
+                "invalid_alignment": 0,
+                "unmatched": 0,
+                "invalid_telemetry": 0,
+                "independent_complete": 1270,
+                "missing_completion": 0,
+                "effective": 1270
+              }
+            }
+          ]
+        },
+        {
+          "period": "previous",
+          "actual_os": "Android",
+          "actual_version": "1.0",
+          "starts": 1656,
+          "observed_completed": 1245,
+          "independent_complete": 1245,
+          "effective": 1245,
+          "missing_completion": 0,
+          "unmatched": 0,
+          "observed_completion_rate": 0.7518115942028986,
+          "independent_completion_rate": 0.7518115942028986,
+          "effective_playback_rate": 0.7518115942028986,
+          "source_facts": [
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+              "row": 3,
+              "values": {
+                "period": "previous",
+                "actual_os": "Android",
+                "actual_version": "1.0",
+                "starts": 1656,
+                "observed_completed": 1245,
+                "invalid_alignment": 0
+              }
+            },
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+              "row": 0,
+              "values": {
+                "period": "previous",
+                "actual_os": "Android",
+                "actual_version": "1.0",
+                "instances": 1656,
+                "invalid_alignment": 0,
+                "unmatched": 0,
+                "invalid_telemetry": 0,
+                "independent_complete": 1245,
+                "missing_completion": 0,
+                "effective": 1245
+              }
+            }
+          ]
+        },
+        {
+          "period": "previous",
+          "actual_os": "iOS",
+          "actual_version": "1.0",
+          "starts": 1656,
+          "observed_completed": 1220,
+          "independent_complete": 1220,
+          "effective": 1220,
+          "missing_completion": 0,
+          "unmatched": 0,
+          "observed_completion_rate": 0.7367149758454107,
+          "independent_completion_rate": 0.7367149758454107,
+          "effective_playback_rate": 0.7367149758454107,
+          "source_facts": [
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+              "row": 4,
+              "values": {
+                "period": "previous",
+                "actual_os": "iOS",
+                "actual_version": "1.0",
+                "starts": 1656,
+                "observed_completed": 1220,
+                "invalid_alignment": 0
+              }
+            },
+            {
+              "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+              "row": 1,
+              "values": {
+                "period": "previous",
+                "actual_os": "iOS",
+                "actual_version": "1.0",
+                "instances": 1656,
+                "invalid_alignment": 0,
+                "unmatched": 0,
+                "invalid_telemetry": 0,
+                "independent_complete": 1220,
+                "missing_completion": 0,
+                "effective": 1220
+              }
+            }
+          ]
+        }
+      ],
+      "missing_evidence": [],
+      "unexcluded_factors": [
+        "无法仅凭观测完播率下降认定用户行为恶化；两链路同步偏差及独立遥测本身错误未排除。"
+      ],
+      "statistical_limitations": [
+        "播放实例不是独立用户样本；仅发布描述性比例，不做用户级独立二项检验或置信区间。",
+        "候选解释需要人工复核，不证明故障因果。"
+      ]
+    },
+    "outcome": "facts_available"
+  },
+  "outcome": "facts_available",
+  "limitations": [],
+  "mode": "diagnose",
+  "diagnostic_history": [
+    {
+      "action": {
+        "action": "profile",
+        "table": "content_events",
+        "column": "play_id",
+        "kind": "playback_events"
+      },
+      "result": {
+        "status": "ok",
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:1",
+        "cleanup_verified": true,
+        "next": "Choose the next action using the actual evidence in shared materials."
+      }
+    },
+    {
+      "action": {
+        "action": "profile",
+        "table": "playback_telemetry",
+        "column": "play_id",
+        "kind": "playback_progress"
+      },
+      "result": {
+        "status": "ok",
+        "evidence_id": "dd31539e4b7941c2a5b9aa8248ba4d32:evidence:2",
+        "cleanup_verified": true,
+        "next": "Choose the next action using the actual evidence in shared materials."
+      }
+    },
+    {
+      "action": {
+        "action": "stop",
+        "unsupported_hypotheses": [
+          "Android 2.0 完播率下降由用户行为恶化导致",
+          "Android 2.0 完成事件缺失证明采集故障"
+        ],
+        "unresolved_questions": [
+          "Android 2.0 的独立进度显示 658 次有效完播，但 content_events 观测完成数为 0，需确认完成事件上报链路是否异常",
+          "Android 2.0 是否为新版本发布，其完播率与旧版本是否可比"
+        ]
+      },
+      "result": {
+        "status": "stopped"
+      }
+    }
+  ],
+  "repairs_used": 0,
+  "unsupported_hypotheses": [
+    "Android 2.0 完播率下降由用户行为恶化导致",
+    "Android 2.0 完成事件缺失证明采集故障"
+  ],
+  "unresolved_questions": [
+    "Android 2.0 的独立进度显示 658 次有效完播，但 content_events 观测完成数为 0，需确认完成事件上报链路是否异常",
+    "Android 2.0 是否为新版本发布，其完播率与旧版本是否可比"
+  ],
+  "effective_question": "完播率",
+  "pending_question": null,
+  "answers": [],
+  "retrieval": {
+    "status": "adopt",
+    "reason": "matched",
+    "method": "exact",
+    "definition": {
+      "id": "completion",
+      "name": "完播率",
+      "aliases": [
+        "完成播放率",
+        "视频播完比例"
+      ],
+      "definition": "播放开始中有完成事件的播放次数比例。",
+      "numerator": "content_events 中有 complete 的去重 play_id 数",
+      "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+      "dimensions": "sessions.os / version 与 users.channel",
+      "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+      "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+      "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+    },
+    "candidates": [
+      {
+        "id": "completion",
+        "score": 3.426430775302147
+      },
+      {
+        "id": "crash",
+        "score": 0.0
+      },
+      {
+        "id": "effective",
+        "score": 0.0
+      }
+    ],
+    "window": [
+      "2026-01-08",
+      "2026-01-15"
+    ],
+    "corpus_version": "t06-v1"
+  },
+  "schema": {
+    "users": {
+      "user_id": "VARCHAR",
+      "registered_at": "TIMESTAMP WITH TIME ZONE",
+      "registration_os": "VARCHAR",
+      "registration_version": "VARCHAR",
+      "channel": "VARCHAR"
+    },
+    "sessions": {
+      "session_id": "VARCHAR",
+      "user_id": "VARCHAR",
+      "started_at": "TIMESTAMP WITH TIME ZONE",
+      "os": "VARCHAR",
+      "version": "VARCHAR",
+      "crashed": "BOOLEAN"
+    },
+    "content_events": {
+      "event_id": "VARCHAR",
+      "play_id": "VARCHAR",
+      "session_id": "VARCHAR",
+      "event_type": "VARCHAR",
+      "occurred_at": "TIMESTAMP WITH TIME ZONE"
+    },
+    "playback_telemetry": {
+      "report_id": "VARCHAR",
+      "play_id": "VARCHAR",
+      "session_id": "VARCHAR",
+      "observed_at": "TIMESTAMP WITH TIME ZONE",
+      "watched_seconds": "INTEGER",
+      "duration_seconds": "INTEGER"
+    },
+    "channel_daily": {
+      "day": "DATE",
+      "channel": "VARCHAR",
+      "spend_cents": "BIGINT"
+    },
+    "release_calendar": {
+      "os": "VARCHAR",
+      "version": "VARCHAR",
+      "released_at": "TIMESTAMP WITH TIME ZONE"
+    },
+    "source_watermarks": {
+      "source": "VARCHAR",
+      "complete_before": "TIMESTAMP WITH TIME ZONE"
+    }
+  },
+  "watermarks": {
+    "status": "ok",
+    "rows": [
+      [
+        "users",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "sessions",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "content_events",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "playback_telemetry",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "channel_daily",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "release_calendar",
+        "2026-01-16 16:00:00+00:00"
+      ]
+    ],
+    "truncated": false,
+    "columns": [
+      {
+        "name": "source",
+        "type": "VARCHAR"
+      },
+      {
+        "name": "complete_before",
+        "type": "TIMESTAMP WITH TIME ZONE"
+      }
+    ],
+    "fetch_seconds": 0.02036303200020484,
+    "serialize_seconds": 0.00016219099961745087,
+    "parse_seconds": 0.03559871000015846,
+    "execute_seconds": 0.004299160999835294,
+    "schema_profile": "business",
+    "settings": {
+      "enable_external_access": "false",
+      "allow_community_extensions": "false",
+      "allow_unsigned_extensions": "false",
+      "autoinstall_known_extensions": "false",
+      "autoload_known_extensions": "false",
+      "python_enable_replacements": "false",
+      "python_scan_all_frames": "false",
+      "threads": "1",
+      "memory_limit": "122.0 MiB",
+      "max_temp_directory_size": "0 bytes",
+      "temp_directory": "",
+      "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+      "allowed_directories": "[]",
+      "allowed_configs": "[]",
+      "lock_configuration": "true",
+      "access_mode": "read_only"
+    },
+    "versions": {
+      "duckdb": "1.5.6",
+      "sqlglot": "30.22.0",
+      "pytz": "2026.5",
+      "python": "3.12.10"
+    },
+    "fault_events": [],
+    "query_seconds": 0.2970000000204891,
+    "startup_seconds": 1.4209999999729916,
+    "container_id": "887cf48615111179f736990925a6f212f2a8e75dbe8f7184cea5ada55b3ca253",
+    "cleanup_verified": true,
+    "cleanup_seconds": 0.4220000000204891,
+    "total_seconds": 2.14000000001397,
+    "termination_delay_seconds": 0.0
+  },
+  "query_result": {
+    "status": "ok",
+    "rows": [
+      [
+        "previous",
+        "Android",
+        "1.0",
+        1656,
+        0,
+        0,
+        0,
+        1245,
+        0,
+        1245
+      ],
+      [
+        "previous",
+        "iOS",
+        "1.0",
+        1656,
+        0,
+        0,
+        0,
+        1220,
+        0,
+        1220
+      ],
+      [
+        "current",
+        "Android",
+        "2.0",
+        840,
+        0,
+        0,
+        0,
+        658,
+        658,
+        658
+      ],
+      [
+        "current",
+        "Android",
+        "1.0",
+        840,
+        0,
+        0,
+        0,
+        640,
+        0,
+        640
+      ],
+      [
+        "current",
+        "iOS",
+        "1.0",
+        1680,
+        0,
+        0,
+        0,
+        1270,
+        0,
+        1270
+      ]
+    ],
+    "truncated": false,
+    "columns": [
+      {
+        "name": "period",
+        "type": "VARCHAR"
+      },
+      {
+        "name": "actual_os",
+        "type": "VARCHAR"
+      },
+      {
+        "name": "actual_version",
+        "type": "VARCHAR"
+      },
+      {
+        "name": "instances",
+        "type": "BIGINT"
+      },
+      {
+        "name": "invalid_alignment",
+        "type": "HUGEINT"
+      },
+      {
+        "name": "unmatched",
+        "type": "HUGEINT"
+      },
+      {
+        "name": "invalid_telemetry",
+        "type": "HUGEINT"
+      },
+      {
+        "name": "independent_complete",
+        "type": "HUGEINT"
+      },
+      {
+        "name": "missing_completion",
+        "type": "HUGEINT"
+      },
+      {
+        "name": "effective",
+        "type": "HUGEINT"
+      }
+    ],
+    "fetch_seconds": 0.00046907599971746095,
+    "serialize_seconds": 0.0002008459996432066,
+    "parse_seconds": 0.08050884800013591,
+    "execute_seconds": 0.05417905200010864,
+    "schema_profile": "business",
+    "settings": {
+      "enable_external_access": "false",
+      "allow_community_extensions": "false",
+      "allow_unsigned_extensions": "false",
+      "autoinstall_known_extensions": "false",
+      "autoload_known_extensions": "false",
+      "python_enable_replacements": "false",
+      "python_scan_all_frames": "false",
+      "threads": "1",
+      "memory_limit": "122.0 MiB",
+      "max_temp_directory_size": "0 bytes",
+      "temp_directory": "",
+      "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+      "allowed_directories": "[]",
+      "allowed_configs": "[]",
+      "lock_configuration": "true",
+      "access_mode": "read_only"
+    },
+    "versions": {
+      "duckdb": "1.5.6",
+      "sqlglot": "30.22.0",
+      "pytz": "2026.5",
+      "python": "3.12.10"
+    },
+    "fault_events": [],
+    "query_seconds": 0.39000000001396984,
+    "startup_seconds": 1.125,
+    "container_id": "6c18526bad2b97286872805c38f848d40ea93c4135d681382cfb3ece9b6ed120",
+    "cleanup_verified": true,
+    "cleanup_seconds": 0.4529999999795109,
+    "total_seconds": 1.9679999999934807,
+    "termination_delay_seconds": 0.0
+  },
+  "sql": "WITH e AS (SELECT play_id,MIN(session_id) AS sid,COUNT(DISTINCT session_id) AS sessions,\n      MIN(CASE WHEN event_type='start' THEN occurred_at END) AS began,\n      MAX(CASE WHEN event_type='complete' THEN 1 ELSE 0 END) AS completed FROM content_events GROUP BY play_id),\n      t AS (SELECT play_id,MIN(session_id) AS sid,COUNT(DISTINCT session_id) AS sessions,\n        MIN(observed_at) AS observed, MAX(watched_seconds) AS watched,\n        MIN(duration_seconds) AS duration,MAX(duration_seconds) AS max_duration,\n        SUM(CASE WHEN session_id IS NULL OR play_id IS NULL OR observed_at IS NULL OR watched_seconds IS NULL OR duration_seconds IS NULL OR watched_seconds<0 OR duration_seconds<=0 THEN 1 ELSE 0 END) AS invalid\n        FROM playback_telemetry GROUP BY play_id),\n      p AS (SELECT CASE WHEN CAST(COALESCE(e.began,t.observed) AT TIME ZONE 'Asia/Shanghai' AS DATE)<'2026-01-08' THEN 'previous' ELSE 'current' END AS period,s.os AS actual_os,s.version AS actual_version,\n        e.completed,t.duration,\n        CASE WHEN e.sessions=1 AND s.started_at<=e.began AND t.sid=e.sid AND t.sessions=1 AND t.invalid=0 AND t.duration=t.max_duration AND t.observed>=e.began AND t.watched<=t.duration THEN t.watched END AS valid_watched,\n        CASE WHEN e.began IS NULL OR t.sid<>e.sid OR t.sessions<>1 THEN 1 ELSE 0 END AS unaligned,\n        CASE WHEN t.play_id IS NULL THEN 1 ELSE 0 END AS unmatched,\n        CASE WHEN t.invalid>0 OR t.duration<>t.max_duration OR t.observed<e.began OR t.watched>t.duration THEN 1 ELSE 0 END AS invalid\n        FROM e FULL JOIN t ON e.play_id=t.play_id LEFT JOIN sessions s ON e.sid=s.session_id WHERE CAST(COALESCE(e.began,t.observed) AT TIME ZONE 'Asia/Shanghai' AS DATE)>='2026-01-01' AND CAST(COALESCE(e.began,t.observed) AT TIME ZONE 'Asia/Shanghai' AS DATE)<'2026-01-15')\n      SELECT period,actual_os,actual_version,COUNT(*) AS instances,\n        SUM(unaligned) AS invalid_alignment,SUM(unmatched) AS unmatched,SUM(invalid) AS invalid_telemetry,\n        SUM(CASE WHEN valid_watched>=duration THEN 1 ELSE 0 END) AS independent_complete,\n        SUM(CASE WHEN valid_watched>=duration AND completed=0 THEN 1 ELSE 0 END) AS missing_completion,\n        SUM(CASE WHEN valid_watched>=CASE WHEN duration<5 THEN duration ELSE 5 END THEN 1 ELSE 0 END) AS effective\n      FROM p GROUP BY period,actual_os,actual_version"
+}

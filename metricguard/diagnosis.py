@@ -5,6 +5,12 @@ ACTION_PROMPT = '''Choose the next test from actual evidence; do not assume a ca
 {"action":"query","sql":"SELECT ..."},
 {"action":"profile","table":"users","column":"channel","kind":"distribution"},
 {"action":"stop","unsupported_hypotheses":["untested hypothesis"],"unresolved_questions":["remaining question"]}.
+For observed completion collection diagnosis use both trusted profiles, in evidence-based order:
+{"action":"profile","table":"content_events","column":"play_id","kind":"playback_events"},
+{"action":"profile","table":"playback_telemetry","column":"play_id","kind":"playback_progress"}.
+They align distinct play instances and independent progress in current/previous windows, grouped by actual session system/version.
+Once both are available stop; program checks completeness and quality before bounded collection interpretation.
+Completion is watched >= duration; effective playback min(5,duration) is different. Missing independent evidence means uncertainty, never user behavior deterioration.
 Profile kinds: distribution, missing, time_coverage (DATE/TIMESTAMP columns only).
 For channel acquisition, mature D1 retention and matching registration-window costs use:
 {"action":"profile","table":"users","column":"channel","kind":"channel_health"}.

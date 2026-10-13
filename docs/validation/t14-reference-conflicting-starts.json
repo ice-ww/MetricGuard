@@ -1,0 +1,75 @@
+{
+  "method": "raw SELECT only; Python play-id sets, actual session OS/version, start natural day",
+  "rows": [
+    {
+      "period": "current",
+      "os": "Android",
+      "version": "1.0",
+      "window_start": "2026-01-08",
+      "window_end": "2026-01-15",
+      "starts": 2,
+      "observed_completed": 0,
+      "independent_complete": 0,
+      "effective": 0,
+      "missing_completion": 0,
+      "unmatched": 2,
+      "quality_flags": [
+        "ambiguous_start_or_session"
+      ],
+      "sources_complete": true
+    },
+    {
+      "period": "previous",
+      "os": "Android",
+      "version": "1.0",
+      "window_start": "2026-01-01",
+      "window_end": "2026-01-08",
+      "starts": 1,
+      "observed_completed": 0,
+      "independent_complete": 0,
+      "effective": 0,
+      "missing_completion": 0,
+      "unmatched": 1,
+      "quality_flags": [
+        "ambiguous_start_or_session"
+      ],
+      "sources_complete": true
+    }
+  ],
+  "conservation": {
+    "window_unique_starts": 3,
+    "all_unique_starts": 5,
+    "raw_start_reports": 9,
+    "orphan_completion_plays": 0,
+    "orphan_telemetry_plays": 0
+  },
+  "limitations": [
+    "Development oracle; no causal claim or independent-user binomial test.",
+    "Missing completion is only counted with both source watermarks complete."
+  ],
+  "fixture_observations": {
+    "earliest_outside": [
+      "2026-01-09",
+      "2025-12-31"
+    ],
+    "earliest_inside": [
+      "2026-01-16",
+      "2026-01-10"
+    ],
+    "cross_period": [
+      "2026-01-08",
+      "2026-01-07"
+    ],
+    "nullable": [
+      null,
+      "2026-01-11"
+    ],
+    "only_null": [
+      null
+    ]
+  },
+  "checks": {
+    "earliest_non_null_window_conservation": true,
+    "ambiguous_counts_excluded": true
+  }
+}

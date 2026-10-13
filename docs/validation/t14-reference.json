@@ -1,0 +1,707 @@
+[
+  {
+    "method": "raw SELECT only; Python play-id sets, actual session OS/version, start natural day",
+    "rows": [
+      {
+        "period": "current",
+        "os": "Android",
+        "version": "1.0",
+        "window_start": "2026-01-08",
+        "window_end": "2026-01-15",
+        "starts": 840,
+        "observed_completed": 640,
+        "independent_complete": 640,
+        "effective": 640,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      },
+      {
+        "period": "current",
+        "os": "Android",
+        "version": "2.0",
+        "window_start": "2026-01-08",
+        "window_end": "2026-01-15",
+        "starts": 840,
+        "observed_completed": 0,
+        "independent_complete": 658,
+        "effective": 658,
+        "missing_completion": 658,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      },
+      {
+        "period": "current",
+        "os": "iOS",
+        "version": "1.0",
+        "window_start": "2026-01-08",
+        "window_end": "2026-01-15",
+        "starts": 1680,
+        "observed_completed": 1270,
+        "independent_complete": 1270,
+        "effective": 1270,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      },
+      {
+        "period": "previous",
+        "os": "Android",
+        "version": "1.0",
+        "window_start": "2026-01-01",
+        "window_end": "2026-01-08",
+        "starts": 1656,
+        "observed_completed": 1245,
+        "independent_complete": 1245,
+        "effective": 1245,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      },
+      {
+        "period": "previous",
+        "os": "iOS",
+        "version": "1.0",
+        "window_start": "2026-01-01",
+        "window_end": "2026-01-08",
+        "starts": 1656,
+        "observed_completed": 1220,
+        "independent_complete": 1220,
+        "effective": 1220,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      }
+    ],
+    "conservation": {
+      "window_unique_starts": 6672,
+      "all_unique_starts": 7632,
+      "raw_start_reports": 8440,
+      "orphan_completion_plays": 0,
+      "orphan_telemetry_plays": 0
+    },
+    "limitations": [
+      "Development oracle; no causal claim or independent-user binomial test.",
+      "Missing completion is only counted with both source watermarks complete."
+    ],
+    "case": "january",
+    "database": "D:\\ai coding\\metricguard\\artifacts\\t14-reference\\january\\public\\snapshot.duckdb",
+    "current_start": "2026-01-08",
+    "end": "2026-01-15",
+    "development_seed": 1401,
+    "mutation": null
+  },
+  {
+    "method": "raw SELECT only; Python play-id sets, actual session OS/version, start natural day",
+    "rows": [
+      {
+        "period": "current",
+        "os": "Android",
+        "version": "1.0",
+        "window_start": "2026-05-08",
+        "window_end": "2026-05-15",
+        "starts": 840,
+        "observed_completed": 625,
+        "independent_complete": 625,
+        "effective": 625,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      },
+      {
+        "period": "current",
+        "os": "Android",
+        "version": "5.3",
+        "window_start": "2026-05-08",
+        "window_end": "2026-05-15",
+        "starts": 840,
+        "observed_completed": 317,
+        "independent_complete": 643,
+        "effective": 643,
+        "missing_completion": 326,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      },
+      {
+        "period": "current",
+        "os": "iOS",
+        "version": "1.0",
+        "window_start": "2026-05-08",
+        "window_end": "2026-05-15",
+        "starts": 1680,
+        "observed_completed": 1263,
+        "independent_complete": 1263,
+        "effective": 1263,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      },
+      {
+        "period": "previous",
+        "os": "Android",
+        "version": "1.0",
+        "window_start": "2026-05-01",
+        "window_end": "2026-05-08",
+        "starts": 1656,
+        "observed_completed": 1239,
+        "independent_complete": 1239,
+        "effective": 1239,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      },
+      {
+        "period": "previous",
+        "os": "iOS",
+        "version": "1.0",
+        "window_start": "2026-05-01",
+        "window_end": "2026-05-08",
+        "starts": 1656,
+        "observed_completed": 1256,
+        "independent_complete": 1256,
+        "effective": 1256,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      }
+    ],
+    "conservation": {
+      "window_unique_starts": 6672,
+      "all_unique_starts": 7632,
+      "raw_start_reports": 8440,
+      "orphan_completion_plays": 0,
+      "orphan_telemetry_plays": 0
+    },
+    "limitations": [
+      "Development oracle; no causal claim or independent-user binomial test.",
+      "Missing completion is only counted with both source watermarks complete."
+    ],
+    "case": "may",
+    "database": "D:\\ai coding\\metricguard\\artifacts\\t14-reference\\may\\public\\snapshot.duckdb",
+    "current_start": "2026-05-08",
+    "end": "2026-05-15",
+    "development_seed": 1402,
+    "mutation": null
+  },
+  {
+    "method": "raw SELECT only; Python play-id sets, actual session OS/version, start natural day",
+    "rows": [
+      {
+        "period": "current",
+        "os": "Android",
+        "version": "1.0",
+        "window_start": "2026-08-08",
+        "window_end": "2026-08-15",
+        "starts": 840,
+        "observed_completed": 624,
+        "independent_complete": 624,
+        "effective": 624,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      },
+      {
+        "period": "current",
+        "os": "Android",
+        "version": "8.8",
+        "window_start": "2026-08-08",
+        "window_end": "2026-08-15",
+        "starts": 840,
+        "observed_completed": 131,
+        "independent_complete": 625,
+        "effective": 625,
+        "missing_completion": 494,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      },
+      {
+        "period": "current",
+        "os": "iOS",
+        "version": "1.0",
+        "window_start": "2026-08-08",
+        "window_end": "2026-08-15",
+        "starts": 1680,
+        "observed_completed": 1283,
+        "independent_complete": 1283,
+        "effective": 1283,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      },
+      {
+        "period": "previous",
+        "os": "Android",
+        "version": "1.0",
+        "window_start": "2026-08-01",
+        "window_end": "2026-08-08",
+        "starts": 1656,
+        "observed_completed": 1249,
+        "independent_complete": 1249,
+        "effective": 1249,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      },
+      {
+        "period": "previous",
+        "os": "iOS",
+        "version": "1.0",
+        "window_start": "2026-08-01",
+        "window_end": "2026-08-08",
+        "starts": 1656,
+        "observed_completed": 1241,
+        "independent_complete": 1241,
+        "effective": 1241,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      }
+    ],
+    "conservation": {
+      "window_unique_starts": 6672,
+      "all_unique_starts": 7632,
+      "raw_start_reports": 8440,
+      "orphan_completion_plays": 0,
+      "orphan_telemetry_plays": 0
+    },
+    "limitations": [
+      "Development oracle; no causal claim or independent-user binomial test.",
+      "Missing completion is only counted with both source watermarks complete."
+    ],
+    "case": "august",
+    "database": "D:\\ai coding\\metricguard\\artifacts\\t14-reference\\august\\public\\snapshot.duckdb",
+    "current_start": "2026-08-08",
+    "end": "2026-08-15",
+    "development_seed": 1403,
+    "mutation": null
+  },
+  {
+    "method": "raw SELECT only; Python play-id sets, actual session OS/version, start natural day",
+    "rows": [
+      {
+        "period": "current",
+        "os": "Android",
+        "version": "1.0",
+        "window_start": "2026-01-08",
+        "window_end": "2026-01-15",
+        "starts": 840,
+        "observed_completed": 635,
+        "independent_complete": 635,
+        "effective": 635,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      },
+      {
+        "period": "current",
+        "os": "Android",
+        "version": "2.0",
+        "window_start": "2026-01-08",
+        "window_end": "2026-01-15",
+        "starts": 840,
+        "observed_completed": 612,
+        "independent_complete": 612,
+        "effective": 612,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      },
+      {
+        "period": "current",
+        "os": "iOS",
+        "version": "1.0",
+        "window_start": "2026-01-08",
+        "window_end": "2026-01-15",
+        "starts": 1680,
+        "observed_completed": 1279,
+        "independent_complete": 1279,
+        "effective": 1279,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      },
+      {
+        "period": "previous",
+        "os": "Android",
+        "version": "1.0",
+        "window_start": "2026-01-01",
+        "window_end": "2026-01-08",
+        "starts": 1656,
+        "observed_completed": 1264,
+        "independent_complete": 1264,
+        "effective": 1264,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      },
+      {
+        "period": "previous",
+        "os": "iOS",
+        "version": "1.0",
+        "window_start": "2026-01-01",
+        "window_end": "2026-01-08",
+        "starts": 1656,
+        "observed_completed": 1266,
+        "independent_complete": 1266,
+        "effective": 1266,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      }
+    ],
+    "conservation": {
+      "window_unique_starts": 6672,
+      "all_unique_starts": 7632,
+      "raw_start_reports": 8440,
+      "orphan_completion_plays": 0,
+      "orphan_telemetry_plays": 0
+    },
+    "limitations": [
+      "Development oracle; no causal claim or independent-user binomial test.",
+      "Missing completion is only counted with both source watermarks complete."
+    ],
+    "case": "normal",
+    "database": "D:\\ai coding\\metricguard\\artifacts\\t14-reference\\normal\\public\\snapshot.duckdb",
+    "current_start": "2026-01-08",
+    "end": "2026-01-15",
+    "development_seed": 1404,
+    "mutation": null
+  },
+  {
+    "method": "raw SELECT only; Python play-id sets, actual session OS/version, start natural day",
+    "rows": [
+      {
+        "period": "current",
+        "os": "Android",
+        "version": "1.0",
+        "window_start": "2026-01-08",
+        "window_end": "2026-01-15",
+        "starts": 840,
+        "observed_completed": 635,
+        "independent_complete": 0,
+        "effective": 0,
+        "missing_completion": 0,
+        "unmatched": 840,
+        "quality_flags": [
+          "missing_independent_telemetry"
+        ],
+        "sources_complete": true
+      },
+      {
+        "period": "current",
+        "os": "Android",
+        "version": "2.0",
+        "window_start": "2026-01-08",
+        "window_end": "2026-01-15",
+        "starts": 840,
+        "observed_completed": 612,
+        "independent_complete": 0,
+        "effective": 0,
+        "missing_completion": 0,
+        "unmatched": 840,
+        "quality_flags": [
+          "missing_independent_telemetry"
+        ],
+        "sources_complete": true
+      },
+      {
+        "period": "current",
+        "os": "iOS",
+        "version": "1.0",
+        "window_start": "2026-01-08",
+        "window_end": "2026-01-15",
+        "starts": 1680,
+        "observed_completed": 1279,
+        "independent_complete": 0,
+        "effective": 0,
+        "missing_completion": 0,
+        "unmatched": 1680,
+        "quality_flags": [
+          "missing_independent_telemetry"
+        ],
+        "sources_complete": true
+      },
+      {
+        "period": "previous",
+        "os": "Android",
+        "version": "1.0",
+        "window_start": "2026-01-01",
+        "window_end": "2026-01-08",
+        "starts": 1656,
+        "observed_completed": 1264,
+        "independent_complete": 0,
+        "effective": 0,
+        "missing_completion": 0,
+        "unmatched": 1656,
+        "quality_flags": [
+          "missing_independent_telemetry"
+        ],
+        "sources_complete": true
+      },
+      {
+        "period": "previous",
+        "os": "iOS",
+        "version": "1.0",
+        "window_start": "2026-01-01",
+        "window_end": "2026-01-08",
+        "starts": 1656,
+        "observed_completed": 1266,
+        "independent_complete": 0,
+        "effective": 0,
+        "missing_completion": 0,
+        "unmatched": 1656,
+        "quality_flags": [
+          "missing_independent_telemetry"
+        ],
+        "sources_complete": true
+      }
+    ],
+    "conservation": {
+      "window_unique_starts": 6672,
+      "all_unique_starts": 7632,
+      "raw_start_reports": 8440,
+      "orphan_completion_plays": 0,
+      "orphan_telemetry_plays": 0
+    },
+    "limitations": [
+      "Development oracle; no causal claim or independent-user binomial test.",
+      "Missing completion is only counted with both source watermarks complete."
+    ],
+    "case": "no_telemetry",
+    "database": "D:\\ai coding\\metricguard\\artifacts\\t14-reference\\no_telemetry\\public\\snapshot.duckdb",
+    "current_start": "2026-01-08",
+    "end": "2026-01-15",
+    "development_seed": 1404,
+    "mutation": "no_telemetry"
+  },
+  {
+    "method": "raw SELECT only; Python play-id sets, actual session OS/version, start natural day",
+    "rows": [
+      {
+        "period": "current",
+        "os": "Android",
+        "version": "1.0",
+        "window_start": "2026-01-08",
+        "window_end": "2026-01-15",
+        "starts": 840,
+        "observed_completed": 635,
+        "independent_complete": 0,
+        "effective": 0,
+        "missing_completion": 0,
+        "unmatched": 840,
+        "quality_flags": [
+          "invalid_or_unaligned_telemetry"
+        ],
+        "sources_complete": true
+      },
+      {
+        "period": "current",
+        "os": "Android",
+        "version": "2.0",
+        "window_start": "2026-01-08",
+        "window_end": "2026-01-15",
+        "starts": 840,
+        "observed_completed": 612,
+        "independent_complete": 0,
+        "effective": 0,
+        "missing_completion": 0,
+        "unmatched": 840,
+        "quality_flags": [
+          "invalid_or_unaligned_telemetry"
+        ],
+        "sources_complete": true
+      },
+      {
+        "period": "current",
+        "os": "iOS",
+        "version": "1.0",
+        "window_start": "2026-01-08",
+        "window_end": "2026-01-15",
+        "starts": 1680,
+        "observed_completed": 1279,
+        "independent_complete": 0,
+        "effective": 0,
+        "missing_completion": 0,
+        "unmatched": 1680,
+        "quality_flags": [
+          "invalid_or_unaligned_telemetry"
+        ],
+        "sources_complete": true
+      },
+      {
+        "period": "previous",
+        "os": "Android",
+        "version": "1.0",
+        "window_start": "2026-01-01",
+        "window_end": "2026-01-08",
+        "starts": 1656,
+        "observed_completed": 1264,
+        "independent_complete": 0,
+        "effective": 0,
+        "missing_completion": 0,
+        "unmatched": 1656,
+        "quality_flags": [
+          "invalid_or_unaligned_telemetry"
+        ],
+        "sources_complete": true
+      },
+      {
+        "period": "previous",
+        "os": "iOS",
+        "version": "1.0",
+        "window_start": "2026-01-01",
+        "window_end": "2026-01-08",
+        "starts": 1656,
+        "observed_completed": 1266,
+        "independent_complete": 0,
+        "effective": 0,
+        "missing_completion": 0,
+        "unmatched": 1656,
+        "quality_flags": [
+          "invalid_or_unaligned_telemetry"
+        ],
+        "sources_complete": true
+      }
+    ],
+    "conservation": {
+      "window_unique_starts": 6672,
+      "all_unique_starts": 7632,
+      "raw_start_reports": 8440,
+      "orphan_completion_plays": 0,
+      "orphan_telemetry_plays": 0
+    },
+    "limitations": [
+      "Development oracle; no causal claim or independent-user binomial test.",
+      "Missing completion is only counted with both source watermarks complete."
+    ],
+    "case": "unaligned",
+    "database": "D:\\ai coding\\metricguard\\artifacts\\t14-reference\\unaligned\\public\\snapshot.duckdb",
+    "current_start": "2026-01-08",
+    "end": "2026-01-15",
+    "development_seed": 1404,
+    "mutation": "unaligned"
+  },
+  {
+    "method": "raw SELECT only; Python play-id sets, actual session OS/version, start natural day",
+    "rows": [
+      {
+        "period": "current",
+        "os": "Android",
+        "version": "1.0",
+        "window_start": "2026-01-08",
+        "window_end": "2026-01-15",
+        "starts": 840,
+        "observed_completed": 635,
+        "independent_complete": 635,
+        "effective": 635,
+        "missing_completion": null,
+        "unmatched": 0,
+        "quality_flags": [
+          "incomplete_watermark"
+        ],
+        "sources_complete": false
+      },
+      {
+        "period": "current",
+        "os": "Android",
+        "version": "2.0",
+        "window_start": "2026-01-08",
+        "window_end": "2026-01-15",
+        "starts": 840,
+        "observed_completed": 612,
+        "independent_complete": 612,
+        "effective": 612,
+        "missing_completion": null,
+        "unmatched": 0,
+        "quality_flags": [
+          "incomplete_watermark"
+        ],
+        "sources_complete": false
+      },
+      {
+        "period": "current",
+        "os": "iOS",
+        "version": "1.0",
+        "window_start": "2026-01-08",
+        "window_end": "2026-01-15",
+        "starts": 1680,
+        "observed_completed": 1279,
+        "independent_complete": 1279,
+        "effective": 1279,
+        "missing_completion": null,
+        "unmatched": 0,
+        "quality_flags": [
+          "incomplete_watermark"
+        ],
+        "sources_complete": false
+      },
+      {
+        "period": "previous",
+        "os": "Android",
+        "version": "1.0",
+        "window_start": "2026-01-01",
+        "window_end": "2026-01-08",
+        "starts": 1656,
+        "observed_completed": 1264,
+        "independent_complete": 1264,
+        "effective": 1264,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      },
+      {
+        "period": "previous",
+        "os": "iOS",
+        "version": "1.0",
+        "window_start": "2026-01-01",
+        "window_end": "2026-01-08",
+        "starts": 1656,
+        "observed_completed": 1266,
+        "independent_complete": 1266,
+        "effective": 1266,
+        "missing_completion": 0,
+        "unmatched": 0,
+        "quality_flags": [],
+        "sources_complete": true
+      }
+    ],
+    "conservation": {
+      "window_unique_starts": 6672,
+      "all_unique_starts": 7632,
+      "raw_start_reports": 8440,
+      "orphan_completion_plays": 0,
+      "orphan_telemetry_plays": 0
+    },
+    "limitations": [
+      "Development oracle; no causal claim or independent-user binomial test.",
+      "Missing completion is only counted with both source watermarks complete."
+    ],
+    "case": "incomplete_watermark",
+    "database": "D:\\ai coding\\metricguard\\artifacts\\t14-reference\\incomplete_watermark\\public\\snapshot.duckdb",
+    "current_start": "2026-01-08",
+    "end": "2026-01-15",
+    "development_seed": 1404,
+    "mutation": "incomplete_watermark"
+  }
+]

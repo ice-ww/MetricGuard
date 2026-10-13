@@ -43,13 +43,16 @@ def draw(seed: int, *key: object) -> float:
 def build_snapshot(root: Path, *, scenario: str, seed: int, base_start: datetime = START,
                    new_version: str = "2.0", crash_probability: float = .65,
                    campaign_channel: str = "paid", campaign_growth: float = 3.0,
-                   campaign_retention: float = .12, campaign_unit_cost: int = 200) -> Snapshot:
+                   campaign_retention: float = .12, campaign_unit_cost: int = 200,
+                   completion_drop_probability: float = 1.0) -> Snapshot:
     if base_start.tzinfo is None or not new_version or new_version == "1.0" or not 0 <= crash_probability <= 1:
         raise ValueError("Invalid development parameters")
     if (not campaign_channel or campaign_channel in ("organic", "idle")
             or not 0 <= campaign_growth <= 10 or not 0 <= campaign_retention <= 1
             or type(campaign_unit_cost) is not int or campaign_unit_cost < 0):
         raise ValueError("Invalid development channel parameters")
+    if not 0 <= completion_drop_probability <= 1:
+        raise ValueError("Invalid development collection probability")
     if scenario not in MECHANISMS:
         raise ValueError(f"Unknown development scenario: {scenario}")
     if root.exists():
@@ -98,7 +101,8 @@ def build_snapshot(root: Path, *, scenario: str, seed: int, base_start: datetime
                         at = registered + timedelta(minutes=2 + play)
                         complete = draw(seed, uid, play, "complete") < .75
                         rows["content_events"].append((pid + "-start", pid, sid, "start", at))
-                        if complete and not (scenario == "A3" and affected_version):
+                        if complete and not (scenario == "A3" and affected_version
+                                                 and draw(seed, uid, play, "completion_drop") < completion_drop_probability):
                             rows["content_events"].append((pid + "-end", pid, sid, "complete", at + timedelta(seconds=30)))
                         rows["playback_telemetry"].append((pid + "-t", pid, sid, at + timedelta(seconds=30), 30 if complete else 3, 30))
                         if index % 10 == 0:
@@ -138,7 +142,7 @@ def build_snapshot(root: Path, *, scenario: str, seed: int, base_start: datetime
     logical_hash = hashlib.sha256(json.dumps(rows, default=str, sort_keys=True).encode()).hexdigest()
     manifest = private / "manifest.json"
     manifest.write_text(json.dumps({"scenario": scenario, "seed": seed,
-        "logical_hash": logical_hash, "human_review": "pending", "mechanism": (f"Android {new_version} first-day crash probability {crash_probability}; crashed users return with probability .05." if scenario == "A1" else f"{campaign_channel} current volume multiplier {campaign_growth}; return probability {campaign_retention}; unit spend {campaign_unit_cost} cents." if scenario == "A2" else MECHANISMS[scenario]),
-        "parameters": {"base_start": base_start.date().isoformat(), "current_start": (base_start + timedelta(days=7)).date().isoformat(), "end": (base_start + timedelta(days=14)).date().isoformat(), "new_version": new_version, "crash_probability": crash_probability, "campaign_channel": campaign_channel, "campaign_growth": campaign_growth, "campaign_retention": campaign_retention, "campaign_unit_cost": campaign_unit_cost},
+        "logical_hash": logical_hash, "human_review": "pending", "mechanism": (f"Android {new_version} first-day crash probability {crash_probability}; crashed users return with probability .05." if scenario == "A1" else f"{campaign_channel} current volume multiplier {campaign_growth}; return probability {campaign_retention}; unit spend {campaign_unit_cost} cents." if scenario == "A2" else f"Android {new_version} completion collector drops probability {completion_drop_probability}; independent progress unchanged." if scenario == "A3" else MECHANISMS[scenario]),
+        "parameters": {"base_start": base_start.date().isoformat(), "current_start": (base_start + timedelta(days=7)).date().isoformat(), "end": (base_start + timedelta(days=14)).date().isoformat(), "new_version": new_version, "crash_probability": crash_probability, "campaign_channel": campaign_channel, "campaign_growth": campaign_growth, "campaign_retention": campaign_retention, "campaign_unit_cost": campaign_unit_cost, "completion_drop_probability": completion_drop_probability},
         "purpose": "development_only"}, indent=2), encoding="utf-8")
     return Snapshot(database, manifest, logical_hash)
