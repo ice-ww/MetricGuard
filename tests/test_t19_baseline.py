@@ -182,3 +182,64 @@ def test_active_time_budget_and_ambiguous_preflight_do_not_dispatch_models(tmp_p
             pre=service.prepare_shared(question,'dev',('2026-01-08','2026-01-15'))
             task=service.create_from_shared(pre,mode='baseline'); service.run(task)
             assert service.comparison_result(task)['preflight']['status']=='failed' and not calls
+
+
+def test_evaluation_runner_keeps_three_real_prepared_rounds_for_both_variants(tmp_path,image,baseline_snapshot):
+    from metricguard.evaluation import EvaluationRunner
+    from metricguard.comparison import protocol_usage
+    from experiments.t18.freeze import configuration
+    import duckdb
+    with duckdb.connect(str(baseline_snapshot.database),read_only=True) as db:
+        expected=db.execute('SELECT COUNT(DISTINCT user_id) FROM users').fetchone()[0]
+    public={'id':'t19-protocol','question':'新增用户自然日次日留存','snapshot':'development',
+            'snapshot_id':'dev','window':['2026-01-08','2026-01-15'],'definition':{},'schema':{}}
+    case={'id':public['id'],'category':'simple','public':public,
+          'required':[{'value':expected,'abs_tol':0,'rel_tol':0,'context':{
+              'metric':'query_result:retention','window':public['window'],'group':{},'comparison':None}}],
+          'explanation':'insufficient_evidence','localization':{},'forbidden':['certain_cause'],
+          'behaviors':[],'requires_review':False}
+    calls=[]
+    ordinary=provider_with_plan([COUNT],calls)
+    def provider(request):
+        shared=json.loads(json.loads(request.content)['system'].split('Shared materials:\n')[1])
+        if 'last_failure' in shared and not shared['evidence']:
+            calls.append(deepcopy(shared)); return response(COUNT)
+        return ordinary(request)
+    runner=EvaluationRunner(tmp_path/'registry')
+    runner.freeze('t19-selftest','t19-dev',[case],configuration(image),purpose='scorer_selftest')
+    with TaskService(tmp_path/'service',image,{'dev':baseline_snapshot.database},token='controlled',transport=httpx.MockTransport(provider)) as service:
+        def prepare(public,config,controls):
+            pre=service.prepare_shared(public['question'],'dev',tuple(public['window']))
+            details=service.inspect(pre)['prepared_comparison']
+            return {'status':'failed' if details['failed'] else 'ok','materials':{'prepared':pre},'usage':protocol_usage(details['usage'])}
+        def execute(public,materials,variant,config):
+            task=service.create_from_shared(materials['prepared'],mode='baseline' if variant=='baseline' else 'diagnose')
+            service.run(task); return service.comparison_result(task)
+        result=runner.results(runner.run('t19-selftest',prepare,execute,actor='T19 dedicated protocol selftest'))
+    assert result['complete'] and len(result['records'])==6
+    assert all(r['score']['complete_pass'] for r in result['records'])
+    for row in result['summary']['rounds']:
+        assert row['complete_passes']==1 and row['known_model_calls']==(2 if row['variant']=='baseline' else 3)
+        assert row['total_cost'] is None and row['unknown_cost_records']==1
+
+
+@pytest.mark.parametrize('invalid',['shape','unknown_usage'])
+def test_report_fallback_is_exported_as_downgraded_not_complete_success(tmp_path,image,baseline_snapshot,invalid):
+    from metricguard.evaluation_scoring import score
+    calls=[]; ordinary=provider_with_plan([COUNT],calls)
+    def provider(request):
+        result=ordinary(request)
+        if len(calls)==2:
+            return response({'facts':[],'queries':[COUNT]}) if invalid=='shape' else response({'facts':[]},usage=False)
+        return result
+    with TaskService(tmp_path,image,{'dev':baseline_snapshot.database},token='controlled',transport=httpx.MockTransport(provider)) as service:
+        pre=service.prepare_shared('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'))
+        task=service.create_from_shared(pre,mode='baseline'); result=service.run(task)
+        artifact=service.comparison_result(task)
+    assert result['report']['facts'] and result['report']['deterministic']
+    assert artifact['report']['blocked'] and artifact['report']['blocked'][0]['action']=='downgraded'
+    required=[{'context':a['context'],'value':a['value'],'abs_tol':0,'rel_tol':0} for a in artifact['report']['assertions']]
+    case={'id':'fallback-counterexample','category':'simple','required':required,
+          'explanation':artifact['report']['explanation'],'localization':{},'forbidden':['certain_cause'],
+          'behaviors':[],'requires_review':False}
+    assert not score(case,artifact)['complete_pass']

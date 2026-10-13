@@ -97,6 +97,9 @@ def comparison_result(service: 'TaskService', task: str) -> dict[str, Any]:
             'row':fact['row'],'column':fact['column']},'context':fact['context'],'value':fact['value'],'scope':'cell'})
     for rejected in report.get('rejected_facts',[]):
         assertions.append({'assertion_id':'rejected:'+str(rejected['index']),'rejection':rejected})
+    stopped=[json.loads(e['detail']) for e in data['trace'] if e['event']=='execution_stopped']
+    blocked=[{'kind':'conclusion','original':{'draft':data.get('baseline_report_draft'),
+              'execution':event},'reason':event['reason'],'action':'downgraded'} for event in stopped]
     return {'task_id':task,'variant':'baseline' if data['mode']=='baseline' else 'agent',
         'shared_materials_hash':preflight['materials_hash'],
         'preflight':{**protocol_usage(preflight['usage']),'status':'failed' if preflight['failed'] else 'ok'},
@@ -104,8 +107,9 @@ def comparison_result(service: 'TaskService', task: str) -> dict[str, Any]:
         'end_to_end':measured_usage(data['attempts'],data['active']),
         'evidence':data['evidence'],'report':{'assertions':assertions,'inferences':[],
             'explanation':report.get('analysis_result','insufficient_evidence'),'localization':{},
-            'conclusions':[],'behaviors':[],'blocked':[]},
+            'conclusions':[],'behaviors':[],'blocked':blocked},
         'published_report':report,'query_results':data.get('baseline_results',[]),
-        'safety_passed':bool(data['evidence']) and not report.get('rejected_facts') and
+        'raw_report_draft':data.get('baseline_report_draft'),'execution_failures':stopped,
+        'safety_passed':bool(data['evidence']) and not stopped and not report.get('rejected_facts') and
             all(r.get('status')=='ok' and r.get('cleanup_verified') is True for r in data.get('baseline_results',[])),
         'semantic_status':'requires_independent_human_review'}

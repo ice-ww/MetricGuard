@@ -79,9 +79,11 @@ def run(output: Path,image: str,real: bool):
             results[name]={'state':state,'artifact':artifact,'independent_reference_match':matches}
         preflight=service.inspect(pre)
     report={'environment':{'python':platform.python_version(),'platform':platform.platform(),'image':image,
-             'uv_lock_sha256':file_hash(Path('uv.lock')),'code_ref':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()},
+             'uv_lock_sha256':file_hash(Path('uv.lock')),'code_ref':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+             'source_sha256':{str(p).replace('\\','/'):file_hash(p) for p in sorted(Path('metricguard').glob('*.py'))}},
         'model':{'provider':'real' if real else 'controlled','model':'deepseek-flash','endpoint':'https://api.deepseek.com/anthropic',
-                 'temperature':0,'sdk_retries':0},'development_seed':190019,'snapshot_hash':file_hash(snapshot.database),
+                 'temperature':0,'sdk_retries':0,'plan_max_output':2048,'report_max_output':1024},
+        'limits':preflight['limits'],'development_seed':190019,'snapshot_hash':file_hash(snapshot.database),
         'independent_sql_and_python_agree':True,'reference':reference,'preflight':preflight,'results':results,
         'formal_frozen_accesses':0,'semantic_acceptance':'not_claimed; independent human assessment required for diagnosis'}
     (output/'result.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
