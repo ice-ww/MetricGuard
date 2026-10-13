@@ -96,7 +96,8 @@ class EvaluationRunner:
                 CREATE TABLE IF NOT EXISTS events(id INTEGER PRIMARY KEY,payload TEXT,previous TEXT,hash TEXT);
                 CREATE TABLE IF NOT EXISTS runs(id TEXT PRIMARY KEY,version TEXT,payload TEXT);
                 CREATE TABLE IF NOT EXISTS results(run TEXT,ordinal INTEGER,payload TEXT,PRIMARY KEY(run,ordinal));
-                CREATE TABLE IF NOT EXISTS reviews(id INTEGER PRIMARY KEY,run TEXT,ordinal INTEGER,payload TEXT);''')
+                CREATE TABLE IF NOT EXISTS reviews(id INTEGER PRIMARY KEY,run TEXT,ordinal INTEGER,payload TEXT);
+                CREATE TABLE IF NOT EXISTS safety_receipts(id INTEGER PRIMARY KEY,run TEXT,payload TEXT);''')
 
     @contextmanager
     def _db(self):
@@ -136,6 +137,12 @@ class EvaluationRunner:
             raise ValueError('complete locked configuration required')
         if file_hash(self.repository/'uv.lock')!=config['dependency_hash']:
             raise ValueError('dependency drift')
+        if config['model'].get('host_runtime'):
+            import platform
+            import importlib.metadata
+            actual={'python':platform.python_version(),'platform':platform.platform(),
+                    'anthropic':importlib.metadata.version('anthropic')}
+            if actual!=config['model']['host_runtime']: raise ValueError('host runtime drift')
         for group in ('code_hashes','prompt_hashes','rule_hashes','reference_hashes'):
             if not config[group]: raise ValueError('empty configuration references')
             for name,expected in config[group].items():
@@ -174,6 +181,14 @@ class EvaluationRunner:
         if digest(bundle)!=row[1]: raise ValueError('bundle changed')
         return bundle
 
+    def reconfigure(self, source: str, version: str, configuration: dict, *, actor: str) -> dict:
+        """Lock new execution configuration without changing any task or expected answer."""
+        previous=self.access(source,actor=actor,purpose='generation_audit')
+        result=self.freeze(version,previous['family'],deepcopy(previous['cases']),configuration,purpose=previous['purpose'])
+        self._event('configuration_revision',{'source':source,'version':version,
+            'unchanged_cases_hash':digest(previous['cases']),'actor':actor})
+        return result
+
     def status(self,version: str) -> dict:
         bundle=self._bundle(version)
         identities=['family:'+bundle['family']]+['snapshot:'+c['public']['snapshot_id'] for c in bundle['cases']]
@@ -205,6 +220,7 @@ class EvaluationRunner:
         ordinal=0
         for round_no in (1,2,3):
             for case in bundle['cases']:
+                self.verify_configuration(bundle['configuration'])
                 public=deepcopy(case['public'])
                 preflight_started=time.monotonic()
                 raw_prepared=None
@@ -244,6 +260,7 @@ class EvaluationRunner:
                         db.execute('INSERT INTO results VALUES(?,?,?)',(run_id,ordinal,json.dumps(record,ensure_ascii=False,allow_nan=False)))
                     self._event('case_completed',{'run_id':run_id,'ordinal':ordinal,'case_id':case['id'],'round':round_no,'variant':variant})
                     ordinal+=1
+        self.verify_configuration(bundle['configuration'])
         self._event('run_completed',{'run_id':run_id,'records':ordinal})
         return run_id
 
@@ -265,6 +282,7 @@ class EvaluationRunner:
             run=db.execute('SELECT version,payload FROM runs WHERE id=?',(run_id,)).fetchone()
             rows=db.execute('SELECT ordinal,payload FROM results WHERE run=? ORDER BY ordinal',(run_id,)).fetchall()
             reviews=db.execute('SELECT ordinal,payload FROM reviews WHERE run=? ORDER BY id',(run_id,)).fetchall()
+            safety=db.execute('SELECT payload FROM safety_receipts WHERE run=? ORDER BY id DESC LIMIT 1',(run_id,)).fetchone()
         if run is None: raise ValueError('unknown run')
         bundle=self._bundle(run[0]); cases={c['id']:c for c in bundle['cases']}; latest={i:json.loads(p) for i,p in reviews}
         records=[]
@@ -273,6 +291,36 @@ class EvaluationRunner:
             if ordinal in latest: record['score']=score(cases[record['case_id']],record['artifact'],latest[ordinal])
             records.append(record)
         self._event('results_read',{'run_id':run_id})
+        summary=summarize(records,bundle['purpose']=='formal')
+        safety_status={'status':'not_run'}
+        if safety:
+            try:
+                from metricguard.acceptance import validate_safety
+                self.verify_configuration(bundle['configuration'])
+                safety_status=validate_safety(json.loads(safety[0]),bundle['configuration'],self.repository)
+            except (ValueError,KeyError,OSError) as error:
+                safety_status={'status':'invalid','reason':str(error)}
+        for row in summary['rounds']:
+            row['safety_suite_status']=safety_status['status']
+            row['formal_acceptance_passed']=(row['case_gate_passed'] and safety_status['status']=='passed'
+                and self.status(run[0])['purpose']=='formal')
+        agent_rounds=[r for r in summary['rounds'] if r['variant']=='agent']
+        summary['formal_acceptance_passed']=(len(records)==144 and len(agent_rounds)==3
+            and all(r['formal_acceptance_passed'] for r in agent_rounds) and self.status(run[0])['purpose']=='formal')
+        summary['formal_acceptance']='same-version three agent rounds plus bound independent safety; baseline outcomes retained'
         return {'run_id':run_id,'version':run[0],'provenance':json.loads(run[1]),'status':self.status(run[0]),
             'records':records,'reviews':[json.loads(p) for _,p in reviews],
-            'summary':summarize(records,bundle['purpose']=='formal'),'complete':len(records)==len(cases)*6}
+            'safety':safety_status,'summary':summary,'complete':len(records)==len(cases)*6}
+
+    def bind_safety(self, run_id: str, receipt: dict) -> dict:
+        from metricguard.acceptance import validate_safety
+        with self._db() as db:
+            row=db.execute('SELECT payload FROM runs WHERE id=?',(run_id,)).fetchone()
+        if row is None: raise ValueError('unknown run')
+        configuration=json.loads(row[0])['configuration']
+        self.verify_configuration(configuration)
+        assessed=validate_safety(receipt,configuration,self.repository)
+        with self._db() as db:
+            db.execute('INSERT INTO safety_receipts(run,payload) VALUES(?,?)',(run_id,json.dumps(receipt)))
+        self._event('safety_bound',{'run_id':run_id,**assessed})
+        return assessed

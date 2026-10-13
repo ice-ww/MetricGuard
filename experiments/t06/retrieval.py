@@ -53,6 +53,23 @@ def retrieve(query: str, window: tuple[str, str] | None = None,
     reason = "matched"
     status = "adopt"
     normalized = normalize(query)
+    if chosen is None:
+        named=[d for d in CORPUS if any(normalize(name) in normalized for name in [d['name'],*d['aliases']])]
+        if len(named)==1:
+            chosen,method=named[0],'named'
+        elif len(named)>1:
+            status,reason='clarify','candidate_ambiguity'
+    # Component metrics have their own denominators and source completeness;
+    # do not silently reinterpret a requested count as its associated rate.
+    from experiments.t06.components import component_definition
+    component = component_definition(normalized)
+    if component is not None:
+        chosen, method = component, 'named_component'
+    elif all(term in normalized for term in ('新增', '留存', '渠道', '成本')) and not any(term in normalized for term in ('次日','第二天')):
+        chosen = next(d for d in CORPUS if d['id'] == 'retained_cost')
+        method = 'named_components'
+    elif '用户表现' in normalized and not any(term in normalized for term in ('留存', '完播', '有效播放', '成本', '崩溃')):
+        status, reason = 'clarify', 'metric_required'
     if "留存" in normalized and (any(term in normalized for term in ("小时", "七日", "月留存", "老用户", "活跃用户")) or re.search(r"\d+日", normalized)):
         status, reason = "unsupported", "unsupported_population_or_horizon"
     elif "留存" in normalized and not any(term in normalized for term in ("新增", "新用户", "注册", "成本", "获客")):

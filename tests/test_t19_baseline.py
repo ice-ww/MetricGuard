@@ -180,6 +180,12 @@ def test_active_time_budget_and_ambiguous_preflight_do_not_dispatch_models(tmp_p
         with TaskService(tmp_path/name,image,{'dev':baseline_snapshot.database},token='controlled',limits=limits,
                          transport=httpx.MockTransport(provider_with_plan([COUNT],calls))) as service:
             pre=service.prepare_shared(question,'dev',('2026-01-08','2026-01-15'))
+            if name=='ambiguous':
+                assert service.inspect(pre)['status']=='waiting'
+                with pytest.raises(ValueError,match='completed shared preflight'):
+                    service.create_from_shared(pre,mode='baseline')
+                assert not calls
+                continue
             task=service.create_from_shared(pre,mode='baseline'); service.run(task)
             assert service.comparison_result(task)['preflight']['status']=='failed' and not calls
 

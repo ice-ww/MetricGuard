@@ -17,7 +17,10 @@ def controlled(request):
 
 def run(tmp_path, image, snapshot):
     with TaskService(tmp_path / 'service', image, {'dev': snapshot.database}, token='controlled', transport=httpx.MockTransport(controlled)) as service:
-        return service.run(service.create('完播率', 'dev', ('2026-01-08', '2026-01-15'), mode='diagnose'))
+        task=service.create('完播率', 'dev', ('2026-01-08', '2026-01-15'), mode='diagnose')
+        state=service.run(task)
+        state['publication']=service.publish_diagnosis(task)
+        return state
 
 
 def test_independent_completion_supports_collection_candidate(tmp_path, image):
@@ -31,6 +34,7 @@ def test_independent_completion_supports_collection_candidate(tmp_path, image):
     assert candidate['causality'] == 'not_established'
     assert candidate['supporting_facts'] and candidate['counterevidence']
     assert diagnosis['statistical_limitations']
+    assert any(a['context']['metric']=='missing_complete' for a in result['publication']['assertions'])
 
 
 def test_invalid_progress_does_not_publish_independent_completion(tmp_path, image):
@@ -69,6 +73,8 @@ def test_quality_gates_do_not_confuse_missing_evidence_with_behavior(tmp_path, i
     assert not diagnosis['candidates']
     assert diagnosis['missing_evidence']
     assert all(m['missing_completion'] is None for m in diagnosis['playback_metrics'])
+    assert not any(a['context']['metric'] in ('missing_complete','independent_completion_rate')
+                   for a in result['publication']['assertions'])
 
 @pytest.mark.parametrize('source', ['playback_telemetry', 'content_events'])
 def test_reports_beyond_source_cutoff_are_not_missing_event_evidence(tmp_path, image, source):

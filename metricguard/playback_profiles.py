@@ -16,15 +16,16 @@ def event_base() -> str:
       FROM content_events GROUP BY play_id"""
 
 
-def grouping(window: list[str], began: str) -> tuple[str, str]:
+def grouping(window: list[str], began: str, previous_start: str | None = None) -> tuple[str, str]:
     previous, end = comparison_window(window)
+    previous = previous_start or previous
     day = f"CAST({began} AT TIME ZONE 'Asia/Shanghai' AS DATE)"
     return (f"CASE WHEN {day}<'{window[0]}' THEN 'previous' ELSE 'current' END",
             f"{day}>='{previous}' AND {day}<'{end}'")
 
 
-def playback_events(window: list[str]) -> str:
-    period, where = grouping(window, 'COALESCE(e.began,e.first_event)')
+def playback_events(window: list[str], *, previous_start: str | None = None) -> str:
+    period, where = grouping(window, 'COALESCE(e.began,e.first_event)', previous_start)
     return f"""WITH e AS ({event_base()})
       SELECT {period} AS period,s.os AS actual_os,s.version AS actual_version,
       MAX(e.last_event) AS last_event,
@@ -35,11 +36,11 @@ def playback_events(window: list[str]) -> str:
       GROUP BY period,s.os,s.version ORDER BY period,s.os,s.version"""
 
 
-def playback_progress(window: list[str]) -> str:
+def playback_progress(window: list[str], *, previous_start: str | None = None) -> str:
     base = """SELECT play_id,MIN(session_id) AS sid,COUNT(DISTINCT session_id) AS sessions,
       MIN(CASE WHEN event_type='start' THEN occurred_at END) AS began,
       MAX(CASE WHEN event_type='complete' THEN 1 ELSE 0 END) AS completed FROM content_events GROUP BY play_id"""
-    period, where = grouping(window, 'COALESCE(e.began,t.observed)')
+    period, where = grouping(window, 'COALESCE(e.began,t.observed)', previous_start)
     return f"""WITH e AS ({base}),
       t AS (SELECT play_id,MIN(session_id) AS sid,COUNT(DISTINCT session_id) AS sessions,
         MIN(observed_at) AS observed, MAX(observed_at) AS last_observed, MAX(watched_seconds) AS watched,

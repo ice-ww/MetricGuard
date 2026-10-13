@@ -53,6 +53,9 @@ TIMES = {'users': 'registered_at', 'sessions': 'started_at', 'content_events': '
          'playback_telemetry': 'observed_at', 'channel_daily': 'day', 'release_calendar': 'released_at',
          'source_watermarks': 'complete_before'}
 
+from metricguard.count_profiles import COUNT_PROMPT
+ACTION_PROMPT += '\n' + COUNT_PROMPT
+
 
 def validate_stop(action: dict[str, Any]) -> None:
     if set(action) != {'action', 'unsupported_hypotheses', 'unresolved_questions'}:
@@ -69,7 +72,7 @@ def refuse_action(action: dict[str, Any]) -> None:
     raise ActionDenied('model_declined_unsupported_capability: ' + action['reason'])
 
 
-def action_sql(action: dict[str, Any], schema: dict[str, Any], window: list[str]) -> str:
+def action_sql(action: dict[str, Any], schema: dict[str, Any], window: list[str], *, comparison_start: str | None = None) -> str:
     if action.get('action') == 'query':
         if set(action) != {'action', 'sql'} or not isinstance(action['sql'], str) or not action['sql'].strip():
             raise ActionDenied('invalid query action')
@@ -79,9 +82,10 @@ def action_sql(action: dict[str, Any], schema: dict[str, Any], window: list[str]
     table, column, kind = action['table'], action['column'], action['kind']
     if not all(isinstance(v, str) for v in (table, column, kind)) or table not in schema or column not in schema[table]:
         raise ActionDenied('invalid profile identifiers')
-    from metricguard.metric_profiles import BUSINESS_PROFILES
+    from metricguard.metric_profiles import BUSINESS_PROFILES, COMPARISON_PROFILES
     if (table, column, kind) in BUSINESS_PROFILES:
-        return BUSINESS_PROFILES[(table, column, kind)](window)
+        builder = BUSINESS_PROFILES[(table, column, kind)]
+        return builder(window, previous_start=comparison_start) if kind in COMPARISON_PROFILES else builder(window)
     timestamp = TIMES[table]
     day = f'"{timestamp}"' if schema[table][timestamp] == 'DATE' else f'CAST("{timestamp}" AT TIME ZONE \'Asia/Shanghai\' AS DATE)'
     where = f" WHERE {day} >= '{window[0]}' AND {day} < '{window[1]}'"

@@ -4,6 +4,8 @@ from datetime import datetime,timedelta,timezone
 import json
 from pathlib import Path
 import subprocess
+import platform
+import importlib.metadata
 from typing import Any
 import duckdb
 from experiments.t01.snapshots import build_snapshot,Snapshot
@@ -19,14 +21,17 @@ DEFINITIONS=json.loads((ROOT/'experiments/t06/corpus.json').read_text(encoding='
 
 def configuration(image: str) -> dict:
     groups={
-        'code_hashes':list((ROOT/'metricguard').glob('*.py'))+list((ROOT/'experiments').rglob('*.py')),
+        'code_hashes':[ROOT/'pyproject.toml']+list((ROOT/'metricguard').glob('*.py'))+list((ROOT/'experiments').rglob('*.py')),
         'prompt_hashes':[ROOT/'metricguard/diagnosis.py',ROOT/'metricguard/service.py',ROOT/'experiments/t06/corpus.json'],
         'rule_hashes':[ROOT/'metricguard/semantic_rubric.py',ROOT/'experiments/t04/statistics.py',ROOT/'experiments/t06/config.json',ROOT/'experiments/t02/policy.py'],
         'reference_hashes':list((ROOT/'experiments/t01').glob('*.sql'))+[ROOT/'experiments/t01/references.py']}
     return {'code_ref':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         **{key:{str(p.relative_to(ROOT)).replace('\\','/'):file_hash(p) for p in sorted(paths)} for key,paths in groups.items()},
         'dependency_hash':file_hash(ROOT/'uv.lock'),'model':{'name':'deepseek-flash','endpoint':'https://api.deepseek.com/anthropic',
-            'temperature':0,'max_output_tokens':4096,'usage':'actual_or_unknown'},
+            'temperature':0,'plan_max_output_tokens':2048,'report_max_output_tokens':1024,
+            'sdk_retries':0,'thinking':'disabled','usage':'actual_or_unknown',
+            'host_runtime':{'python':platform.python_version(),'platform':platform.platform(),
+                            'anthropic':importlib.metadata.version('anthropic')}},
         'rubric_hash':RUBRIC_HASH,'budgets':dict(DEFAULT_LIMITS),'image':image}
 
 

@@ -23,6 +23,10 @@ class State(TypedDict, total=False):
     clarification_answer: str
     answered_question: str
 
+
+class QueryNotDispatched(TimeoutError):
+    """Administrator fault hook proved that no query worker was dispatched."""
+
 class TaskService:
     """Configuration is administrator supplied; task input cannot alter capabilities."""
     def __init__(self, root: Path, image: str, snapshots: dict[str, Path], *, token: str,
@@ -129,6 +133,17 @@ class TaskService:
         self._event(task,'report_published',{'publication_id':result['publication_id'],'status':result['status'],'counts':result['counts']})
         return json.loads(payload)
 
+    def publish_diagnosis(self, task: str) -> dict[str, Any]:
+        """Publish executed evidence and bounded candidates without new model/tool calls."""
+        from metricguard.report_assembly import assemble
+        data=self.inspect(task)
+        if data['status'] not in ('ended','failed','interrupted'):
+            raise ValueError('terminal task required')
+        evidence,draft=assemble(data,task)
+        stored=self._data(task); stored['evidence']=evidence
+        self._save(task,stored)
+        return self.publish_report(task,draft)
+
     def publication(self, task: str, publication_id: str) -> dict[str, Any]:
         with self.ledger.connect() as db:
             row=db.execute('SELECT payload FROM report_publications WHERE task=? AND id=?',(task,publication_id)).fetchone()
@@ -190,6 +205,30 @@ class TaskService:
             raise ValueError('snapshot changed since task creation')
         return Sandbox(self.image, path, deadline_seconds=min(5.0, self._remaining(task)))
 
+    def _query_tool(self, task: str, name: str, data: dict[str, Any], sql: str, *, retry_predispatch: bool=False) -> dict:
+        known_not_dispatched=False
+        def dispatch():
+            nonlocal known_not_dispatched
+            known_not_dispatched=False
+            if self.fault_hook:
+                try:
+                    self.fault_hook('before_query_dispatch')
+                except QueryNotDispatched:
+                    known_not_dispatched=True
+                    raise
+            return self._sandbox(task,data).query(sql)
+        try:
+            return self._tool(task,name,dispatch)
+        except QueryNotDispatched:
+            if not retry_predispatch or not known_not_dispatched:
+                raise
+            self._event(task,'query_predispatch_retry',{'failed_attempt':task+':'+name,
+                'retry_attempt':task+':'+name+':predispatch_retry','reason':'worker_not_dispatched'})
+            result=self._tool(task,name+':predispatch_retry',dispatch)
+            if result['status']=='ok' and result.get('cleanup_verified') is True:
+                self._event(task,'query_predispatch_recovered',{'query_dispatched_once':True})
+            return result
+
     def _prepare(self, state: State) -> dict[str, Any]:
         from experiments.t02.profiles import BUSINESS_SCHEMA
         task = state['task']
@@ -223,7 +262,8 @@ class TaskService:
         metric = data['definition']['id']
         needed = {'retention': ['users', 'sessions'], 'retained_cost': ['users', 'sessions', 'channel_daily'],
             'new_cost': ['users', 'channel_daily'], 'crash': ['users', 'sessions'],
-            'completion': ['sessions', 'content_events'], 'effective': ['sessions', 'content_events', 'playback_telemetry']}[metric]
+            'completion': ['sessions', 'content_events'], 'effective': ['sessions', 'content_events', 'playback_telemetry'],
+            'new_users': ['users'], 'play_starts': ['sessions', 'content_events'], 'spend': ['channel_daily']}[metric]
         cutoff = min(dates[name] - timedelta(days=1 if name == 'sessions' and metric in ('retention', 'retained_cost') else 0) for name in needed)
         requested = data['requested_window']
         end = min(date.fromisoformat(requested[1]), cutoff) if requested else cutoff
@@ -258,6 +298,8 @@ class TaskService:
 
     def _query(self, state: State) -> dict[str, Any]:
         task = state['task']; data = self._data(task)
+        if data.get('preflight_only'):
+            return {}
         if data['outcome']:
             return {}
         if data['mode'] == 'baseline':
@@ -376,7 +418,7 @@ class TaskService:
             if failure:
                 data['repairs_used'] += 1
                 self._save(task, data)
-            result = self._tool(task, 'diagnostic_sql:' + str(step), lambda: self._sandbox(task, data).query(sql))
+            result = self._query_tool(task, 'diagnostic_sql:' + str(step), data, sql, retry_predispatch=True)
             data['query_result'] = result
             data['sql'] = sql
             self._save(task, data)
@@ -412,10 +454,16 @@ class TaskService:
 
     def _action_sql(self, data: dict[str, Any], action: dict[str, Any]) -> str:
         from metricguard.diagnosis import action_sql
-        sql = action_sql(action, data['schema'], data['actual_window'])
-        if action.get('kind') in ('cohort_health', 'channel_health', 'system_retention') and data['definition']['id'] not in ('retention', 'retained_cost'):
+        from metricguard.metric_profiles import comparison_window
+        comparison_start = comparison_window(data.get('requested_window') or data['actual_window'])[0]
+        sql = action_sql(action, data['schema'], data['actual_window'], comparison_start=comparison_start)
+        if action.get('kind') in ('cohort_health', 'channel_health', 'system_retention','retained_user_counts') and data['definition']['id'] not in ('retention', 'retained_cost'):
             raise ValueError('business profile requires mature retention definition')
-        if action.get('kind') == 'channel_health':
+        if action.get('kind')=='crash_user_counts' and data['definition']['id']!='crash':
+            raise ValueError('crash count requires crash definition and complete sources')
+        if action.get('kind')=='play_start_counts' and data['definition']['id'] not in ('play_starts','completion','effective'):
+            raise ValueError('play count requires playback definition and complete sources')
+        if action.get('kind') in ('channel_health','channel_spend'):
             cutoffs = {r[0]: datetime.fromisoformat(r[1]).astimezone(timezone(timedelta(hours=8))).date()
                        for r in data['watermarks']['rows']}
             if cutoffs.get('channel_daily', date.min) < date.fromisoformat(data['actual_window'][1]):
@@ -430,9 +478,9 @@ class TaskService:
         profile = action['action'] == 'profile'
         from metricguard.metric_profiles import is_business_profile
         evidence_window = data['actual_window']
-        if action.get('kind') in ('cohort_health', 'crash_versions', 'channel_health', 'system_retention', 'playback_events', 'playback_progress'):
+        if action.get('kind') in ('cohort_health', 'crash_versions', 'channel_health', 'system_retention', 'playback_events', 'playback_progress','play_start_counts'):
             from metricguard.metric_profiles import comparison_window
-            evidence_window = comparison_window(data['actual_window'])
+            evidence_window = [comparison_window(data.get('requested_window') or data['actual_window'])[0], data['actual_window'][1]]
         limitations = ['business_definition_requires_independent_reference']
         if action.get('kind') in ('playback_events', 'playback_progress'):
             limitations += ['start_play_instances_not_users', 'independent_progress_requires_alignment_and_complete_sources', 'playback_rates_are_descriptive_only', 'independent_complete_without_event_is_raw_gap_not_verified_missing' ]
@@ -453,7 +501,8 @@ class TaskService:
                 (row['window_start'], row['window_end']) if action.get('kind') in ('cohort_health', 'crash_versions', 'channel_health', 'system_retention') else ((evidence_window[0], data['actual_window'][0]) if row['period']=='previous' else tuple(data['actual_window'])) if action.get('kind') in ('playback_events', 'playback_progress') else tuple(evidence_window),
                 {key: str(v) for key, v in row.items() if v is not None and type(v) not in (int, float)}, None))
                 for i, row in enumerate(rows) for k, value in row.items() if type(value) in (int, float)}}
-        return evidence
+        from metricguard.report_assembly import canonicalize
+        return canonicalize(evidence,data['actual_window'])
 
     def _validated(self, data: dict[str, Any], facts: list[Any]) -> dict[str, Any]:
         store = EvidenceStore(); assertions = []
@@ -507,9 +556,14 @@ class TaskService:
             report['inference_status'] = 'bounded_descriptive_rule_requires_human_review'
         if data['outcome'] is None:
             data['outcome'] = 'facts_available' if report['validation']['passed'] else 'insufficient_evidence'
+        if 'requested_window_shortened_to_complete_sources' in data['limitations']:
+            data['outcome'] = 'insufficient_evidence'
         report['outcome'] = data['outcome']
         from metricguard.conclusion import conclude
-        conclusion = conclude(report, data['outcome'], data['mode'])
+        assessment_requested = any(word in data['question'] for word in ('异常', '诊断', '变化', '资料是否充分', '完整请求窗口'))
+        counts_only=not assessment_requested and bool(data['evidence']) and all(e['parameters'].get('kind') in
+            ('new_user_counts','retained_user_counts','crash_user_counts','play_start_counts','channel_spend') for e in data['evidence'])
+        conclusion = conclude(report, data['outcome'], 'query' if counts_only else data['mode'])
         report.update(conclusion)
         data['analysis_result'] = conclusion['analysis_result']
         data['report'] = report
@@ -521,6 +575,8 @@ class TaskService:
         if self.fault_hook:
             self.fault_hook('after_checkpoint')
         task = state['task']; data = self._data(task)
+        if data.get('preflight_only'):
+            return {}
         if data['mode'] == 'baseline' and not data.get('shared_preflight', {}).get('failed'):
             from metricguard.baseline import report_baseline
             return report_baseline(self, task)
@@ -638,6 +694,9 @@ class TaskService:
             self.ledger.accrue_activity(task, stop=True)
             with self.ledger.connect() as db:
                 db.execute("UPDATE tasks SET status=?,question=CASE WHEN ?='waiting' THEN question ELSE NULL END WHERE id=?", (status, status, task))
+        if self._data(task).get('preflight_only'):
+            from metricguard.comparison import complete_preflight
+            complete_preflight(self, task)
         return self.inspect(task)
 
 

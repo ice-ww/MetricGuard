@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 SHARED_FIELDS=('question','effective_question','snapshot_id','snapshot_hash','requested_window','actual_window',
-               'definition','schema','watermarks','retrieval','limitations','outcome','pending_question')
+               'definition','schema','watermarks','retrieval','limitations','outcome','pending_question','answers')
 
 
 def measured_usage(attempts: list[dict], seconds: float) -> dict[str, Any]:
@@ -34,36 +34,27 @@ def protocol_usage(usage: dict) -> dict:
 
 def prepare_shared(service: 'TaskService', question: str, snapshot_id: str, window) -> str:
     task=service.create(question,snapshot_id,window)
-    with service.ledger.connect() as db:
-        db.execute("UPDATE tasks SET status='running' WHERE id=?",(task,))
-    service.ledger.start_activity(task)
-    failed=False
-    try:
-        service._prepare({'task':task})
-        data=service._data(task)
-        failed=bool(data['outcome'] or data['pending_question'] or not data['actual_window'])
-    except Exception as error:
-        failed=True; data=service._data(task)
-        data['outcome']='insufficient_evidence'
-        data['limitations'].append('preflight:'+type(error).__name__)
-        service._save(task,data)
-    finally:
-        service.ledger.accrue_activity(task,stop=True)
-        with service.ledger.connect() as db:
-            db.execute("UPDATE tasks SET status='ended' WHERE id=?",(task,))
+    data=service._data(task); data['preflight_only']=True
+    service._save(task,data)
+    service.run(task)
+    return task
+
+
+def complete_preflight(service: 'TaskService', task: str) -> None:
     data=service._data(task); ledger=service.ledger.inspect(task)
+    if ledger['status']=='waiting': return
+    failed=bool(data['outcome'] or data['pending_question'] or not data['actual_window'] or ledger['status']!='ended')
     materials={k:deepcopy(data.get(k)) for k in SHARED_FIELDS}
     data['prepared_comparison']={'failed':failed,'materials_hash':digest(materials),
         'usage':measured_usage(ledger['attempts'],ledger['active'])}
     service._save(task,data)
     service._event(task,'shared_preflight_completed',data['prepared_comparison'])
-    return task
 
 
 def create_from_shared(service: 'TaskService', prepared: str, mode: str) -> str:
     if mode not in ('diagnose','baseline'): raise ValueError('comparison mode required')
     source=service.inspect(prepared)
-    if source['status']!='ended' or 'prepared_comparison' not in source:
+    if source['status'] not in ('ended','failed') or 'prepared_comparison' not in source:
         raise ValueError('completed shared preflight required')
     task=service.create(source['question'],source['snapshot_id'],
                         tuple(source['requested_window']) if source['requested_window'] else None,mode=mode)
@@ -89,26 +80,44 @@ def comparison_result(service: 'TaskService', task: str) -> dict[str, Any]:
     data=service.inspect(task)
     if data['status'] not in ('ended','failed','interrupted') or 'shared_preflight' not in data:
         raise ValueError('terminal comparison task required')
+    publication=service.publish_diagnosis(task)
+    data=service.inspect(task)
     preflight=data['shared_preflight']; attempts=[a for a in data['attempts'] if not a['operation'].startswith('shared:')]
     analysis=measured_usage(attempts,max(0,data['active']-preflight['usage']['seconds']))
-    report=data.get('report') or {}; assertions=[]
-    for i,fact in enumerate(report.get('facts',[])):
-        assertions.append({'assertion_id':str(i),'reference':{'evidence_id':fact['evidence_id'],
-            'row':fact['row'],'column':fact['column']},'context':fact['context'],'value':fact['value'],'scope':'cell'})
+    report=data.get('report') or {}; assertions=deepcopy(publication['assertions'])
     for rejected in report.get('rejected_facts',[]):
         assertions.append({'assertion_id':'rejected:'+str(rejected['index']),'rejection':rejected})
     stopped=[json.loads(e['detail']) for e in data['trace'] if e['event']=='execution_stopped']
     blocked=[{'kind':'conclusion','original':{'draft':data.get('baseline_report_draft'),
               'execution':event},'reason':event['reason'],'action':'downgraded'} for event in stopped]
+    blocked.extend(deepcopy(publication['rejections']))
+    from metricguard.report_assembly import assessment
+    explanation,localization=assessment(report)
+    observations=[]
+    for source in data['evidence']:
+        for i,row in enumerate(source['rows']):
+            for column,value in row.items():
+                from experiments.t08.contract import Reference
+                context=source['contexts'].get(Reference(source['evidence_id'],i,column).pointer)
+                if context and context['metric'] in ('release_date','source_complete_before') and isinstance(value,str):
+                    observations.append({'reference':{'evidence_id':source['evidence_id'],'row':i,'column':column},
+                        'context':context,'value':value})
+    behaviors=[]
+    if data['answers']: behaviors.append('clarified_before_analysis')
+    if any(e['event']=='query_predispatch_recovered' for e in data['trace']):
+        behaviors.append('recovered_without_duplicate_dispatch')
+    coverage_reasons={'requested_window_shortened_to_complete_sources','no_complete_requested_window','channel_daily_incomplete_for_channel_health'}
+    if coverage_reasons.intersection(data['limitations']) and coverage_reasons.intersection(report.get('limitations',[])):
+        behaviors.append('incomplete_coverage_disclosed')
     return {'task_id':task,'variant':'baseline' if data['mode']=='baseline' else 'agent',
         'shared_materials_hash':preflight['materials_hash'],
         'preflight':{**protocol_usage(preflight['usage']),'status':'failed' if preflight['failed'] else 'ok'},
         'usage':protocol_usage(analysis),'usage_detail':analysis,
         'end_to_end':measured_usage(data['attempts'],data['active']),
-        'evidence':data['evidence'],'report':{'assertions':assertions,'inferences':[],
-            'explanation':report.get('analysis_result','insufficient_evidence'),'localization':{},
-            'conclusions':[],'behaviors':[],'blocked':blocked},
-        'published_report':report,'query_results':data.get('baseline_results',[]),
+        'evidence':data['evidence'],'report':{'assertions':assertions,'inferences':publication['inferences'],'observations':observations,
+            'explanation':explanation,'localization':localization,
+            'conclusions':[],'behaviors':behaviors,'blocked':blocked},
+        'publication':publication,'published_report':report,'query_results':data.get('baseline_results',[]),
         'raw_report_draft':data.get('baseline_report_draft'),'execution_failures':stopped,
         'safety_passed':bool(data['evidence']) and not stopped and not report.get('rejected_facts') and
             all(r.get('status')=='ok' and r.get('cleanup_verified') is True for r in data.get('baseline_results',[])),

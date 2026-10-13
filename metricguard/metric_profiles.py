@@ -1,5 +1,6 @@
 """Reviewed business profiles. Still executed through the ordinary SQL sandbox."""
 from datetime import date
+from collections.abc import Callable
 
 
 def comparison_window(window: list[str]) -> list[str]:
@@ -7,8 +8,9 @@ def comparison_window(window: list[str]) -> list[str]:
     return [(start - (end - start)).isoformat(), window[1]]
 
 
-def cohort_health(window: list[str]) -> str:
+def cohort_health(window: list[str], *, previous_start: str | None = None) -> str:
     previous, end = comparison_window(window)
+    previous = previous_start or previous
     start = window[0]
     return f"""WITH cohort AS (
         SELECT u.user_id, u.registration_os, u.registration_version,
@@ -29,8 +31,9 @@ def cohort_health(window: list[str]) -> str:
         ORDER BY period, registration_os, registration_version"""
 
 
-def crash_versions(window: list[str]) -> str:
+def crash_versions(window: list[str], *, previous_start: str | None = None) -> str:
     previous, end = comparison_window(window)
+    previous = previous_start or previous
     start = window[0]
     return f"""SELECT CASE WHEN CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)<'{start}'
         THEN 'previous' ELSE 'current' END AS period, u.registration_os, u.registration_version,
@@ -51,8 +54,9 @@ def releases(window: list[str]) -> str:
         ORDER BY os, version, release_date"""
 
 
-def channel_health(window: list[str]) -> str:
+def channel_health(window: list[str], *, previous_start: str | None = None) -> str:
     previous, end = comparison_window(window)
+    previous = previous_start or previous
     start = window[0]
     return f"""WITH cohort AS (
         SELECT u.channel,
@@ -75,8 +79,9 @@ def channel_health(window: list[str]) -> str:
         FROM base ORDER BY period,channel"""
 
 
-def system_retention(window: list[str]) -> str:
+def system_retention(window: list[str], *, previous_start: str | None = None) -> str:
     previous, end = comparison_window(window)
+    previous = previous_start or previous
     start = window[0]
     return f"""WITH cohort AS (
         SELECT u.registration_os,
@@ -93,8 +98,17 @@ def system_retention(window: list[str]) -> str:
 
 
 from metricguard.playback_profiles import playback_events, playback_progress
+from metricguard.count_profiles import new_user_counts, retained_user_counts, crash_user_counts, channel_spend
 
-BUSINESS_PROFILES = {('content_events', 'play_id', 'playback_events'): playback_events,
+COMPARISON_PROFILES = frozenset(('cohort_health', 'crash_versions', 'channel_health', 'system_retention',
+    'playback_events', 'playback_progress', 'play_start_counts'))
+
+BUSINESS_PROFILES: dict[tuple[str, str, str], Callable[..., str]] = {('content_events', 'play_id', 'playback_events'): playback_events,
+                     ('users','user_id','new_user_counts'):new_user_counts,
+                     ('users','user_id','retained_user_counts'):retained_user_counts,
+                     ('users','user_id','crash_user_counts'):crash_user_counts,
+                     ('content_events','play_id','play_start_counts'):playback_events,
+                     ('channel_daily','spend_cents','channel_spend'):channel_spend,
                      ('users', 'registration_os', 'system_retention'): system_retention,
                      ('playback_telemetry', 'play_id', 'playback_progress'): playback_progress,
                      ('users', 'channel', 'channel_health'): channel_health,
