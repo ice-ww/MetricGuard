@@ -52,7 +52,7 @@ class TaskService:
         self.close()
 
     def create(self, question: str, snapshot_id: str, window: tuple[str, str] | None = None, *, mode: str = 'query') -> str:
-        if mode not in ('query', 'diagnose'):
+        if mode not in ('query', 'diagnose', 'baseline'):
             raise ValueError('invalid task mode')
         if not isinstance(question, str) or not question.strip() or len(question) > 2000:
             raise ValueError('invalid question')
@@ -70,6 +70,18 @@ class TaskService:
                          'mode': mode, 'diagnostic_history': [], 'repairs_used': 0, 'unsupported_hypotheses': [], 'unresolved_questions': [],
                          'effective_question': question, 'pending_question': None, 'answers': []})
         return task
+
+    def prepare_shared(self, question: str, snapshot_id: str, window: tuple[str, str] | None = None) -> str:
+        from metricguard.comparison import prepare_shared
+        return prepare_shared(self, question, snapshot_id, window)
+
+    def create_from_shared(self, prepared: str, *, mode: str) -> str:
+        from metricguard.comparison import create_from_shared
+        return create_from_shared(self, prepared, mode)
+
+    def comparison_result(self, task: str) -> dict[str, Any]:
+        from metricguard.comparison import comparison_result
+        return comparison_result(self, task)
 
     def _save(self, task: str, data: dict[str, Any]) -> None:
         with self.ledger.connect() as db:
@@ -182,6 +194,8 @@ class TaskService:
         from experiments.t02.profiles import BUSINESS_SCHEMA
         task = state['task']
         data = self._data(task)
+        if data.get('shared_preflight'):
+            return {}
         # Retrieval precedes execution; absent windows are handled by snapshot watermarks below.
         tentative = tuple(data['requested_window']) if data['requested_window'] else ('2000-01-01', '2000-01-02')
         round_index = len(data['answers'])
@@ -246,6 +260,9 @@ class TaskService:
         task = state['task']; data = self._data(task)
         if data['outcome']:
             return {}
+        if data['mode'] == 'baseline':
+            from metricguard.baseline import execute_baseline
+            return execute_baseline(self, task)
         if data['mode'] == 'diagnose':
             return self._diagnose(task)
         plan = self._model(task, 'sql_plan',
@@ -346,14 +363,7 @@ class TaskService:
                 return {}
             if failure and action.get('action') != 'query':
                 raise ValueError('repair requires query or stop')
-            sql = action_sql(action, data['schema'], data['actual_window'])
-            if action.get('kind') in ('cohort_health', 'channel_health', 'system_retention') and data['definition']['id'] not in ('retention', 'retained_cost'):
-                raise ValueError('business profile requires mature retention definition')
-            if action.get('kind') == 'channel_health':
-                cutoffs = {r[0]: datetime.fromisoformat(r[1]).astimezone(timezone(timedelta(hours=8))).date()
-                           for r in data['watermarks']['rows']}
-                if cutoffs.get('channel_daily', date.min) < date.fromisoformat(data['actual_window'][1]):
-                    raise ValueError('channel_daily_incomplete_for_channel_health')
+            sql = self._action_sql(data, action)
             # Conservative equality avoids rewriting SQL literals or claiming semantic equivalence.
             if any(evidence['source'].strip() == sql.strip() for evidence in data['evidence']):
                 data['outcome'] = 'insufficient_evidence'
@@ -386,35 +396,7 @@ class TaskService:
                 self._save(task, data)
                 return {}
             failure = None
-            columns = result['columns']
-            rows = [dict(zip([c['name'] for c in columns], row, strict=True)) for row in result['rows']]
-            eid = task + ':evidence:' + str(step)
-            profile = action['action'] == 'profile'
-            from metricguard.metric_profiles import is_business_profile
-            evidence_window = data['actual_window']
-            if action.get('kind') in ('cohort_health', 'crash_versions', 'channel_health', 'system_retention', 'playback_events', 'playback_progress'):
-                from metricguard.metric_profiles import comparison_window
-                evidence_window = comparison_window(data['actual_window'])
-            limitations = ['business_definition_requires_independent_reference']
-            if action.get('kind') in ('playback_events', 'playback_progress'):
-                limitations += ['start_play_instances_not_users', 'independent_progress_requires_alignment_and_complete_sources', 'playback_rates_are_descriptive_only', 'independent_complete_without_event_is_raw_gap_not_verified_missing' ]
-            elif action.get('kind') == 'channel_health':
-                limitations += ['current_and_previous_cohorts_exact_windows', 'costs_use_registration_window', 'missing_spend_or_zero_denominator_is_unavailable']
-            elif profile and is_business_profile(action):
-                limitations += (['release_history_before_current_end_includes_older_dates'] if action['kind'] == 'releases'
-                                else ['current_and_previous_cohorts_exact_windows', 'registration_attribution_separate_from_actual_crash_attribution'])
-            elif profile:
-                limitations += ['profile_within_window_timestamped_rows_only', 'observed_time_coverage_does_not_prove_completeness']
-            evidence = {'evidence_id': eid, 'tool': action['action'], 'parameters': {**action, 'sql': sql},
-                'source': sql, 'snapshot_id': data['snapshot_hash'], 'columns': {c['name']: canonical_type(c['type']) for c in columns},
-                'actual_db_types': {c['name']: c['type'] for c in columns}, 'rows': rows, 'window': evidence_window,
-                'truncated': result['truncated'], 'group': {}, 'sample': {'returned_rows': len(rows)},
-                'limitations': limitations, 'business_definition_status': 'requires_independent_reference',
-                'contexts': {Reference(eid, i, k).pointer: asdict(FactContext(
-                    ('profile:' + action['table'] + ':' + action['kind']) if profile else 'query_result:' + data['definition']['id'],
-                    (row['window_start'], row['window_end']) if action.get('kind') in ('cohort_health', 'crash_versions', 'channel_health', 'system_retention') else ((evidence_window[0], data['actual_window'][0]) if row['period']=='previous' else tuple(data['actual_window'])) if action.get('kind') in ('playback_events', 'playback_progress') else tuple(evidence_window),
-                    {key: str(v) for key, v in row.items() if v is not None and type(v) not in (int, float)}, None))
-                    for i, row in enumerate(rows) for k, value in row.items() if type(value) in (int, float)}}
+            evidence = self._action_evidence(task, data, action, sql, result, step)
             data['evidence'].append(evidence)
             try:
                 self._validated(data, [])
@@ -422,11 +404,56 @@ class TaskService:
                 data['evidence'].pop()
                 self._save(task, data)
                 raise ValueError('invalid_query_evidence') from None
-            data['diagnostic_history'].append({'action': action, 'result': {'status': 'ok', 'evidence_id': eid,
+            data['diagnostic_history'].append({'action': action, 'result': {'status': 'ok', 'evidence_id': evidence['evidence_id'],
                 'cleanup_verified': result.get('cleanup_verified'), 'next': 'Choose the next action using the actual evidence in shared materials.'}})
             self._save(task, data)
             if self.fault_hook:
                 self.fault_hook('before_checkpoint')
+
+    def _action_sql(self, data: dict[str, Any], action: dict[str, Any]) -> str:
+        from metricguard.diagnosis import action_sql
+        sql = action_sql(action, data['schema'], data['actual_window'])
+        if action.get('kind') in ('cohort_health', 'channel_health', 'system_retention') and data['definition']['id'] not in ('retention', 'retained_cost'):
+            raise ValueError('business profile requires mature retention definition')
+        if action.get('kind') == 'channel_health':
+            cutoffs = {r[0]: datetime.fromisoformat(r[1]).astimezone(timezone(timedelta(hours=8))).date()
+                       for r in data['watermarks']['rows']}
+            if cutoffs.get('channel_daily', date.min) < date.fromisoformat(data['actual_window'][1]):
+                raise ValueError('channel_daily_incomplete_for_channel_health')
+        return sql
+
+    def _action_evidence(self, task: str, data: dict[str, Any], action: dict[str, Any], sql: str,
+                         result: dict[str, Any], step: int) -> dict[str, Any]:
+        columns = result['columns']
+        rows = [dict(zip([c['name'] for c in columns], row, strict=True)) for row in result['rows']]
+        eid = task + ':evidence:' + str(step)
+        profile = action['action'] == 'profile'
+        from metricguard.metric_profiles import is_business_profile
+        evidence_window = data['actual_window']
+        if action.get('kind') in ('cohort_health', 'crash_versions', 'channel_health', 'system_retention', 'playback_events', 'playback_progress'):
+            from metricguard.metric_profiles import comparison_window
+            evidence_window = comparison_window(data['actual_window'])
+        limitations = ['business_definition_requires_independent_reference']
+        if action.get('kind') in ('playback_events', 'playback_progress'):
+            limitations += ['start_play_instances_not_users', 'independent_progress_requires_alignment_and_complete_sources', 'playback_rates_are_descriptive_only', 'independent_complete_without_event_is_raw_gap_not_verified_missing' ]
+        elif action.get('kind') == 'channel_health':
+            limitations += ['current_and_previous_cohorts_exact_windows', 'costs_use_registration_window', 'missing_spend_or_zero_denominator_is_unavailable']
+        elif profile and is_business_profile(action):
+            limitations += (['release_history_before_current_end_includes_older_dates'] if action['kind'] == 'releases'
+                            else ['current_and_previous_cohorts_exact_windows', 'registration_attribution_separate_from_actual_crash_attribution'])
+        elif profile:
+            limitations += ['profile_within_window_timestamped_rows_only', 'observed_time_coverage_does_not_prove_completeness']
+        evidence = {'evidence_id': eid, 'tool': action['action'], 'parameters': {**action, 'sql': sql},
+            'source': sql, 'snapshot_id': data['snapshot_hash'], 'columns': {c['name']: canonical_type(c['type']) for c in columns},
+            'actual_db_types': {c['name']: c['type'] for c in columns}, 'rows': rows, 'window': evidence_window,
+            'truncated': result['truncated'], 'group': {}, 'sample': {'returned_rows': len(rows)},
+            'limitations': limitations, 'business_definition_status': 'requires_independent_reference',
+            'contexts': {Reference(eid, i, k).pointer: asdict(FactContext(
+                ('profile:' + action['table'] + ':' + action['kind']) if profile else 'query_result:' + data['definition']['id'],
+                (row['window_start'], row['window_end']) if action.get('kind') in ('cohort_health', 'crash_versions', 'channel_health', 'system_retention') else ((evidence_window[0], data['actual_window'][0]) if row['period']=='previous' else tuple(data['actual_window'])) if action.get('kind') in ('playback_events', 'playback_progress') else tuple(evidence_window),
+                {key: str(v) for key, v in row.items() if v is not None and type(v) not in (int, float)}, None))
+                for i, row in enumerate(rows) for k, value in row.items() if type(value) in (int, float)}}
+        return evidence
 
     def _validated(self, data: dict[str, Any], facts: list[Any]) -> dict[str, Any]:
         store = EvidenceStore(); assertions = []
@@ -468,7 +495,7 @@ class TaskService:
         version = version_diagnosis(data['evidence'])
         channel = channel_diagnosis(data['evidence'])
         from metricguard.playback_diagnosis import playback_diagnosis
-        playback = playback_diagnosis(data['evidence'], data.get('watermarks', {}).get('rows', []), data['actual_window'])
+        playback = playback_diagnosis(data['evidence'], (data.get('watermarks') or {}).get('rows', []), data['actual_window'])
         from metricguard.system_diagnosis import system_diagnosis
         system = system_diagnosis(data['evidence'])
         diagnoses = [d for d in (system, playback, channel, version) if d is not None]
@@ -494,6 +521,9 @@ class TaskService:
         if self.fault_hook:
             self.fault_hook('after_checkpoint')
         task = state['task']; data = self._data(task)
+        if data['mode'] == 'baseline' and not data.get('shared_preflight', {}).get('failed'):
+            from metricguard.baseline import report_baseline
+            return report_baseline(self, task)
         from metricguard.metric_profiles import is_business_profile
         if any(is_business_profile(e['parameters']) for e in data['evidence']):
             self._finish_report(task, self._known_facts(data), deterministic=True)
