@@ -1,0 +1,1829 @@
+{
+  "suite": "T03 actual-container acceptance v1",
+  "image": "sha256:4cadf9b4afae2394df26a2d518ab7d68fbbc4e086081f4273c45410fae456cb0",
+  "host_python": "3.12.10",
+  "host_platform": "Windows-11-10.0.26200-SP0",
+  "automatic_pass": true,
+  "checks_passed": 56,
+  "checks_total": 56,
+  "environment": {
+    "status": "ok",
+    "worker": {
+      "uid": 65532,
+      "cap_eff": "0000000000000000",
+      "no_new_privs": "1",
+      "network_interfaces": [
+        "lo"
+      ],
+      "env_names": [
+        "GPG_KEY",
+        "HOME",
+        "HOSTNAME",
+        "LANG",
+        "PATH",
+        "PYTHONDONTWRITEBYTECODE",
+        "PYTHONUNBUFFERED",
+        "PYTHON_SHA256",
+        "PYTHON_VERSION"
+      ],
+      "write_root_denied": true,
+      "network_connect_denied": true,
+      "canary_readable": true,
+      "marker_absent": true,
+      "app_files": [
+        "limits.py",
+        "policy.py",
+        "profiles.py",
+        "worker.py"
+      ],
+      "resources": {
+        "memory_max_bytes": "536870912",
+        "memory_swap_max_bytes": "0",
+        "memory_events": {
+          "low": 0,
+          "high": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0
+        },
+        "pids_max": "64",
+        "tmp_total_bytes": 16777216
+      }
+    },
+    "schema_profile": "legacy",
+    "settings": {
+      "enable_external_access": "false",
+      "allow_community_extensions": "false",
+      "allow_unsigned_extensions": "false",
+      "autoinstall_known_extensions": "false",
+      "autoload_known_extensions": "false",
+      "python_enable_replacements": "false",
+      "python_scan_all_frames": "false",
+      "threads": "1",
+      "memory_limit": "122.0 MiB",
+      "max_temp_directory_size": "0 bytes",
+      "temp_directory": "",
+      "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+      "allowed_directories": "[]",
+      "allowed_configs": "[]",
+      "lock_configuration": "true",
+      "access_mode": "read_only"
+    },
+    "versions": {
+      "duckdb": "1.5.6",
+      "sqlglot": "30.22.0",
+      "pytz": "2026.5",
+      "python": "3.12.10"
+    },
+    "fault_events": [],
+    "query_seconds": 0.5,
+    "startup_seconds": 1.8429999999934807,
+    "verified": true,
+    "docker": {
+      "image": "sha256:4cadf9b4afae2394df26a2d518ab7d68fbbc4e086081f4273c45410fae456cb0",
+      "host_config": {
+        "Binds": null,
+        "ContainerIDFile": "",
+        "LogConfig": {
+          "Type": "json-file",
+          "Config": {}
+        },
+        "NetworkMode": "none",
+        "PortBindings": {},
+        "RestartPolicy": {
+          "Name": "no",
+          "MaximumRetryCount": 0
+        },
+        "AutoRemove": false,
+        "VolumeDriver": "",
+        "VolumesFrom": null,
+        "ConsoleSize": [
+          0,
+          0
+        ],
+        "CapAdd": null,
+        "CapDrop": [
+          "ALL"
+        ],
+        "CgroupnsMode": "private",
+        "Dns": null,
+        "DnsOptions": [],
+        "DnsSearch": [],
+        "ExtraHosts": null,
+        "GroupAdd": null,
+        "IpcMode": "private",
+        "Cgroup": "",
+        "Links": null,
+        "OomScoreAdj": 0,
+        "PidMode": "",
+        "Privileged": false,
+        "PublishAllPorts": false,
+        "ReadonlyRootfs": true,
+        "SecurityOpt": [
+          "no-new-privileges"
+        ],
+        "Tmpfs": {
+          "/tmp": "rw,noexec,nosuid,nodev,size=16777216"
+        },
+        "UTSMode": "",
+        "UsernsMode": "",
+        "ShmSize": 67108864,
+        "Runtime": "runc",
+        "Isolation": "",
+        "CpuShares": 0,
+        "Memory": 536870912,
+        "NanoCpus": 1000000000,
+        "CgroupParent": "",
+        "BlkioWeight": 0,
+        "BlkioWeightDevice": [],
+        "BlkioDeviceReadBps": [],
+        "BlkioDeviceWriteBps": [],
+        "BlkioDeviceReadIOps": [],
+        "BlkioDeviceWriteIOps": [],
+        "CpuPeriod": 0,
+        "CpuQuota": 0,
+        "CpuRealtimePeriod": 0,
+        "CpuRealtimeRuntime": 0,
+        "CpusetCpus": "",
+        "CpusetMems": "",
+        "Devices": [],
+        "DeviceCgroupRules": null,
+        "DeviceRequests": null,
+        "MemoryReservation": 0,
+        "MemorySwap": 536870912,
+        "MemorySwappiness": null,
+        "OomKillDisable": false,
+        "PidsLimit": 64,
+        "Ulimits": null,
+        "CpuCount": 0,
+        "CpuPercent": 0,
+        "IOMaximumIOps": 0,
+        "IOMaximumBandwidth": 0,
+        "Mounts": [
+          {
+            "Type": "bind",
+            "Source": "D:\\ai coding\\metricguard\\artifacts\\t09-final-resources\\normal.duckdb",
+            "Target": "/data/snapshot.duckdb",
+            "ReadOnly": true
+          }
+        ],
+        "MaskedPaths": [
+          "/proc/acpi",
+          "/proc/asound",
+          "/proc/interrupts",
+          "/proc/kcore",
+          "/proc/keys",
+          "/proc/latency_stats",
+          "/proc/sched_debug",
+          "/proc/scsi",
+          "/proc/timer_list",
+          "/proc/timer_stats",
+          "/sys/devices/virtual/powercap",
+          "/sys/firmware"
+        ],
+        "ReadonlyPaths": [
+          "/proc/bus",
+          "/proc/fs",
+          "/proc/irq",
+          "/proc/sys",
+          "/proc/sysrq-trigger"
+        ]
+      },
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "D:\\ai coding\\metricguard\\artifacts\\t09-final-resources\\normal.duckdb",
+          "Destination": "/data/snapshot.duckdb",
+          "Mode": "",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "config": {
+        "Hostname": "d447098bb74b",
+        "Domainname": "",
+        "User": "65532:65532",
+        "AttachStdin": true,
+        "AttachStdout": true,
+        "AttachStderr": true,
+        "Tty": false,
+        "OpenStdin": true,
+        "StdinOnce": true,
+        "Env": [
+          "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+          "LANG=C.UTF-8",
+          "GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305",
+          "PYTHON_VERSION=3.12.10",
+          "PYTHON_SHA256=07ab697474595e06f06647417d3c7fa97ded07afc1a7e4454c5639919b46eaea",
+          "PYTHONDONTWRITEBYTECODE=1",
+          "PYTHONUNBUFFERED=1"
+        ],
+        "Cmd": null,
+        "Image": "sha256:4cadf9b4afae2394df26a2d518ab7d68fbbc4e086081f4273c45410fae456cb0",
+        "Volumes": null,
+        "WorkingDir": "/app",
+        "Entrypoint": [
+          "python",
+          "-I",
+          "/app/worker.py"
+        ],
+        "Labels": {}
+      }
+    },
+    "container_id": "d447098bb74be81403e9d320ea560a225b7b376050feafd1b1fd01a8fb59b552",
+    "cleanup_verified": true,
+    "cleanup_seconds": 0.5470000000204891,
+    "total_seconds": 2.89000000001397,
+    "termination_delay_seconds": 0.0
+  },
+  "checks": [
+    {
+      "name": "effective_os_limits",
+      "passed": true,
+      "expected": {
+        "memory_bytes": 536870912,
+        "swap_bytes": 0,
+        "tmp_bytes": 16777216
+      },
+      "actual": {
+        "memory_max_bytes": "536870912",
+        "memory_swap_max_bytes": "0",
+        "memory_events": {
+          "low": 0,
+          "high": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0
+        },
+        "pids_max": "64",
+        "tmp_total_bytes": 16777216
+      }
+    },
+    {
+      "name": "independent_reference_10_plus_20_plus_7",
+      "passed": true,
+      "expected": [
+        [
+          37
+        ]
+      ],
+      "actual": {
+        "status": "ok",
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "truncated": false,
+        "columns": [
+          {
+            "name": "_col_0",
+            "type": "HUGEINT"
+          }
+        ],
+        "fetch_seconds": 6.958099999110345e-05,
+        "serialize_seconds": 2.2354999998697167e-05,
+        "parse_seconds": 0.06572660399996266,
+        "execute_seconds": 0.008977288000039607,
+        "schema_profile": "legacy",
+        "settings": {
+          "enable_external_access": "false",
+          "allow_community_extensions": "false",
+          "allow_unsigned_extensions": "false",
+          "autoinstall_known_extensions": "false",
+          "autoload_known_extensions": "false",
+          "python_enable_replacements": "false",
+          "python_scan_all_frames": "false",
+          "threads": "1",
+          "memory_limit": "122.0 MiB",
+          "max_temp_directory_size": "0 bytes",
+          "temp_directory": "",
+          "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+          "allowed_directories": "[]",
+          "allowed_configs": "[]",
+          "lock_configuration": "true",
+          "access_mode": "read_only"
+        },
+        "versions": {
+          "duckdb": "1.5.6",
+          "sqlglot": "30.22.0",
+          "pytz": "2026.5",
+          "python": "3.12.10"
+        },
+        "fault_events": [],
+        "query_seconds": 0.43799999996554106,
+        "startup_seconds": 1.75,
+        "container_id": "686b2e4c4c99d9e448af06224013fc3efdb3c388a1e6b769953482ff88118f38",
+        "cleanup_verified": true,
+        "cleanup_seconds": 0.5470000000204891,
+        "total_seconds": 2.73499999998603,
+        "termination_delay_seconds": 0.0
+      }
+    },
+    {
+      "name": "1001_rows_keep_first_1000",
+      "passed": true,
+      "expected": {
+        "rows": 1000,
+        "first": [
+          1
+        ],
+        "last": [
+          1000
+        ],
+        "truncated": true
+      },
+      "actual": {
+        "status": "ok",
+        "truncated": true,
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER"
+          }
+        ],
+        "fetch_seconds": 0.0020913420000283622,
+        "serialize_seconds": 0.017346170000053007,
+        "parse_seconds": 0.0957086610000033,
+        "execute_seconds": 0.0277381040000364,
+        "schema_profile": "legacy",
+        "settings": {
+          "enable_external_access": "false",
+          "allow_community_extensions": "false",
+          "allow_unsigned_extensions": "false",
+          "autoinstall_known_extensions": "false",
+          "autoload_known_extensions": "false",
+          "python_enable_replacements": "false",
+          "python_scan_all_frames": "false",
+          "threads": "1",
+          "memory_limit": "122.0 MiB",
+          "max_temp_directory_size": "0 bytes",
+          "temp_directory": "",
+          "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+          "allowed_directories": "[]",
+          "allowed_configs": "[]",
+          "lock_configuration": "true",
+          "access_mode": "read_only"
+        },
+        "versions": {
+          "duckdb": "1.5.6",
+          "sqlglot": "30.22.0",
+          "pytz": "2026.5",
+          "python": "3.12.10"
+        },
+        "fault_events": [],
+        "query_seconds": 0.5310000000172295,
+        "startup_seconds": 1.8599999999860302,
+        "container_id": "671230a1d7fdd82c5bd114bcec5ddb76a3a3415c3c618ae0c581e4869e3cb7d5",
+        "cleanup_verified": true,
+        "cleanup_seconds": 0.625,
+        "total_seconds": 3.0160000000032596,
+        "termination_delay_seconds": 0.0,
+        "row_count": 1000,
+        "first": [
+          [
+            1
+          ]
+        ],
+        "last": [
+          [
+            1000
+          ]
+        ]
+      }
+    },
+    {
+      "name": "exactly_1000_rows_not_truncated",
+      "passed": true,
+      "expected": {
+        "rows": 1000,
+        "truncated": false
+      },
+      "actual": {
+        "status": "ok",
+        "truncated": false,
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER"
+          }
+        ],
+        "fetch_seconds": 0.0027030059993080613,
+        "serialize_seconds": 0.01121382900083745,
+        "parse_seconds": 0.0986608509999769,
+        "execute_seconds": 0.007731413999977121,
+        "schema_profile": "legacy",
+        "settings": {
+          "enable_external_access": "false",
+          "allow_community_extensions": "false",
+          "allow_unsigned_extensions": "false",
+          "autoinstall_known_extensions": "false",
+          "autoload_known_extensions": "false",
+          "python_enable_replacements": "false",
+          "python_scan_all_frames": "false",
+          "threads": "1",
+          "memory_limit": "122.0 MiB",
+          "max_temp_directory_size": "0 bytes",
+          "temp_directory": "",
+          "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+          "allowed_directories": "[]",
+          "allowed_configs": "[]",
+          "lock_configuration": "true",
+          "access_mode": "read_only"
+        },
+        "versions": {
+          "duckdb": "1.5.6",
+          "sqlglot": "30.22.0",
+          "pytz": "2026.5",
+          "python": "3.12.10"
+        },
+        "fault_events": [],
+        "query_seconds": 0.5160000000032596,
+        "startup_seconds": 2.030999999959022,
+        "container_id": "2515b1c0c0e635da8f3f9b176678971469daf164a07c5ba456e844a4cb0b49c6",
+        "cleanup_verified": true,
+        "cleanup_seconds": 0.8429999999934807,
+        "total_seconds": 3.389999999955762,
+        "termination_delay_seconds": 0.0,
+        "row_count": 1000
+      }
+    },
+    {
+      "name": "giant_cell",
+      "passed": true,
+      "expected": [
+        "output_limit"
+      ],
+      "actual": {
+        "input": "SELECT name FROM regions WHERE id=1",
+        "result": {
+          "status": "output_limit",
+          "limit": "cell_bytes",
+          "fetch_seconds": 0.0002091040000209432,
+          "serialize_seconds": 1.3156000022718217e-05,
+          "parse_seconds": 0.06455592800000431,
+          "execute_seconds": 0.023881613000014568,
+          "schema_profile": "legacy",
+          "settings": {
+            "enable_external_access": "false",
+            "allow_community_extensions": "false",
+            "allow_unsigned_extensions": "false",
+            "autoinstall_known_extensions": "false",
+            "autoload_known_extensions": "false",
+            "python_enable_replacements": "false",
+            "python_scan_all_frames": "false",
+            "threads": "1",
+            "memory_limit": "122.0 MiB",
+            "max_temp_directory_size": "0 bytes",
+            "temp_directory": "",
+            "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+            "allowed_directories": "[]",
+            "allowed_configs": "[]",
+            "lock_configuration": "true",
+            "access_mode": "read_only"
+          },
+          "versions": {
+            "duckdb": "1.5.6",
+            "sqlglot": "30.22.0",
+            "pytz": "2026.5",
+            "python": "3.12.10"
+          },
+          "fault_events": [],
+          "query_seconds": 0.5160000000032596,
+          "startup_seconds": 1.672000000020489,
+          "container_id": "212b159904f5697f6706b5e9837848b012b74fb7356d23f8d08a982ed43650bc",
+          "cleanup_verified": true,
+          "cleanup_seconds": 0.5149999999557622,
+          "total_seconds": 2.702999999979511,
+          "termination_delay_seconds": 0.0
+        }
+      }
+    },
+    {
+      "name": "giant_cell_cleanup",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "giant_cell_snapshot_unchanged",
+      "passed": true,
+      "expected": "ee605524695e9149aae60d69256d675b5b48686be8aec80b6a5a01ac6fda36af",
+      "actual": "ee605524695e9149aae60d69256d675b5b48686be8aec80b6a5a01ac6fda36af"
+    },
+    {
+      "name": "giant_cell_next_query_recovers",
+      "passed": true,
+      "expected": {
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "cleanup_verified": true,
+        "snapshot_unchanged": true
+      },
+      "actual": {
+        "status": "ok",
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "truncated": false,
+        "columns": [
+          {
+            "name": "_col_0",
+            "type": "HUGEINT"
+          }
+        ],
+        "fetch_seconds": 0.00017028700000309982,
+        "serialize_seconds": 3.513999996584971e-05,
+        "parse_seconds": 0.09620993200002204,
+        "execute_seconds": 0.0064787910000063675,
+        "schema_profile": "legacy",
+        "settings": {
+          "enable_external_access": "false",
+          "allow_community_extensions": "false",
+          "allow_unsigned_extensions": "false",
+          "autoinstall_known_extensions": "false",
+          "autoload_known_extensions": "false",
+          "python_enable_replacements": "false",
+          "python_scan_all_frames": "false",
+          "threads": "1",
+          "memory_limit": "122.0 MiB",
+          "max_temp_directory_size": "0 bytes",
+          "temp_directory": "",
+          "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+          "allowed_directories": "[]",
+          "allowed_configs": "[]",
+          "lock_configuration": "true",
+          "access_mode": "read_only"
+        },
+        "versions": {
+          "duckdb": "1.5.6",
+          "sqlglot": "30.22.0",
+          "pytz": "2026.5",
+          "python": "3.12.10"
+        },
+        "fault_events": [],
+        "query_seconds": 0.48399999999674037,
+        "startup_seconds": 1.6880000000237487,
+        "container_id": "42f790afd584e468f8b18491d7f52b1abafc525ad11d4806544403fdfb19d1ee",
+        "cleanup_verified": true,
+        "cleanup_seconds": 0.6720000000204891,
+        "total_seconds": 2.844000000040978,
+        "termination_delay_seconds": 0.0
+      }
+    },
+    {
+      "name": "aggregate_bytes",
+      "passed": true,
+      "expected": [
+        "output_limit"
+      ],
+      "actual": {
+        "input": "SELECT r.name FROM sales s JOIN regions r ON s.region_id=r.id",
+        "result": {
+          "status": "output_limit",
+          "limit": "result_bytes",
+          "fetch_seconds": 0.0017442209992282187,
+          "serialize_seconds": 0.013231411999925058,
+          "parse_seconds": 0.06044667099996559,
+          "execute_seconds": 0.014963150999960817,
+          "schema_profile": "legacy",
+          "settings": {
+            "enable_external_access": "false",
+            "allow_community_extensions": "false",
+            "allow_unsigned_extensions": "false",
+            "autoinstall_known_extensions": "false",
+            "autoload_known_extensions": "false",
+            "python_enable_replacements": "false",
+            "python_scan_all_frames": "false",
+            "threads": "1",
+            "memory_limit": "122.0 MiB",
+            "max_temp_directory_size": "0 bytes",
+            "temp_directory": "",
+            "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+            "allowed_directories": "[]",
+            "allowed_configs": "[]",
+            "lock_configuration": "true",
+            "access_mode": "read_only"
+          },
+          "versions": {
+            "duckdb": "1.5.6",
+            "sqlglot": "30.22.0",
+            "pytz": "2026.5",
+            "python": "3.12.10"
+          },
+          "fault_events": [],
+          "query_seconds": 0.39100000000325963,
+          "startup_seconds": 2.1089999999967404,
+          "container_id": "46c4b72b06038606c9cb2bdcac6a151ba5198c424163289615c368b3aa71896e",
+          "cleanup_verified": true,
+          "cleanup_seconds": 0.5469999999622814,
+          "total_seconds": 3.0469999999622814,
+          "termination_delay_seconds": 0.0
+        }
+      }
+    },
+    {
+      "name": "aggregate_bytes_cleanup",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "aggregate_bytes_snapshot_unchanged",
+      "passed": true,
+      "expected": "fc5da1ffa6a6753903ae20663f1f919fd6169dbecda754d4c8f5c6a1dd004e73",
+      "actual": "fc5da1ffa6a6753903ae20663f1f919fd6169dbecda754d4c8f5c6a1dd004e73"
+    },
+    {
+      "name": "aggregate_bytes_next_query_recovers",
+      "passed": true,
+      "expected": {
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "cleanup_verified": true,
+        "snapshot_unchanged": true
+      },
+      "actual": {
+        "status": "ok",
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "truncated": false,
+        "columns": [
+          {
+            "name": "_col_0",
+            "type": "HUGEINT"
+          }
+        ],
+        "fetch_seconds": 0.00016888800001879645,
+        "serialize_seconds": 3.712400001631977e-05,
+        "parse_seconds": 0.08908048500001087,
+        "execute_seconds": 0.00520501700003706,
+        "schema_profile": "legacy",
+        "settings": {
+          "enable_external_access": "false",
+          "allow_community_extensions": "false",
+          "allow_unsigned_extensions": "false",
+          "autoinstall_known_extensions": "false",
+          "autoload_known_extensions": "false",
+          "python_enable_replacements": "false",
+          "python_scan_all_frames": "false",
+          "threads": "1",
+          "memory_limit": "122.0 MiB",
+          "max_temp_directory_size": "0 bytes",
+          "temp_directory": "",
+          "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+          "allowed_directories": "[]",
+          "allowed_configs": "[]",
+          "lock_configuration": "true",
+          "access_mode": "read_only"
+        },
+        "versions": {
+          "duckdb": "1.5.6",
+          "sqlglot": "30.22.0",
+          "pytz": "2026.5",
+          "python": "3.12.10"
+        },
+        "fault_events": [],
+        "query_seconds": 0.46899999998277053,
+        "startup_seconds": 1.6560000000172295,
+        "container_id": "ba4667baddad949e571020a53cbcad3c70852caaa66e429bc47b9cdf084f310b",
+        "cleanup_verified": true,
+        "cleanup_seconds": 0.5150000000139698,
+        "total_seconds": 2.64000000001397,
+        "termination_delay_seconds": 0.0
+      }
+    },
+    {
+      "name": "column_width",
+      "passed": true,
+      "expected": [
+        "output_limit"
+      ],
+      "actual": {
+        "input": "SELECT 1 AS c0,1 AS c1,1 AS c2,1 AS c3,1 AS c4,1 AS c5,1 AS c6,1 AS c7,1 AS c8,1 AS c9,1 AS c10,1 AS c11,1 AS c12,1 AS c13,1 AS c14,1 AS c15,1 AS c16,1 AS c17,1 AS c18,1 AS c19,1 AS c20,1 AS c21,1 AS c22,1 AS c23,1 AS c24,1 AS c25,1 AS c26,1 AS c27,1 AS c28,1 AS c29,1 AS c30,1 AS c31,1 AS c32,1 AS c33,1 AS c34,1 AS c35,1 AS c36,1 AS c37,1 AS c38,1 AS c39,1 AS c40,1 AS c41,1 AS c42,1 AS c43,1 AS c44,1 AS c45,1 AS c46,1 AS c47,1 AS c48,1 AS c49,1 AS c50,1 AS c51,1 AS c52,1 AS c53,1 AS c54,1 AS c55,1 AS c56,1 AS c57,1 AS c58,1 AS c59,1 AS c60,1 AS c61,1 AS c62,1 AS c63,1 AS c64",
+        "result": {
+          "status": "output_limit",
+          "limit": "columns",
+          "fetch_seconds": 0.0,
+          "serialize_seconds": 0.0,
+          "parse_seconds": 0.056204823000030046,
+          "execute_seconds": 0.0017233649999752743,
+          "schema_profile": "legacy",
+          "settings": {
+            "enable_external_access": "false",
+            "allow_community_extensions": "false",
+            "allow_unsigned_extensions": "false",
+            "autoinstall_known_extensions": "false",
+            "autoload_known_extensions": "false",
+            "python_enable_replacements": "false",
+            "python_scan_all_frames": "false",
+            "threads": "1",
+            "memory_limit": "122.0 MiB",
+            "max_temp_directory_size": "0 bytes",
+            "temp_directory": "",
+            "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+            "allowed_directories": "[]",
+            "allowed_configs": "[]",
+            "lock_configuration": "true",
+            "access_mode": "read_only"
+          },
+          "versions": {
+            "duckdb": "1.5.6",
+            "sqlglot": "30.22.0",
+            "pytz": "2026.5",
+            "python": "3.12.10"
+          },
+          "fault_events": [],
+          "query_seconds": 0.32800000003771856,
+          "startup_seconds": 1.5939999999827705,
+          "container_id": "c3a4671d83567304747538718b8de59a9ba42eeaa53da6c9905e6f480d86d6dc",
+          "cleanup_verified": true,
+          "cleanup_seconds": 0.5629999999655411,
+          "total_seconds": 2.48499999998603,
+          "termination_delay_seconds": 0.0
+        }
+      }
+    },
+    {
+      "name": "column_width_cleanup",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "column_width_snapshot_unchanged",
+      "passed": true,
+      "expected": "ac52461ee5d15af161d67af2ebac99a1d7028d121d6bd482783d5cae418d4d3f",
+      "actual": "ac52461ee5d15af161d67af2ebac99a1d7028d121d6bd482783d5cae418d4d3f"
+    },
+    {
+      "name": "column_width_next_query_recovers",
+      "passed": true,
+      "expected": {
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "cleanup_verified": true,
+        "snapshot_unchanged": true
+      },
+      "actual": {
+        "status": "ok",
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "truncated": false,
+        "columns": [
+          {
+            "name": "_col_0",
+            "type": "HUGEINT"
+          }
+        ],
+        "fetch_seconds": 7.91279999816652e-05,
+        "serialize_seconds": 2.750499999137901e-05,
+        "parse_seconds": 0.06836078699996051,
+        "execute_seconds": 0.005041168999980528,
+        "schema_profile": "legacy",
+        "settings": {
+          "enable_external_access": "false",
+          "allow_community_extensions": "false",
+          "allow_unsigned_extensions": "false",
+          "autoinstall_known_extensions": "false",
+          "autoload_known_extensions": "false",
+          "python_enable_replacements": "false",
+          "python_scan_all_frames": "false",
+          "threads": "1",
+          "memory_limit": "122.0 MiB",
+          "max_temp_directory_size": "0 bytes",
+          "temp_directory": "",
+          "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+          "allowed_directories": "[]",
+          "allowed_configs": "[]",
+          "lock_configuration": "true",
+          "access_mode": "read_only"
+        },
+        "versions": {
+          "duckdb": "1.5.6",
+          "sqlglot": "30.22.0",
+          "pytz": "2026.5",
+          "python": "3.12.10"
+        },
+        "fault_events": [],
+        "query_seconds": 0.4220000000204891,
+        "startup_seconds": 1.7179999999934807,
+        "container_id": "98d2f040b97fb0c94317b174fdf23283733cfb96ae62cf5850a05ab48185e47e",
+        "cleanup_verified": true,
+        "cleanup_seconds": 0.5160000000032596,
+        "total_seconds": 2.6560000000172295,
+        "termination_delay_seconds": 0.0
+      }
+    },
+    {
+      "name": "parser_pressure",
+      "passed": true,
+      "expected": [
+        "policy_denied"
+      ],
+      "actual": {
+        "input": "SELECT ((((((((((((((((((((((((((((((((((((((((1))))))))))))))))))))))))))))))))))))))))",
+        "result": {
+          "status": "policy_denied",
+          "error": "SQL nesting limit exceeded",
+          "schema_profile": "legacy",
+          "settings": {
+            "enable_external_access": "false",
+            "allow_community_extensions": "false",
+            "allow_unsigned_extensions": "false",
+            "autoinstall_known_extensions": "false",
+            "autoload_known_extensions": "false",
+            "python_enable_replacements": "false",
+            "python_scan_all_frames": "false",
+            "threads": "1",
+            "memory_limit": "122.0 MiB",
+            "max_temp_directory_size": "0 bytes",
+            "temp_directory": "",
+            "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+            "allowed_directories": "[]",
+            "allowed_configs": "[]",
+            "lock_configuration": "true",
+            "access_mode": "read_only"
+          },
+          "versions": {
+            "duckdb": "1.5.6",
+            "sqlglot": "30.22.0",
+            "pytz": "2026.5",
+            "python": "3.12.10"
+          },
+          "fault_events": [],
+          "query_seconds": 0.28100000001722947,
+          "startup_seconds": 1.625,
+          "container_id": "525d979b938447d345b88a5c4e278f7058f6beb896a11c7419b9129ede538ce5",
+          "cleanup_verified": true,
+          "cleanup_seconds": 0.5160000000032596,
+          "total_seconds": 2.422000000020489,
+          "termination_delay_seconds": 0.0
+        }
+      }
+    },
+    {
+      "name": "parser_pressure_cleanup",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "parser_pressure_snapshot_unchanged",
+      "passed": true,
+      "expected": "ac52461ee5d15af161d67af2ebac99a1d7028d121d6bd482783d5cae418d4d3f",
+      "actual": "ac52461ee5d15af161d67af2ebac99a1d7028d121d6bd482783d5cae418d4d3f"
+    },
+    {
+      "name": "parser_pressure_next_query_recovers",
+      "passed": true,
+      "expected": {
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "cleanup_verified": true,
+        "snapshot_unchanged": true
+      },
+      "actual": {
+        "status": "ok",
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "truncated": false,
+        "columns": [
+          {
+            "name": "_col_0",
+            "type": "HUGEINT"
+          }
+        ],
+        "fetch_seconds": 0.00010103199997502088,
+        "serialize_seconds": 2.4318999976458144e-05,
+        "parse_seconds": 0.04907286299999214,
+        "execute_seconds": 0.0047003459999928054,
+        "schema_profile": "legacy",
+        "settings": {
+          "enable_external_access": "false",
+          "allow_community_extensions": "false",
+          "allow_unsigned_extensions": "false",
+          "autoinstall_known_extensions": "false",
+          "autoload_known_extensions": "false",
+          "python_enable_replacements": "false",
+          "python_scan_all_frames": "false",
+          "threads": "1",
+          "memory_limit": "122.0 MiB",
+          "max_temp_directory_size": "0 bytes",
+          "temp_directory": "",
+          "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+          "allowed_directories": "[]",
+          "allowed_configs": "[]",
+          "lock_configuration": "true",
+          "access_mode": "read_only"
+        },
+        "versions": {
+          "duckdb": "1.5.6",
+          "sqlglot": "30.22.0",
+          "pytz": "2026.5",
+          "python": "3.12.10"
+        },
+        "fault_events": [],
+        "query_seconds": 0.34399999998277053,
+        "startup_seconds": 1.297000000020489,
+        "container_id": "ec51bd7e1f07798470bb4052e60e867aec9390a3b12304b2860c0fea4cdb6518",
+        "cleanup_verified": true,
+        "cleanup_seconds": 0.48399999999674037,
+        "total_seconds": 2.125,
+        "termination_delay_seconds": 0.0
+      }
+    },
+    {
+      "name": "real_sql_timeout",
+      "passed": true,
+      "expected": [
+        "timeout"
+      ],
+      "actual": {
+        "input": "SELECT sum(a.amount+b.amount+c.amount+d.amount) FROM sales a CROSS JOIN sales b CROSS JOIN sales c CROSS JOIN sales d",
+        "result": {
+          "status": "timeout",
+          "late_result_discarded": true,
+          "fault_events": [],
+          "query_seconds": 5.01500000001397,
+          "startup_seconds": 1.3910000000032596,
+          "container_id": "89d88ae33af0f40b521ac5ca881bd4593506443fc38534673f2725d7d9306a04",
+          "cleanup_verified": true,
+          "cleanup_seconds": 0.5630000000237487,
+          "total_seconds": 6.969000000040978,
+          "termination_delay_seconds": 0.5780000000377186
+        }
+      }
+    },
+    {
+      "name": "real_sql_timeout_cleanup",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "real_sql_timeout_snapshot_unchanged",
+      "passed": true,
+      "expected": "24951df326c8f40c83c1adc5d95c47d8f884bc7bcc590156ead46f810b0541e2",
+      "actual": "24951df326c8f40c83c1adc5d95c47d8f884bc7bcc590156ead46f810b0541e2"
+    },
+    {
+      "name": "real_sql_timeout_deadline_and_cleanup_latency",
+      "passed": true,
+      "expected": "query_seconds in [4.9,6]; termination_delay_seconds in [0,5]",
+      "actual": {
+        "query_seconds": 5.01500000001397,
+        "termination_delay_seconds": 0.5780000000377186,
+        "cleanup_seconds": 0.5630000000237487
+      }
+    },
+    {
+      "name": "real_sql_timeout_rejects_late_evidence",
+      "passed": true,
+      "expected": "no rows, late_result_discarded=true",
+      "actual": {
+        "status": "timeout",
+        "late_result_discarded": true,
+        "fault_events": [],
+        "query_seconds": 5.01500000001397,
+        "startup_seconds": 1.3910000000032596,
+        "container_id": "89d88ae33af0f40b521ac5ca881bd4593506443fc38534673f2725d7d9306a04",
+        "cleanup_verified": true,
+        "cleanup_seconds": 0.5630000000237487,
+        "total_seconds": 6.969000000040978,
+        "termination_delay_seconds": 0.5780000000377186
+      }
+    },
+    {
+      "name": "real_sql_timeout_next_query_recovers",
+      "passed": true,
+      "expected": {
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "cleanup_verified": true,
+        "snapshot_unchanged": true
+      },
+      "actual": {
+        "status": "ok",
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "truncated": false,
+        "columns": [
+          {
+            "name": "_col_0",
+            "type": "HUGEINT"
+          }
+        ],
+        "fetch_seconds": 7.207400005881937e-05,
+        "serialize_seconds": 2.0161000009011332e-05,
+        "parse_seconds": 0.04634987099996124,
+        "execute_seconds": 0.003567916999998033,
+        "schema_profile": "legacy",
+        "settings": {
+          "enable_external_access": "false",
+          "allow_community_extensions": "false",
+          "allow_unsigned_extensions": "false",
+          "autoinstall_known_extensions": "false",
+          "autoload_known_extensions": "false",
+          "python_enable_replacements": "false",
+          "python_scan_all_frames": "false",
+          "threads": "1",
+          "memory_limit": "122.0 MiB",
+          "max_temp_directory_size": "0 bytes",
+          "temp_directory": "",
+          "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+          "allowed_directories": "[]",
+          "allowed_configs": "[]",
+          "lock_configuration": "true",
+          "access_mode": "read_only"
+        },
+        "versions": {
+          "duckdb": "1.5.6",
+          "sqlglot": "30.22.0",
+          "pytz": "2026.5",
+          "python": "3.12.10"
+        },
+        "fault_events": [],
+        "query_seconds": 0.32900000002700835,
+        "startup_seconds": 1.3899999999557622,
+        "container_id": "f675cd9d450de3aac893221e8f8b1201599b921e3a0e697e71c237874526b06c",
+        "cleanup_verified": true,
+        "cleanup_seconds": 0.5,
+        "total_seconds": 2.2189999999827705,
+        "termination_delay_seconds": 0.0
+      }
+    },
+    {
+      "name": "real_engine_memory_pressure",
+      "passed": true,
+      "expected": [
+        "engine_disk",
+        "engine_memory"
+      ],
+      "actual": {
+        "input": "SELECT i FROM range(100000000) r(i) ORDER BY hash(i)",
+        "result": {
+          "status": "engine_memory",
+          "error_type": "OutOfMemoryException",
+          "error": "Out of Memory Error: could not allocate block of size 256.0 KiB (122.0 MiB/122.0 MiB used)\nDatabase is launched in in-memory mode and no temporary directory is specified.\nUnused blocks cannot be offloaded to disk.\n\nLaunch the database with a persistent storage back-end\nOr set SET temp_directory='/path/to/tmp.tmp'\n\nPossible solutions:\n* Reducing the number of threads (SET threads=X)\n* Disabling insertion-order preservation (SET preserve_insertion_order=false)\n* Increasing the memory limit (SET memory_limit='...GB')\n\nSee also https://duckdb.org/docs/stable/guides/performance/how_to_tune_workloads",
+          "parse_seconds": 6.7530000364968146e-06,
+          "execute_seconds": 0.5942127259999666,
+          "schema_profile": "legacy",
+          "settings": {
+            "enable_external_access": "false",
+            "allow_community_extensions": "false",
+            "allow_unsigned_extensions": "false",
+            "autoinstall_known_extensions": "false",
+            "autoload_known_extensions": "false",
+            "python_enable_replacements": "false",
+            "python_scan_all_frames": "false",
+            "threads": "1",
+            "memory_limit": "122.0 MiB",
+            "max_temp_directory_size": "0 bytes",
+            "temp_directory": "",
+            "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+            "allowed_directories": "[]",
+            "allowed_configs": "[]",
+            "lock_configuration": "true",
+            "access_mode": "read_only"
+          },
+          "versions": {
+            "duckdb": "1.5.6",
+            "sqlglot": "30.22.0",
+            "pytz": "2026.5",
+            "python": "3.12.10"
+          },
+          "fault_events": [],
+          "query_seconds": 0.9070000000065193,
+          "startup_seconds": 1.4679999999934807,
+          "container_id": "46b251cebe0decae3bfdc761b9ffb824d53fbf4568a19c83d63461c2010b9f5b",
+          "cleanup_verified": true,
+          "cleanup_seconds": 0.5150000000139698,
+          "total_seconds": 2.89000000001397,
+          "termination_delay_seconds": 0.0
+        }
+      }
+    },
+    {
+      "name": "real_engine_memory_pressure_cleanup",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "real_engine_memory_pressure_snapshot_unchanged",
+      "passed": true,
+      "expected": "ac52461ee5d15af161d67af2ebac99a1d7028d121d6bd482783d5cae418d4d3f",
+      "actual": "ac52461ee5d15af161d67af2ebac99a1d7028d121d6bd482783d5cae418d4d3f"
+    },
+    {
+      "name": "real_engine_memory_pressure_next_query_recovers",
+      "passed": true,
+      "expected": {
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "cleanup_verified": true,
+        "snapshot_unchanged": true
+      },
+      "actual": {
+        "status": "ok",
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "truncated": false,
+        "columns": [
+          {
+            "name": "_col_0",
+            "type": "HUGEINT"
+          }
+        ],
+        "fetch_seconds": 7.651300001043637e-05,
+        "serialize_seconds": 2.4558999996315833e-05,
+        "parse_seconds": 0.04046125499996833,
+        "execute_seconds": 0.0042184710000015,
+        "schema_profile": "legacy",
+        "settings": {
+          "enable_external_access": "false",
+          "allow_community_extensions": "false",
+          "allow_unsigned_extensions": "false",
+          "autoinstall_known_extensions": "false",
+          "autoload_known_extensions": "false",
+          "python_enable_replacements": "false",
+          "python_scan_all_frames": "false",
+          "threads": "1",
+          "memory_limit": "122.0 MiB",
+          "max_temp_directory_size": "0 bytes",
+          "temp_directory": "",
+          "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+          "allowed_directories": "[]",
+          "allowed_configs": "[]",
+          "lock_configuration": "true",
+          "access_mode": "read_only"
+        },
+        "versions": {
+          "duckdb": "1.5.6",
+          "sqlglot": "30.22.0",
+          "pytz": "2026.5",
+          "python": "3.12.10"
+        },
+        "fault_events": [],
+        "query_seconds": 0.3119999999762513,
+        "startup_seconds": 1.4689999999827705,
+        "container_id": "48c3f20bf35212b59bd8b8f68eb8cfd4d4343e372ef9970396ff995518c2ed00",
+        "cleanup_verified": true,
+        "cleanup_seconds": 0.4850000000442378,
+        "total_seconds": 2.2660000000032596,
+        "termination_delay_seconds": 0.0
+      }
+    },
+    {
+      "name": "late_result",
+      "passed": true,
+      "expected": [
+        "timeout"
+      ],
+      "actual": {
+        "input": "late_result",
+        "result": {
+          "status": "timeout",
+          "late_result_discarded": true,
+          "fault_events": [],
+          "query_seconds": 5.0,
+          "startup_seconds": 1.2339999999967404,
+          "container_id": "d48d49e883d3a0f29432a5edc82c403f62339f147b585eed65ba09024c76ef60",
+          "cleanup_verified": true,
+          "cleanup_seconds": 0.5469999999622814,
+          "total_seconds": 6.780999999959022,
+          "termination_delay_seconds": 0.5469999999622814
+        }
+      }
+    },
+    {
+      "name": "late_result_cleanup",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "late_result_snapshot_unchanged",
+      "passed": true,
+      "expected": "ac52461ee5d15af161d67af2ebac99a1d7028d121d6bd482783d5cae418d4d3f",
+      "actual": "ac52461ee5d15af161d67af2ebac99a1d7028d121d6bd482783d5cae418d4d3f"
+    },
+    {
+      "name": "late_result_deadline_and_cleanup_latency",
+      "passed": true,
+      "expected": "query_seconds in [4.9,6]; termination_delay_seconds in [0,5]",
+      "actual": {
+        "query_seconds": 5.0,
+        "termination_delay_seconds": 0.5469999999622814,
+        "cleanup_seconds": 0.5469999999622814
+      }
+    },
+    {
+      "name": "late_result_rejects_late_evidence",
+      "passed": true,
+      "expected": "no rows, late_result_discarded=true",
+      "actual": {
+        "status": "timeout",
+        "late_result_discarded": true,
+        "fault_events": [],
+        "query_seconds": 5.0,
+        "startup_seconds": 1.2339999999967404,
+        "container_id": "d48d49e883d3a0f29432a5edc82c403f62339f147b585eed65ba09024c76ef60",
+        "cleanup_verified": true,
+        "cleanup_seconds": 0.5469999999622814,
+        "total_seconds": 6.780999999959022,
+        "termination_delay_seconds": 0.5469999999622814
+      }
+    },
+    {
+      "name": "late_result_next_query_recovers",
+      "passed": true,
+      "expected": {
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "cleanup_verified": true,
+        "snapshot_unchanged": true
+      },
+      "actual": {
+        "status": "ok",
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "truncated": false,
+        "columns": [
+          {
+            "name": "_col_0",
+            "type": "HUGEINT"
+          }
+        ],
+        "fetch_seconds": 0.00010937799999055642,
+        "serialize_seconds": 3.0951000042023225e-05,
+        "parse_seconds": 0.03624750399995946,
+        "execute_seconds": 0.004052148000027955,
+        "schema_profile": "legacy",
+        "settings": {
+          "enable_external_access": "false",
+          "allow_community_extensions": "false",
+          "allow_unsigned_extensions": "false",
+          "autoinstall_known_extensions": "false",
+          "autoload_known_extensions": "false",
+          "python_enable_replacements": "false",
+          "python_scan_all_frames": "false",
+          "threads": "1",
+          "memory_limit": "122.0 MiB",
+          "max_temp_directory_size": "0 bytes",
+          "temp_directory": "",
+          "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+          "allowed_directories": "[]",
+          "allowed_configs": "[]",
+          "lock_configuration": "true",
+          "access_mode": "read_only"
+        },
+        "versions": {
+          "duckdb": "1.5.6",
+          "sqlglot": "30.22.0",
+          "pytz": "2026.5",
+          "python": "3.12.10"
+        },
+        "fault_events": [],
+        "query_seconds": 0.2970000000204891,
+        "startup_seconds": 1.1400000000139698,
+        "container_id": "3574f1fd9a54850175bac19f5c58cf7c5ca33345d4ffdd05325f57984cfa046e",
+        "cleanup_verified": true,
+        "cleanup_seconds": 0.46899999998277053,
+        "total_seconds": 1.9060000000172295,
+        "termination_delay_seconds": 0.0
+      }
+    },
+    {
+      "name": "os_oom",
+      "passed": true,
+      "expected": [
+        "oom"
+      ],
+      "actual": {
+        "input": "oom",
+        "result": {
+          "status": "oom",
+          "exit_code": 137,
+          "fault_events": [],
+          "query_seconds": 1.1880000000237487,
+          "startup_seconds": 1.202999999979511,
+          "container_id": "c040626d732fb65f9204a0c9def6b81ba76b9a8aa7c8db27fb76bb4861064c9b",
+          "cleanup_verified": true,
+          "cleanup_seconds": 0.48399999999674037,
+          "total_seconds": 2.875,
+          "termination_delay_seconds": 0.0
+        }
+      }
+    },
+    {
+      "name": "os_oom_cleanup",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "os_oom_snapshot_unchanged",
+      "passed": true,
+      "expected": "ac52461ee5d15af161d67af2ebac99a1d7028d121d6bd482783d5cae418d4d3f",
+      "actual": "ac52461ee5d15af161d67af2ebac99a1d7028d121d6bd482783d5cae418d4d3f"
+    },
+    {
+      "name": "os_oom_next_query_recovers",
+      "passed": true,
+      "expected": {
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "cleanup_verified": true,
+        "snapshot_unchanged": true
+      },
+      "actual": {
+        "status": "ok",
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "truncated": false,
+        "columns": [
+          {
+            "name": "_col_0",
+            "type": "HUGEINT"
+          }
+        ],
+        "fetch_seconds": 0.00015403700001570542,
+        "serialize_seconds": 3.8247000020419364e-05,
+        "parse_seconds": 0.046643098999993526,
+        "execute_seconds": 0.005912444999978561,
+        "schema_profile": "legacy",
+        "settings": {
+          "enable_external_access": "false",
+          "allow_community_extensions": "false",
+          "allow_unsigned_extensions": "false",
+          "autoinstall_known_extensions": "false",
+          "autoload_known_extensions": "false",
+          "python_enable_replacements": "false",
+          "python_scan_all_frames": "false",
+          "threads": "1",
+          "memory_limit": "122.0 MiB",
+          "max_temp_directory_size": "0 bytes",
+          "temp_directory": "",
+          "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+          "allowed_directories": "[]",
+          "allowed_configs": "[]",
+          "lock_configuration": "true",
+          "access_mode": "read_only"
+        },
+        "versions": {
+          "duckdb": "1.5.6",
+          "sqlglot": "30.22.0",
+          "pytz": "2026.5",
+          "python": "3.12.10"
+        },
+        "fault_events": [],
+        "query_seconds": 0.35999999998603016,
+        "startup_seconds": 1.4060000000172295,
+        "container_id": "5cdfbaff0643f025a68d24756896a538498d5faf5120af63a1ee7ba5803b86a8",
+        "cleanup_verified": true,
+        "cleanup_seconds": 0.42099999997299165,
+        "total_seconds": 2.1869999999762513,
+        "termination_delay_seconds": 0.0
+      }
+    },
+    {
+      "name": "tmpfs_full",
+      "passed": true,
+      "expected": [
+        "engine_disk"
+      ],
+      "actual": {
+        "input": "disk",
+        "result": {
+          "status": "engine_disk",
+          "errno": 28,
+          "error": "[Errno 28] No space left on device",
+          "schema_profile": "legacy",
+          "settings": {
+            "enable_external_access": "false",
+            "allow_community_extensions": "false",
+            "allow_unsigned_extensions": "false",
+            "autoinstall_known_extensions": "false",
+            "autoload_known_extensions": "false",
+            "python_enable_replacements": "false",
+            "python_scan_all_frames": "false",
+            "threads": "1",
+            "memory_limit": "122.0 MiB",
+            "max_temp_directory_size": "0 bytes",
+            "temp_directory": "",
+            "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+            "allowed_directories": "[]",
+            "allowed_configs": "[]",
+            "lock_configuration": "true",
+            "access_mode": "read_only"
+          },
+          "versions": {
+            "duckdb": "1.5.6",
+            "sqlglot": "30.22.0",
+            "pytz": "2026.5",
+            "python": "3.12.10"
+          },
+          "fault_events": [],
+          "query_seconds": 0.2970000000204891,
+          "startup_seconds": 1.25,
+          "container_id": "28f14d9e51c793355e8b6ad0901ba929a18b691a942d9200c5894c4dd5ade8e6",
+          "cleanup_verified": true,
+          "cleanup_seconds": 0.4529999999795109,
+          "total_seconds": 2.0,
+          "termination_delay_seconds": 0.0
+        }
+      }
+    },
+    {
+      "name": "tmpfs_full_cleanup",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "tmpfs_full_snapshot_unchanged",
+      "passed": true,
+      "expected": "ac52461ee5d15af161d67af2ebac99a1d7028d121d6bd482783d5cae418d4d3f",
+      "actual": "ac52461ee5d15af161d67af2ebac99a1d7028d121d6bd482783d5cae418d4d3f"
+    },
+    {
+      "name": "tmpfs_real_enospc",
+      "passed": true,
+      "expected": 28,
+      "actual": 28
+    },
+    {
+      "name": "tmpfs_full_next_query_recovers",
+      "passed": true,
+      "expected": {
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "cleanup_verified": true,
+        "snapshot_unchanged": true
+      },
+      "actual": {
+        "status": "ok",
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "truncated": false,
+        "columns": [
+          {
+            "name": "_col_0",
+            "type": "HUGEINT"
+          }
+        ],
+        "fetch_seconds": 7.64540000091074e-05,
+        "serialize_seconds": 2.2895999961747293e-05,
+        "parse_seconds": 0.033775411000021904,
+        "execute_seconds": 0.0041486139999733496,
+        "schema_profile": "legacy",
+        "settings": {
+          "enable_external_access": "false",
+          "allow_community_extensions": "false",
+          "allow_unsigned_extensions": "false",
+          "autoinstall_known_extensions": "false",
+          "autoload_known_extensions": "false",
+          "python_enable_replacements": "false",
+          "python_scan_all_frames": "false",
+          "threads": "1",
+          "memory_limit": "122.0 MiB",
+          "max_temp_directory_size": "0 bytes",
+          "temp_directory": "",
+          "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+          "allowed_directories": "[]",
+          "allowed_configs": "[]",
+          "lock_configuration": "true",
+          "access_mode": "read_only"
+        },
+        "versions": {
+          "duckdb": "1.5.6",
+          "sqlglot": "30.22.0",
+          "pytz": "2026.5",
+          "python": "3.12.10"
+        },
+        "fault_events": [],
+        "query_seconds": 0.2970000000204891,
+        "startup_seconds": 1.172000000020489,
+        "container_id": "8319f06c44b270f36bef47ea6d965ccf9661aecdd5ffa1f53d533e3487b7f206",
+        "cleanup_verified": true,
+        "cleanup_seconds": 0.43799999996554106,
+        "total_seconds": 1.9070000000065193,
+        "termination_delay_seconds": 0.0
+      }
+    },
+    {
+      "name": "worker_crash",
+      "passed": true,
+      "expected": [
+        "crash"
+      ],
+      "actual": {
+        "input": "crash",
+        "result": {
+          "status": "crash",
+          "exit_code": 23,
+          "fault_events": [],
+          "query_seconds": 0.40600000001722947,
+          "startup_seconds": 1.1560000000172295,
+          "container_id": "2fb04c9667569b457211f3a80cb0229718f993f345f199847d9ad70a856ba2bc",
+          "cleanup_verified": true,
+          "cleanup_seconds": 0.42199999996228144,
+          "total_seconds": 1.9839999999967404,
+          "termination_delay_seconds": 0.0
+        }
+      }
+    },
+    {
+      "name": "worker_crash_cleanup",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "worker_crash_snapshot_unchanged",
+      "passed": true,
+      "expected": "ac52461ee5d15af161d67af2ebac99a1d7028d121d6bd482783d5cae418d4d3f",
+      "actual": "ac52461ee5d15af161d67af2ebac99a1d7028d121d6bd482783d5cae418d4d3f"
+    },
+    {
+      "name": "worker_crash_next_query_recovers",
+      "passed": true,
+      "expected": {
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "cleanup_verified": true,
+        "snapshot_unchanged": true
+      },
+      "actual": {
+        "status": "ok",
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "truncated": false,
+        "columns": [
+          {
+            "name": "_col_0",
+            "type": "HUGEINT"
+          }
+        ],
+        "fetch_seconds": 6.111200002578698e-05,
+        "serialize_seconds": 2.271500000006199e-05,
+        "parse_seconds": 0.04330537700002424,
+        "execute_seconds": 0.003493663000028846,
+        "schema_profile": "legacy",
+        "settings": {
+          "enable_external_access": "false",
+          "allow_community_extensions": "false",
+          "allow_unsigned_extensions": "false",
+          "autoinstall_known_extensions": "false",
+          "autoload_known_extensions": "false",
+          "python_enable_replacements": "false",
+          "python_scan_all_frames": "false",
+          "threads": "1",
+          "memory_limit": "122.0 MiB",
+          "max_temp_directory_size": "0 bytes",
+          "temp_directory": "",
+          "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+          "allowed_directories": "[]",
+          "allowed_configs": "[]",
+          "lock_configuration": "true",
+          "access_mode": "read_only"
+        },
+        "versions": {
+          "duckdb": "1.5.6",
+          "sqlglot": "30.22.0",
+          "pytz": "2026.5",
+          "python": "3.12.10"
+        },
+        "fault_events": [],
+        "query_seconds": 0.3279999999795109,
+        "startup_seconds": 1.172000000020489,
+        "container_id": "ed35b1a8bff97c3740ea7c37cc35e2c21065652974674e4bd6a76e3a81f44b91",
+        "cleanup_verified": true,
+        "cleanup_seconds": 0.4220000000204891,
+        "total_seconds": 1.922000000020489,
+        "termination_delay_seconds": 0.0
+      }
+    },
+    {
+      "name": "descendant_timeout",
+      "passed": true,
+      "expected": [
+        "timeout"
+      ],
+      "actual": {
+        "input": "child_timeout",
+        "result": {
+          "status": "timeout",
+          "late_result_discarded": true,
+          "fault_events": [
+            {
+              "status": "fault_running",
+              "child_pid": 7,
+              "child_alive": true,
+              "child_tmp_created": true
+            }
+          ],
+          "query_seconds": 5.0,
+          "startup_seconds": 1.1560000000172295,
+          "container_id": "efb3866335fb4e3d40ada650416f3ec938538be384303247d769b898b536d2ca",
+          "cleanup_verified": true,
+          "cleanup_seconds": 0.5629999999655411,
+          "total_seconds": 6.7189999999827705,
+          "termination_delay_seconds": 0.5629999999655411
+        }
+      }
+    },
+    {
+      "name": "descendant_timeout_cleanup",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "descendant_timeout_snapshot_unchanged",
+      "passed": true,
+      "expected": "ac52461ee5d15af161d67af2ebac99a1d7028d121d6bd482783d5cae418d4d3f",
+      "actual": "ac52461ee5d15af161d67af2ebac99a1d7028d121d6bd482783d5cae418d4d3f"
+    },
+    {
+      "name": "descendant_timeout_deadline_and_cleanup_latency",
+      "passed": true,
+      "expected": "query_seconds in [4.9,6]; termination_delay_seconds in [0,5]",
+      "actual": {
+        "query_seconds": 5.0,
+        "termination_delay_seconds": 0.5629999999655411,
+        "cleanup_seconds": 0.5629999999655411
+      }
+    },
+    {
+      "name": "descendant_timeout_rejects_late_evidence",
+      "passed": true,
+      "expected": "no rows, late_result_discarded=true",
+      "actual": {
+        "status": "timeout",
+        "late_result_discarded": true,
+        "fault_events": [
+          {
+            "status": "fault_running",
+            "child_pid": 7,
+            "child_alive": true,
+            "child_tmp_created": true
+          }
+        ],
+        "query_seconds": 5.0,
+        "startup_seconds": 1.1560000000172295,
+        "container_id": "efb3866335fb4e3d40ada650416f3ec938538be384303247d769b898b536d2ca",
+        "cleanup_verified": true,
+        "cleanup_seconds": 0.5629999999655411,
+        "total_seconds": 6.7189999999827705,
+        "termination_delay_seconds": 0.5629999999655411
+      }
+    },
+    {
+      "name": "descendant_was_alive_with_temp_file",
+      "passed": true,
+      "expected": "live child with created /tmp/child before container removal",
+      "actual": [
+        {
+          "status": "fault_running",
+          "child_pid": 7,
+          "child_alive": true,
+          "child_tmp_created": true
+        }
+      ]
+    },
+    {
+      "name": "descendant_timeout_next_query_recovers",
+      "passed": true,
+      "expected": {
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "cleanup_verified": true,
+        "snapshot_unchanged": true
+      },
+      "actual": {
+        "status": "ok",
+        "rows": [
+          [
+            37
+          ]
+        ],
+        "truncated": false,
+        "columns": [
+          {
+            "name": "_col_0",
+            "type": "HUGEINT"
+          }
+        ],
+        "fetch_seconds": 6.785499999750755e-05,
+        "serialize_seconds": 2.1994000007907744e-05,
+        "parse_seconds": 0.0377292290000355,
+        "execute_seconds": 0.0028368360000285975,
+        "schema_profile": "legacy",
+        "settings": {
+          "enable_external_access": "false",
+          "allow_community_extensions": "false",
+          "allow_unsigned_extensions": "false",
+          "autoinstall_known_extensions": "false",
+          "autoload_known_extensions": "false",
+          "python_enable_replacements": "false",
+          "python_scan_all_frames": "false",
+          "threads": "1",
+          "memory_limit": "122.0 MiB",
+          "max_temp_directory_size": "0 bytes",
+          "temp_directory": "",
+          "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+          "allowed_directories": "[]",
+          "allowed_configs": "[]",
+          "lock_configuration": "true",
+          "access_mode": "read_only"
+        },
+        "versions": {
+          "duckdb": "1.5.6",
+          "sqlglot": "30.22.0",
+          "pytz": "2026.5",
+          "python": "3.12.10"
+        },
+        "fault_events": [],
+        "query_seconds": 0.29599999997299165,
+        "startup_seconds": 1.172000000020489,
+        "container_id": "39cc3436e9337f737824f70cd7a4d62c9481bcfc59ad5bf4b742aeb0c7225b01",
+        "cleanup_verified": true,
+        "cleanup_seconds": 0.4380000000237487,
+        "total_seconds": 1.9060000000172295,
+        "termination_delay_seconds": 0.0
+      }
+    }
+  ],
+  "limitations": [
+    "SQL admission deadline excludes container bootstrap; cleanup is measured separately.",
+    "OOM and disk fault injection are trusted test-only APIs, not Agent endpoints.",
+    "Container disappearance establishes cgroup removal; this does not claim host-wide absence of unrelated processes."
+  ]
+}

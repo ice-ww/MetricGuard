@@ -21,6 +21,13 @@ def bounded_result(cursor: duckdb.DuckDBPyConnection) -> dict[str, Any]:
     result: dict[str, Any] = {"status": "ok", "rows": rows, "truncated": False}
     if len(cursor.description or ()) > MAX_COLUMNS:
         return {"status": "output_limit", "limit": "columns", "fetch_seconds": 0.0, "serialize_seconds": 0.0}
+    columns = [{"name": item[0], "type": str(item[1])} for item in (cursor.description or ())]
+    metadata_bytes = len(json.dumps(columns, ensure_ascii=True).encode("utf-8"))
+    if metadata_bytes > 8192:
+        return {"status": "output_limit", "limit": "column_metadata", "fetch_seconds": 0.0, "serialize_seconds": 0.0}
+    if len({item["name"].casefold() for item in columns}) != len(columns):
+        return {"status": "output_limit", "limit": "duplicate_columns", "fetch_seconds": 0.0, "serialize_seconds": 0.0}
+    result["columns"] = columns
     for index in range(MAX_ROWS + 1):
         tick = time.monotonic()
         row = cursor.fetchone()

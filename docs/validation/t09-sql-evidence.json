@@ -1,0 +1,287 @@
+{
+  "image": "sha256:4cadf9b4afae2394df26a2d518ab7d68fbbc4e086081f4273c45410fae456cb0",
+  "checks": {
+    "independent_hand_count": true,
+    "column_metadata": true,
+    "cleanup": true,
+    "business_profile": true,
+    "timestamp_rows": true,
+    "timestamp_type": true,
+    "timestamp_cleanup": true,
+    "pytz_attestation": true,
+    "SELECT * FROM read_csv('/etc/passwd')": true,
+    "SELECT * FROM sales": true,
+    "SELECT * FROM information_schema.tables": true,
+    "DELETE FROM users": true,
+    "readonly_hash": true
+  },
+  "query": "SELECT COUNT(*) AS n, SUM(CASE WHEN EXISTS(SELECT 1 FROM sessions s WHERE s.user_id=u.user_id AND CAST(s.started_at AT TIME ZONE 'Asia/Shanghai' AS DATE)=CAST(u.registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE)+1) THEN 1 ELSE 0 END) AS retained FROM users u",
+  "result": {
+    "status": "ok",
+    "rows": [
+      [
+        2,
+        1
+      ]
+    ],
+    "truncated": false,
+    "columns": [
+      {
+        "name": "n",
+        "type": "BIGINT"
+      },
+      {
+        "name": "retained",
+        "type": "HUGEINT"
+      }
+    ],
+    "fetch_seconds": 0.00025297599995610653,
+    "serialize_seconds": 5.040100000996972e-05,
+    "parse_seconds": 0.05357308399999283,
+    "execute_seconds": 0.02350796499996477,
+    "schema_profile": "business",
+    "settings": {
+      "enable_external_access": "false",
+      "allow_community_extensions": "false",
+      "allow_unsigned_extensions": "false",
+      "autoinstall_known_extensions": "false",
+      "autoload_known_extensions": "false",
+      "python_enable_replacements": "false",
+      "python_scan_all_frames": "false",
+      "threads": "1",
+      "memory_limit": "122.0 MiB",
+      "max_temp_directory_size": "0 bytes",
+      "temp_directory": "",
+      "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+      "allowed_directories": "[]",
+      "allowed_configs": "[]",
+      "lock_configuration": "true",
+      "access_mode": "read_only"
+    },
+    "versions": {
+      "duckdb": "1.5.6",
+      "sqlglot": "30.22.0",
+      "pytz": "2026.5",
+      "python": "3.12.10"
+    },
+    "fault_events": [],
+    "query_seconds": 0.375,
+    "startup_seconds": 1.2809999999590218,
+    "container_id": "9c95c0d9d6b4cada329a4ffcd6bf57d59db6b0ec4515eaac7c4d2b90e6059cce",
+    "cleanup_verified": true,
+    "cleanup_seconds": 0.5,
+    "total_seconds": 2.155999999959022,
+    "termination_delay_seconds": 0.0
+  },
+  "timestamps": {
+    "status": "ok",
+    "rows": [
+      [
+        "u1",
+        "2026-01-01 16:01:00+00:00"
+      ],
+      [
+        "u2",
+        "2026-01-01 15:59:00+00:00"
+      ]
+    ],
+    "truncated": false,
+    "columns": [
+      {
+        "name": "user_id",
+        "type": "VARCHAR"
+      },
+      {
+        "name": "registered_at",
+        "type": "TIMESTAMP WITH TIME ZONE"
+      }
+    ],
+    "fetch_seconds": 0.06031711500003212,
+    "serialize_seconds": 0.0003263500000230124,
+    "parse_seconds": 0.056514572000025964,
+    "execute_seconds": 0.00488738500001773,
+    "schema_profile": "business",
+    "settings": {
+      "enable_external_access": "false",
+      "allow_community_extensions": "false",
+      "allow_unsigned_extensions": "false",
+      "autoinstall_known_extensions": "false",
+      "autoload_known_extensions": "false",
+      "python_enable_replacements": "false",
+      "python_scan_all_frames": "false",
+      "threads": "1",
+      "memory_limit": "122.0 MiB",
+      "max_temp_directory_size": "0 bytes",
+      "temp_directory": "",
+      "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+      "allowed_directories": "[]",
+      "allowed_configs": "[]",
+      "lock_configuration": "true",
+      "access_mode": "read_only"
+    },
+    "versions": {
+      "duckdb": "1.5.6",
+      "sqlglot": "30.22.0",
+      "pytz": "2026.5",
+      "python": "3.12.10"
+    },
+    "fault_events": [],
+    "query_seconds": 0.48499999998603016,
+    "startup_seconds": 1.5780000000377186,
+    "container_id": "9753c2025abb003f9b83d531bb980bbca6e463e4e1b12a395df1336e08032adf",
+    "cleanup_verified": true,
+    "cleanup_seconds": 0.5,
+    "total_seconds": 2.5630000000237487,
+    "termination_delay_seconds": 0.0
+  },
+  "denied": [
+    {
+      "status": "policy_denied",
+      "error": "Only unqualified physical table or CTE names are allowed",
+      "schema_profile": "business",
+      "settings": {
+        "enable_external_access": "false",
+        "allow_community_extensions": "false",
+        "allow_unsigned_extensions": "false",
+        "autoinstall_known_extensions": "false",
+        "autoload_known_extensions": "false",
+        "python_enable_replacements": "false",
+        "python_scan_all_frames": "false",
+        "threads": "1",
+        "memory_limit": "122.0 MiB",
+        "max_temp_directory_size": "0 bytes",
+        "temp_directory": "",
+        "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+        "allowed_directories": "[]",
+        "allowed_configs": "[]",
+        "lock_configuration": "true",
+        "access_mode": "read_only"
+      },
+      "versions": {
+        "duckdb": "1.5.6",
+        "sqlglot": "30.22.0",
+        "pytz": "2026.5",
+        "python": "3.12.10"
+      },
+      "fault_events": [],
+      "query_seconds": 0.5150000000139698,
+      "startup_seconds": 1.952999999979511,
+      "container_id": "32aea8d46b98147ea10609b563b68946e1a416823c681c5c9263a18dd3a6daf7",
+      "cleanup_verified": true,
+      "cleanup_seconds": 0.5160000000032596,
+      "total_seconds": 2.9839999999967404,
+      "termination_delay_seconds": 0.0
+    },
+    {
+      "status": "policy_denied",
+      "error": "Unapproved physical table: sales",
+      "schema_profile": "business",
+      "settings": {
+        "enable_external_access": "false",
+        "allow_community_extensions": "false",
+        "allow_unsigned_extensions": "false",
+        "autoinstall_known_extensions": "false",
+        "autoload_known_extensions": "false",
+        "python_enable_replacements": "false",
+        "python_scan_all_frames": "false",
+        "threads": "1",
+        "memory_limit": "122.0 MiB",
+        "max_temp_directory_size": "0 bytes",
+        "temp_directory": "",
+        "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+        "allowed_directories": "[]",
+        "allowed_configs": "[]",
+        "lock_configuration": "true",
+        "access_mode": "read_only"
+      },
+      "versions": {
+        "duckdb": "1.5.6",
+        "sqlglot": "30.22.0",
+        "pytz": "2026.5",
+        "python": "3.12.10"
+      },
+      "fault_events": [],
+      "query_seconds": 0.40700000000651926,
+      "startup_seconds": 1.6869999999762513,
+      "container_id": "07bcb59cab5583b672c511fe631f4edc94448488e394b91ceb32df44193df3c5",
+      "cleanup_verified": true,
+      "cleanup_seconds": 0.5620000000344589,
+      "total_seconds": 2.6560000000172295,
+      "termination_delay_seconds": 0.0
+    },
+    {
+      "status": "policy_denied",
+      "error": "Only unqualified physical table or CTE names are allowed",
+      "schema_profile": "business",
+      "settings": {
+        "enable_external_access": "false",
+        "allow_community_extensions": "false",
+        "allow_unsigned_extensions": "false",
+        "autoinstall_known_extensions": "false",
+        "autoload_known_extensions": "false",
+        "python_enable_replacements": "false",
+        "python_scan_all_frames": "false",
+        "threads": "1",
+        "memory_limit": "122.0 MiB",
+        "max_temp_directory_size": "0 bytes",
+        "temp_directory": "",
+        "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+        "allowed_directories": "[]",
+        "allowed_configs": "[]",
+        "lock_configuration": "true",
+        "access_mode": "read_only"
+      },
+      "versions": {
+        "duckdb": "1.5.6",
+        "sqlglot": "30.22.0",
+        "pytz": "2026.5",
+        "python": "3.12.10"
+      },
+      "fault_events": [],
+      "query_seconds": 0.5160000000032596,
+      "startup_seconds": 1.8439999999827705,
+      "container_id": "93ab5ef98fb72063c7d820e2301aae9e8cc7d0063ca654e5ebd2d306e6d201a0",
+      "cleanup_verified": true,
+      "cleanup_seconds": 0.6089999999967404,
+      "total_seconds": 2.9689999999827705,
+      "termination_delay_seconds": 0.0
+    },
+    {
+      "status": "policy_denied",
+      "error": "Only a SELECT is allowed",
+      "schema_profile": "business",
+      "settings": {
+        "enable_external_access": "false",
+        "allow_community_extensions": "false",
+        "allow_unsigned_extensions": "false",
+        "autoinstall_known_extensions": "false",
+        "autoload_known_extensions": "false",
+        "python_enable_replacements": "false",
+        "python_scan_all_frames": "false",
+        "threads": "1",
+        "memory_limit": "122.0 MiB",
+        "max_temp_directory_size": "0 bytes",
+        "temp_directory": "",
+        "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+        "allowed_directories": "[]",
+        "allowed_configs": "[]",
+        "lock_configuration": "true",
+        "access_mode": "read_only"
+      },
+      "versions": {
+        "duckdb": "1.5.6",
+        "sqlglot": "30.22.0",
+        "pytz": "2026.5",
+        "python": "3.12.10"
+      },
+      "fault_events": [],
+      "query_seconds": 0.4690000000409782,
+      "startup_seconds": 2.077999999979511,
+      "container_id": "7d8afd96b5982db2902ebf649e581237d7eb3d3fcd4afe93449b0e1c711363d3",
+      "cleanup_verified": true,
+      "cleanup_seconds": 0.8439999999827705,
+      "total_seconds": 3.3910000000032596,
+      "termination_delay_seconds": 0.0
+    }
+  ]
+}

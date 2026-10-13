@@ -12,14 +12,17 @@ from typing import TYPE_CHECKING
 
 import duckdb
 import sqlglot
+import pytz
 
 sys.path.insert(0, "/app")
 if TYPE_CHECKING:
     from .limits import bounded_result
     from .policy import PolicyError, validate_sql
+    from .profiles import identify_profile
 else:
     from limits import bounded_result
     from policy import PolicyError, validate_sql
+    from profiles import identify_profile
 
 CONFIG = {
     "enable_external_access": "false",
@@ -105,7 +108,7 @@ def main() -> dict:
             and runtime["no_new_privs"] == "1" and runtime["network_interfaces"] == ["lo"]
             and runtime["write_root_denied"] and runtime["network_connect_denied"] and runtime["marker_absent"]):
         return {"status": "environment_denied", "error": "Runtime isolation attestation failed"}
-    if duckdb.__version__ != "1.5.6" or sqlglot.__version__ != "30.22.0" or sys.version_info[:3] != (3, 12, 10):
+    if duckdb.__version__ != "1.5.6" or sqlglot.__version__ != "30.22.0" or pytz.__version__ != "2026.5" or sys.version_info[:3] != (3, 12, 10):  # type: ignore[attr-defined]  # pytz stubs omit runtime __version__.
         return {"status": "environment_denied", "error": "Unvalidated runtime version"}
     try:
         con = duckdb.connect("/data/snapshot.duckdb", read_only=True, config=dict(CONFIG))
@@ -129,12 +132,8 @@ def main() -> dict:
             if settings[key].lower() != value:
                 raise ValueError(f"Unexpected {key}")
         tables = con.execute("SELECT table_schema,table_name,table_type FROM information_schema.tables ORDER BY table_schema,table_name").fetchall()
-        if tables != [("main", "regions", "BASE TABLE"), ("main", "sales", "BASE TABLE")]:
-            raise ValueError("Snapshot must contain only reviewed physical tables")
-        columns = con.execute("SELECT table_name,column_name,data_type FROM information_schema.columns ORDER BY table_name,ordinal_position").fetchall()
-        if columns != [("regions", "id", "INTEGER"), ("regions", "name", "VARCHAR"),
-                       ("sales", "id", "INTEGER"), ("sales", "region_id", "INTEGER"), ("sales", "amount", "INTEGER")]:
-            raise ValueError("Snapshot columns do not match the reviewed schema")
+        columns = con.execute("SELECT table_schema,table_name,column_name,data_type FROM information_schema.columns ORDER BY table_schema,table_name,ordinal_position").fetchall()
+        schema_profile = identify_profile(tables, columns)
         if con.execute("SELECT count(*) FROM duckdb_functions() WHERE NOT internal").fetchall()[0][0]:
             raise ValueError("Snapshot has custom functions or macros")
     except Exception as exc:
@@ -143,8 +142,8 @@ def main() -> dict:
     # monotonic deadline when it receives this line, before sending input.
     print(json.dumps({"ready": True}), flush=True)
     request = json.loads(sys.stdin.readline(65537))
-    info = {"settings": {k: settings[k] for k in (*CONFIG, "allowed_paths", "allowed_directories", "allowed_configs", "lock_configuration", "access_mode")},
-            "versions": {"duckdb": duckdb.__version__, "sqlglot": sqlglot.__version__, "python": sys.version.split()[0]}}
+    info = {"schema_profile": schema_profile, "settings": {k: settings[k] for k in (*CONFIG, "allowed_paths", "allowed_directories", "allowed_configs", "lock_configuration", "access_mode")},
+            "versions": {"duckdb": duckdb.__version__, "sqlglot": sqlglot.__version__, "pytz": pytz.__version__, "python": sys.version.split()[0]}}  # type: ignore[attr-defined]  # pytz stubs omit runtime __version__.
     if request["mode"] == "audit":
         return {"status": "ok", "worker": runtime, **info}
     if request["mode"] == "fault":
@@ -155,7 +154,7 @@ def main() -> dict:
     parse_started = time.monotonic()
     if request["mode"] == "query":
         try:
-            sql = validate_sql(sql)
+            sql = validate_sql(sql, schema_profile=schema_profile)
         except PolicyError as exc:
             return {"status": "policy_denied", "error": str(exc), **info}
     elif request["mode"] != "probe":

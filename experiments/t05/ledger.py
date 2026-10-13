@@ -73,7 +73,7 @@ class Ledger:
                 raise ValueError('budget blocked by unknown model usage')
             count = db.execute('SELECT COUNT(*) FROM attempts WHERE task=? AND kind=?', (task_id, kind)).fetchone()[0]
             tokens = db.execute('SELECT COALESCE(SUM(COALESCE(actual,reserved)),0) FROM attempts WHERE task=?', (task_id,)).fetchone()[0]
-            if count + 1 + headroom_calls > limits[kind] or tokens + reserved_tokens + headroom_tokens > limits['tokens'] or task['active'] >= limits['active_seconds']:
+            if tokens >= limits['tokens'] or count + 1 + headroom_calls > limits[kind] or tokens + reserved_tokens + headroom_tokens > limits['tokens'] or task['active'] >= limits['active_seconds']:
                 raise ValueError('budget exhausted')
             db.execute('INSERT INTO attempts VALUES(?,?,?,?,?,NULL,?,NULL)',
                        (attempt_id, task_id, operation_id, kind, reserved_tokens, 'reserved'))

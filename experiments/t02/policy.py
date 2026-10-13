@@ -4,16 +4,20 @@ This is a policy layer, not the sandbox. Its canonical output must still execute
 inside the restricted worker. Adding syntax requires an explicit policy review.
 """
 
+from typing import TYPE_CHECKING
+
 from sqlglot import exp, parse
 from sqlglot.errors import SqlglotError
 from sqlglot.optimizer.qualify import qualify
 from sqlglot.optimizer.scope import traverse_scope
 
-POLICY_VERSION = "t02-v1"
-SCHEMA: dict[str, object] = {
-    "sales": {"id": "INTEGER", "region_id": "INTEGER", "amount": "INTEGER"},
-    "regions": {"id": "INTEGER", "name": "VARCHAR"},
-}
+if TYPE_CHECKING or __package__:
+    from .profiles import PROFILES, LEGACY_SCHEMA
+else:
+    from profiles import PROFILES, LEGACY_SCHEMA
+
+POLICY_VERSION = "t09-v2"
+SCHEMA = LEGACY_SCHEMA
 MAX_SQL_BYTES = 8192
 MAX_NODES = 512
 MAX_DEPTH = 32
@@ -37,7 +41,9 @@ class PolicyError(ValueError):
     """Input is outside the explicitly reviewed SQL subset."""
 
 
-def _inspect(tree: exp.Expr) -> None:
+def _inspect(tree: exp.Expr, schema_profile: str) -> None:
+    schema: dict[str, object] = dict(PROFILES[schema_profile])
+    allowed = ALLOWED_NODES | ({exp.Cast, exp.DataType, exp.AtTimeZone} if schema_profile == "business" else set())
     if type(tree) is not exp.Select:
         raise PolicyError("Only a SELECT is allowed")
     count = 0
@@ -47,8 +53,14 @@ def _inspect(tree: exp.Expr) -> None:
         count += 1
         if count > MAX_NODES or depth > MAX_DEPTH:
             raise PolicyError("SQL AST complexity limit exceeded")
-        if type(node) not in ALLOWED_NODES:
+        if type(node) not in allowed:
             raise PolicyError(f"Unapproved AST node: {type(node).__name__}")
+        if type(node) is exp.DataType and (node.this != exp.DataType.Type.DATE or node.expressions):
+            raise PolicyError("Only DATE casts are approved")
+        if type(node) is exp.AtTimeZone:
+            zone = node.args.get("zone")
+            if type(zone) is not exp.Literal or not zone.is_string or zone.this != "Asia/Shanghai":
+                raise PolicyError("Only literal Asia/Shanghai time zone is approved")
         if isinstance(node, exp.With) and node.args.get("recursive"):
             raise PolicyError("Recursive CTE is forbidden")
         if isinstance(node, exp.Table):
@@ -62,7 +74,7 @@ def _inspect(tree: exp.Expr) -> None:
     # table with that name inside an earlier or nested scope.
     for scope in traverse_scope(tree):
         for _, source in scope.selected_sources.values():
-            if isinstance(source, exp.Table) and source.name.lower() not in SCHEMA:
+            if isinstance(source, exp.Table) and source.name.lower() not in schema:
                 raise PolicyError(f"Unapproved physical table: {source.name}")
 
 
@@ -85,19 +97,22 @@ def _parse_one(sql: str) -> exp.Expr:
     return statements[0]
 
 
-def validate_sql(sql: str) -> str:
+def validate_sql(sql: str, *, schema_profile: str = "legacy") -> str:
     """Return checked canonical SQL, or reject before any database execution."""
+    if schema_profile not in PROFILES:
+        raise PolicyError("Unknown trusted schema profile")
+    schema: dict[str, object] = dict(PROFILES[schema_profile])
     try:
         tree = _parse_one(sql)
-        _inspect(tree)
+        _inspect(tree, schema_profile)
         # Validate column names and ambiguity through scopes; star expansion is
         # based solely on this static, reviewed physical schema.
-        qualified = qualify(tree, dialect="duckdb", schema=SCHEMA)
-        _inspect(qualified)
+        qualified = qualify(tree, dialect="duckdb", schema=schema)
+        _inspect(qualified, schema_profile)
         canonical = qualified.sql(dialect="duckdb", comments=False)
         regenerated = _parse_one(canonical)
-        _inspect(regenerated)
-        qualify(regenerated, dialect="duckdb", schema=SCHEMA)
+        _inspect(regenerated, schema_profile)
+        qualify(regenerated, dialect="duckdb", schema=schema)
         return canonical
     except PolicyError:
         raise

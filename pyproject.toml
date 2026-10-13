@@ -16,6 +16,7 @@ dev = [
     "langgraph==1.2.14",
     "langgraph-checkpoint-sqlite==3.1.1",
     "anthropic==1.13.0",
+    "types-pytz>=2026.5.0.20261006",
 ]
 
 [tool.uv]
@@ -28,4 +29,4 @@ testpaths = ["tests"]
 [tool.mypy]
 python_version = "3.12"
 check_untyped_defs = true
-files = ["experiments/t01", "experiments/t02", "experiments/t03", "experiments/t04", "experiments/t05", "experiments/t06", "experiments/t07", "experiments/t08"]
+files = ["experiments/t01", "experiments/t02", "experiments/t03", "experiments/t04", "experiments/t05", "experiments/t06", "experiments/t07", "experiments/t08", "experiments/t09", "metricguard"]

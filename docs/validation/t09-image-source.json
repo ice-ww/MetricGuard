@@ -1,0 +1,30 @@
+{
+  "image": "sha256:4cadf9b4afae2394df26a2d518ab7d68fbbc4e086081f4273c45410fae456cb0",
+  "note": "Only mypy type-ignore comments/blank lines differ; parsed runtime ASTs identical.",
+  "checks": [
+    {
+      "file": "worker.py",
+      "identical_runtime_ast": true,
+      "image_source_sha256": "fad7b50ab36db4c881a9ede919f8c64538df87e866525710e40ee5ad39c77991",
+      "repository_source_sha256": "dba77297c3451283df1ecf67f4d5490dfd8e9d78d1594aeaf8c6fb830c59ba12"
+    },
+    {
+      "file": "policy.py",
+      "identical_runtime_ast": true,
+      "image_source_sha256": "2aa24abfada56fbd00c1158b57b4340b7b8cc84a88df8ae4835decfec56a89b1",
+      "repository_source_sha256": "7c48d6467db463df392f7a77ff3a6bce874658379d8535019fd7620f9482593f"
+    },
+    {
+      "file": "limits.py",
+      "identical_runtime_ast": true,
+      "image_source_sha256": "5fce7f19cd228832d5189c5b8bcddf0d59493b1cfd158ae35c75583a7bc1f715",
+      "repository_source_sha256": "0ca429dacf88f168da689d63838bb8374e9e420abd4832412e02f291b4809d07"
+    },
+    {
+      "file": "profiles.py",
+      "identical_runtime_ast": true,
+      "image_source_sha256": "884446d721259d3e13797d5ec38189262eee41276eeade8d351ef6716eb08071",
+      "repository_source_sha256": "1f8826ca4801033ca06c8b9d0f0fa94da69c921d65e297400a9670e8b9206ccd"
+    }
+  ]
+}

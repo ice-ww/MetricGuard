@@ -1,0 +1,54 @@
+{
+  "passed": true,
+  "method": "raw SELECT then Python timezone/set membership; no model SQL aggregation",
+  "database_sha256": "b9fe652e35cef0a0996c2607f858a11c3f3fb46a62110612b4238f06535f8a45",
+  "task_id": "81aaf9fafe894d1081b63843a767fd45",
+  "daily_expected": [
+    {
+      "reg_date": "2026-01-01",
+      "new_users": 216,
+      "retained_users": 143,
+      "retention_rate": 0.6620370370370371
+    },
+    {
+      "reg_date": "2026-01-02",
+      "new_users": 240,
+      "retained_users": 164,
+      "retention_rate": 0.6833333333333333
+    },
+    {
+      "reg_date": "2026-01-03",
+      "new_users": 264,
+      "retained_users": 186,
+      "retention_rate": 0.7045454545454546
+    },
+    {
+      "reg_date": "2026-01-04",
+      "new_users": 216,
+      "retained_users": 147,
+      "retention_rate": 0.6805555555555556
+    },
+    {
+      "reg_date": "2026-01-05",
+      "new_users": 240,
+      "retained_users": 173,
+      "retention_rate": 0.7208333333333333
+    },
+    {
+      "reg_date": "2026-01-06",
+      "new_users": 264,
+      "retained_users": 180,
+      "retention_rate": 0.6818181818181818
+    },
+    {
+      "reg_date": "2026-01-07",
+      "new_users": 216,
+      "retained_users": 147,
+      "retention_rate": 0.6805555555555556
+    }
+  ],
+  "facts_checked": 21,
+  "known_tokens": 4067,
+  "total_users": 1656,
+  "total_retained": 1140
+}

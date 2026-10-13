@@ -1,0 +1,1356 @@
+{
+  "id": "81aaf9fafe894d1081b63843a767fd45",
+  "status": "ended",
+  "rounds": 0,
+  "version": 0,
+  "question": "新增用户自然日次日留存",
+  "active": 7.702999999979511,
+  "limits": {
+    "tool": 12,
+    "model": 10,
+    "tokens": 30000,
+    "active_seconds": 180
+  },
+  "parent": null,
+  "attempts": [
+    {
+      "id": "81aaf9fafe894d1081b63843a767fd45:retrieval",
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "operation": "retrieval",
+      "kind": "tool",
+      "reserved": 0,
+      "actual": 0,
+      "state": "completed",
+      "result": "{\"candidates\": [{\"id\": \"retention\", \"score\": 12.411109097808765}, {\"id\": \"retained_cost\", \"score\": 5.021965918050482}, {\"id\": \"crash\", \"score\": 1.8495032738117811}], \"corpus_version\": \"t06-v1\", \"definition\": {\"aliases\": [\"\\u65b0\\u7528\\u6237\\u6b21\\u65e5\\u7559\\u5b58\", \"\\u6ce8\\u518c\\u6b21\\u65e5\\u7559\\u5b58\\u7387\"], \"definition\": \"\\u65b0\\u589e\\u6ce8\\u518c\\u7528\\u6237\\u7b2c\\u4e8c\\u5929\\u56de\\u6765\\u4ea7\\u751f\\u4f1a\\u8bdd\\u7684\\u6bd4\\u4f8b\\u3002\", \"denominator\": \"D \\u65e5\\u9996\\u6b21\\u6ce8\\u518c\\u53bb\\u91cd\\u7528\\u6237\\u6570\\uff1b\\u4e3a\\u96f6\\u5219\\u4e0d\\u53ef\\u8ba1\\u7b97\", \"dimensions\": \"users.registration_os / registration_version / channel \\u56fa\\u5b9a\\u6ce8\\u518c\\u5f52\\u5c5e\", \"id\": \"retention\", \"joins\": \"users.user_id = sessions.user_id\\uff1bEXISTS \\u9632\\u6b62\\u591a\\u4f1a\\u8bdd\\u91cd\\u590d\\u8ba1\\u6570\", \"name\": \"\\u65b0\\u589e\\u7528\\u6237\\u81ea\\u7136\\u65e5\\u6b21\\u65e5\\u7559\\u5b58\", \"numerator\": \"D \\u65e5\\u6ce8\\u518c\\u4e14 D+1 \\u6709\\u81f3\\u5c11\\u4e00\\u6b21\\u4f1a\\u8bdd\\u7684\\u53bb\\u91cd user_id \\u6570\", \"pitfalls\": \"\\u4e0d\\u662f\\u6eda\\u52a8 24 \\u5c0f\\u65f6\\uff1b\\u4e0d\\u6df7\\u5165\\u6d3b\\u8dc3\\u8001\\u7528\\u6237\\uff1b\\u8de8\\u65e5\\u7528\\u603b\\u7559\\u5b58/\\u603b\\u65b0\\u589e\\uff0c\\u4e0d\\u5e73\\u5747\\u6bcf\\u65e5\\u6bd4\\u4f8b\", \"time\": \"Asia/Shanghai \\u81ea\\u7136\\u65e5\\uff1b\\u6ce8\\u518c\\u7a97\\u53e3 [start,end)\\uff1bD+1 \\u5b8c\\u6574\\u7ed3\\u675f\\u4e14 users/sessions \\u6c34\\u4f4d\\u9f50\\u5907\\uff1bD+2 <= sessions.complete_before\"}, \"method\": \"exact\", \"reason\": \"matched\", \"status\": \"adopt\", \"window\": [\"2026-01-01\", \"2026-01-08\"]}"
+    },
+    {
+      "id": "81aaf9fafe894d1081b63843a767fd45:schema",
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "operation": "schema",
+      "kind": "tool",
+      "reserved": 0,
+      "actual": 0,
+      "state": "completed",
+      "result": "{\"channel_daily\": {\"channel\": \"VARCHAR\", \"day\": \"DATE\", \"spend_cents\": \"BIGINT\"}, \"content_events\": {\"event_id\": \"VARCHAR\", \"event_type\": \"VARCHAR\", \"occurred_at\": \"TIMESTAMP WITH TIME ZONE\", \"play_id\": \"VARCHAR\", \"session_id\": \"VARCHAR\"}, \"playback_telemetry\": {\"duration_seconds\": \"INTEGER\", \"observed_at\": \"TIMESTAMP WITH TIME ZONE\", \"play_id\": \"VARCHAR\", \"report_id\": \"VARCHAR\", \"session_id\": \"VARCHAR\", \"watched_seconds\": \"INTEGER\"}, \"release_calendar\": {\"os\": \"VARCHAR\", \"released_at\": \"TIMESTAMP WITH TIME ZONE\", \"version\": \"VARCHAR\"}, \"sessions\": {\"crashed\": \"BOOLEAN\", \"os\": \"VARCHAR\", \"session_id\": \"VARCHAR\", \"started_at\": \"TIMESTAMP WITH TIME ZONE\", \"user_id\": \"VARCHAR\", \"version\": \"VARCHAR\"}, \"source_watermarks\": {\"complete_before\": \"TIMESTAMP WITH TIME ZONE\", \"source\": \"VARCHAR\"}, \"users\": {\"channel\": \"VARCHAR\", \"registered_at\": \"TIMESTAMP WITH TIME ZONE\", \"registration_os\": \"VARCHAR\", \"registration_version\": \"VARCHAR\", \"user_id\": \"VARCHAR\"}}"
+    },
+    {
+      "id": "81aaf9fafe894d1081b63843a767fd45:watermarks",
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "operation": "watermarks",
+      "kind": "tool",
+      "reserved": 0,
+      "actual": 0,
+      "state": "completed",
+      "result": "{\"cleanup_seconds\": 0.42199999996228144, \"cleanup_verified\": true, \"columns\": [{\"name\": \"source\", \"type\": \"VARCHAR\"}, {\"name\": \"complete_before\", \"type\": \"TIMESTAMP WITH TIME ZONE\"}], \"container_id\": \"58821cb74aa0c277eccbd56a5940ba61f2c1ac90af89c7931e60e235d63810f4\", \"execute_seconds\": 0.002889716000026965, \"fault_events\": [], \"fetch_seconds\": 0.02080907700002399, \"parse_seconds\": 0.03278872100003127, \"query_seconds\": 0.28100000001722947, \"rows\": [[\"users\", \"2026-01-16 16:00:00+00:00\"], [\"sessions\", \"2026-01-16 16:00:00+00:00\"], [\"content_events\", \"2026-01-16 16:00:00+00:00\"], [\"playback_telemetry\", \"2026-01-16 16:00:00+00:00\"], [\"channel_daily\", \"2026-01-16 16:00:00+00:00\"], [\"release_calendar\", \"2026-01-16 16:00:00+00:00\"]], \"schema_profile\": \"business\", \"serialize_seconds\": 0.00013010000009217038, \"settings\": {\"access_mode\": \"read_only\", \"allow_community_extensions\": \"false\", \"allow_unsigned_extensions\": \"false\", \"allowed_configs\": \"[]\", \"allowed_directories\": \"[]\", \"allowed_paths\": \"[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]\", \"autoinstall_known_extensions\": \"false\", \"autoload_known_extensions\": \"false\", \"enable_external_access\": \"false\", \"lock_configuration\": \"true\", \"max_temp_directory_size\": \"0 bytes\", \"memory_limit\": \"122.0 MiB\", \"python_enable_replacements\": \"false\", \"python_scan_all_frames\": \"false\", \"temp_directory\": \"\", \"threads\": \"1\"}, \"startup_seconds\": 1.1099999999860302, \"status\": \"ok\", \"termination_delay_seconds\": 0.0, \"total_seconds\": 1.812999999965541, \"truncated\": false, \"versions\": {\"duckdb\": \"1.5.6\", \"python\": \"3.12.10\", \"pytz\": \"2026.5\", \"sqlglot\": \"30.22.0\"}}"
+    },
+    {
+      "id": "81aaf9fafe894d1081b63843a767fd45:sql_plan",
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "operation": "sql_plan:c06f6202f57021ac9171e8d5427d2a7a741a917315a62031ad5b9ff423a040f9",
+      "kind": "model",
+      "reserved": 5102,
+      "actual": 1054,
+      "state": "completed",
+      "result": "{\"cap\": \"scheduler_guard\", \"content\": [{\"citations\": null, \"text\": \"{\\\"sql\\\":\\\"WITH reg AS (\\\\n  SELECT user_id, CAST(registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE) AS reg_date\\\\n  FROM users\\\\n  WHERE CAST(registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE) >= DATE '2026-01-01'\\\\n    AND CAST(registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE) < DATE '2026-01-08'\\\\n),\\\\ndenom AS (\\\\n  SELECT reg_date, COUNT(DISTINCT user_id) AS new_users\\\\n  FROM reg\\\\n  GROUP BY reg_date\\\\n),\\\\nretained AS (\\\\n  SELECT r.reg_date, COUNT(DISTINCT r.user_id) AS retained_users\\\\n  FROM reg r\\\\n  WHERE EXISTS (\\\\n    SELECT 1\\\\n    FROM sessions s\\\\n    WHERE s.user_id = r.user_id\\\\n      AND CAST(s.started_at AT TIME ZONE 'Asia/Shanghai' AS DATE) = r.reg_date + 1\\\\n  )\\\\n  GROUP BY r.reg_date\\\\n)\\\\nSELECT d.reg_date,\\\\n       d.new_users,\\\\n       COALESCE(r.retained_users, 0) AS retained_users,\\\\n       COALESCE(r.retained_users, 0) / NULLIF(d.new_users, 0) AS retention_rate\\\\nFROM denom d\\\\nLEFT JOIN retained r ON d.reg_date = r.reg_date\\\\nORDER BY d.reg_date;\\\"}\", \"type\": \"text\"}], \"fee_usd_range\": {\"currency\": \"USD\", \"kind\": \"estimate_not_invoice\", \"maximum\": 0.0005997, \"minimum\": 0.00029985, \"pricing\": \"DeepSeek-V4.1-Flash 2026-10-12\"}, \"model\": \"deepseek-flash\", \"raw_usage\": {\"cache_creation\": null, \"cache_creation_input_tokens\": 0, \"cache_read_input_tokens\": 0, \"inference_geo\": null, \"input_tokens\": 739, \"output_tokens\": 315, \"output_tokens_details\": null, \"server_tool_use\": null, \"service_tier\": \"standard\"}, \"reservation\": 5102, \"status\": \"completed\", \"usage\": {\"input_cached\": 0, \"input_total\": 739, \"input_uncached\": 739, \"output\": 315, \"total\": 1054}}"
+    },
+    {
+      "id": "81aaf9fafe894d1081b63843a767fd45:sql",
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "operation": "sql",
+      "kind": "tool",
+      "reserved": 0,
+      "actual": 0,
+      "state": "completed",
+      "result": "{\"cleanup_seconds\": 0.4220000000204891, \"cleanup_verified\": true, \"columns\": [{\"name\": \"reg_date\", \"type\": \"DATE\"}, {\"name\": \"new_users\", \"type\": \"BIGINT\"}, {\"name\": \"retained_users\", \"type\": \"BIGINT\"}, {\"name\": \"retention_rate\", \"type\": \"DOUBLE\"}], \"container_id\": \"6800c7a19d4249ae7a3b50a386388757b7bf41513ccc7fa915385d626dad1aa8\", \"execute_seconds\": 0.024682035000012092, \"fault_events\": [], \"fetch_seconds\": 0.00016809599998168778, \"parse_seconds\": 0.04430008799999996, \"query_seconds\": 0.31299999996554106, \"rows\": [[\"2026-01-01\", 216, 143, 0.6620370370370371], [\"2026-01-02\", 240, 164, 0.6833333333333333], [\"2026-01-03\", 264, 186, 0.7045454545454546], [\"2026-01-04\", 216, 147, 0.6805555555555556], [\"2026-01-05\", 240, 173, 0.7208333333333333], [\"2026-01-06\", 264, 180, 0.6818181818181818], [\"2026-01-07\", 216, 147, 0.6805555555555556]], \"schema_profile\": \"business\", \"serialize_seconds\": 0.00014966000003369118, \"settings\": {\"access_mode\": \"read_only\", \"allow_community_extensions\": \"false\", \"allow_unsigned_extensions\": \"false\", \"allowed_configs\": \"[]\", \"allowed_directories\": \"[]\", \"allowed_paths\": \"[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]\", \"autoinstall_known_extensions\": \"false\", \"autoload_known_extensions\": \"false\", \"enable_external_access\": \"false\", \"lock_configuration\": \"true\", \"max_temp_directory_size\": \"0 bytes\", \"memory_limit\": \"122.0 MiB\", \"python_enable_replacements\": \"false\", \"python_scan_all_frames\": \"false\", \"temp_directory\": \"\", \"threads\": \"1\"}, \"startup_seconds\": 1.0310000000172295, \"status\": \"ok\", \"termination_delay_seconds\": 0.0, \"total_seconds\": 1.7660000000032596, \"truncated\": false, \"versions\": {\"duckdb\": \"1.5.6\", \"python\": \"3.12.10\", \"pytz\": \"2026.5\", \"sqlglot\": \"30.22.0\"}}"
+    },
+    {
+      "id": "81aaf9fafe894d1081b63843a767fd45:report",
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "operation": "report:90046c9fb2efe7e8af8079e893ed783fe7e66a457df1378340608fc487d4ec74",
+      "kind": "model",
+      "reserved": 10761,
+      "actual": 3013,
+      "state": "completed",
+      "result": "{\"cap\": \"scheduler_guard\", \"content\": [{\"citations\": null, \"text\": \"{\\\"facts\\\":[{\\\"row\\\":0,\\\"column\\\":\\\"new_users\\\",\\\"value\\\":216},{\\\"row\\\":0,\\\"column\\\":\\\"retained_users\\\",\\\"value\\\":143},{\\\"row\\\":0,\\\"column\\\":\\\"retention_rate\\\",\\\"value\\\":0.6620370370370371},{\\\"row\\\":1,\\\"column\\\":\\\"new_users\\\",\\\"value\\\":240},{\\\"row\\\":1,\\\"column\\\":\\\"retained_users\\\",\\\"value\\\":164},{\\\"row\\\":1,\\\"column\\\":\\\"retention_rate\\\",\\\"value\\\":0.6833333333333333},{\\\"row\\\":2,\\\"column\\\":\\\"new_users\\\",\\\"value\\\":264},{\\\"row\\\":2,\\\"column\\\":\\\"retained_users\\\",\\\"value\\\":186},{\\\"row\\\":2,\\\"column\\\":\\\"retention_rate\\\",\\\"value\\\":0.7045454545454546},{\\\"row\\\":3,\\\"column\\\":\\\"new_users\\\",\\\"value\\\":216},{\\\"row\\\":3,\\\"column\\\":\\\"retained_users\\\",\\\"value\\\":147},{\\\"row\\\":3,\\\"column\\\":\\\"retention_rate\\\",\\\"value\\\":0.6805555555555556},{\\\"row\\\":4,\\\"column\\\":\\\"new_users\\\",\\\"value\\\":240},{\\\"row\\\":4,\\\"column\\\":\\\"retained_users\\\",\\\"value\\\":173},{\\\"row\\\":4,\\\"column\\\":\\\"retention_rate\\\",\\\"value\\\":0.7208333333333333},{\\\"row\\\":5,\\\"column\\\":\\\"new_users\\\",\\\"value\\\":264},{\\\"row\\\":5,\\\"column\\\":\\\"retained_users\\\",\\\"value\\\":180},{\\\"row\\\":5,\\\"column\\\":\\\"retention_rate\\\",\\\"value\\\":0.6818181818181818},{\\\"row\\\":6,\\\"column\\\":\\\"new_users\\\",\\\"value\\\":216},{\\\"row\\\":6,\\\"column\\\":\\\"retained_users\\\",\\\"value\\\":147},{\\\"row\\\":6,\\\"column\\\":\\\"retention_rate\\\",\\\"value\\\":0.6805555555555556}]}\", \"type\": \"text\"}], \"fee_usd_range\": {\"currency\": \"USD\", \"kind\": \"estimate_not_invoice\", \"maximum\": 0.0012108, \"minimum\": 0.0006054, \"pricing\": \"DeepSeek-V4.1-Flash 2026-10-12\"}, \"model\": \"deepseek-flash\", \"raw_usage\": {\"cache_creation\": null, \"cache_creation_input_tokens\": 0, \"cache_read_input_tokens\": 0, \"inference_geo\": null, \"input_tokens\": 2672, \"output_tokens\": 341, \"output_tokens_details\": null, \"server_tool_use\": null, \"service_tier\": \"standard\"}, \"reservation\": 10761, \"status\": \"completed\", \"usage\": {\"input_cached\": 0, \"input_total\": 2672, \"input_uncached\": 2672, \"output\": 341, \"total\": 3013}}"
+    }
+  ],
+  "tool_calls": 4,
+  "model_calls": 2,
+  "tokens": 4067,
+  "trace": [
+    {
+      "seq": 1,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "reserve",
+      "detail": "81aaf9fafe894d1081b63843a767fd45:retrieval"
+    },
+    {
+      "seq": 2,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "sent",
+      "detail": "81aaf9fafe894d1081b63843a767fd45:retrieval"
+    },
+    {
+      "seq": 3,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "completed",
+      "detail": "81aaf9fafe894d1081b63843a767fd45:retrieval"
+    },
+    {
+      "seq": 4,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "reserve",
+      "detail": "81aaf9fafe894d1081b63843a767fd45:schema"
+    },
+    {
+      "seq": 5,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "sent",
+      "detail": "81aaf9fafe894d1081b63843a767fd45:schema"
+    },
+    {
+      "seq": 6,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "completed",
+      "detail": "81aaf9fafe894d1081b63843a767fd45:schema"
+    },
+    {
+      "seq": 7,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "reserve",
+      "detail": "81aaf9fafe894d1081b63843a767fd45:watermarks"
+    },
+    {
+      "seq": 8,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "sent",
+      "detail": "81aaf9fafe894d1081b63843a767fd45:watermarks"
+    },
+    {
+      "seq": 9,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "completed",
+      "detail": "81aaf9fafe894d1081b63843a767fd45:watermarks"
+    },
+    {
+      "seq": 10,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "definition_adopted",
+      "detail": "{\"definition\": {\"id\": \"retention\", \"name\": \"新增用户自然日次日留存\", \"aliases\": [\"新用户次日留存\", \"注册次日留存率\"], \"definition\": \"新增注册用户第二天回来产生会话的比例。\", \"numerator\": \"D 日注册且 D+1 有至少一次会话的去重 user_id 数\", \"denominator\": \"D 日首次注册去重用户数；为零则不可计算\", \"dimensions\": \"users.registration_os / registration_version / channel 固定注册归属\", \"joins\": \"users.user_id = sessions.user_id；EXISTS 防止多会话重复计数\", \"time\": \"Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before\", \"pitfalls\": \"不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例\"}, \"actual_window\": [\"2026-01-01\", \"2026-01-08\"]}"
+    },
+    {
+      "seq": 11,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "reserve",
+      "detail": "81aaf9fafe894d1081b63843a767fd45:sql_plan"
+    },
+    {
+      "seq": 12,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "sent",
+      "detail": "81aaf9fafe894d1081b63843a767fd45:sql_plan"
+    },
+    {
+      "seq": 13,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "completed",
+      "detail": "81aaf9fafe894d1081b63843a767fd45:sql_plan"
+    },
+    {
+      "seq": 14,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "reserve",
+      "detail": "81aaf9fafe894d1081b63843a767fd45:sql"
+    },
+    {
+      "seq": 15,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "sent",
+      "detail": "81aaf9fafe894d1081b63843a767fd45:sql"
+    },
+    {
+      "seq": 16,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "completed",
+      "detail": "81aaf9fafe894d1081b63843a767fd45:sql"
+    },
+    {
+      "seq": 17,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "query_completed",
+      "detail": "{\"status\": \"ok\", \"cleanup_verified\": true, \"evidence_ids\": [\"81aaf9fafe894d1081b63843a767fd45:query\"]}"
+    },
+    {
+      "seq": 18,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "reserve",
+      "detail": "81aaf9fafe894d1081b63843a767fd45:report"
+    },
+    {
+      "seq": 19,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "sent",
+      "detail": "81aaf9fafe894d1081b63843a767fd45:report"
+    },
+    {
+      "seq": 20,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "completed",
+      "detail": "81aaf9fafe894d1081b63843a767fd45:report"
+    },
+    {
+      "seq": 21,
+      "task": "81aaf9fafe894d1081b63843a767fd45",
+      "event": "report_validated",
+      "detail": "{\"passed\": true, \"assertion_count\": 21, \"valid_count\": 21, \"results\": [{\"assertion_id\": \"0\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"1\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"2\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"3\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"4\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"5\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"6\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"7\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"8\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"9\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"10\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"11\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"12\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"13\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"14\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"15\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"16\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"17\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"18\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"19\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}, {\"assertion_id\": \"20\", \"passed\": true, \"errors\": [], \"business_definition_status\": \"requires_independent_reference\", \"inference_status\": \"not_assessed\"}], \"errors\": [], \"protocol_version\": 1}"
+    }
+  ],
+  "snapshot_id": "development",
+  "snapshot_hash": "b9fe652e35cef0a0996c2607f858a11c3f3fb46a62110612b4238f06535f8a45",
+  "requested_window": [
+    "2026-01-01",
+    "2026-01-08"
+  ],
+  "actual_window": [
+    "2026-01-01",
+    "2026-01-08"
+  ],
+  "definition": {
+    "id": "retention",
+    "name": "新增用户自然日次日留存",
+    "aliases": [
+      "新用户次日留存",
+      "注册次日留存率"
+    ],
+    "definition": "新增注册用户第二天回来产生会话的比例。",
+    "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+    "denominator": "D 日首次注册去重用户数；为零则不可计算",
+    "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+    "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+    "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+    "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+  },
+  "evidence": [
+    {
+      "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+      "tool": "query",
+      "parameters": {
+        "sql": "WITH reg AS (\n  SELECT user_id, CAST(registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE) AS reg_date\n  FROM users\n  WHERE CAST(registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE) >= DATE '2026-01-01'\n    AND CAST(registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE) < DATE '2026-01-08'\n),\ndenom AS (\n  SELECT reg_date, COUNT(DISTINCT user_id) AS new_users\n  FROM reg\n  GROUP BY reg_date\n),\nretained AS (\n  SELECT r.reg_date, COUNT(DISTINCT r.user_id) AS retained_users\n  FROM reg r\n  WHERE EXISTS (\n    SELECT 1\n    FROM sessions s\n    WHERE s.user_id = r.user_id\n      AND CAST(s.started_at AT TIME ZONE 'Asia/Shanghai' AS DATE) = r.reg_date + 1\n  )\n  GROUP BY r.reg_date\n)\nSELECT d.reg_date,\n       d.new_users,\n       COALESCE(r.retained_users, 0) AS retained_users,\n       COALESCE(r.retained_users, 0) / NULLIF(d.new_users, 0) AS retention_rate\nFROM denom d\nLEFT JOIN retained r ON d.reg_date = r.reg_date\nORDER BY d.reg_date;"
+      },
+      "source": "WITH reg AS (\n  SELECT user_id, CAST(registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE) AS reg_date\n  FROM users\n  WHERE CAST(registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE) >= DATE '2026-01-01'\n    AND CAST(registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE) < DATE '2026-01-08'\n),\ndenom AS (\n  SELECT reg_date, COUNT(DISTINCT user_id) AS new_users\n  FROM reg\n  GROUP BY reg_date\n),\nretained AS (\n  SELECT r.reg_date, COUNT(DISTINCT r.user_id) AS retained_users\n  FROM reg r\n  WHERE EXISTS (\n    SELECT 1\n    FROM sessions s\n    WHERE s.user_id = r.user_id\n      AND CAST(s.started_at AT TIME ZONE 'Asia/Shanghai' AS DATE) = r.reg_date + 1\n  )\n  GROUP BY r.reg_date\n)\nSELECT d.reg_date,\n       d.new_users,\n       COALESCE(r.retained_users, 0) AS retained_users,\n       COALESCE(r.retained_users, 0) / NULLIF(d.new_users, 0) AS retention_rate\nFROM denom d\nLEFT JOIN retained r ON d.reg_date = r.reg_date\nORDER BY d.reg_date;",
+      "snapshot_id": "b9fe652e35cef0a0996c2607f858a11c3f3fb46a62110612b4238f06535f8a45",
+      "columns": {
+        "reg_date": "string",
+        "new_users": "integer",
+        "retained_users": "integer",
+        "retention_rate": "number"
+      },
+      "actual_db_types": {
+        "reg_date": "DATE",
+        "new_users": "BIGINT",
+        "retained_users": "BIGINT",
+        "retention_rate": "DOUBLE"
+      },
+      "rows": [
+        {
+          "reg_date": "2026-01-01",
+          "new_users": 216,
+          "retained_users": 143,
+          "retention_rate": 0.6620370370370371
+        },
+        {
+          "reg_date": "2026-01-02",
+          "new_users": 240,
+          "retained_users": 164,
+          "retention_rate": 0.6833333333333333
+        },
+        {
+          "reg_date": "2026-01-03",
+          "new_users": 264,
+          "retained_users": 186,
+          "retention_rate": 0.7045454545454546
+        },
+        {
+          "reg_date": "2026-01-04",
+          "new_users": 216,
+          "retained_users": 147,
+          "retention_rate": 0.6805555555555556
+        },
+        {
+          "reg_date": "2026-01-05",
+          "new_users": 240,
+          "retained_users": 173,
+          "retention_rate": 0.7208333333333333
+        },
+        {
+          "reg_date": "2026-01-06",
+          "new_users": 264,
+          "retained_users": 180,
+          "retention_rate": 0.6818181818181818
+        },
+        {
+          "reg_date": "2026-01-07",
+          "new_users": 216,
+          "retained_users": 147,
+          "retention_rate": 0.6805555555555556
+        }
+      ],
+      "window": [
+        "2026-01-01",
+        "2026-01-08"
+      ],
+      "truncated": false,
+      "business_definition_status": "requires_independent_reference",
+      "group": {},
+      "sample": {
+        "returned_rows": 7
+      },
+      "limitations": [
+        "business_definition_requires_independent_reference"
+      ],
+      "contexts": {
+        "/rows/0/new_users": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-01"
+          },
+          "comparison": null
+        },
+        "/rows/0/retained_users": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-01"
+          },
+          "comparison": null
+        },
+        "/rows/0/retention_rate": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-01"
+          },
+          "comparison": null
+        },
+        "/rows/1/new_users": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-02"
+          },
+          "comparison": null
+        },
+        "/rows/1/retained_users": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-02"
+          },
+          "comparison": null
+        },
+        "/rows/1/retention_rate": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-02"
+          },
+          "comparison": null
+        },
+        "/rows/2/new_users": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-03"
+          },
+          "comparison": null
+        },
+        "/rows/2/retained_users": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-03"
+          },
+          "comparison": null
+        },
+        "/rows/2/retention_rate": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-03"
+          },
+          "comparison": null
+        },
+        "/rows/3/new_users": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-04"
+          },
+          "comparison": null
+        },
+        "/rows/3/retained_users": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-04"
+          },
+          "comparison": null
+        },
+        "/rows/3/retention_rate": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-04"
+          },
+          "comparison": null
+        },
+        "/rows/4/new_users": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-05"
+          },
+          "comparison": null
+        },
+        "/rows/4/retained_users": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-05"
+          },
+          "comparison": null
+        },
+        "/rows/4/retention_rate": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-05"
+          },
+          "comparison": null
+        },
+        "/rows/5/new_users": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-06"
+          },
+          "comparison": null
+        },
+        "/rows/5/retained_users": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-06"
+          },
+          "comparison": null
+        },
+        "/rows/5/retention_rate": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-06"
+          },
+          "comparison": null
+        },
+        "/rows/6/new_users": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-07"
+          },
+          "comparison": null
+        },
+        "/rows/6/retained_users": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-07"
+          },
+          "comparison": null
+        },
+        "/rows/6/retention_rate": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-07"
+          },
+          "comparison": null
+        }
+      }
+    }
+  ],
+  "report": {
+    "facts": [
+      {
+        "row": 0,
+        "column": "new_users",
+        "value": 216,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-01"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 0,
+        "column": "retained_users",
+        "value": 143,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-01"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 0,
+        "column": "retention_rate",
+        "value": 0.6620370370370371,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-01"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 1,
+        "column": "new_users",
+        "value": 240,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-02"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 1,
+        "column": "retained_users",
+        "value": 164,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-02"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 1,
+        "column": "retention_rate",
+        "value": 0.6833333333333333,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-02"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 2,
+        "column": "new_users",
+        "value": 264,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-03"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 2,
+        "column": "retained_users",
+        "value": 186,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-03"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 2,
+        "column": "retention_rate",
+        "value": 0.7045454545454546,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-03"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 3,
+        "column": "new_users",
+        "value": 216,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-04"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 3,
+        "column": "retained_users",
+        "value": 147,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-04"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 3,
+        "column": "retention_rate",
+        "value": 0.6805555555555556,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-04"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 4,
+        "column": "new_users",
+        "value": 240,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-05"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 4,
+        "column": "retained_users",
+        "value": 173,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-05"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 4,
+        "column": "retention_rate",
+        "value": 0.7208333333333333,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-05"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 5,
+        "column": "new_users",
+        "value": 264,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-06"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 5,
+        "column": "retained_users",
+        "value": 180,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-06"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 5,
+        "column": "retention_rate",
+        "value": 0.6818181818181818,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-06"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 6,
+        "column": "new_users",
+        "value": 216,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-07"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 6,
+        "column": "retained_users",
+        "value": 147,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-07"
+          },
+          "comparison": null
+        }
+      },
+      {
+        "row": 6,
+        "column": "retention_rate",
+        "value": 0.6805555555555556,
+        "evidence_id": "81aaf9fafe894d1081b63843a767fd45:query",
+        "context": {
+          "metric": "query_result:retention",
+          "window": [
+            "2026-01-01",
+            "2026-01-08"
+          ],
+          "group": {
+            "reg_date": "2026-01-07"
+          },
+          "comparison": null
+        }
+      }
+    ],
+    "rejected_facts": [],
+    "validation": {
+      "passed": true,
+      "assertion_count": 21,
+      "valid_count": 21,
+      "results": [
+        {
+          "assertion_id": "0",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "1",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "2",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "3",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "4",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "5",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "6",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "7",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "8",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "9",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "10",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "11",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "12",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "13",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "14",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "15",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "16",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "17",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "18",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "19",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        },
+        {
+          "assertion_id": "20",
+          "passed": true,
+          "errors": [],
+          "business_definition_status": "requires_independent_reference",
+          "inference_status": "not_assessed"
+        }
+      ],
+      "errors": [],
+      "protocol_version": 1
+    },
+    "deterministic": false,
+    "definition": {
+      "id": "retention",
+      "name": "新增用户自然日次日留存",
+      "aliases": [
+        "新用户次日留存",
+        "注册次日留存率"
+      ],
+      "definition": "新增注册用户第二天回来产生会话的比例。",
+      "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+      "denominator": "D 日首次注册去重用户数；为零则不可计算",
+      "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+      "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+      "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+      "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+    },
+    "window": [
+      "2026-01-01",
+      "2026-01-08"
+    ],
+    "limitations": [],
+    "business_definition_status": "requires_independent_reference",
+    "inference_status": "not_assessed",
+    "outcome": "facts_available"
+  },
+  "outcome": "facts_available",
+  "limitations": [],
+  "retrieval": {
+    "status": "adopt",
+    "reason": "matched",
+    "method": "exact",
+    "definition": {
+      "id": "retention",
+      "name": "新增用户自然日次日留存",
+      "aliases": [
+        "新用户次日留存",
+        "注册次日留存率"
+      ],
+      "definition": "新增注册用户第二天回来产生会话的比例。",
+      "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+      "denominator": "D 日首次注册去重用户数；为零则不可计算",
+      "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+      "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+      "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+      "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+    },
+    "candidates": [
+      {
+        "id": "retention",
+        "score": 12.411109097808765
+      },
+      {
+        "id": "retained_cost",
+        "score": 5.021965918050482
+      },
+      {
+        "id": "crash",
+        "score": 1.8495032738117811
+      }
+    ],
+    "window": [
+      "2026-01-01",
+      "2026-01-08"
+    ],
+    "corpus_version": "t06-v1"
+  },
+  "schema": {
+    "users": {
+      "user_id": "VARCHAR",
+      "registered_at": "TIMESTAMP WITH TIME ZONE",
+      "registration_os": "VARCHAR",
+      "registration_version": "VARCHAR",
+      "channel": "VARCHAR"
+    },
+    "sessions": {
+      "session_id": "VARCHAR",
+      "user_id": "VARCHAR",
+      "started_at": "TIMESTAMP WITH TIME ZONE",
+      "os": "VARCHAR",
+      "version": "VARCHAR",
+      "crashed": "BOOLEAN"
+    },
+    "content_events": {
+      "event_id": "VARCHAR",
+      "play_id": "VARCHAR",
+      "session_id": "VARCHAR",
+      "event_type": "VARCHAR",
+      "occurred_at": "TIMESTAMP WITH TIME ZONE"
+    },
+    "playback_telemetry": {
+      "report_id": "VARCHAR",
+      "play_id": "VARCHAR",
+      "session_id": "VARCHAR",
+      "observed_at": "TIMESTAMP WITH TIME ZONE",
+      "watched_seconds": "INTEGER",
+      "duration_seconds": "INTEGER"
+    },
+    "channel_daily": {
+      "day": "DATE",
+      "channel": "VARCHAR",
+      "spend_cents": "BIGINT"
+    },
+    "release_calendar": {
+      "os": "VARCHAR",
+      "version": "VARCHAR",
+      "released_at": "TIMESTAMP WITH TIME ZONE"
+    },
+    "source_watermarks": {
+      "source": "VARCHAR",
+      "complete_before": "TIMESTAMP WITH TIME ZONE"
+    }
+  },
+  "watermarks": {
+    "status": "ok",
+    "rows": [
+      [
+        "users",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "sessions",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "content_events",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "playback_telemetry",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "channel_daily",
+        "2026-01-16 16:00:00+00:00"
+      ],
+      [
+        "release_calendar",
+        "2026-01-16 16:00:00+00:00"
+      ]
+    ],
+    "truncated": false,
+    "columns": [
+      {
+        "name": "source",
+        "type": "VARCHAR"
+      },
+      {
+        "name": "complete_before",
+        "type": "TIMESTAMP WITH TIME ZONE"
+      }
+    ],
+    "fetch_seconds": 0.02080907700002399,
+    "serialize_seconds": 0.00013010000009217038,
+    "parse_seconds": 0.03278872100003127,
+    "execute_seconds": 0.002889716000026965,
+    "schema_profile": "business",
+    "settings": {
+      "enable_external_access": "false",
+      "allow_community_extensions": "false",
+      "allow_unsigned_extensions": "false",
+      "autoinstall_known_extensions": "false",
+      "autoload_known_extensions": "false",
+      "python_enable_replacements": "false",
+      "python_scan_all_frames": "false",
+      "threads": "1",
+      "memory_limit": "122.0 MiB",
+      "max_temp_directory_size": "0 bytes",
+      "temp_directory": "",
+      "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+      "allowed_directories": "[]",
+      "allowed_configs": "[]",
+      "lock_configuration": "true",
+      "access_mode": "read_only"
+    },
+    "versions": {
+      "duckdb": "1.5.6",
+      "sqlglot": "30.22.0",
+      "pytz": "2026.5",
+      "python": "3.12.10"
+    },
+    "fault_events": [],
+    "query_seconds": 0.28100000001722947,
+    "startup_seconds": 1.1099999999860302,
+    "container_id": "58821cb74aa0c277eccbd56a5940ba61f2c1ac90af89c7931e60e235d63810f4",
+    "cleanup_verified": true,
+    "cleanup_seconds": 0.42199999996228144,
+    "total_seconds": 1.812999999965541,
+    "termination_delay_seconds": 0.0
+  },
+  "query_result": {
+    "status": "ok",
+    "rows": [
+      [
+        "2026-01-01",
+        216,
+        143,
+        0.6620370370370371
+      ],
+      [
+        "2026-01-02",
+        240,
+        164,
+        0.6833333333333333
+      ],
+      [
+        "2026-01-03",
+        264,
+        186,
+        0.7045454545454546
+      ],
+      [
+        "2026-01-04",
+        216,
+        147,
+        0.6805555555555556
+      ],
+      [
+        "2026-01-05",
+        240,
+        173,
+        0.7208333333333333
+      ],
+      [
+        "2026-01-06",
+        264,
+        180,
+        0.6818181818181818
+      ],
+      [
+        "2026-01-07",
+        216,
+        147,
+        0.6805555555555556
+      ]
+    ],
+    "truncated": false,
+    "columns": [
+      {
+        "name": "reg_date",
+        "type": "DATE"
+      },
+      {
+        "name": "new_users",
+        "type": "BIGINT"
+      },
+      {
+        "name": "retained_users",
+        "type": "BIGINT"
+      },
+      {
+        "name": "retention_rate",
+        "type": "DOUBLE"
+      }
+    ],
+    "fetch_seconds": 0.00016809599998168778,
+    "serialize_seconds": 0.00014966000003369118,
+    "parse_seconds": 0.04430008799999996,
+    "execute_seconds": 0.024682035000012092,
+    "schema_profile": "business",
+    "settings": {
+      "enable_external_access": "false",
+      "allow_community_extensions": "false",
+      "allow_unsigned_extensions": "false",
+      "autoinstall_known_extensions": "false",
+      "autoload_known_extensions": "false",
+      "python_enable_replacements": "false",
+      "python_scan_all_frames": "false",
+      "threads": "1",
+      "memory_limit": "122.0 MiB",
+      "max_temp_directory_size": "0 bytes",
+      "temp_directory": "",
+      "allowed_paths": "[/data/snapshot.duckdb.wal.recovery, /data/snapshot.duckdb.wal.checkpoint, /data/snapshot.duckdb.wal, /data/snapshot.duckdb]",
+      "allowed_directories": "[]",
+      "allowed_configs": "[]",
+      "lock_configuration": "true",
+      "access_mode": "read_only"
+    },
+    "versions": {
+      "duckdb": "1.5.6",
+      "sqlglot": "30.22.0",
+      "pytz": "2026.5",
+      "python": "3.12.10"
+    },
+    "fault_events": [],
+    "query_seconds": 0.31299999996554106,
+    "startup_seconds": 1.0310000000172295,
+    "container_id": "6800c7a19d4249ae7a3b50a386388757b7bf41513ccc7fa915385d626dad1aa8",
+    "cleanup_verified": true,
+    "cleanup_seconds": 0.4220000000204891,
+    "total_seconds": 1.7660000000032596,
+    "termination_delay_seconds": 0.0
+  },
+  "sql": "WITH reg AS (\n  SELECT user_id, CAST(registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE) AS reg_date\n  FROM users\n  WHERE CAST(registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE) >= DATE '2026-01-01'\n    AND CAST(registered_at AT TIME ZONE 'Asia/Shanghai' AS DATE) < DATE '2026-01-08'\n),\ndenom AS (\n  SELECT reg_date, COUNT(DISTINCT user_id) AS new_users\n  FROM reg\n  GROUP BY reg_date\n),\nretained AS (\n  SELECT r.reg_date, COUNT(DISTINCT r.user_id) AS retained_users\n  FROM reg r\n  WHERE EXISTS (\n    SELECT 1\n    FROM sessions s\n    WHERE s.user_id = r.user_id\n      AND CAST(s.started_at AT TIME ZONE 'Asia/Shanghai' AS DATE) = r.reg_date + 1\n  )\n  GROUP BY r.reg_date\n)\nSELECT d.reg_date,\n       d.new_users,\n       COALESCE(r.retained_users, 0) AS retained_users,\n       COALESCE(r.retained_users, 0) / NULLIF(d.new_users, 0) AS retention_rate\nFROM denom d\nLEFT JOIN retained r ON d.reg_date = r.reg_date\nORDER BY d.reg_date;"
+}
