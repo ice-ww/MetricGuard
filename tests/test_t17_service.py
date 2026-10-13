@@ -153,9 +153,10 @@ def test_chart_coordinates_stay_finite_for_extreme_finite_values(tmp_path,fixtur
     import math
     import xml.etree.ElementTree as ET
     with TaskService(tmp_path/'service',image,{'dev':fixture_snapshot.database},token='controlled',limits={'model':2},
-                     transport=httpx.MockTransport(lambda request: response({'sql':"SELECT 'negative' AS label,-1e308 AS observed UNION ALL SELECT 'positive',1e308"}))) as service:
+                     transport=httpx.MockTransport(lambda request: response({'sql':"SELECT registration_os AS label,CASE WHEN registration_os='Android' THEN -1e308 ELSE 1e308 END AS observed FROM users GROUP BY registration_os ORDER BY registration_os"}))) as service:
         task=service.create('新增用户自然日次日留存','dev',('2026-01-01','2026-01-08'))
         result=service.run(task); e=result['evidence'][0]; eid=e['evidence_id']; ref=Reference(eid,0,'observed')
+        assert sorted(row['observed'] for row in e['rows'])==[-1e308,1e308]
         publication=service.publish_report(task,{'assertions':[{'assertion_id':'cell','reference':asdict(ref),
             'context':e['contexts'][ref.pointer],'value':e['rows'][0]['observed'],'scope':'cell'}],
             'inferences':[],'charts':[{'chart_id':'extremes','kind':'bar',
