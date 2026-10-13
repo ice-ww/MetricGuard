@@ -1,0 +1,1169 @@
+{
+  "run_id": "91c24ca4194741e6a19db67e8e220605",
+  "bindings": [
+    {
+      "ordinal": 5,
+      "case_id": "case-8c4c581891b4",
+      "round": 1,
+      "variant": "baseline",
+      "report_hash": "2bf07fb060ff766ca6bc65e9672e8fc5e283825841ded63ab46f927a527776e0",
+      "evidence_hash": "03d20d0b3c2a305953c8dd9bfe18e7ebd898a014f6a0efb2059ccc7ed3df2f96",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 12,
+      "case_id": "case-70645404d8de",
+      "round": 1,
+      "variant": "agent",
+      "report_hash": "749a8869256056de3444bd419d82329c239abd4c5f32dc9287a90f8feae58014",
+      "evidence_hash": "335a1e5df9fa676a1214a03d12dc77e0ff0dfa56c25f36ef645d14f3b366a8e2",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 13,
+      "case_id": "case-70645404d8de",
+      "round": 1,
+      "variant": "baseline",
+      "report_hash": "3584a1efc135c947b375837c5fb29caaf2d125e99735257bf618ec2ba6567e67",
+      "evidence_hash": "80a50673987847b3c805bbf75d398e82a83f812cde4c1149c6a8bb4561634b34",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 14,
+      "case_id": "case-7d30d33f5bfe",
+      "round": 1,
+      "variant": "agent",
+      "report_hash": "46bc3f563e984e528a97a1ced1842a43b752751ac03bd2521504c12bb56eb77a",
+      "evidence_hash": "8579347bcc9263f0f75d5c2e05ec6244a707514ebd24db0d04f2606d18247545",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 15,
+      "case_id": "case-7d30d33f5bfe",
+      "round": 1,
+      "variant": "baseline",
+      "report_hash": "95a7214a446f702e6d6eef275dc537e65bddc8fcd937b14263eeed23c87bdbd8",
+      "evidence_hash": "f147b5cfb6bbc7147e0cec45ca54494f60846a02437e6a1db29683f7f8aa767c",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 16,
+      "case_id": "case-0d8e24a9beca",
+      "round": 1,
+      "variant": "agent",
+      "report_hash": "94524e07611e35ad9e7beba38df8d72bcabf99db8403ce7374ac24ad142ca8e9",
+      "evidence_hash": "6a25f7b83af2dbeeb6ed9fcef30b2451dca033cfb3d7d60338dd58c754514a10",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 17,
+      "case_id": "case-0d8e24a9beca",
+      "round": 1,
+      "variant": "baseline",
+      "report_hash": "7a3a54552b8736d683709d1c4b36d5e944364ccfa2e96bc0ad3cf2ff3116196e",
+      "evidence_hash": "e6741e447294bfbd78036a2fa96079b84c248e90a7823d68992f75b5efd54984",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 18,
+      "case_id": "case-b20025e99834",
+      "round": 1,
+      "variant": "agent",
+      "report_hash": "095d4964f5a8bb6f54273d446532ed8fce7423ecb2f98696f3f75fa153c21a10",
+      "evidence_hash": "8837e34b86d060cf9ca29c14a81f8d6e5d1643a9a8f8d175846f57cdd6537547",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 19,
+      "case_id": "case-b20025e99834",
+      "round": 1,
+      "variant": "baseline",
+      "report_hash": "39466905de5b25ba6a1b4984b30536e9e3db1277a0ed4cae964edd3359ae4d24",
+      "evidence_hash": "5388ead4287b8240db5bd1fd221954fb4e576b9a52b5ae1042ee340f5143c45b",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 20,
+      "case_id": "case-3a000a75ba72",
+      "round": 1,
+      "variant": "agent",
+      "report_hash": "722aa1027e4eb1e4e63367cc50db516ed97372f8723a6491fae980953dc50a26",
+      "evidence_hash": "09ce471a5690b87d2f6ebc7b42fcb0473de2af6af27e90d1d15df71cf96172f5",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 21,
+      "case_id": "case-3a000a75ba72",
+      "round": 1,
+      "variant": "baseline",
+      "report_hash": "19d11c6167ab7ffb0a53bcd6f9697ed5217baf6a97ba7a2b408eadf90b211848",
+      "evidence_hash": "96d291c3a2c7ff77c4569d2d241a4939ccccc4d1282d4f01d760d0e93f975bc1",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 22,
+      "case_id": "case-e32206bcc9e4",
+      "round": 1,
+      "variant": "agent",
+      "report_hash": "af300daabf27ccef26de32f836307950f3faf5be8c6de0b9cc5fa4f77832af68",
+      "evidence_hash": "4e35e1164a4f232dd9a85ce6d3246c958678291fe7b661aefde50ea251ebe0bd",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 23,
+      "case_id": "case-e32206bcc9e4",
+      "round": 1,
+      "variant": "baseline",
+      "report_hash": "a5150475f4addf535205266fcb78335d893c7501fb29c53c5ff00c66745b3cdc",
+      "evidence_hash": "ee61b8cfd5466353c8b4a9569c9993d3808d6b1dec7cf33f5d553a95da5c2d14",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 24,
+      "case_id": "case-1f0e2945e290",
+      "round": 1,
+      "variant": "agent",
+      "report_hash": "6405b5c57051b8319667fafed1d36016c7b8f00412568d588e2c4c023d3e481b",
+      "evidence_hash": "26dc64a2a968ffb362462ede18ab056efeda96eb66ac2ce0a967c7d6e70f9c8b",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 26,
+      "case_id": "case-69a570d5d321",
+      "round": 1,
+      "variant": "agent",
+      "report_hash": "c34a97c656f42bc8bfdb02956942563be13ce926ae5ffdb97467cae0bbbb0ea2",
+      "evidence_hash": "a97d050d59ff8da6a9bc10989d1f7417422787572ade65fb0205c105bfc4d7a0",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 28,
+      "case_id": "case-42d30280b030",
+      "round": 1,
+      "variant": "agent",
+      "report_hash": "95296b859baaf2c3b43c1dedde0732605f28315771fe4c3710e598f8ca81ad66",
+      "evidence_hash": "2132021fb447f9108cad57ffe36e3d1b71088d647b1d324304867ef22b6b77ca",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 30,
+      "case_id": "case-3970309b0727",
+      "round": 1,
+      "variant": "agent",
+      "report_hash": "a96f9fbc46811c63c9390cf1f72ff2130bb42ddab952c1e2badc88a434ecbfeb",
+      "evidence_hash": "3820814e551c01f58e5ea6069c1648a583c9a862ac005ea4436bc8d7401ff33b",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 31,
+      "case_id": "case-3970309b0727",
+      "round": 1,
+      "variant": "baseline",
+      "report_hash": "b534f90b879027f5013f30bbd6c93ff4f67d7e99eaff9b9da02c7bfe29a8487b",
+      "evidence_hash": "f711e63259708ba6345701f80438b41cc67c8323f5fba5d48dde598c3f8427c9",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 32,
+      "case_id": "case-ef072fdca1f3",
+      "round": 1,
+      "variant": "agent",
+      "report_hash": "f0f8148bc39644fe9f7b854d02fecb4961a61ddd407c05d4e5dae7d4f75683b4",
+      "evidence_hash": "362a969b8ad1849ff88ed1a80ecfa22ec68622993a6444445730f198e195127a",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 33,
+      "case_id": "case-ef072fdca1f3",
+      "round": 1,
+      "variant": "baseline",
+      "report_hash": "b7cf7a22e3e0c5ad71353f2e95c5e44ac44fa98c212d792bf9a2b34cd0228961",
+      "evidence_hash": "1c7744fe6e0f11f67d47251407a2eb2ea8ee790c125a27a032562b5dfb7ab61e",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 34,
+      "case_id": "case-157478cff2f0",
+      "round": 1,
+      "variant": "agent",
+      "report_hash": "7097831df9eaf248c00cb2fe2fdcd1da8f6264a082cd3a1740e7e270c739fc00",
+      "evidence_hash": "cd6e40d0c6ae91e536ebc5111b2cb892e9a5c82a37ed52702243936bbc9fbbf1",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 35,
+      "case_id": "case-157478cff2f0",
+      "round": 1,
+      "variant": "baseline",
+      "report_hash": "564372c01cd68c08b1e78a891cd7a2884c51836dcab66c680bae16fe4ecf6ba8",
+      "evidence_hash": "5a55978cfc692ad4f92c31f091dc2cc2387bc006623a99a58ab890bc997ff0ad",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 36,
+      "case_id": "case-450534e9717e",
+      "round": 1,
+      "variant": "agent",
+      "report_hash": "37e56e76850bf8c409c35f1f4cb4b8aa60579d3c0e2640933ffdffe186d372d5",
+      "evidence_hash": "cca7a58ee080cc314e5c18f4a3de8a7b1f334ff8909b4d2b12c9c4a6440724ef",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 37,
+      "case_id": "case-450534e9717e",
+      "round": 1,
+      "variant": "baseline",
+      "report_hash": "8ff33396e31dc8c160f98ac1ea3ec69563cc2dec5ac4a0b62c7263af3a5db5cd",
+      "evidence_hash": "13374568be8aba832143cda1615c125262e4c9bdb2d88db7b93cb736f89ba8fc",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 38,
+      "case_id": "case-f6fadd7d387c",
+      "round": 1,
+      "variant": "agent",
+      "report_hash": "ce514dace8e5f222d8e1b7fa5633a02c4abec2da8f5956e011eaefd74ce368ec",
+      "evidence_hash": "30a34a4c04fed7aad6ca29fca63951c032e54a74bfb951e407a9252cb899918a",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 39,
+      "case_id": "case-f6fadd7d387c",
+      "round": 1,
+      "variant": "baseline",
+      "report_hash": "15612ff31bf785f35e41b22cd489d4923534e2582d705eb9be8ebb92b5b18f7c",
+      "evidence_hash": "90c244842a87c0be9461dbcd42e845c7a5c369e65b24b1d337dd40179041e880",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 40,
+      "case_id": "case-706b30dbe0d1",
+      "round": 1,
+      "variant": "agent",
+      "report_hash": "76b6c9e853d2cb905fb847996c174308c1a86ba1daa0b80050efe791203ee53d",
+      "evidence_hash": "d00fa6430f0bf45f706051236d197b83a52983602622b940f3dd5e9510d4fa33",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 41,
+      "case_id": "case-706b30dbe0d1",
+      "round": 1,
+      "variant": "baseline",
+      "report_hash": "3e6f3bbe6159e2d76aa01f2e2645c576b43a71d4a8176335cc744d5632b8e064",
+      "evidence_hash": "5619e57550f0fff29906a54cb5da6974b8acb152b60b86c91668e401e969d12d",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 42,
+      "case_id": "case-ebaccb655bb3",
+      "round": 1,
+      "variant": "agent",
+      "report_hash": "57a19a09d6ba3f0a420c8a6348662500f8285cfb1777b7c21fd721dd4bba7561",
+      "evidence_hash": "b73d17f06cdfea624d4a819e4b2b028f14d3909003819b0badbe9088d1860b74",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 43,
+      "case_id": "case-ebaccb655bb3",
+      "round": 1,
+      "variant": "baseline",
+      "report_hash": "5ac50f7dc74f17ef36a02d111380783906625c67efa802fed5a68180f7586eae",
+      "evidence_hash": "5a85c0082e1812f4ba2f3cb1f95085cb8e26eab7ab3190b89970e60805b845a4",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 44,
+      "case_id": "case-64d9a3c64959",
+      "round": 1,
+      "variant": "agent",
+      "report_hash": "d1f926cd1af4ad3dd52f1709790b4ee9e2610ba8f17b320ca0335a7083d10092",
+      "evidence_hash": "2944becac9a965b4ae568e02634a006f310c9255e70302c30fc413f5067df4d7",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 45,
+      "case_id": "case-64d9a3c64959",
+      "round": 1,
+      "variant": "baseline",
+      "report_hash": "9ecf57cfbfb24754b94a0f461568bb2787c688e4e8d06c42f3c8e59aafa64265",
+      "evidence_hash": "2c1552927cf7ae60b4664e8ff6e25ea53c3a626dc0ab9cb1a1aaaf87ecec3f01",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 46,
+      "case_id": "case-018bcc801845",
+      "round": 1,
+      "variant": "agent",
+      "report_hash": "fa1899bcf84cb02a0528e26f29a1028ed058afe90282612f87cab871d4c96d3d",
+      "evidence_hash": "35d7998e797895b96e659c4f75f7179038ab32d20a6f51eba87fba6cbd11e6a1",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 53,
+      "case_id": "case-8c4c581891b4",
+      "round": 2,
+      "variant": "baseline",
+      "report_hash": "ee1d061db5b82a19cc319ba94b70db80588bf1227efb8b2580195b1efc15e4af",
+      "evidence_hash": "9067ad5e5735ea13e21c379c40bfdfceeeae9cf5cbc101c10abd9d59d712994d",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 60,
+      "case_id": "case-70645404d8de",
+      "round": 2,
+      "variant": "agent",
+      "report_hash": "9c1084d9eebb908158c9daa323fcd587224100c5b20a2872cfa732ef5b78bbe1",
+      "evidence_hash": "6d64f6f137f060da2782c4c43f133e111bd1d868e47819e03487a5a02e933c55",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 61,
+      "case_id": "case-70645404d8de",
+      "round": 2,
+      "variant": "baseline",
+      "report_hash": "e156679fbde61d88772722b18498aec94301f8a55e969c94feddc84b7ffd93fb",
+      "evidence_hash": "10ff7ba5eb932ca9bb7ccc293b6838997845ee20642fc71db70e459086d9195a",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 62,
+      "case_id": "case-7d30d33f5bfe",
+      "round": 2,
+      "variant": "agent",
+      "report_hash": "0781fc9cb56b22d30b403c0fbbd667ee06034126561415db277bc04ddd8b2cfc",
+      "evidence_hash": "9f9793958b4b26584b1ec17fbb09efc3fe2e93d8dec73d2732f8048b6b72efc5",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 63,
+      "case_id": "case-7d30d33f5bfe",
+      "round": 2,
+      "variant": "baseline",
+      "report_hash": "1036bd5bdb0cd79c32130fa8a3805a4dd0c85423495109bac0793080dccfc804",
+      "evidence_hash": "ad50b01961bbb9029619b4e5a059645c54a173b00a12e00b89767edae163cebe",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 64,
+      "case_id": "case-0d8e24a9beca",
+      "round": 2,
+      "variant": "agent",
+      "report_hash": "55ac027c4da739cf81b2cae2801beaa1f598a63b07e7cd6bd28066280e0deedf",
+      "evidence_hash": "62867ff419a4afaedbba6d5b967a6ee77366e2fc9886a0bb10f74ab3a03cd1d9",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 65,
+      "case_id": "case-0d8e24a9beca",
+      "round": 2,
+      "variant": "baseline",
+      "report_hash": "1ccb75d939d5487a6d6b39f5d229572c83e852949b6df5819d0db4574484c225",
+      "evidence_hash": "cdaab3c1fb43caf325153d4fc208c447479587280cf3fa0911570d5ccc285f03",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 66,
+      "case_id": "case-b20025e99834",
+      "round": 2,
+      "variant": "agent",
+      "report_hash": "05efb220d720908431172658b7658c632a79fb6694ce662d0a62310185496bba",
+      "evidence_hash": "957f8f95382baad94a2702b9cc1cc936d0f47a5123a242142a3a28e3f029ec10",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 67,
+      "case_id": "case-b20025e99834",
+      "round": 2,
+      "variant": "baseline",
+      "report_hash": "89e03956927fd22f87e0f301e75963342450f075ca9190a178ddab10f8e388d9",
+      "evidence_hash": "466710d3425b2338e49c126827d1fd2b16942b5616c44cf3465f9e1b7077592c",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 68,
+      "case_id": "case-3a000a75ba72",
+      "round": 2,
+      "variant": "agent",
+      "report_hash": "b5e9b07b763cb571226363e3532a7143bd01e45cc0bdf45954cf28c3ef0d4573",
+      "evidence_hash": "d9c403c50587d65aade8985b956acb0dcc1d041094355a3a4fcbca991ca1c38c",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 69,
+      "case_id": "case-3a000a75ba72",
+      "round": 2,
+      "variant": "baseline",
+      "report_hash": "9c0ff0b8d1dada7cd96dd933950655388158cef3244c56dfb4e3ff51c92dcb5b",
+      "evidence_hash": "8a93a4c87b4f8a1efa01710bc6fdfb7ee2e725445e53a57eecfbbfadb8e7a13c",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 70,
+      "case_id": "case-e32206bcc9e4",
+      "round": 2,
+      "variant": "agent",
+      "report_hash": "5f983ec0bb0e5c3ba3705cb9f3acad68be4aec4175f3f46fc2d2eb38a2c6c30f",
+      "evidence_hash": "5cb6b1ea862b5f2039fa0a17b660dd52c9fe2bf4e2945d4ad0b728c199eebb1e",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 71,
+      "case_id": "case-e32206bcc9e4",
+      "round": 2,
+      "variant": "baseline",
+      "report_hash": "1b3f39616c89e0605374e84a11a47ff80771300c1a66fc9949d63fdeafc44d27",
+      "evidence_hash": "d79393144023ad1db7a67f42df14bb64fa2c8bc7939beec6671c02667c61f8dd",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 72,
+      "case_id": "case-1f0e2945e290",
+      "round": 2,
+      "variant": "agent",
+      "report_hash": "8923568d54b27f7b04b07bcbc8fba1295e30686c7e31e302f9a519c888556bc8",
+      "evidence_hash": "11fcc3b18383f5f6626c3b3654dc6b706d3c5d36794d710a24a91acabd5ae20e",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 74,
+      "case_id": "case-69a570d5d321",
+      "round": 2,
+      "variant": "agent",
+      "report_hash": "4ca7805c2093c1be5db86b3292155434bcbaf269bd9d75a459b143fcd217102d",
+      "evidence_hash": "1efdcb0d346e02a8fadb4625893c50f32ae124fa825bd9df75fcb05a239338fe",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 76,
+      "case_id": "case-42d30280b030",
+      "round": 2,
+      "variant": "agent",
+      "report_hash": "4ac08e6dd634d261a78eda25f376a8b5d7dc9b1468928dc848b9e822c9e4e8d3",
+      "evidence_hash": "fa5f1ae5c8898d8ca42884c60d4bc4409d959fdb839374233cb07a1471ebd2fb",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 78,
+      "case_id": "case-3970309b0727",
+      "round": 2,
+      "variant": "agent",
+      "report_hash": "1568d30159d00bb11c6af999bd3b4470e66fe404a9b88ef8b3fba8538d9522c4",
+      "evidence_hash": "bb16f1e08e97ce52a7576ab542560a95c33480570854e3c2627ab99cd9eac38e",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 79,
+      "case_id": "case-3970309b0727",
+      "round": 2,
+      "variant": "baseline",
+      "report_hash": "4869e07182daa71fd4f81eb760b0d399e533531c2de34478dbb5875e309dabe5",
+      "evidence_hash": "1d00974dc649e27511f8c537383d3218590b7f52f0b24fbc778a9228ad3df3d4",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 80,
+      "case_id": "case-ef072fdca1f3",
+      "round": 2,
+      "variant": "agent",
+      "report_hash": "fff13a6d33e21925d7bcd4637dee15a84767d9d17553bbd566337c21711000f2",
+      "evidence_hash": "32dbefa9a2898e1c41768ed8577c34b76be00e249e49b5d94122770d63d8de91",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 81,
+      "case_id": "case-ef072fdca1f3",
+      "round": 2,
+      "variant": "baseline",
+      "report_hash": "deb0b1d2a1eba7a962772db837944dcf00a26182b9699cc9084ffe9421df37cb",
+      "evidence_hash": "21997f80b3624a789a3f5ff22f2461b0335c8d62ce6d7f3ee2879445cc82c7cb",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 82,
+      "case_id": "case-157478cff2f0",
+      "round": 2,
+      "variant": "agent",
+      "report_hash": "8d15fcca08eb56a7eb149847693b6a223b50b4234de1c1e28598affaa8dc16b5",
+      "evidence_hash": "a5e897564ea8e39782d953bc65213753efd99b9bdb772aad52ea42949fec4674",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 83,
+      "case_id": "case-157478cff2f0",
+      "round": 2,
+      "variant": "baseline",
+      "report_hash": "7b58a59a383496d6a4c90678e50ff7fbf603ae06e9c93fd1a87b9e132e2fd4af",
+      "evidence_hash": "5600b127ab57b8b5ecaeed8b3e3f20ae76b534a45632518d0caf1f93542acba6",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 84,
+      "case_id": "case-450534e9717e",
+      "round": 2,
+      "variant": "agent",
+      "report_hash": "394611b6087b5c4308e570f88dd075fada571a435c27c56b6ec4ac43d0b98cc5",
+      "evidence_hash": "6b615f6bdc55122f0213f689b1304593a11c3f879b260088451a2d22df391a6e",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 85,
+      "case_id": "case-450534e9717e",
+      "round": 2,
+      "variant": "baseline",
+      "report_hash": "3ccd1b2c9dc4acef85592b691265e0fa7d2009198c452d496f8b4d8c4a1c7bed",
+      "evidence_hash": "2e6fe454ef9537cce53530058fcce67849686efeae81b997b00f65f122d4dde1",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 86,
+      "case_id": "case-f6fadd7d387c",
+      "round": 2,
+      "variant": "agent",
+      "report_hash": "95dc3cd4ba9a86ba73def54b710dee04d556d06611155a00b5ffb52d089d89d8",
+      "evidence_hash": "58f890e5e149807ddfc4bd759a57af72e000f7e8f382ef8e7648c3e7f9c72cbf",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 87,
+      "case_id": "case-f6fadd7d387c",
+      "round": 2,
+      "variant": "baseline",
+      "report_hash": "f253759a45340b30c60737e851fe2a5eb88a722317c52c2f5e8dab3e336ba9e1",
+      "evidence_hash": "9599ec6dc50a285e0b2bd72309fb3c2ee4c834d1e8145ec76690c1815a830af4",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 88,
+      "case_id": "case-706b30dbe0d1",
+      "round": 2,
+      "variant": "agent",
+      "report_hash": "9e9f4a256c791c95d0415e001d000924a02f9441020147e74f7fab5ab4a13324",
+      "evidence_hash": "959e8ee7540bbe973fac4e319d1bbcb77955b954efb4168dc74df184aec024b5",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 89,
+      "case_id": "case-706b30dbe0d1",
+      "round": 2,
+      "variant": "baseline",
+      "report_hash": "ade9caeb27f271ccee1a15099f6d9264479805d56f79b0adf440a119cb410dbb",
+      "evidence_hash": "4bc654d5be987951bac7f4531508ed01ec95b1c6f8c47638d25273063110035d",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 90,
+      "case_id": "case-ebaccb655bb3",
+      "round": 2,
+      "variant": "agent",
+      "report_hash": "9caab2b2ce1927b3f06143a7bc9dbf0ddc0e63ea475a73fdd894d48ec6450082",
+      "evidence_hash": "a10de751e6fcf9ec634d0048fbb34be426666e41488f8bc86819db879b8949f1",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 91,
+      "case_id": "case-ebaccb655bb3",
+      "round": 2,
+      "variant": "baseline",
+      "report_hash": "ac5152fb487b360ddef2a15b555f2fa4908f152139c4b80452d1e79540ccef53",
+      "evidence_hash": "79d22d3209694c442839a6f8a9eb5c5f3c29ce527494ff5cc6c6b86d995dc87e",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 92,
+      "case_id": "case-64d9a3c64959",
+      "round": 2,
+      "variant": "agent",
+      "report_hash": "c36b81e41cf04c5b8af3366271c621e27e52e9dfb8861cd3940d3ed45f0cb858",
+      "evidence_hash": "dc676c21a01ea093a7270478876361b26cde78a1e850125901d2bcda6aeffcbb",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 93,
+      "case_id": "case-64d9a3c64959",
+      "round": 2,
+      "variant": "baseline",
+      "report_hash": "e7da3a9a55be6ba989273a8e141f4a0e0d97eb48f02be286aa6a7ace0c71b585",
+      "evidence_hash": "f7d134de9d27b841e47474e62ab164c5a17cf627df9b8354151b3b410020c22c",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 94,
+      "case_id": "case-018bcc801845",
+      "round": 2,
+      "variant": "agent",
+      "report_hash": "22561a86c125b4edae69fe749f79364b611891a1152b28057128dd3b2ef44524",
+      "evidence_hash": "ef3b3f67b32263e264c91f487a3489343291f704d1cd33f1d210de2c6d06ec31",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 101,
+      "case_id": "case-8c4c581891b4",
+      "round": 3,
+      "variant": "baseline",
+      "report_hash": "5d7fbbd63158164ce4a94891b42d3904b7f673b87cbe22a103e729105f83495b",
+      "evidence_hash": "ce2584fdcfee82e94f617856e0e2ecdd48832420c749dd94ca3997f658c72de9",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 108,
+      "case_id": "case-70645404d8de",
+      "round": 3,
+      "variant": "agent",
+      "report_hash": "f965a5828905274a23c58ef0fa015ae1d03c6bb46476d1aa2a9171d97f70da70",
+      "evidence_hash": "cbb935886e465f06c3d8ffc8f39a23c382e01de175bdcb1822f6c1f4be89a3fb",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 109,
+      "case_id": "case-70645404d8de",
+      "round": 3,
+      "variant": "baseline",
+      "report_hash": "be2b5b4c2c83237fab093794eb83cf2164e3edc34184468e525c661e470c05ef",
+      "evidence_hash": "2b9d22c81179fd29b1af0d57faa106fab57d1e8479b980b92592550c2686ebad",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 110,
+      "case_id": "case-7d30d33f5bfe",
+      "round": 3,
+      "variant": "agent",
+      "report_hash": "b2896b7c6271bc01a611fb90752e468cccb96d5c16f602b133e603842a197515",
+      "evidence_hash": "f7e9d2a14fb1c4096fb6ec293ce7dd4eabe9b0c15fc5eb885e9fcbbce8575441",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 111,
+      "case_id": "case-7d30d33f5bfe",
+      "round": 3,
+      "variant": "baseline",
+      "report_hash": "15f620e6206ef1f256fc2d5b9937fe348a1a3291a51f3bfa565d8db067115588",
+      "evidence_hash": "5a6668cc4095d03b300e35c65c67e2e1cfb0406db7c49389b8db145e6915d1e9",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 112,
+      "case_id": "case-0d8e24a9beca",
+      "round": 3,
+      "variant": "agent",
+      "report_hash": "200d1af1c9e45f6d03c04eb94ce30cf5ac8173325f3307aad449d488a80a74a6",
+      "evidence_hash": "316f2094749649d5268bd3ad0f786d5469b8380739fe488f596b56bd2842ee37",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 113,
+      "case_id": "case-0d8e24a9beca",
+      "round": 3,
+      "variant": "baseline",
+      "report_hash": "ffd9fb0573b3fb62c8e0a4ff50b298ecd3684d5c0f014428b124fd9581203a27",
+      "evidence_hash": "d463ef344e843a1bc9b1e26f4131821cf92bc7fde3402886b056ab83c1ec070f",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 114,
+      "case_id": "case-b20025e99834",
+      "round": 3,
+      "variant": "agent",
+      "report_hash": "1ca762b76acd9a7473611af424381a698ac8abe0222c9bb3ed99a26d2e0f4f08",
+      "evidence_hash": "0893e65be4b2f45e28cdc73360ff63602b09a8f26dae71b4605a8f3ad6763de5",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 115,
+      "case_id": "case-b20025e99834",
+      "round": 3,
+      "variant": "baseline",
+      "report_hash": "ed66088ac121ef326ac0f3c562f843930f02745636f975d5d65f0a38a408b568",
+      "evidence_hash": "21892005f2051daae910480e26b9cdb2b051f09bc3db252dbc5740f39890a233",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 116,
+      "case_id": "case-3a000a75ba72",
+      "round": 3,
+      "variant": "agent",
+      "report_hash": "2a8499c106202f59599289f949e0299d4b07167588d0b92178e477c7c1ba17a1",
+      "evidence_hash": "47acb7eeb9253bfa5b3b79fc60811873f5e7c79f9d0e4896964730d9df9ec42c",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 117,
+      "case_id": "case-3a000a75ba72",
+      "round": 3,
+      "variant": "baseline",
+      "report_hash": "be77ca513e8cad25113a386a5150a1dc2aba92d2c0971fc83ea6ca4dfab26430",
+      "evidence_hash": "8d9a50762536b401f9ad589e6dedd7045f0f680de593b21bc4c8ccae1af47ee4",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 118,
+      "case_id": "case-e32206bcc9e4",
+      "round": 3,
+      "variant": "agent",
+      "report_hash": "28e8355a184e0a3873faa5793995e5336a1a1e3506d4de1403450599ffdd91e6",
+      "evidence_hash": "f5d094ed8c98f5a01a9479560701f119f7af93d48c6496fbc6feb26778d62f92",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 119,
+      "case_id": "case-e32206bcc9e4",
+      "round": 3,
+      "variant": "baseline",
+      "report_hash": "eaf5b267afe7b49c3e4d6b0ae08d979c602c45f980eab7dbc40adddf342b9acf",
+      "evidence_hash": "2f241990635b580627bd20a3829c7f8d3dd51362b8f55c175b5b7159eab4af6b",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 120,
+      "case_id": "case-1f0e2945e290",
+      "round": 3,
+      "variant": "agent",
+      "report_hash": "eb1232aa40b02cba2a02f68fe1e6789caacd7a624131f648c5be739d47021949",
+      "evidence_hash": "2ce0b5ab23752275544d0471300f49058503e3efaa2282bdec87db166ee86669",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 122,
+      "case_id": "case-69a570d5d321",
+      "round": 3,
+      "variant": "agent",
+      "report_hash": "13bc73256fd3fa472eba33d04856767aec60429d8a69027277cc8751fda93f48",
+      "evidence_hash": "76fb732ed0de5ad53c035734aefd5616138bd83545d1851884c621597af99277",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 124,
+      "case_id": "case-42d30280b030",
+      "round": 3,
+      "variant": "agent",
+      "report_hash": "2f112b11b88e9adeab9ca7b9a2e40c476ae8a8b336e5b133966395b0c77246cf",
+      "evidence_hash": "61612e944c41793a793c76b851b6b2f509200014ccc3f255389c001042a82f70",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 126,
+      "case_id": "case-3970309b0727",
+      "round": 3,
+      "variant": "agent",
+      "report_hash": "b857edf6e121fe3155dbeea7cc88b76e53d829511a2b0ea799ec779a6a51ba5c",
+      "evidence_hash": "226d974aa2c78c2be0611a6669469adf0f7997593bf18159032e80428232592d",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 127,
+      "case_id": "case-3970309b0727",
+      "round": 3,
+      "variant": "baseline",
+      "report_hash": "ffa08ad714899068e82ff6270f75bd4ff5b320b98ee11833854c0c428e6e9a31",
+      "evidence_hash": "ab3ca122efaea21860e90e82690b2cd29fb37cc8fe4ac33a6cd10dff1e49ca74",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 128,
+      "case_id": "case-ef072fdca1f3",
+      "round": 3,
+      "variant": "agent",
+      "report_hash": "60fc1764581d624312acc148a5727e8afec74259707f5a5082a606bf6b1f5d93",
+      "evidence_hash": "42b9e94efe24415c44b65f79142f1b10abfdbc6d5a5a63741a46b98100947914",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 129,
+      "case_id": "case-ef072fdca1f3",
+      "round": 3,
+      "variant": "baseline",
+      "report_hash": "9fa8f0199c66dd24c99181a88a0162947b29ae911e401c8d2260dbbdf18da6b2",
+      "evidence_hash": "12297de3696199fdd48efcf06dfdfb91ee5a15e4b5ad36a17e392a4d7556a14a",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 130,
+      "case_id": "case-157478cff2f0",
+      "round": 3,
+      "variant": "agent",
+      "report_hash": "9540d04f144165964787f167332eb2c5b0a7ea2217704e3b6e15928c867c119d",
+      "evidence_hash": "62380535fd6c0bbdaca52bd62b90b90da2df4923d88461a469a2d21f839dd6ae",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 131,
+      "case_id": "case-157478cff2f0",
+      "round": 3,
+      "variant": "baseline",
+      "report_hash": "aef38f85430ecb61ccc3f546231bd369c7b113c42108797b8e0efc626d112a9b",
+      "evidence_hash": "cce7db8040896af43ded61f608390ddb39eccad3bee11c23636e4389d986207c",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "candidate:0"
+      ]
+    },
+    {
+      "ordinal": 132,
+      "case_id": "case-450534e9717e",
+      "round": 3,
+      "variant": "agent",
+      "report_hash": "2ea77b0a1a6d0adde4fb928fd0f03a9335e0f5d8d2abf9c8257dca947ecd9d22",
+      "evidence_hash": "e956d0cfd9c5571a653476ca39122d603e14ccd8135ed247b7d8bf78df8a4629",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 133,
+      "case_id": "case-450534e9717e",
+      "round": 3,
+      "variant": "baseline",
+      "report_hash": "2d78bde041262bb33ea52144eb8c663e9abc4df76a561360193baa931216cc8a",
+      "evidence_hash": "92916aabbfaed91d5e56b252c6ebb51680e37d3e99f323540b0baf5fb56b767e",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 134,
+      "case_id": "case-f6fadd7d387c",
+      "round": 3,
+      "variant": "agent",
+      "report_hash": "5fdc50d240db1cbdb6967f4df9a4913d97f3ee1ecfcbd91988bb6c2be2ebaaf3",
+      "evidence_hash": "ad5c7300f893de9b92ff979f182d2204388c9412f13acbdda7458153bc9d551d",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 135,
+      "case_id": "case-f6fadd7d387c",
+      "round": 3,
+      "variant": "baseline",
+      "report_hash": "bd19db2b2ae83f03103747d34756a9e0dbda0f6fa9c9d24686c6f25614d25c07",
+      "evidence_hash": "e6623f5118a9dd522e7a765f7e9a2c4c85db16f60aa974213e0febe1bf8a74e5",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 138,
+      "case_id": "case-ebaccb655bb3",
+      "round": 3,
+      "variant": "agent",
+      "report_hash": "06393fb490d086ee44ededd616fef9a63d4aa70ea490ca5595a2be499d322119",
+      "evidence_hash": "b78bbfb7e16d9bbabfa2e37615611375b35070ebdf14ec755772697f4d425874",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 139,
+      "case_id": "case-ebaccb655bb3",
+      "round": 3,
+      "variant": "baseline",
+      "report_hash": "9f5eee2f11d9ab473e9d4f1d1878f2668c1a539af9d4f06c0edef7c33a71bd1e",
+      "evidence_hash": "a765860c32dfd2c393f342cd11cb6676883b2c231966bed6a105b5b67620c336",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 140,
+      "case_id": "case-64d9a3c64959",
+      "round": 3,
+      "variant": "agent",
+      "report_hash": "289625f933ba0a5c3565344a32fcbd6a04779788350b1a1bb60e4fdc51b65d81",
+      "evidence_hash": "40be398812a2febab1e14448940b1d943eded68ce744eac8f775daa20ff33a2e",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 141,
+      "case_id": "case-64d9a3c64959",
+      "round": 3,
+      "variant": "baseline",
+      "report_hash": "1028c80eca5ad7a5c554ca412ec2a488463d199779527f74ea31257cfa312359",
+      "evidence_hash": "548f0d89f601928eb85fae642ca6ab8b7c79093b717c94d8f8855b5dc7fc303c",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    },
+    {
+      "ordinal": 142,
+      "case_id": "case-018bcc801845",
+      "round": 3,
+      "variant": "agent",
+      "report_hash": "8d5a485fe92e0aa37135deca477969d67427a4a12c75891ce35f2eb6e76abd38",
+      "evidence_hash": "8ef58b85b40b63493ec69f9be1b83154c6ce448c58793aaf2040f4cd3be24c3d",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "inference_ids": [
+        "assessment:0"
+      ]
+    }
+  ]
+}

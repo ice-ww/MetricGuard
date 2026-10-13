@@ -1,0 +1,3913 @@
+{
+  "run_id": "91c24ca4194741e6a19db67e8e220605",
+  "source_result_hash": "bbb3eabdfdf014c6f133752e96ac944b240b036d5850c373942a4e900f7577bf",
+  "reviewer": "t20_preflight independent semantic acceptance agent",
+  "reviewer_kind": "agent",
+  "status": "advisory_only",
+  "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+  "human_review_status": "pending; this artifact is not a human receipt",
+  "method": "All 144 records examined. Every published inference support/opposition ID resolved to original publication cells. Six recurring text templates reviewed semantically; each individual case/round/variant numerically checked independently, not sampled. No golden bundle, expected answers, or frozen snapshots opened. Lower scores distinguish citation relevance or missing interpretation from factual contradiction; advice does not change official scores.",
+  "summary": {
+    "records_examined": 144,
+    "published_inferences_reviewed": 97,
+    "records_without_published_inferences": 47,
+    "all_two_suggestions": 36,
+    "concern_counts": {
+      "generic_insufficiency_not_linked_to_specific_gap": 34,
+      "operational_claim_cites_business_numbers": 9,
+      "counterevidence_impact_not_explained": 18
+    },
+    "causal_overclaim_count": 0,
+    "citation_cell_mismatch_count": 0
+  },
+  "records_without_inferences": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    25,
+    27,
+    29,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    73,
+    75,
+    77,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    121,
+    123,
+    125,
+    136,
+    137,
+    143
+  ],
+  "reviews": [
+    {
+      "ordinal": 5,
+      "case_id": "case-8c4c581891b4",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "2bf07fb060ff766ca6bc65e9672e8fc5e283825841ded63ab46f927a527776e0",
+      "evidence_hash": "03d20d0b3c2a305953c8dd9bfe18e7ebd898a014f6a0efb2059ccc7ed3df2f96",
+      "publication_evidence_hash": "a6d6063dcc2383741992dd436f1706e12e864abd7b9c11ab982420c80310db88",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 12,
+      "case_id": "case-70645404d8de",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "预算或未知用量保护已停止执行，仅提供现有事实和未决项。",
+      "report_hash": "749a8869256056de3444bd419d82329c239abd4c5f32dc9287a90f8feae58014",
+      "evidence_hash": "335a1e5df9fa676a1214a03d12dc77e0ff0dfa56c25f36ef645d14f3b366a8e2",
+      "publication_evidence_hash": "830867e2855af7bd029611098d744b4e1ced4c221d6d796e6d93e7e4d8aa35ab",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "预算停止在任务状态/Trace 中有证据，数值引用只能支持现有业务事实，不能证明预算停止原因；发布推断的 supporting_assertion_ids 全是业务数值，关键运行证据未进入该引用链。",
+        "counterevidence": "只说明执行停止而不宣称业务原因，保留多个未决项和本次取得的事实范围，无忽略反证后作实质归因。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "execution_reason": [
+          "final report budget reserved"
+        ],
+        "numeric_support_count": 70
+      },
+      "concerns": [
+        "operational_claim_cites_business_numbers"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 13,
+      "case_id": "case-70645404d8de",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该系统新注册版本的留存更低、首日崩溃受影响比例更高；支持版本崩溃与留存下降相关的候选解释。 这是描述性候选，未证明因果关系。",
+      "report_hash": "3584a1efc135c947b375837c5fb29caaf2d125e99735257bf618ec2ba6567e67",
+      "evidence_hash": "80a50673987847b3c805bbf75d398e82a83f812cde4c1149c6a8bb4561634b34",
+      "publication_evidence_hash": "6cf0530e03483046a79238809fd8a4c89afbae9badbd052ac64ee19341a44fc7",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "列出了旧版本与 iOS 对照引用及混杂限制，但推断文字没有解释这些对照如何限定版本解释；按固定 rubric 的“提及反证但未解释影响”给建议 1 分。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_retention": [
+          0.24285714285714285
+        ],
+        "previous_retention": [
+          0.5036231884057971,
+          0.5036231884057971,
+          0.8900966183574879
+        ],
+        "current_crash_rate": [
+          0.5547619047619048
+        ],
+        "previous_crash_rate": [
+          0.022946859903381644,
+          0.022946859903381644,
+          0.014492753623188406
+        ],
+        "opposing_groups": [
+          {
+            "os": "Android",
+            "version": "1.0"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0"
+          },
+          {
+            "os": "Android",
+            "version": "1.0"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0"
+          }
+        ]
+      },
+      "concerns": [
+        "counterevidence_impact_not_explained"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 14,
+      "case_id": "case-7d30d33f5bfe",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "预算或未知用量保护已停止执行，仅提供现有事实和未决项。",
+      "report_hash": "46bc3f563e984e528a97a1ced1842a43b752751ac03bd2521504c12bb56eb77a",
+      "evidence_hash": "8579347bcc9263f0f75d5c2e05ec6244a707514ebd24db0d04f2606d18247545",
+      "publication_evidence_hash": "a3d7ea2e9aac76771487669b87aba5505f3ac73f672ea4c2f813c31feec2617b",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "预算停止在任务状态/Trace 中有证据，数值引用只能支持现有业务事实，不能证明预算停止原因；发布推断的 supporting_assertion_ids 全是业务数值，关键运行证据未进入该引用链。",
+        "counterevidence": "只说明执行停止而不宣称业务原因，保留多个未决项和本次取得的事实范围，无忽略反证后作实质归因。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "execution_reason": [
+          "final report budget reserved"
+        ],
+        "numeric_support_count": 70
+      },
+      "concerns": [
+        "operational_claim_cites_business_numbers"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 15,
+      "case_id": "case-7d30d33f5bfe",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该系统新注册版本的留存更低、首日崩溃受影响比例更高；支持版本崩溃与留存下降相关的候选解释。 这是描述性候选，未证明因果关系。",
+      "report_hash": "95a7214a446f702e6d6eef275dc537e65bddc8fcd937b14263eeed23c87bdbd8",
+      "evidence_hash": "f147b5cfb6bbc7147e0cec45ca54494f60846a02437e6a1db29683f7f8aa767c",
+      "publication_evidence_hash": "a2f1d17eb9690e253f5e23d9a2834f572f003099265eff2b5233d3da2ae6bd41",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "列出了旧版本与 iOS 对照引用及混杂限制，但推断文字没有解释这些对照如何限定版本解释；按固定 rubric 的“提及反证但未解释影响”给建议 1 分。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_retention": [
+          0.19523809523809524
+        ],
+        "previous_retention": [
+          0.49033816425120774,
+          0.49033816425120774,
+          0.893719806763285
+        ],
+        "current_crash_rate": [
+          0.6761904761904762
+        ],
+        "previous_crash_rate": [
+          0.026570048309178744,
+          0.026570048309178744,
+          0.01932367149758454
+        ],
+        "opposing_groups": [
+          {
+            "os": "Android",
+            "version": "1.0"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0"
+          },
+          {
+            "os": "Android",
+            "version": "1.0"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0"
+          }
+        ]
+      },
+      "concerns": [
+        "counterevidence_impact_not_explained"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 16,
+      "case_id": "case-0d8e24a9beca",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "预算或未知用量保护已停止执行，仅提供现有事实和未决项。",
+      "report_hash": "94524e07611e35ad9e7beba38df8d72bcabf99db8403ce7374ac24ad142ca8e9",
+      "evidence_hash": "6a25f7b83af2dbeeb6ed9fcef30b2451dca033cfb3d7d60338dd58c754514a10",
+      "publication_evidence_hash": "d6af859f58a7ce247409f0f3d31d47bc68ce563021830c0c4172fd9368f0eed3",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "预算停止在任务状态/Trace 中有证据，数值引用只能支持现有业务事实，不能证明预算停止原因；发布推断的 supporting_assertion_ids 全是业务数值，关键运行证据未进入该引用链。",
+        "counterevidence": "只说明执行停止而不宣称业务原因，保留多个未决项和本次取得的事实范围，无忽略反证后作实质归因。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "execution_reason": [
+          "final report budget reserved"
+        ],
+        "numeric_support_count": 70
+      },
+      "concerns": [
+        "operational_claim_cites_business_numbers"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 17,
+      "case_id": "case-0d8e24a9beca",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该系统新注册版本的留存更低、首日崩溃受影响比例更高；支持版本崩溃与留存下降相关的候选解释。 这是描述性候选，未证明因果关系。",
+      "report_hash": "7a3a54552b8736d683709d1c4b36d5e944364ccfa2e96bc0ad3cf2ff3116196e",
+      "evidence_hash": "e6741e447294bfbd78036a2fa96079b84c248e90a7823d68992f75b5efd54984",
+      "publication_evidence_hash": "8527f57e04f7e48c49b02a0a84ac30086f1cb335beaa6a5817686551d9eb248a",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "列出了旧版本与 iOS 对照引用及混杂限制，但推断文字没有解释这些对照如何限定版本解释；按固定 rubric 的“提及反证但未解释影响”给建议 1 分。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_retention": [
+          0.16666666666666666
+        ],
+        "previous_retention": [
+          0.5157004830917874,
+          0.5157004830917874,
+          0.9057971014492754
+        ],
+        "current_crash_rate": [
+          0.8
+        ],
+        "previous_crash_rate": [
+          0.030193236714975844,
+          0.030193236714975844,
+          0.022946859903381644
+        ],
+        "opposing_groups": [
+          {
+            "os": "Android",
+            "version": "1.0"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0"
+          },
+          {
+            "os": "Android",
+            "version": "1.0"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0"
+          }
+        ]
+      },
+      "concerns": [
+        "counterevidence_impact_not_explained"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 18,
+      "case_id": "case-b20025e99834",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "该渠道新增人数增加且当前次日留存低于其他渠道，支持低留存渠道贡献新增增长的描述性候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "095d4964f5a8bb6f54273d446532ed8fce7423ecb2f98696f3f75fa153c21a10",
+      "evidence_hash": "8837e34b86d060cf9ca29c14a81f8d6e5d1643a9a8f8d175846f57cdd6537547",
+      "publication_evidence_hash": "8582a32acfb292f6d6f3aef22d7e621feb602c28f655a7c1958f179d3fed42e7",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_users": [
+          2184
+        ],
+        "previous_users": [
+          828
+        ],
+        "current_retention": [
+          0.1163003663003663
+        ],
+        "control_retention": [
+          0.7095238095238096
+        ]
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 19,
+      "case_id": "case-b20025e99834",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该渠道新增人数增加且当前次日留存低于其他渠道，支持低留存渠道贡献新增增长的描述性候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "39466905de5b25ba6a1b4984b30536e9e3db1277a0ed4cae964edd3359ae4d24",
+      "evidence_hash": "5388ead4287b8240db5bd1fd221954fb4e576b9a52b5ae1042ee340f5143c45b",
+      "publication_evidence_hash": "10ecdebae86df4cc930b55f8b137ced5f3c0682df5d77513f11d31752ca3f546",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_users": [
+          2184
+        ],
+        "previous_users": [
+          828
+        ],
+        "current_retention": [
+          0.1163003663003663
+        ],
+        "control_retention": [
+          0.7095238095238096
+        ]
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 20,
+      "case_id": "case-3a000a75ba72",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "该渠道新增人数增加且当前次日留存低于其他渠道，支持低留存渠道贡献新增增长的描述性候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "722aa1027e4eb1e4e63367cc50db516ed97372f8723a6491fae980953dc50a26",
+      "evidence_hash": "09ce471a5690b87d2f6ebc7b42fcb0473de2af6af27e90d1d15df71cf96172f5",
+      "publication_evidence_hash": "329d0cc6e30483e0778a06dcc5f21a711ea996e61334b3bc20b3bad02e5da06a",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_users": [
+          2688
+        ],
+        "previous_users": [
+          828
+        ],
+        "current_retention": [
+          0.15885416666666666
+        ],
+        "control_retention": [
+          0.7107142857142857
+        ]
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 21,
+      "case_id": "case-3a000a75ba72",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该渠道新增人数增加且当前次日留存低于其他渠道，支持低留存渠道贡献新增增长的描述性候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "19d11c6167ab7ffb0a53bcd6f9697ed5217baf6a97ba7a2b408eadf90b211848",
+      "evidence_hash": "96d291c3a2c7ff77c4569d2d241a4939ccccc4d1282d4f01d760d0e93f975bc1",
+      "publication_evidence_hash": "00c5530819ef04cd8b864d502e6f3104e3d22902ba445f6de1ca19da5091b968",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_users": [
+          2688
+        ],
+        "previous_users": [
+          828
+        ],
+        "current_retention": [
+          0.15885416666666666
+        ],
+        "control_retention": [
+          0.7107142857142857
+        ]
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 22,
+      "case_id": "case-e32206bcc9e4",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "该渠道新增人数增加且当前次日留存低于其他渠道，支持低留存渠道贡献新增增长的描述性候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "af300daabf27ccef26de32f836307950f3faf5be8c6de0b9cc5fa4f77832af68",
+      "evidence_hash": "4e35e1164a4f232dd9a85ce6d3246c958678291fe7b661aefde50ea251ebe0bd",
+      "publication_evidence_hash": "57b9834480ff39c6071596751974b222b4d4cef8c7ecaf72a4fb4a2f8fc3fe11",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_users": [
+          3192
+        ],
+        "previous_users": [
+          828
+        ],
+        "current_retention": [
+          0.20426065162907267
+        ],
+        "control_retention": [
+          0.7226190476190476
+        ]
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 23,
+      "case_id": "case-e32206bcc9e4",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该渠道新增人数增加且当前次日留存低于其他渠道，支持低留存渠道贡献新增增长的描述性候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "a5150475f4addf535205266fcb78335d893c7501fb29c53c5ff00c66745b3cdc",
+      "evidence_hash": "ee61b8cfd5466353c8b4a9569c9993d3808d6b1dec7cf33f5d553a95da5c2d14",
+      "publication_evidence_hash": "3446eef53b28b24170d2c5872411b28975f080d5a1a1df6e6217b09770ac976d",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_users": [
+          3192
+        ],
+        "previous_users": [
+          828
+        ],
+        "current_retention": [
+          0.20426065162907267
+        ],
+        "control_retention": [
+          0.7226190476190476
+        ]
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 24,
+      "case_id": "case-1f0e2945e290",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "两条采集链路齐备且实例可对齐，独立观看进度达到完整时长但缺完成事件，支持完成事件采集缺失候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "6405b5c57051b8319667fafed1d36016c7b8f00412568d588e2c4c023d3e481b",
+      "evidence_hash": "26dc64a2a968ffb362462ede18ab056efeda96eb66ac2ce0a967c7d6e70f9c8b",
+      "publication_evidence_hash": "418bf954547bf7b5cf85ffee285f19b7759d8f27072e52923176996a6966b0fb",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "旧版本/iOS/基期的无缺失对照均有引用，但推断没有说明它们把采集候选范围限制在哪些分群；保留替代解释不等同于解释已取得对照的影响。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "starts": [
+          840
+        ],
+        "completed": [
+          138
+        ],
+        "telemetry_complete": [
+          608
+        ],
+        "raw_gap": [
+          470
+        ],
+        "control_gaps": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "concerns": [
+        "counterevidence_impact_not_explained"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 26,
+      "case_id": "case-69a570d5d321",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "两条采集链路齐备且实例可对齐，独立观看进度达到完整时长但缺完成事件，支持完成事件采集缺失候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "c34a97c656f42bc8bfdb02956942563be13ce926ae5ffdb97467cae0bbbb0ea2",
+      "evidence_hash": "a97d050d59ff8da6a9bc10989d1f7417422787572ade65fb0205c105bfc4d7a0",
+      "publication_evidence_hash": "1a70025a9317bde5653f766a4cc83c62dd1b40eff9f22f58f25498550411343c",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "旧版本/iOS/基期的无缺失对照均有引用，但推断没有说明它们把采集候选范围限制在哪些分群；保留替代解释不等同于解释已取得对照的影响。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "starts": [
+          840
+        ],
+        "completed": [
+          52
+        ],
+        "telemetry_complete": [
+          626
+        ],
+        "raw_gap": [
+          574
+        ],
+        "control_gaps": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "concerns": [
+        "counterevidence_impact_not_explained"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 28,
+      "case_id": "case-42d30280b030",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "两条采集链路齐备且实例可对齐，独立观看进度达到完整时长但缺完成事件，支持完成事件采集缺失候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "95296b859baaf2c3b43c1dedde0732605f28315771fe4c3710e598f8ca81ad66",
+      "evidence_hash": "2132021fb447f9108cad57ffe36e3d1b71088d647b1d324304867ef22b6b77ca",
+      "publication_evidence_hash": "9644ce500263b39fe42574886d468608bb9d1e6b83fb375f26954b6148cfdd06",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "旧版本/iOS/基期的无缺失对照均有引用，但推断没有说明它们把采集候选范围限制在哪些分群；保留替代解释不等同于解释已取得对照的影响。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "starts": [
+          840
+        ],
+        "completed": [
+          0
+        ],
+        "telemetry_complete": [
+          630
+        ],
+        "raw_gap": [
+          630
+        ],
+        "control_gaps": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "concerns": [
+        "counterevidence_impact_not_explained"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 30,
+      "case_id": "case-3970309b0727",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。 这是描述性候选，未证明因果关系。",
+      "report_hash": "a96f9fbc46811c63c9390cf1f72ff2130bb42ddab952c1e2badc88a434ecbfeb",
+      "evidence_hash": "3820814e551c01f58e5ea6069c1648a583c9a862ac005ea4436bc8d7401ff33b",
+      "publication_evidence_hash": "658432569417a15a2f30db7da204d2f1f9322bae7d099df0dbc5b7325122f19b",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "pooled_previous": 0.6896135265700483,
+        "pooled_current": 0.6869047619047619,
+        "standardized_current": 0.628991964025482,
+        "system_counts_and_rates": {
+          "previous": {
+            "iOS": [
+              828,
+              0.8913043478260869
+            ],
+            "Android": [
+              828,
+              0.48792270531400966
+            ]
+          },
+          "current": {
+            "iOS": [
+              1022,
+              0.8962818003913894
+            ],
+            "Android": [
+              658,
+              0.3617021276595745
+            ]
+          }
+        }
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 31,
+      "case_id": "case-3970309b0727",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。 这是描述性候选，未证明因果关系。",
+      "report_hash": "b534f90b879027f5013f30bbd6c93ff4f67d7e99eaff9b9da02c7bfe29a8487b",
+      "evidence_hash": "f711e63259708ba6345701f80438b41cc67c8323f5fba5d48dde598c3f8427c9",
+      "publication_evidence_hash": "6c482a7d31b6cf6c03eaae16a9c0d7d0365d9bdd9850520ddb4b382fa73417b2",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "pooled_previous": 0.6896135265700483,
+        "pooled_current": 0.6869047619047619,
+        "standardized_current": 0.628991964025482,
+        "system_counts_and_rates": {
+          "previous": {
+            "iOS": [
+              828,
+              0.8913043478260869
+            ],
+            "Android": [
+              828,
+              0.48792270531400966
+            ]
+          },
+          "current": {
+            "iOS": [
+              1022,
+              0.8962818003913894
+            ],
+            "Android": [
+              658,
+              0.3617021276595745
+            ]
+          }
+        }
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 32,
+      "case_id": "case-ef072fdca1f3",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。 这是描述性候选，未证明因果关系。",
+      "report_hash": "f0f8148bc39644fe9f7b854d02fecb4961a61ddd407c05d4e5dae7d4f75683b4",
+      "evidence_hash": "362a969b8ad1849ff88ed1a80ecfa22ec68622993a6444445730f198e195127a",
+      "publication_evidence_hash": "fb9cb5f41aa6c43b578762f9d2e86a698de36c0c4805a534c0fb9aaa3c7e9e90",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "pooled_previous": 0.7059178743961353,
+        "pooled_current": 0.7035714285714286,
+        "standardized_current": 0.6089285714285715,
+        "system_counts_and_rates": {
+          "previous": {
+            "iOS": [
+              828,
+              0.8864734299516909
+            ],
+            "Android": [
+              828,
+              0.5253623188405797
+            ]
+          },
+          "current": {
+            "iOS": [
+              1120,
+              0.8928571428571429
+            ],
+            "Android": [
+              560,
+              0.325
+            ]
+          }
+        }
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 33,
+      "case_id": "case-ef072fdca1f3",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。 这是描述性候选，未证明因果关系。",
+      "report_hash": "b7cf7a22e3e0c5ad71353f2e95c5e44ac44fa98c212d792bf9a2b34cd0228961",
+      "evidence_hash": "1c7744fe6e0f11f67d47251407a2eb2ea8ee790c125a27a032562b5dfb7ab61e",
+      "publication_evidence_hash": "2a8d083645ab9f98e5411a67a21b42e488e406dec838d72113420f706d8be14e",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "pooled_previous": 0.7059178743961353,
+        "pooled_current": 0.7035714285714286,
+        "standardized_current": 0.6089285714285715,
+        "system_counts_and_rates": {
+          "previous": {
+            "iOS": [
+              828,
+              0.8864734299516909
+            ],
+            "Android": [
+              828,
+              0.5253623188405797
+            ]
+          },
+          "current": {
+            "iOS": [
+              1120,
+              0.8928571428571429
+            ],
+            "Android": [
+              560,
+              0.325
+            ]
+          }
+        }
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 34,
+      "case_id": "case-157478cff2f0",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。 这是描述性候选，未证明因果关系。",
+      "report_hash": "7097831df9eaf248c00cb2fe2fdcd1da8f6264a082cd3a1740e7e270c739fc00",
+      "evidence_hash": "cd6e40d0c6ae91e536ebc5111b2cb892e9a5c82a37ed52702243936bbc9fbbf1",
+      "publication_evidence_hash": "48615dfa247a0cff0d76afa4f0df1f936dda30642afbcc2c2bb9b3bcb99337d3",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "pooled_previous": 0.6811594202898551,
+        "pooled_current": 0.7238095238095238,
+        "standardized_current": 0.582470197381278,
+        "system_counts_and_rates": {
+          "previous": {
+            "iOS": [
+              828,
+              0.8852657004830918
+            ],
+            "Android": [
+              828,
+              0.47705314009661837
+            ]
+          },
+          "current": {
+            "iOS": [
+              1204,
+              0.9086378737541528
+            ],
+            "Android": [
+              476,
+              0.25630252100840334
+            ]
+          }
+        }
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 35,
+      "case_id": "case-157478cff2f0",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。 这是描述性候选，未证明因果关系。",
+      "report_hash": "564372c01cd68c08b1e78a891cd7a2884c51836dcab66c680bae16fe4ecf6ba8",
+      "evidence_hash": "5a55978cfc692ad4f92c31f091dc2cc2387bc006623a99a58ab890bc997ff0ad",
+      "publication_evidence_hash": "76477ad67c27d8561d272296b5f1f949ef661e1d4ff5a8fd8c3d5d69331bdf4b",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "pooled_previous": 0.6811594202898551,
+        "pooled_current": 0.7238095238095238,
+        "standardized_current": 0.582470197381278,
+        "system_counts_and_rates": {
+          "previous": {
+            "iOS": [
+              828,
+              0.8852657004830918
+            ],
+            "Android": [
+              828,
+              0.47705314009661837
+            ]
+          },
+          "current": {
+            "iOS": [
+              1204,
+              0.9086378737541528
+            ],
+            "Android": [
+              476,
+              0.25630252100840334
+            ]
+          }
+        }
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 36,
+      "case_id": "case-450534e9717e",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "37e56e76850bf8c409c35f1f4cb4b8aa60579d3c0e2640933ffdffe186d372d5",
+      "evidence_hash": "cca7a58ee080cc314e5c18f4a3de8a7b1f334ff8909b4d2b12c9c4a6440724ef",
+      "publication_evidence_hash": "ea13f2ca96d358fcb041b565cd498d621bcb8d252430df87e66b21b35a83f3a2",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 37,
+      "case_id": "case-450534e9717e",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "8ff33396e31dc8c160f98ac1ea3ec69563cc2dec5ac4a0b62c7263af3a5db5cd",
+      "evidence_hash": "13374568be8aba832143cda1615c125262e4c9bdb2d88db7b93cb736f89ba8fc",
+      "publication_evidence_hash": "7d074a628867576d912fa2033fbcf9a0bb37750ab89766bf1d96308bf336a94d",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 106
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 38,
+      "case_id": "case-f6fadd7d387c",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "ce514dace8e5f222d8e1b7fa5633a02c4abec2da8f5956e011eaefd74ce368ec",
+      "evidence_hash": "30a34a4c04fed7aad6ca29fca63951c032e54a74bfb951e407a9252cb899918a",
+      "publication_evidence_hash": "9727a11b332788250b8a88d795f2ea1f7530e737cb429a4d4508db43f72ab7fa",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 39,
+      "case_id": "case-f6fadd7d387c",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "15612ff31bf785f35e41b22cd489d4923534e2582d705eb9be8ebb92b5b18f7c",
+      "evidence_hash": "90c244842a87c0be9461dbcd42e845c7a5c369e65b24b1d337dd40179041e880",
+      "publication_evidence_hash": "77077fedfe39b6f863cccdacdee1992f460ef0646537ce9986eb7c70e85a2bac",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 106
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 40,
+      "case_id": "case-706b30dbe0d1",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "76b6c9e853d2cb905fb847996c174308c1a86ba1daa0b80050efe791203ee53d",
+      "evidence_hash": "d00fa6430f0bf45f706051236d197b83a52983602622b940f3dd5e9510d4fa33",
+      "publication_evidence_hash": "44402d505f061e18a3243fa91e81d5d5982081fabba2e3c906a7d1dbef35c812",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [
+          "requested_window_shortened_to_complete_sources"
+        ],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 41,
+      "case_id": "case-706b30dbe0d1",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "3e6f3bbe6159e2d76aa01f2e2645c576b43a71d4a8176335cc744d5632b8e064",
+      "evidence_hash": "5619e57550f0fff29906a54cb5da6974b8acb152b60b86c91668e401e969d12d",
+      "publication_evidence_hash": "13b9b0ba17d581e570073d100ce969a4b9b9391de7cdcc3b78901436c5270d3a",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [
+          "requested_window_shortened_to_complete_sources"
+        ],
+        "support_count": 70
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 42,
+      "case_id": "case-ebaccb655bb3",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "57a19a09d6ba3f0a420c8a6348662500f8285cfb1777b7c21fd721dd4bba7561",
+      "evidence_hash": "b73d17f06cdfea624d4a819e4b2b028f14d3909003819b0badbe9088d1860b74",
+      "publication_evidence_hash": "32814cf8c920b0bb03c451930583ad7e4676490de6924f55a6bf321071cd84e9",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [
+          "requested_window_shortened_to_complete_sources"
+        ],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 43,
+      "case_id": "case-ebaccb655bb3",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "5ac50f7dc74f17ef36a02d111380783906625c67efa802fed5a68180f7586eae",
+      "evidence_hash": "5a85c0082e1812f4ba2f3cb1f95085cb8e26eab7ab3190b89970e60805b845a4",
+      "publication_evidence_hash": "b8b299ac25a06756aa59b0bcf60a100c6604e188bf2d11d3504ca9b9e7486f32",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [
+          "requested_window_shortened_to_complete_sources"
+        ],
+        "support_count": 106
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 44,
+      "case_id": "case-64d9a3c64959",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "d1f926cd1af4ad3dd52f1709790b4ee9e2610ba8f17b320ca0335a7083d10092",
+      "evidence_hash": "2944becac9a965b4ae568e02634a006f310c9255e70302c30fc413f5067df4d7",
+      "publication_evidence_hash": "108949e77bf0b162604c2af94e8fd7cc42c0e30988f3155b3dd51e7c83b93ede",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 45,
+      "case_id": "case-64d9a3c64959",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "9ecf57cfbfb24754b94a0f461568bb2787c688e4e8d06c42f3c8e59aafa64265",
+      "evidence_hash": "2c1552927cf7ae60b4664e8ff6e25ea53c3a626dc0ab9cb1a1aaaf87ecec3f01",
+      "publication_evidence_hash": "babc40053c3e0915cd25857ebbaa83b7d607bb66c07e1537e3f09a664fb28359",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 46,
+      "case_id": "case-018bcc801845",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "fa1899bcf84cb02a0528e26f29a1028ed058afe90282612f87cab871d4c96d3d",
+      "evidence_hash": "35d7998e797895b96e659c4f75f7179038ab32d20a6f51eba87fba6cbd11e6a1",
+      "publication_evidence_hash": "80fc7a0e8391886509de99c8a1b879bcef870c02db6e7992e2f6147ee714d5d1",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 53,
+      "case_id": "case-8c4c581891b4",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "ee1d061db5b82a19cc319ba94b70db80588bf1227efb8b2580195b1efc15e4af",
+      "evidence_hash": "9067ad5e5735ea13e21c379c40bfdfceeeae9cf5cbc101c10abd9d59d712994d",
+      "publication_evidence_hash": "b0549d5b1030d6b73ad3362ef74b85ec2b9e8c89ebad7803dc3443a9c1a407bc",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 70
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 60,
+      "case_id": "case-70645404d8de",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "预算或未知用量保护已停止执行，仅提供现有事实和未决项。",
+      "report_hash": "9c1084d9eebb908158c9daa323fcd587224100c5b20a2872cfa732ef5b78bbe1",
+      "evidence_hash": "6d64f6f137f060da2782c4c43f133e111bd1d868e47819e03487a5a02e933c55",
+      "publication_evidence_hash": "924e441bcda52c3e51804d63d82ab10f5fdee759143dd6868b509a2a1648db9c",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "预算停止在任务状态/Trace 中有证据，数值引用只能支持现有业务事实，不能证明预算停止原因；发布推断的 supporting_assertion_ids 全是业务数值，关键运行证据未进入该引用链。",
+        "counterevidence": "只说明执行停止而不宣称业务原因，保留多个未决项和本次取得的事实范围，无忽略反证后作实质归因。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "execution_reason": [
+          "final report budget reserved"
+        ],
+        "numeric_support_count": 70
+      },
+      "concerns": [
+        "operational_claim_cites_business_numbers"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 61,
+      "case_id": "case-70645404d8de",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该系统新注册版本的留存更低、首日崩溃受影响比例更高；支持版本崩溃与留存下降相关的候选解释。 这是描述性候选，未证明因果关系。",
+      "report_hash": "e156679fbde61d88772722b18498aec94301f8a55e969c94feddc84b7ffd93fb",
+      "evidence_hash": "10ff7ba5eb932ca9bb7ccc293b6838997845ee20642fc71db70e459086d9195a",
+      "publication_evidence_hash": "ddcaa65aae790f85a521054c83c059f88ef018bcc7c0a490d4796c6f318f55ba",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "列出了旧版本与 iOS 对照引用及混杂限制，但推断文字没有解释这些对照如何限定版本解释；按固定 rubric 的“提及反证但未解释影响”给建议 1 分。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_retention": [
+          0.24285714285714285
+        ],
+        "previous_retention": [
+          0.5036231884057971,
+          0.5036231884057971,
+          0.8900966183574879
+        ],
+        "current_crash_rate": [
+          0.5547619047619048
+        ],
+        "previous_crash_rate": [
+          0.022946859903381644,
+          0.022946859903381644,
+          0.014492753623188406
+        ],
+        "opposing_groups": [
+          {
+            "os": "Android",
+            "version": "1.0"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0"
+          },
+          {
+            "os": "Android",
+            "version": "1.0"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0"
+          }
+        ]
+      },
+      "concerns": [
+        "counterevidence_impact_not_explained"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 62,
+      "case_id": "case-7d30d33f5bfe",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "预算或未知用量保护已停止执行，仅提供现有事实和未决项。",
+      "report_hash": "0781fc9cb56b22d30b403c0fbbd667ee06034126561415db277bc04ddd8b2cfc",
+      "evidence_hash": "9f9793958b4b26584b1ec17fbb09efc3fe2e93d8dec73d2732f8048b6b72efc5",
+      "publication_evidence_hash": "e903d48074f66bda79d8af7087833c44a4a188bfe5e7d86e6c59b6a4cc562dcf",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "预算停止在任务状态/Trace 中有证据，数值引用只能支持现有业务事实，不能证明预算停止原因；发布推断的 supporting_assertion_ids 全是业务数值，关键运行证据未进入该引用链。",
+        "counterevidence": "只说明执行停止而不宣称业务原因，保留多个未决项和本次取得的事实范围，无忽略反证后作实质归因。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "execution_reason": [
+          "final report budget reserved"
+        ],
+        "numeric_support_count": 70
+      },
+      "concerns": [
+        "operational_claim_cites_business_numbers"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 63,
+      "case_id": "case-7d30d33f5bfe",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该系统新注册版本的留存更低、首日崩溃受影响比例更高；支持版本崩溃与留存下降相关的候选解释。 这是描述性候选，未证明因果关系。",
+      "report_hash": "1036bd5bdb0cd79c32130fa8a3805a4dd0c85423495109bac0793080dccfc804",
+      "evidence_hash": "ad50b01961bbb9029619b4e5a059645c54a173b00a12e00b89767edae163cebe",
+      "publication_evidence_hash": "f4031381f5bfae1d4d75ca09aa57f1b9aeee91c03bbff519cf09d99e93bd33ca",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "列出了旧版本与 iOS 对照引用及混杂限制，但推断文字没有解释这些对照如何限定版本解释；按固定 rubric 的“提及反证但未解释影响”给建议 1 分。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_retention": [
+          0.19523809523809524
+        ],
+        "previous_retention": [
+          0.49033816425120774,
+          0.49033816425120774,
+          0.893719806763285
+        ],
+        "current_crash_rate": [
+          0.6761904761904762
+        ],
+        "previous_crash_rate": [
+          0.026570048309178744,
+          0.026570048309178744,
+          0.01932367149758454
+        ],
+        "opposing_groups": [
+          {
+            "os": "Android",
+            "version": "1.0"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0"
+          },
+          {
+            "os": "Android",
+            "version": "1.0"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0"
+          }
+        ]
+      },
+      "concerns": [
+        "counterevidence_impact_not_explained"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 64,
+      "case_id": "case-0d8e24a9beca",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "预算或未知用量保护已停止执行，仅提供现有事实和未决项。",
+      "report_hash": "55ac027c4da739cf81b2cae2801beaa1f598a63b07e7cd6bd28066280e0deedf",
+      "evidence_hash": "62867ff419a4afaedbba6d5b967a6ee77366e2fc9886a0bb10f74ab3a03cd1d9",
+      "publication_evidence_hash": "76e90d1701495199c80e011992c4e76db81d06b40a592cd3d672f21bd4967be0",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "预算停止在任务状态/Trace 中有证据，数值引用只能支持现有业务事实，不能证明预算停止原因；发布推断的 supporting_assertion_ids 全是业务数值，关键运行证据未进入该引用链。",
+        "counterevidence": "只说明执行停止而不宣称业务原因，保留多个未决项和本次取得的事实范围，无忽略反证后作实质归因。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "execution_reason": [
+          "final report budget reserved"
+        ],
+        "numeric_support_count": 70
+      },
+      "concerns": [
+        "operational_claim_cites_business_numbers"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 65,
+      "case_id": "case-0d8e24a9beca",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该系统新注册版本的留存更低、首日崩溃受影响比例更高；支持版本崩溃与留存下降相关的候选解释。 这是描述性候选，未证明因果关系。",
+      "report_hash": "1ccb75d939d5487a6d6b39f5d229572c83e852949b6df5819d0db4574484c225",
+      "evidence_hash": "cdaab3c1fb43caf325153d4fc208c447479587280cf3fa0911570d5ccc285f03",
+      "publication_evidence_hash": "13d9eb0e61243dc1cb931ccb395dcf0606a470efb8ec78ba7b1d1b8ea8b19178",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "列出了旧版本与 iOS 对照引用及混杂限制，但推断文字没有解释这些对照如何限定版本解释；按固定 rubric 的“提及反证但未解释影响”给建议 1 分。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_retention": [
+          0.16666666666666666
+        ],
+        "previous_retention": [
+          0.5157004830917874,
+          0.5157004830917874,
+          0.9057971014492754
+        ],
+        "current_crash_rate": [
+          0.8
+        ],
+        "previous_crash_rate": [
+          0.030193236714975844,
+          0.030193236714975844,
+          0.022946859903381644
+        ],
+        "opposing_groups": [
+          {
+            "os": "Android",
+            "version": "1.0"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0"
+          },
+          {
+            "os": "Android",
+            "version": "1.0"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0"
+          }
+        ]
+      },
+      "concerns": [
+        "counterevidence_impact_not_explained"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 66,
+      "case_id": "case-b20025e99834",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "该渠道新增人数增加且当前次日留存低于其他渠道，支持低留存渠道贡献新增增长的描述性候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "05efb220d720908431172658b7658c632a79fb6694ce662d0a62310185496bba",
+      "evidence_hash": "957f8f95382baad94a2702b9cc1cc936d0f47a5123a242142a3a28e3f029ec10",
+      "publication_evidence_hash": "e1a96d45e4ee3cfaede2a4077e4668a61f65799b4954d41bb33e4080283eb419",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_users": [
+          2184
+        ],
+        "previous_users": [
+          828
+        ],
+        "current_retention": [
+          0.1163003663003663
+        ],
+        "control_retention": [
+          0.7095238095238096
+        ]
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 67,
+      "case_id": "case-b20025e99834",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该渠道新增人数增加且当前次日留存低于其他渠道，支持低留存渠道贡献新增增长的描述性候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "89e03956927fd22f87e0f301e75963342450f075ca9190a178ddab10f8e388d9",
+      "evidence_hash": "466710d3425b2338e49c126827d1fd2b16942b5616c44cf3465f9e1b7077592c",
+      "publication_evidence_hash": "dd5b3e4f9589c9ae2faa244c7e46d706f8d5953054e033eec90b2fbbfa8fe2c1",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_users": [
+          2184
+        ],
+        "previous_users": [
+          828
+        ],
+        "current_retention": [
+          0.1163003663003663
+        ],
+        "control_retention": [
+          0.7095238095238096
+        ]
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 68,
+      "case_id": "case-3a000a75ba72",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "该渠道新增人数增加且当前次日留存低于其他渠道，支持低留存渠道贡献新增增长的描述性候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "b5e9b07b763cb571226363e3532a7143bd01e45cc0bdf45954cf28c3ef0d4573",
+      "evidence_hash": "d9c403c50587d65aade8985b956acb0dcc1d041094355a3a4fcbca991ca1c38c",
+      "publication_evidence_hash": "2c228b565087842257b6619563a4132afbbeda10e2591c591a1aff6b4b37db16",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_users": [
+          2688
+        ],
+        "previous_users": [
+          828
+        ],
+        "current_retention": [
+          0.15885416666666666
+        ],
+        "control_retention": [
+          0.7107142857142857
+        ]
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 69,
+      "case_id": "case-3a000a75ba72",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该渠道新增人数增加且当前次日留存低于其他渠道，支持低留存渠道贡献新增增长的描述性候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "9c0ff0b8d1dada7cd96dd933950655388158cef3244c56dfb4e3ff51c92dcb5b",
+      "evidence_hash": "8a93a4c87b4f8a1efa01710bc6fdfb7ee2e725445e53a57eecfbbfadb8e7a13c",
+      "publication_evidence_hash": "0f9ad9da539f3221e106109b50ba363be28dd98e9cc6c7d02dbf4b83febb32be",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_users": [
+          2688
+        ],
+        "previous_users": [
+          828
+        ],
+        "current_retention": [
+          0.15885416666666666
+        ],
+        "control_retention": [
+          0.7107142857142857
+        ]
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 70,
+      "case_id": "case-e32206bcc9e4",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "该渠道新增人数增加且当前次日留存低于其他渠道，支持低留存渠道贡献新增增长的描述性候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "5f983ec0bb0e5c3ba3705cb9f3acad68be4aec4175f3f46fc2d2eb38a2c6c30f",
+      "evidence_hash": "5cb6b1ea862b5f2039fa0a17b660dd52c9fe2bf4e2945d4ad0b728c199eebb1e",
+      "publication_evidence_hash": "37366487369ee717efef28874bae9f931d856dd35dfaeaaae538ec78ac95443f",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_users": [
+          3192
+        ],
+        "previous_users": [
+          828
+        ],
+        "current_retention": [
+          0.20426065162907267
+        ],
+        "control_retention": [
+          0.7226190476190476
+        ]
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 71,
+      "case_id": "case-e32206bcc9e4",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该渠道新增人数增加且当前次日留存低于其他渠道，支持低留存渠道贡献新增增长的描述性候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "1b3f39616c89e0605374e84a11a47ff80771300c1a66fc9949d63fdeafc44d27",
+      "evidence_hash": "d79393144023ad1db7a67f42df14bb64fa2c8bc7939beec6671c02667c61f8dd",
+      "publication_evidence_hash": "b482fef8b692119caef3931dd3259220fcc20c870be375e57a62324803444c13",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_users": [
+          3192
+        ],
+        "previous_users": [
+          828
+        ],
+        "current_retention": [
+          0.20426065162907267
+        ],
+        "control_retention": [
+          0.7226190476190476
+        ]
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 72,
+      "case_id": "case-1f0e2945e290",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "两条采集链路齐备且实例可对齐，独立观看进度达到完整时长但缺完成事件，支持完成事件采集缺失候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "8923568d54b27f7b04b07bcbc8fba1295e30686c7e31e302f9a519c888556bc8",
+      "evidence_hash": "11fcc3b18383f5f6626c3b3654dc6b706d3c5d36794d710a24a91acabd5ae20e",
+      "publication_evidence_hash": "86d4def6daa63f5f7cad7dd42af4671c5633fe2bda70ff542cf8d7ecbda03afb",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "旧版本/iOS/基期的无缺失对照均有引用，但推断没有说明它们把采集候选范围限制在哪些分群；保留替代解释不等同于解释已取得对照的影响。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "starts": [
+          840
+        ],
+        "completed": [
+          138
+        ],
+        "telemetry_complete": [
+          608
+        ],
+        "raw_gap": [
+          470
+        ],
+        "control_gaps": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "concerns": [
+        "counterevidence_impact_not_explained"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 74,
+      "case_id": "case-69a570d5d321",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "两条采集链路齐备且实例可对齐，独立观看进度达到完整时长但缺完成事件，支持完成事件采集缺失候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "4ca7805c2093c1be5db86b3292155434bcbaf269bd9d75a459b143fcd217102d",
+      "evidence_hash": "1efdcb0d346e02a8fadb4625893c50f32ae124fa825bd9df75fcb05a239338fe",
+      "publication_evidence_hash": "ae29d37a357982626f613bcd37ed058cd6fd09ec6bd269acef349ee0d64d22e4",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "旧版本/iOS/基期的无缺失对照均有引用，但推断没有说明它们把采集候选范围限制在哪些分群；保留替代解释不等同于解释已取得对照的影响。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "starts": [
+          840
+        ],
+        "completed": [
+          52
+        ],
+        "telemetry_complete": [
+          626
+        ],
+        "raw_gap": [
+          574
+        ],
+        "control_gaps": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "concerns": [
+        "counterevidence_impact_not_explained"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 76,
+      "case_id": "case-42d30280b030",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "两条采集链路齐备且实例可对齐，独立观看进度达到完整时长但缺完成事件，支持完成事件采集缺失候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "4ac08e6dd634d261a78eda25f376a8b5d7dc9b1468928dc848b9e822c9e4e8d3",
+      "evidence_hash": "fa5f1ae5c8898d8ca42884c60d4bc4409d959fdb839374233cb07a1471ebd2fb",
+      "publication_evidence_hash": "8fba679b8ef7f3efa157360a1ebb9ebb5469579140e6c38ad4d2a3a3be982d55",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "旧版本/iOS/基期的无缺失对照均有引用，但推断没有说明它们把采集候选范围限制在哪些分群；保留替代解释不等同于解释已取得对照的影响。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "starts": [
+          840
+        ],
+        "completed": [
+          0
+        ],
+        "telemetry_complete": [
+          630
+        ],
+        "raw_gap": [
+          630
+        ],
+        "control_gaps": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "concerns": [
+        "counterevidence_impact_not_explained"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 78,
+      "case_id": "case-3970309b0727",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。 这是描述性候选，未证明因果关系。",
+      "report_hash": "1568d30159d00bb11c6af999bd3b4470e66fe404a9b88ef8b3fba8538d9522c4",
+      "evidence_hash": "bb16f1e08e97ce52a7576ab542560a95c33480570854e3c2627ab99cd9eac38e",
+      "publication_evidence_hash": "2839b8955e970d832919d0ba2f7171b8bed44961d91090c116c86e848c62722f",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "pooled_previous": 0.6896135265700483,
+        "pooled_current": 0.6869047619047619,
+        "standardized_current": 0.628991964025482,
+        "system_counts_and_rates": {
+          "previous": {
+            "iOS": [
+              828,
+              0.8913043478260869
+            ],
+            "Android": [
+              828,
+              0.48792270531400966
+            ]
+          },
+          "current": {
+            "iOS": [
+              1022,
+              0.8962818003913894
+            ],
+            "Android": [
+              658,
+              0.3617021276595745
+            ]
+          }
+        }
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 79,
+      "case_id": "case-3970309b0727",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。 这是描述性候选，未证明因果关系。",
+      "report_hash": "4869e07182daa71fd4f81eb760b0d399e533531c2de34478dbb5875e309dabe5",
+      "evidence_hash": "1d00974dc649e27511f8c537383d3218590b7f52f0b24fbc778a9228ad3df3d4",
+      "publication_evidence_hash": "101e802dd868d60595a8abfd33ef9104f88a33a21ba1a7c6e4adeccab2357d2d",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "pooled_previous": 0.6896135265700483,
+        "pooled_current": 0.6869047619047619,
+        "standardized_current": 0.628991964025482,
+        "system_counts_and_rates": {
+          "previous": {
+            "iOS": [
+              828,
+              0.8913043478260869
+            ],
+            "Android": [
+              828,
+              0.48792270531400966
+            ]
+          },
+          "current": {
+            "iOS": [
+              1022,
+              0.8962818003913894
+            ],
+            "Android": [
+              658,
+              0.3617021276595745
+            ]
+          }
+        }
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 80,
+      "case_id": "case-ef072fdca1f3",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。 这是描述性候选，未证明因果关系。",
+      "report_hash": "fff13a6d33e21925d7bcd4637dee15a84767d9d17553bbd566337c21711000f2",
+      "evidence_hash": "32dbefa9a2898e1c41768ed8577c34b76be00e249e49b5d94122770d63d8de91",
+      "publication_evidence_hash": "ab6342a6ca1f829b4494202de53f79421d05e3e3300895a95996f38d3849a13a",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "pooled_previous": 0.7059178743961353,
+        "pooled_current": 0.7035714285714286,
+        "standardized_current": 0.6089285714285715,
+        "system_counts_and_rates": {
+          "previous": {
+            "iOS": [
+              828,
+              0.8864734299516909
+            ],
+            "Android": [
+              828,
+              0.5253623188405797
+            ]
+          },
+          "current": {
+            "iOS": [
+              1120,
+              0.8928571428571429
+            ],
+            "Android": [
+              560,
+              0.325
+            ]
+          }
+        }
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 81,
+      "case_id": "case-ef072fdca1f3",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。 这是描述性候选，未证明因果关系。",
+      "report_hash": "deb0b1d2a1eba7a962772db837944dcf00a26182b9699cc9084ffe9421df37cb",
+      "evidence_hash": "21997f80b3624a789a3f5ff22f2461b0335c8d62ce6d7f3ee2879445cc82c7cb",
+      "publication_evidence_hash": "7684ac5c280fd5bed600c1726ae70400c8a89e45c29e46f08551245305a0df2f",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "pooled_previous": 0.7059178743961353,
+        "pooled_current": 0.7035714285714286,
+        "standardized_current": 0.6089285714285715,
+        "system_counts_and_rates": {
+          "previous": {
+            "iOS": [
+              828,
+              0.8864734299516909
+            ],
+            "Android": [
+              828,
+              0.5253623188405797
+            ]
+          },
+          "current": {
+            "iOS": [
+              1120,
+              0.8928571428571429
+            ],
+            "Android": [
+              560,
+              0.325
+            ]
+          }
+        }
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 82,
+      "case_id": "case-157478cff2f0",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。 这是描述性候选，未证明因果关系。",
+      "report_hash": "8d15fcca08eb56a7eb149847693b6a223b50b4234de1c1e28598affaa8dc16b5",
+      "evidence_hash": "a5e897564ea8e39782d953bc65213753efd99b9bdb772aad52ea42949fec4674",
+      "publication_evidence_hash": "3ad8056ff3c62a0e836723800840d3c20bbd2093d0ff5cd1af9c9d76b5c0a4eb",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "pooled_previous": 0.6811594202898551,
+        "pooled_current": 0.7238095238095238,
+        "standardized_current": 0.582470197381278,
+        "system_counts_and_rates": {
+          "previous": {
+            "iOS": [
+              828,
+              0.8852657004830918
+            ],
+            "Android": [
+              828,
+              0.47705314009661837
+            ]
+          },
+          "current": {
+            "iOS": [
+              1204,
+              0.9086378737541528
+            ],
+            "Android": [
+              476,
+              0.25630252100840334
+            ]
+          }
+        }
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 83,
+      "case_id": "case-157478cff2f0",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。 这是描述性候选，未证明因果关系。",
+      "report_hash": "7b58a59a383496d6a4c90678e50ff7fbf603ae06e9c93fd1a87b9e132e2fd4af",
+      "evidence_hash": "5600b127ab57b8b5ecaeed8b3e3f20ae76b534a45632518d0caf1f93542acba6",
+      "publication_evidence_hash": "34410beb797b3596d4268f465b9f91108535adef6f5be0137a559b12f6f1d46c",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "pooled_previous": 0.6811594202898551,
+        "pooled_current": 0.7238095238095238,
+        "standardized_current": 0.582470197381278,
+        "system_counts_and_rates": {
+          "previous": {
+            "iOS": [
+              828,
+              0.8852657004830918
+            ],
+            "Android": [
+              828,
+              0.47705314009661837
+            ]
+          },
+          "current": {
+            "iOS": [
+              1204,
+              0.9086378737541528
+            ],
+            "Android": [
+              476,
+              0.25630252100840334
+            ]
+          }
+        }
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 84,
+      "case_id": "case-450534e9717e",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "394611b6087b5c4308e570f88dd075fada571a435c27c56b6ec4ac43d0b98cc5",
+      "evidence_hash": "6b615f6bdc55122f0213f689b1304593a11c3f879b260088451a2d22df391a6e",
+      "publication_evidence_hash": "317804811fed2378c66c7538915814ab1911a604e470b72196c0dd71b233f9ba",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 85,
+      "case_id": "case-450534e9717e",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "3ccd1b2c9dc4acef85592b691265e0fa7d2009198c452d496f8b4d8c4a1c7bed",
+      "evidence_hash": "2e6fe454ef9537cce53530058fcce67849686efeae81b997b00f65f122d4dde1",
+      "publication_evidence_hash": "bbddbb32ae7ab816ff82ba26a47ee8ec9d1cd45b4373e733f321b193d8193d40",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 106
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 86,
+      "case_id": "case-f6fadd7d387c",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "95dc3cd4ba9a86ba73def54b710dee04d556d06611155a00b5ffb52d089d89d8",
+      "evidence_hash": "58f890e5e149807ddfc4bd759a57af72e000f7e8f382ef8e7648c3e7f9c72cbf",
+      "publication_evidence_hash": "d7687584893bfad70c2ad21970eaa0182405062806e97224ab4fb5b8c60c8ea5",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 87,
+      "case_id": "case-f6fadd7d387c",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "f253759a45340b30c60737e851fe2a5eb88a722317c52c2f5e8dab3e336ba9e1",
+      "evidence_hash": "9599ec6dc50a285e0b2bd72309fb3c2ee4c834d1e8145ec76690c1815a830af4",
+      "publication_evidence_hash": "64abb05c38d840d81fdcdf3ce15d99a51d923c802d0f9dfcb38078d3c4410a2e",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 106
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 88,
+      "case_id": "case-706b30dbe0d1",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "9e9f4a256c791c95d0415e001d000924a02f9441020147e74f7fab5ab4a13324",
+      "evidence_hash": "959e8ee7540bbe973fac4e319d1bbcb77955b954efb4168dc74df184aec024b5",
+      "publication_evidence_hash": "317a880017e1712e6e4b5dd60ca8cb5f6051654f57610dc7313fea863ceb7490",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [
+          "requested_window_shortened_to_complete_sources"
+        ],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 89,
+      "case_id": "case-706b30dbe0d1",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "ade9caeb27f271ccee1a15099f6d9264479805d56f79b0adf440a119cb410dbb",
+      "evidence_hash": "4bc654d5be987951bac7f4531508ed01ec95b1c6f8c47638d25273063110035d",
+      "publication_evidence_hash": "dde0b9ab8601accba3063c47cd02e3bc8c03339a159b2ae732e62b33527f9efc",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [
+          "requested_window_shortened_to_complete_sources"
+        ],
+        "support_count": 70
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 90,
+      "case_id": "case-ebaccb655bb3",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "9caab2b2ce1927b3f06143a7bc9dbf0ddc0e63ea475a73fdd894d48ec6450082",
+      "evidence_hash": "a10de751e6fcf9ec634d0048fbb34be426666e41488f8bc86819db879b8949f1",
+      "publication_evidence_hash": "ec74336fb9404668a6220863007826cd4814c270c3a12c3f5b526d0181728b92",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [
+          "requested_window_shortened_to_complete_sources"
+        ],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 91,
+      "case_id": "case-ebaccb655bb3",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "ac5152fb487b360ddef2a15b555f2fa4908f152139c4b80452d1e79540ccef53",
+      "evidence_hash": "79d22d3209694c442839a6f8a9eb5c5f3c29ce527494ff5cc6c6b86d995dc87e",
+      "publication_evidence_hash": "4441d5c03dcbc6c5590142e7f184f9de1a8968e5076de90f47ee160323f57ac0",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [
+          "requested_window_shortened_to_complete_sources"
+        ],
+        "support_count": 106
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 92,
+      "case_id": "case-64d9a3c64959",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "c36b81e41cf04c5b8af3366271c621e27e52e9dfb8861cd3940d3ed45f0cb858",
+      "evidence_hash": "dc676c21a01ea093a7270478876361b26cde78a1e850125901d2bcda6aeffcbb",
+      "publication_evidence_hash": "23cb2e72a3c0f9808bb9696c999d392a3f1798100df1cf5d82e632e21c7fc2d7",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 93,
+      "case_id": "case-64d9a3c64959",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "e7da3a9a55be6ba989273a8e141f4a0e0d97eb48f02be286aa6a7ace0c71b585",
+      "evidence_hash": "f7d134de9d27b841e47474e62ab164c5a17cf627df9b8354151b3b410020c22c",
+      "publication_evidence_hash": "dd00f069ca95ff81031e66268abfef12e43fc5e840e1b8009f5c672a254a631d",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 94,
+      "case_id": "case-018bcc801845",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "22561a86c125b4edae69fe749f79364b611891a1152b28057128dd3b2ef44524",
+      "evidence_hash": "ef3b3f67b32263e264c91f487a3489343291f704d1cd33f1d210de2c6d06ec31",
+      "publication_evidence_hash": "5287dd90b6242bc7b49830a2c06cf475e4234aff6330218060721715016c7bad",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 101,
+      "case_id": "case-8c4c581891b4",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "5d7fbbd63158164ce4a94891b42d3904b7f673b87cbe22a103e729105f83495b",
+      "evidence_hash": "ce2584fdcfee82e94f617856e0e2ecdd48832420c749dd94ca3997f658c72de9",
+      "publication_evidence_hash": "c759243d976cd8fce18ce9c554adfd55d990317fe5b5bf2b461d9089f3bbc849",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 108,
+      "case_id": "case-70645404d8de",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "预算或未知用量保护已停止执行，仅提供现有事实和未决项。",
+      "report_hash": "f965a5828905274a23c58ef0fa015ae1d03c6bb46476d1aa2a9171d97f70da70",
+      "evidence_hash": "cbb935886e465f06c3d8ffc8f39a23c382e01de175bdcb1822f6c1f4be89a3fb",
+      "publication_evidence_hash": "db3136a3455ebd2465d27599e9eb86222835cefd6a600917af60b0f39ee5e0f2",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "预算停止在任务状态/Trace 中有证据，数值引用只能支持现有业务事实，不能证明预算停止原因；发布推断的 supporting_assertion_ids 全是业务数值，关键运行证据未进入该引用链。",
+        "counterevidence": "只说明执行停止而不宣称业务原因，保留多个未决项和本次取得的事实范围，无忽略反证后作实质归因。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "execution_reason": [
+          "final report budget reserved"
+        ],
+        "numeric_support_count": 70
+      },
+      "concerns": [
+        "operational_claim_cites_business_numbers"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 109,
+      "case_id": "case-70645404d8de",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该系统新注册版本的留存更低、首日崩溃受影响比例更高；支持版本崩溃与留存下降相关的候选解释。 这是描述性候选，未证明因果关系。",
+      "report_hash": "be2b5b4c2c83237fab093794eb83cf2164e3edc34184468e525c661e470c05ef",
+      "evidence_hash": "2b9d22c81179fd29b1af0d57faa106fab57d1e8479b980b92592550c2686ebad",
+      "publication_evidence_hash": "3fbd9999068cdd043c0fd8a637f472b5e8e9938123fd5395286fd7d164531246",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "列出了旧版本与 iOS 对照引用及混杂限制，但推断文字没有解释这些对照如何限定版本解释；按固定 rubric 的“提及反证但未解释影响”给建议 1 分。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_retention": [
+          0.24285714285714285
+        ],
+        "previous_retention": [
+          0.5036231884057971,
+          0.5036231884057971,
+          0.8900966183574879
+        ],
+        "current_crash_rate": [
+          0.5547619047619048
+        ],
+        "previous_crash_rate": [
+          0.022946859903381644,
+          0.022946859903381644,
+          0.014492753623188406
+        ],
+        "opposing_groups": [
+          {
+            "os": "Android",
+            "version": "1.0"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0"
+          },
+          {
+            "os": "Android",
+            "version": "1.0"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0"
+          }
+        ]
+      },
+      "concerns": [
+        "counterevidence_impact_not_explained"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 110,
+      "case_id": "case-7d30d33f5bfe",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "预算或未知用量保护已停止执行，仅提供现有事实和未决项。",
+      "report_hash": "b2896b7c6271bc01a611fb90752e468cccb96d5c16f602b133e603842a197515",
+      "evidence_hash": "f7e9d2a14fb1c4096fb6ec293ce7dd4eabe9b0c15fc5eb885e9fcbbce8575441",
+      "publication_evidence_hash": "e12df3844898b483975458a989b5a5f702e15de50f40965a4877a2ff40ae9bfd",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "预算停止在任务状态/Trace 中有证据，数值引用只能支持现有业务事实，不能证明预算停止原因；发布推断的 supporting_assertion_ids 全是业务数值，关键运行证据未进入该引用链。",
+        "counterevidence": "只说明执行停止而不宣称业务原因，保留多个未决项和本次取得的事实范围，无忽略反证后作实质归因。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "execution_reason": [
+          "final report budget reserved"
+        ],
+        "numeric_support_count": 70
+      },
+      "concerns": [
+        "operational_claim_cites_business_numbers"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 111,
+      "case_id": "case-7d30d33f5bfe",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该系统新注册版本的留存更低、首日崩溃受影响比例更高；支持版本崩溃与留存下降相关的候选解释。 这是描述性候选，未证明因果关系。",
+      "report_hash": "15f620e6206ef1f256fc2d5b9937fe348a1a3291a51f3bfa565d8db067115588",
+      "evidence_hash": "5a6668cc4095d03b300e35c65c67e2e1cfb0406db7c49389b8db145e6915d1e9",
+      "publication_evidence_hash": "392b73bf477986a92e704d41b306fb4a1c2eaeb5ab815a54a717a8296f1e6d8b",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "列出了旧版本与 iOS 对照引用及混杂限制，但推断文字没有解释这些对照如何限定版本解释；按固定 rubric 的“提及反证但未解释影响”给建议 1 分。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_retention": [
+          0.19523809523809524
+        ],
+        "previous_retention": [
+          0.49033816425120774,
+          0.49033816425120774,
+          0.893719806763285
+        ],
+        "current_crash_rate": [
+          0.6761904761904762
+        ],
+        "previous_crash_rate": [
+          0.026570048309178744,
+          0.026570048309178744,
+          0.01932367149758454
+        ],
+        "opposing_groups": [
+          {
+            "os": "Android",
+            "version": "1.0"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0"
+          },
+          {
+            "os": "Android",
+            "version": "1.0"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0"
+          }
+        ]
+      },
+      "concerns": [
+        "counterevidence_impact_not_explained"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 112,
+      "case_id": "case-0d8e24a9beca",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "预算或未知用量保护已停止执行，仅提供现有事实和未决项。",
+      "report_hash": "200d1af1c9e45f6d03c04eb94ce30cf5ac8173325f3307aad449d488a80a74a6",
+      "evidence_hash": "316f2094749649d5268bd3ad0f786d5469b8380739fe488f596b56bd2842ee37",
+      "publication_evidence_hash": "84fdb27f5390ccf21aae192bed02af6a60eb32ac9ce87a08a2bf3313c90be467",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "预算停止在任务状态/Trace 中有证据，数值引用只能支持现有业务事实，不能证明预算停止原因；发布推断的 supporting_assertion_ids 全是业务数值，关键运行证据未进入该引用链。",
+        "counterevidence": "只说明执行停止而不宣称业务原因，保留多个未决项和本次取得的事实范围，无忽略反证后作实质归因。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "execution_reason": [
+          "final report budget reserved"
+        ],
+        "numeric_support_count": 70
+      },
+      "concerns": [
+        "operational_claim_cites_business_numbers"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 113,
+      "case_id": "case-0d8e24a9beca",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该系统新注册版本的留存更低、首日崩溃受影响比例更高；支持版本崩溃与留存下降相关的候选解释。 这是描述性候选，未证明因果关系。",
+      "report_hash": "ffd9fb0573b3fb62c8e0a4ff50b298ecd3684d5c0f014428b124fd9581203a27",
+      "evidence_hash": "d463ef344e843a1bc9b1e26f4131821cf92bc7fde3402886b056ab83c1ec070f",
+      "publication_evidence_hash": "5856d4bdfa4585965d350991340c0656d50b95729231d0b36084258aa533277b",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "列出了旧版本与 iOS 对照引用及混杂限制，但推断文字没有解释这些对照如何限定版本解释；按固定 rubric 的“提及反证但未解释影响”给建议 1 分。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_retention": [
+          0.16666666666666666
+        ],
+        "previous_retention": [
+          0.5157004830917874,
+          0.5157004830917874,
+          0.9057971014492754
+        ],
+        "current_crash_rate": [
+          0.8
+        ],
+        "previous_crash_rate": [
+          0.030193236714975844,
+          0.030193236714975844,
+          0.022946859903381644
+        ],
+        "opposing_groups": [
+          {
+            "os": "Android",
+            "version": "1.0"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0"
+          },
+          {
+            "os": "Android",
+            "version": "1.0"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0"
+          }
+        ]
+      },
+      "concerns": [
+        "counterevidence_impact_not_explained"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 114,
+      "case_id": "case-b20025e99834",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "该渠道新增人数增加且当前次日留存低于其他渠道，支持低留存渠道贡献新增增长的描述性候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "1ca762b76acd9a7473611af424381a698ac8abe0222c9bb3ed99a26d2e0f4f08",
+      "evidence_hash": "0893e65be4b2f45e28cdc73360ff63602b09a8f26dae71b4605a8f3ad6763de5",
+      "publication_evidence_hash": "82049f9e2b7fca06758a9ca8760c15a999e405474dd6b022fdcdf5f7f03b3f80",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_users": [
+          2184
+        ],
+        "previous_users": [
+          828
+        ],
+        "current_retention": [
+          0.1163003663003663
+        ],
+        "control_retention": [
+          0.7095238095238096
+        ]
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 115,
+      "case_id": "case-b20025e99834",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该渠道新增人数增加且当前次日留存低于其他渠道，支持低留存渠道贡献新增增长的描述性候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "ed66088ac121ef326ac0f3c562f843930f02745636f975d5d65f0a38a408b568",
+      "evidence_hash": "21892005f2051daae910480e26b9cdb2b051f09bc3db252dbc5740f39890a233",
+      "publication_evidence_hash": "8ce1d741ced6c372f96da6290ae9df2e53115a1c8a50aed75bef8fe3a522c1cb",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_users": [
+          2184
+        ],
+        "previous_users": [
+          828
+        ],
+        "current_retention": [
+          0.1163003663003663
+        ],
+        "control_retention": [
+          0.7095238095238096
+        ]
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 116,
+      "case_id": "case-3a000a75ba72",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "该渠道新增人数增加且当前次日留存低于其他渠道，支持低留存渠道贡献新增增长的描述性候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "2a8499c106202f59599289f949e0299d4b07167588d0b92178e477c7c1ba17a1",
+      "evidence_hash": "47acb7eeb9253bfa5b3b79fc60811873f5e7c79f9d0e4896964730d9df9ec42c",
+      "publication_evidence_hash": "e381fdfa6626d402d4eef565eafe1c0abdc6f8961a667aecb1e9098a77813e45",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_users": [
+          2688
+        ],
+        "previous_users": [
+          828
+        ],
+        "current_retention": [
+          0.15885416666666666
+        ],
+        "control_retention": [
+          0.7107142857142857
+        ]
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 117,
+      "case_id": "case-3a000a75ba72",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该渠道新增人数增加且当前次日留存低于其他渠道，支持低留存渠道贡献新增增长的描述性候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "be77ca513e8cad25113a386a5150a1dc2aba92d2c0971fc83ea6ca4dfab26430",
+      "evidence_hash": "8d9a50762536b401f9ad589e6dedd7045f0f680de593b21bc4c8ccae1af47ee4",
+      "publication_evidence_hash": "3e120edcd805fc84430fdb55d698da416b18897a057276173e1ed74b7b602d7b",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_users": [
+          2688
+        ],
+        "previous_users": [
+          828
+        ],
+        "current_retention": [
+          0.15885416666666666
+        ],
+        "control_retention": [
+          0.7107142857142857
+        ]
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 118,
+      "case_id": "case-e32206bcc9e4",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "该渠道新增人数增加且当前次日留存低于其他渠道，支持低留存渠道贡献新增增长的描述性候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "28e8355a184e0a3873faa5793995e5336a1a1e3506d4de1403450599ffdd91e6",
+      "evidence_hash": "f5d094ed8c98f5a01a9479560701f119f7af93d48c6496fbc6feb26778d62f92",
+      "publication_evidence_hash": "461eb99b1e999530e49a8c93ee7742db94ecd073f6fdb72e7f04c803d37a3c89",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_users": [
+          3192
+        ],
+        "previous_users": [
+          828
+        ],
+        "current_retention": [
+          0.20426065162907267
+        ],
+        "control_retention": [
+          0.7226190476190476
+        ]
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 119,
+      "case_id": "case-e32206bcc9e4",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该渠道新增人数增加且当前次日留存低于其他渠道，支持低留存渠道贡献新增增长的描述性候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "eaf5b267afe7b49c3e4d6b0ae08d979c602c45f980eab7dbc40adddf342b9acf",
+      "evidence_hash": "2f241990635b580627bd20a3829c7f8d3dd51362b8f55c175b5b7159eab4af6b",
+      "publication_evidence_hash": "dcbf70392f16cfa9f988f880fbc0ccb9f7f28ea70fab078b73fd07b38d8c7036",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "current_users": [
+          3192
+        ],
+        "previous_users": [
+          828
+        ],
+        "current_retention": [
+          0.20426065162907267
+        ],
+        "control_retention": [
+          0.7226190476190476
+        ]
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 120,
+      "case_id": "case-1f0e2945e290",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "两条采集链路齐备且实例可对齐，独立观看进度达到完整时长但缺完成事件，支持完成事件采集缺失候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "eb1232aa40b02cba2a02f68fe1e6789caacd7a624131f648c5be739d47021949",
+      "evidence_hash": "2ce0b5ab23752275544d0471300f49058503e3efaa2282bdec87db166ee86669",
+      "publication_evidence_hash": "e1e0ed2201741c85248f30b759f46ae8a655bffd0f53fe8d442ed537e76817e2",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "旧版本/iOS/基期的无缺失对照均有引用，但推断没有说明它们把采集候选范围限制在哪些分群；保留替代解释不等同于解释已取得对照的影响。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "starts": [
+          840
+        ],
+        "completed": [
+          138
+        ],
+        "telemetry_complete": [
+          608
+        ],
+        "raw_gap": [
+          470
+        ],
+        "control_gaps": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "concerns": [
+        "counterevidence_impact_not_explained"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 122,
+      "case_id": "case-69a570d5d321",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "两条采集链路齐备且实例可对齐，独立观看进度达到完整时长但缺完成事件，支持完成事件采集缺失候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "13bc73256fd3fa472eba33d04856767aec60429d8a69027277cc8751fda93f48",
+      "evidence_hash": "76fb732ed0de5ad53c035734aefd5616138bd83545d1851884c621597af99277",
+      "publication_evidence_hash": "5af96be93119398fd90e9c0f21d6328473aa361090c4a0996bcd7ce93eae55aa",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "旧版本/iOS/基期的无缺失对照均有引用，但推断没有说明它们把采集候选范围限制在哪些分群；保留替代解释不等同于解释已取得对照的影响。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "starts": [
+          840
+        ],
+        "completed": [
+          52
+        ],
+        "telemetry_complete": [
+          626
+        ],
+        "raw_gap": [
+          574
+        ],
+        "control_gaps": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "concerns": [
+        "counterevidence_impact_not_explained"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 124,
+      "case_id": "case-42d30280b030",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "两条采集链路齐备且实例可对齐，独立观看进度达到完整时长但缺完成事件，支持完成事件采集缺失候选。 这是描述性候选，未证明因果关系。",
+      "report_hash": "2f112b11b88e9adeab9ca7b9a2e40c476ae8a8b336e5b133966395b0c77246cf",
+      "evidence_hash": "61612e944c41793a793c76b851b6b2f509200014ccc3f255389c001042a82f70",
+      "publication_evidence_hash": "476134f5f53932ac3d049ffea6d421abbdf63f00e08b55834f83f96aff057151",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "旧版本/iOS/基期的无缺失对照均有引用，但推断没有说明它们把采集候选范围限制在哪些分群；保留替代解释不等同于解释已取得对照的影响。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "starts": [
+          840
+        ],
+        "completed": [
+          0
+        ],
+        "telemetry_complete": [
+          630
+        ],
+        "raw_gap": [
+          630
+        ],
+        "control_gaps": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "concerns": [
+        "counterevidence_impact_not_explained"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 126,
+      "case_id": "case-3970309b0727",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。 这是描述性候选，未证明因果关系。",
+      "report_hash": "b857edf6e121fe3155dbeea7cc88b76e53d829511a2b0ea799ec779a6a51ba5c",
+      "evidence_hash": "226d974aa2c78c2be0611a6669469adf0f7997593bf18159032e80428232592d",
+      "publication_evidence_hash": "4ca07ef6863b57a4004d8859457ba9cd9a224c46e486ac91787fb1314261c71c",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "pooled_previous": 0.6896135265700483,
+        "pooled_current": 0.6869047619047619,
+        "standardized_current": 0.628991964025482,
+        "system_counts_and_rates": {
+          "previous": {
+            "iOS": [
+              828,
+              0.8913043478260869
+            ],
+            "Android": [
+              828,
+              0.48792270531400966
+            ]
+          },
+          "current": {
+            "iOS": [
+              1022,
+              0.8962818003913894
+            ],
+            "Android": [
+              658,
+              0.3617021276595745
+            ]
+          }
+        }
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 127,
+      "case_id": "case-3970309b0727",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。 这是描述性候选，未证明因果关系。",
+      "report_hash": "ffa08ad714899068e82ff6270f75bd4ff5b320b98ee11833854c0c428e6e9a31",
+      "evidence_hash": "ab3ca122efaea21860e90e82690b2cd29fb37cc8fe4ac33a6cd10dff1e49ca74",
+      "publication_evidence_hash": "a8f1e64a982e60b91ab257d070d2f23cc4f262cf16df228c7836c5f8f834d497",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "pooled_previous": 0.6896135265700483,
+        "pooled_current": 0.6869047619047619,
+        "standardized_current": 0.628991964025482,
+        "system_counts_and_rates": {
+          "previous": {
+            "iOS": [
+              828,
+              0.8913043478260869
+            ],
+            "Android": [
+              828,
+              0.48792270531400966
+            ]
+          },
+          "current": {
+            "iOS": [
+              1022,
+              0.8962818003913894
+            ],
+            "Android": [
+              658,
+              0.3617021276595745
+            ]
+          }
+        }
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 128,
+      "case_id": "case-ef072fdca1f3",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。 这是描述性候选，未证明因果关系。",
+      "report_hash": "60fc1764581d624312acc148a5727e8afec74259707f5a5082a606bf6b1f5d93",
+      "evidence_hash": "42b9e94efe24415c44b65f79142f1b10abfdbc6d5a5a63741a46b98100947914",
+      "publication_evidence_hash": "345dfa9f41a12b439720879028642e494cb472f7de8261656f35144bd2019769",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "pooled_previous": 0.7059178743961353,
+        "pooled_current": 0.7035714285714286,
+        "standardized_current": 0.6089285714285715,
+        "system_counts_and_rates": {
+          "previous": {
+            "iOS": [
+              828,
+              0.8864734299516909
+            ],
+            "Android": [
+              828,
+              0.5253623188405797
+            ]
+          },
+          "current": {
+            "iOS": [
+              1120,
+              0.8928571428571429
+            ],
+            "Android": [
+              560,
+              0.325
+            ]
+          }
+        }
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 129,
+      "case_id": "case-ef072fdca1f3",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。 这是描述性候选，未证明因果关系。",
+      "report_hash": "9fa8f0199c66dd24c99181a88a0162947b29ae911e401c8d2260dbbdf18da6b2",
+      "evidence_hash": "12297de3696199fdd48efcf06dfdfb91ee5a15e4b5ad36a17e392a4d7556a14a",
+      "publication_evidence_hash": "23f3abbdf6fa0803dbc8b164a361ccfb8a8ded98efe7ee8987fc48a843832344",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "pooled_previous": 0.7059178743961353,
+        "pooled_current": 0.7035714285714286,
+        "standardized_current": 0.6089285714285715,
+        "system_counts_and_rates": {
+          "previous": {
+            "iOS": [
+              828,
+              0.8864734299516909
+            ],
+            "Android": [
+              828,
+              0.5253623188405797
+            ]
+          },
+          "current": {
+            "iOS": [
+              1120,
+              0.8928571428571429
+            ],
+            "Android": [
+              560,
+              0.325
+            ]
+          }
+        }
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 130,
+      "case_id": "case-157478cff2f0",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。 这是描述性候选，未证明因果关系。",
+      "report_hash": "9540d04f144165964787f167332eb2c5b0a7ea2217704e3b6e15928c867c119d",
+      "evidence_hash": "62380535fd6c0bbdaca52bd62b90b90da2df4923d88461a469a2d21f839dd6ae",
+      "publication_evidence_hash": "99fa023de6914a79816055225db750139434575baaf5afa1afe058d586614399",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "pooled_previous": 0.6811594202898551,
+        "pooled_current": 0.7238095238095238,
+        "standardized_current": 0.582470197381278,
+        "system_counts_and_rates": {
+          "previous": {
+            "iOS": [
+              828,
+              0.8852657004830918
+            ],
+            "Android": [
+              828,
+              0.47705314009661837
+            ]
+          },
+          "current": {
+            "iOS": [
+              1204,
+              0.9086378737541528
+            ],
+            "Android": [
+              476,
+              0.25630252100840334
+            ]
+          }
+        }
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 131,
+      "case_id": "case-157478cff2f0",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "总体观测留存近似稳定，基期结构标准化显示恶化；系统新增占比变化抵消部分分群恶化。 这是描述性候选，未证明因果关系。",
+      "report_hash": "aef38f85430ecb61ccc3f546231bd369c7b113c42108797b8e0efc626d112a9b",
+      "evidence_hash": "cce7db8040896af43ded61f608390ddb39eccad3bee11c23636e4389d986207c",
+      "publication_evidence_hash": "ccea1f18403da5a95505a9ca7e2ba7511bb59150918140b04c9e589f704502db",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "逐一解析支持与反对引用至原始发布证据，单元格数值相符；下列独立算术核查支持限定的描述判断。",
+        "counterevidence": "对照分群被保留，文本说明比较方向或结构作用，并列出未排除因素。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "pooled_previous": 0.6811594202898551,
+        "pooled_current": 0.7238095238095238,
+        "standardized_current": 0.582470197381278,
+        "system_counts_and_rates": {
+          "previous": {
+            "iOS": [
+              828,
+              0.8852657004830918
+            ],
+            "Android": [
+              828,
+              0.47705314009661837
+            ]
+          },
+          "current": {
+            "iOS": [
+              1204,
+              0.9086378737541528
+            ],
+            "Android": [
+              476,
+              0.25630252100840334
+            ]
+          }
+        }
+      },
+      "concerns": [],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 132,
+      "case_id": "case-450534e9717e",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "2ea77b0a1a6d0adde4fb928fd0f03a9335e0f5d8d2abf9c8257dca947ecd9d22",
+      "evidence_hash": "e956d0cfd9c5571a653476ca39122d603e14ccd8135ed247b7d8bf78df8a4629",
+      "publication_evidence_hash": "8f9dfbdcf113bb627cccc1c71bb4a59027eaa1c33b8390f1378641a58899f519",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 133,
+      "case_id": "case-450534e9717e",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "2d78bde041262bb33ea52144eb8c663e9abc4df76a561360193baa931216cc8a",
+      "evidence_hash": "92916aabbfaed91d5e56b252c6ebb51680e37d3e99f323540b0baf5fb56b767e",
+      "publication_evidence_hash": "1857ba8f49e932b6a30567590c0c97ce947fdd5667459219dae3ec4cb2f45992",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 106
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 134,
+      "case_id": "case-f6fadd7d387c",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "5fdc50d240db1cbdb6967f4df9a4913d97f3ee1ecfcbd91988bb6c2be2ebaaf3",
+      "evidence_hash": "ad5c7300f893de9b92ff979f182d2204388c9412f13acbdda7458153bc9d551d",
+      "publication_evidence_hash": "292edab1925c2ba351ff09a70fed36cb8197b654161d855671d88f2c30a07d31",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 135,
+      "case_id": "case-f6fadd7d387c",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "bd19db2b2ae83f03103747d34756a9e0dbda0f6fa9c9d24686c6f25614d25c07",
+      "evidence_hash": "e6623f5118a9dd522e7a765f7e9a2c4c85db16f60aa974213e0febe1bf8a74e5",
+      "publication_evidence_hash": "450f929eaf0514e596dd0429b4cf5a42acee17132351171b6cb728225b60d05e",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 70
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 138,
+      "case_id": "case-ebaccb655bb3",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "06393fb490d086ee44ededd616fef9a63d4aa70ea490ca5595a2be499d322119",
+      "evidence_hash": "b78bbfb7e16d9bbabfa2e37615611375b35070ebdf14ec755772697f4d425874",
+      "publication_evidence_hash": "00b65f6e3e8e5224104148195246332c13c9e8e412c2a436a590a50ecc78d6d1",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [
+          "requested_window_shortened_to_complete_sources"
+        ],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 139,
+      "case_id": "case-ebaccb655bb3",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "9f5eee2f11d9ab473e9d4f1d1878f2668c1a539af9d4f06c0edef7c33a71bd1e",
+      "evidence_hash": "a765860c32dfd2c393f342cd11cb6676883b2c231966bed6a105b5b67620c336",
+      "publication_evidence_hash": "1934a1975800c51a022106bbe39796cc3dc621e4e20dfc1c21f20aad4aa2fd4f",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [
+          "requested_window_shortened_to_complete_sources"
+        ],
+        "support_count": 70
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 140,
+      "case_id": "case-64d9a3c64959",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "289625f933ba0a5c3565344a32fcbd6a04779788350b1a1bb60e4fdc51b65d81",
+      "evidence_hash": "40be398812a2febab1e14448940b1d943eded68ce744eac8f775daa20ff33a2e",
+      "publication_evidence_hash": "1c2d84e055dc64fec0db53a9a794da851edd67f4e88e5d4a4e014cdcd402b886",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 141,
+      "case_id": "case-64d9a3c64959",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "1028c80eca5ad7a5c554ca412ec2a488463d199779527f74ea31257cfa312359",
+      "evidence_hash": "548f0d89f601928eb85fae642ca6ab8b7c79093b717c94d8f8855b5dc7fc303c",
+      "publication_evidence_hash": "cd397544161b51ae3f7c8b3dfa8f95bdfcaf242f18ec62b5bfd400879d313ae1",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "ordinal": 142,
+      "case_id": "case-018bcc801845",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "已有观测不足以完成判断；没有候选不等于没有异常。",
+      "report_hash": "8d5a485fe92e0aa37135deca477969d67427a4a12c75891ce35f2eb6e76abd38",
+      "evidence_hash": "8ef58b85b40b63493ec69f9be1b83154c6ce448c58793aaf2040f4cd3be24c3d",
+      "publication_evidence_hash": "671dbc9f5d8512e013d75fbab9c7605bbb6d78d939dbd1405589fe5967d5578a",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用业务观测且保留不确定性，但通用“无法完成判断”未把具体资料缺口或推断适用性与引用逐项连接；仅现有数值本身不证明缺口。",
+        "counterevidence": "未断言无异常或确定原因，列出未排除因素；本建议不把没有候选视为没有异常。",
+        "causal_restraint": "文本只给描述性候选或明确无法判断，没有确定因果、造假或所有分群同时恶化的断言。"
+      },
+      "independent_numeric_checks": {
+        "analysis_result": "insufficient_evidence",
+        "limitations": [],
+        "support_count": 23
+      },
+      "concerns": [
+        "generic_insufficiency_not_linked_to_specific_gap"
+      ],
+      "status": "advisory_only"
+    }
+  ]
+}

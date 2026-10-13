@@ -1,0 +1,651 @@
+{
+  "reviewer": "t20_standards",
+  "review_mode": "read-only final acceptance review; only this new review artifact written",
+  "run_id": "91c24ca4194741e6a19db67e8e220605",
+  "version": "p0-independent-t20-v1",
+  "code_ref": "0e12ccfd74fd4d6d91d87b3ac830b178e242b1a1",
+  "results_sha256": "b2a4a9f0c4b0008d3abba3c28dd9ae0ff972f6d738c4effcbce1b70cd55db55c",
+  "configuration_hash": "aad5f6ff2838dad07078821a4bd4edf6729cb30e66c62150cc8954c87711b3ea",
+  "configuration_checks": {
+    "code_hashes": true,
+    "prompt_hashes": true,
+    "rule_hashes": true,
+    "reference_hashes": true,
+    "uv_lock": true,
+    "safety_configuration_identical": true
+  },
+  "records": 144,
+  "publication_hash_and_reversible_projection_checked": 142,
+  "usage_against_attempts_checked": 142,
+  "audit_errors": [],
+  "safety": {
+    "status": "passed",
+    "tests": 414,
+    "required_modules": [
+      "tests.test_t02_acceptance",
+      "tests.test_t02_policy",
+      "tests.test_t02_sandbox",
+      "tests.test_t03_limits",
+      "tests.test_t03_supervisor",
+      "tests.test_t04_reference",
+      "tests.test_t04_statistics",
+      "tests.test_t05",
+      "tests.test_t07_adapter",
+      "tests.test_t07_scheduler",
+      "tests.test_t08",
+      "tests.test_t09_service",
+      "tests.test_t10_recovery",
+      "tests.test_t10_service",
+      "tests.test_t17_service"
+    ],
+    "receipt_hash": "2b5815a865c152b442eba22e5543236a7f062763d2ccfa7535461fdc05ee4815",
+    "configuration_hash": "aad5f6ff2838dad07078821a4bd4edf6729cb30e66c62150cc8954c87711b3ea"
+  },
+  "independent_round_usage_recalculation": [
+    {
+      "round": 1,
+      "variant": "agent",
+      "p50_seconds": 4.062999999994645,
+      "p95_seconds": 11.190150000012363,
+      "analysis_seconds": 127.0319999998901,
+      "preflight_seconds": 51.20300000003772,
+      "known_tokens": 131905,
+      "known_steps": 110,
+      "known_model_calls": 57,
+      "unknown_actual_cost_records": 24,
+      "preflight_failures_included": 0
+    },
+    {
+      "round": 2,
+      "variant": "agent",
+      "p50_seconds": 4.19550000000163,
+      "p95_seconds": 11.110550000006333,
+      "analysis_seconds": 128.5779999999795,
+      "preflight_seconds": 50.56300000019837,
+      "known_tokens": 131897,
+      "known_steps": 110,
+      "known_model_calls": 57,
+      "unknown_actual_cost_records": 24,
+      "preflight_failures_included": 0
+    },
+    {
+      "round": 3,
+      "variant": "agent",
+      "p50_seconds": 4.335999999981141,
+      "p95_seconds": 10.727499999964493,
+      "analysis_seconds": 125.60699999978533,
+      "preflight_seconds": 82.26500000001397,
+      "known_tokens": 127678,
+      "known_steps": 109,
+      "known_model_calls": 55,
+      "unknown_actual_cost_records": 23,
+      "preflight_failures_included": 1
+    },
+    {
+      "round": 1,
+      "variant": "baseline",
+      "p50_seconds": 8.148500000010245,
+      "p95_seconds": 16.750900000007825,
+      "analysis_seconds": 179.30999999988126,
+      "preflight_seconds": 51.20300000003772,
+      "known_tokens": 83991,
+      "known_steps": 140,
+      "known_model_calls": 44,
+      "unknown_actual_cost_records": 24,
+      "preflight_failures_included": 0
+    },
+    {
+      "round": 2,
+      "variant": "baseline",
+      "p50_seconds": 8.179999999993015,
+      "p95_seconds": 16.414950000017416,
+      "analysis_seconds": 184.53599999990547,
+      "preflight_seconds": 50.56300000019837,
+      "known_tokens": 86022,
+      "known_steps": 143,
+      "known_model_calls": 44,
+      "unknown_actual_cost_records": 24,
+      "preflight_failures_included": 0
+    },
+    {
+      "round": 3,
+      "variant": "baseline",
+      "p50_seconds": 6.0939999999827705,
+      "p95_seconds": 16.376899999997114,
+      "analysis_seconds": 170.0329999999376,
+      "preflight_seconds": 82.26500000001397,
+      "known_tokens": 78347,
+      "known_steps": 135,
+      "known_model_calls": 42,
+      "unknown_actual_cost_records": 23,
+      "preflight_failures_included": 1
+    }
+  ],
+  "preflight_failure_evidence": [
+    {
+      "ledger": "artifacts/t20-formal-01/tasks/88b88c9b714943eaa81be16498569d8d/ledger.sqlite",
+      "task_id": "47d75a740f92400db5a1a2058ec7daea",
+      "task": {
+        "id": "47d75a740f92400db5a1a2058ec7daea",
+        "status": "failed",
+        "rounds": 0,
+        "version": 0,
+        "question": null,
+        "active": 31.56300000002375,
+        "limits": "{\"tool\": 12, \"model\": 10, \"tokens\": 30000, \"active_seconds\": 180}",
+        "parent": null
+      },
+      "prepared_comparison": {
+        "failed": true,
+        "materials_hash": "c048403b85734a0f10a73aea2cc83f8b4208c570e0cd583e426ba89fee79d211",
+        "usage": {
+          "seconds": 31.56300000002375,
+          "steps": 3,
+          "model_calls": 0,
+          "tokens": 0,
+          "cost": 0,
+          "cost_estimate_usd": {
+            "minimum": 0,
+            "maximum": 0
+          },
+          "known_tokens": 0,
+          "unknown_usage_calls": 0,
+          "input_tokens": 0
+        }
+      },
+      "attempts": [
+        {
+          "id": "47d75a740f92400db5a1a2058ec7daea:retrieval",
+          "task": "47d75a740f92400db5a1a2058ec7daea",
+          "operation": "retrieval",
+          "kind": "tool",
+          "reserved": 0,
+          "actual": 0,
+          "state": "completed"
+        },
+        {
+          "id": "47d75a740f92400db5a1a2058ec7daea:schema",
+          "task": "47d75a740f92400db5a1a2058ec7daea",
+          "operation": "schema",
+          "kind": "tool",
+          "reserved": 0,
+          "actual": 0,
+          "state": "completed"
+        },
+        {
+          "id": "47d75a740f92400db5a1a2058ec7daea:watermarks",
+          "task": "47d75a740f92400db5a1a2058ec7daea",
+          "operation": "watermarks",
+          "kind": "tool",
+          "reserved": 0,
+          "actual": 0,
+          "state": "failed",
+          "result": "{\"error_type\": \"SandboxUnavailable\", \"status\": \"failed\"}"
+        }
+      ],
+      "failure_trace": [
+        {
+          "seq": 9,
+          "task": "47d75a740f92400db5a1a2058ec7daea",
+          "event": "failed",
+          "detail": "47d75a740f92400db5a1a2058ec7daea:watermarks"
+        },
+        {
+          "seq": 10,
+          "task": "47d75a740f92400db5a1a2058ec7daea",
+          "event": "execution_stopped",
+          "detail": "{\"reason\": \"SandboxUnavailable\", \"error_type\": \"SandboxUnavailable\"}"
+        },
+        {
+          "seq": 13,
+          "task": "47d75a740f92400db5a1a2058ec7daea",
+          "event": "shared_preflight_completed",
+          "detail": "{\"failed\": true, \"materials_hash\": \"c048403b85734a0f10a73aea2cc83f8b4208c570e0cd583e426ba89fee79d211\", \"usage\": {\"seconds\": 31.56300000002375, \"steps\": 3, \"model_calls\": 0, \"tokens\": 0, \"cost\": 0, \"cost_estimate_usd\": {\"minimum\": 0, \"maximum\": 0}, \"known_tokens\": 0, \"unknown_usage_calls\": 0, \"input_tokens\": 0}}"
+        }
+      ],
+      "limits_of_cause": "Persisted exception type is SandboxUnavailable at watermarks. Underlying exception message/stack was not retained; specific Docker failure cause cannot be established from this record."
+    }
+  ],
+  "a1_budget_failures": [
+    {
+      "ordinal": 12,
+      "round": 1,
+      "case_id": "case-70645404d8de",
+      "task_id": "3fc798afb8fa4111bf84c075a7357cf2",
+      "failures": [
+        {
+          "reason": "final report budget reserved",
+          "error_type": "ValueError"
+        }
+      ],
+      "analysis_usage": {
+        "seconds": 11.26500000001397,
+        "steps": 4,
+        "model_calls": 4,
+        "tokens": 11189,
+        "cost": null
+      },
+      "end_to_end_steps": 7,
+      "token_guard_remaining": 18811,
+      "model_call_guard_would_trigger": false,
+      "completed_models": [
+        {
+          "id": "3fc798afb8fa4111bf84c075a7357cf2:diagnose:1",
+          "reserved": 10645,
+          "actual": 1815,
+          "state": "completed"
+        },
+        {
+          "id": "3fc798afb8fa4111bf84c075a7357cf2:diagnose:2",
+          "reserved": 12528,
+          "actual": 2366,
+          "state": "completed"
+        },
+        {
+          "id": "3fc798afb8fa4111bf84c075a7357cf2:diagnose:3",
+          "reserved": 15196,
+          "actual": 3171,
+          "state": "completed"
+        },
+        {
+          "id": "3fc798afb8fa4111bf84c075a7357cf2:diagnose:4",
+          "reserved": 17508,
+          "actual": 3837,
+          "state": "completed"
+        }
+      ]
+    },
+    {
+      "ordinal": 14,
+      "round": 1,
+      "case_id": "case-7d30d33f5bfe",
+      "task_id": "28e7f19385b344d9b8a6356d3ff13cb2",
+      "failures": [
+        {
+          "reason": "final report budget reserved",
+          "error_type": "ValueError"
+        }
+      ],
+      "analysis_usage": {
+        "seconds": 10.76600000000326,
+        "steps": 4,
+        "model_calls": 4,
+        "tokens": 11219,
+        "cost": null
+      },
+      "end_to_end_steps": 7,
+      "token_guard_remaining": 18781,
+      "model_call_guard_would_trigger": false,
+      "completed_models": [
+        {
+          "id": "28e7f19385b344d9b8a6356d3ff13cb2:diagnose:1",
+          "reserved": 10645,
+          "actual": 1815,
+          "state": "completed"
+        },
+        {
+          "id": "28e7f19385b344d9b8a6356d3ff13cb2:diagnose:2",
+          "reserved": 12528,
+          "actual": 2371,
+          "state": "completed"
+        },
+        {
+          "id": "28e7f19385b344d9b8a6356d3ff13cb2:diagnose:3",
+          "reserved": 15194,
+          "actual": 3180,
+          "state": "completed"
+        },
+        {
+          "id": "28e7f19385b344d9b8a6356d3ff13cb2:diagnose:4",
+          "reserved": 17506,
+          "actual": 3853,
+          "state": "completed"
+        }
+      ]
+    },
+    {
+      "ordinal": 16,
+      "round": 1,
+      "case_id": "case-0d8e24a9beca",
+      "task_id": "d41bf6214d8b41b0aa0d2383447c6663",
+      "failures": [
+        {
+          "reason": "final report budget reserved",
+          "error_type": "ValueError"
+        }
+      ],
+      "analysis_usage": {
+        "seconds": 11.375,
+        "steps": 4,
+        "model_calls": 4,
+        "tokens": 11206,
+        "cost": null
+      },
+      "end_to_end_steps": 7,
+      "token_guard_remaining": 18794,
+      "model_call_guard_would_trigger": false,
+      "completed_models": [
+        {
+          "id": "d41bf6214d8b41b0aa0d2383447c6663:diagnose:1",
+          "reserved": 10645,
+          "actual": 1815,
+          "state": "completed"
+        },
+        {
+          "id": "d41bf6214d8b41b0aa0d2383447c6663:diagnose:2",
+          "reserved": 12528,
+          "actual": 2370,
+          "state": "completed"
+        },
+        {
+          "id": "d41bf6214d8b41b0aa0d2383447c6663:diagnose:3",
+          "reserved": 15180,
+          "actual": 3177,
+          "state": "completed"
+        },
+        {
+          "id": "d41bf6214d8b41b0aa0d2383447c6663:diagnose:4",
+          "reserved": 17492,
+          "actual": 3844,
+          "state": "completed"
+        }
+      ]
+    },
+    {
+      "ordinal": 60,
+      "round": 2,
+      "case_id": "case-70645404d8de",
+      "task_id": "5faba8181d684d9082f0d57c90baf05d",
+      "failures": [
+        {
+          "reason": "final report budget reserved",
+          "error_type": "ValueError"
+        }
+      ],
+      "analysis_usage": {
+        "seconds": 11.14100000000326,
+        "steps": 4,
+        "model_calls": 4,
+        "tokens": 11206,
+        "cost": null
+      },
+      "end_to_end_steps": 7,
+      "token_guard_remaining": 18794,
+      "model_call_guard_would_trigger": false,
+      "completed_models": [
+        {
+          "id": "5faba8181d684d9082f0d57c90baf05d:diagnose:1",
+          "reserved": 10645,
+          "actual": 1815,
+          "state": "completed"
+        },
+        {
+          "id": "5faba8181d684d9082f0d57c90baf05d:diagnose:2",
+          "reserved": 12528,
+          "actual": 2370,
+          "state": "completed"
+        },
+        {
+          "id": "5faba8181d684d9082f0d57c90baf05d:diagnose:3",
+          "reserved": 15196,
+          "actual": 3178,
+          "state": "completed"
+        },
+        {
+          "id": "5faba8181d684d9082f0d57c90baf05d:diagnose:4",
+          "reserved": 17508,
+          "actual": 3843,
+          "state": "completed"
+        }
+      ]
+    },
+    {
+      "ordinal": 62,
+      "round": 2,
+      "case_id": "case-7d30d33f5bfe",
+      "task_id": "d34b0f29dbeb4829a15e9d45596a6582",
+      "failures": [
+        {
+          "reason": "final report budget reserved",
+          "error_type": "ValueError"
+        }
+      ],
+      "analysis_usage": {
+        "seconds": 10.938000000023749,
+        "steps": 4,
+        "model_calls": 4,
+        "tokens": 11208,
+        "cost": null
+      },
+      "end_to_end_steps": 7,
+      "token_guard_remaining": 18792,
+      "model_call_guard_would_trigger": false,
+      "completed_models": [
+        {
+          "id": "d34b0f29dbeb4829a15e9d45596a6582:diagnose:1",
+          "reserved": 10645,
+          "actual": 1815,
+          "state": "completed"
+        },
+        {
+          "id": "d34b0f29dbeb4829a15e9d45596a6582:diagnose:2",
+          "reserved": 12528,
+          "actual": 2369,
+          "state": "completed"
+        },
+        {
+          "id": "d34b0f29dbeb4829a15e9d45596a6582:diagnose:3",
+          "reserved": 15194,
+          "actual": 3177,
+          "state": "completed"
+        },
+        {
+          "id": "d34b0f29dbeb4829a15e9d45596a6582:diagnose:4",
+          "reserved": 17506,
+          "actual": 3847,
+          "state": "completed"
+        }
+      ]
+    },
+    {
+      "ordinal": 64,
+      "round": 2,
+      "case_id": "case-0d8e24a9beca",
+      "task_id": "772dd36d0e9b4b678d368372b33483c6",
+      "failures": [
+        {
+          "reason": "final report budget reserved",
+          "error_type": "ValueError"
+        }
+      ],
+      "analysis_usage": {
+        "seconds": 11.327999999979511,
+        "steps": 4,
+        "model_calls": 4,
+        "tokens": 11191,
+        "cost": null
+      },
+      "end_to_end_steps": 7,
+      "token_guard_remaining": 18809,
+      "model_call_guard_would_trigger": false,
+      "completed_models": [
+        {
+          "id": "772dd36d0e9b4b678d368372b33483c6:diagnose:1",
+          "reserved": 10645,
+          "actual": 1815,
+          "state": "completed"
+        },
+        {
+          "id": "772dd36d0e9b4b678d368372b33483c6:diagnose:2",
+          "reserved": 12528,
+          "actual": 2368,
+          "state": "completed"
+        },
+        {
+          "id": "772dd36d0e9b4b678d368372b33483c6:diagnose:3",
+          "reserved": 15180,
+          "actual": 3170,
+          "state": "completed"
+        },
+        {
+          "id": "772dd36d0e9b4b678d368372b33483c6:diagnose:4",
+          "reserved": 17492,
+          "actual": 3838,
+          "state": "completed"
+        }
+      ]
+    },
+    {
+      "ordinal": 108,
+      "round": 3,
+      "case_id": "case-70645404d8de",
+      "task_id": "9772d2d66b1b4dd78cd24e9a3aec49c5",
+      "failures": [
+        {
+          "reason": "final report budget reserved",
+          "error_type": "ValueError"
+        }
+      ],
+      "analysis_usage": {
+        "seconds": 10.764999999955762,
+        "steps": 4,
+        "model_calls": 4,
+        "tokens": 11249,
+        "cost": null
+      },
+      "end_to_end_steps": 7,
+      "token_guard_remaining": 18751,
+      "model_call_guard_would_trigger": false,
+      "completed_models": [
+        {
+          "id": "9772d2d66b1b4dd78cd24e9a3aec49c5:diagnose:1",
+          "reserved": 10645,
+          "actual": 1815,
+          "state": "completed"
+        },
+        {
+          "id": "9772d2d66b1b4dd78cd24e9a3aec49c5:diagnose:2",
+          "reserved": 12528,
+          "actual": 2376,
+          "state": "completed"
+        },
+        {
+          "id": "9772d2d66b1b4dd78cd24e9a3aec49c5:diagnose:3",
+          "reserved": 15196,
+          "actual": 3191,
+          "state": "completed"
+        },
+        {
+          "id": "9772d2d66b1b4dd78cd24e9a3aec49c5:diagnose:4",
+          "reserved": 17508,
+          "actual": 3867,
+          "state": "completed"
+        }
+      ]
+    },
+    {
+      "ordinal": 110,
+      "round": 3,
+      "case_id": "case-7d30d33f5bfe",
+      "task_id": "14ab2015d2f840adb7d180733dae170c",
+      "failures": [
+        {
+          "reason": "final report budget reserved",
+          "error_type": "ValueError"
+        }
+      ],
+      "analysis_usage": {
+        "seconds": 11.51600000000326,
+        "steps": 4,
+        "model_calls": 4,
+        "tokens": 11171,
+        "cost": null
+      },
+      "end_to_end_steps": 7,
+      "token_guard_remaining": 18829,
+      "model_call_guard_would_trigger": false,
+      "completed_models": [
+        {
+          "id": "14ab2015d2f840adb7d180733dae170c:diagnose:1",
+          "reserved": 10645,
+          "actual": 1815,
+          "state": "completed"
+        },
+        {
+          "id": "14ab2015d2f840adb7d180733dae170c:diagnose:2",
+          "reserved": 12528,
+          "actual": 2363,
+          "state": "completed"
+        },
+        {
+          "id": "14ab2015d2f840adb7d180733dae170c:diagnose:3",
+          "reserved": 15194,
+          "actual": 3164,
+          "state": "completed"
+        },
+        {
+          "id": "14ab2015d2f840adb7d180733dae170c:diagnose:4",
+          "reserved": 17506,
+          "actual": 3829,
+          "state": "completed"
+        }
+      ]
+    },
+    {
+      "ordinal": 112,
+      "round": 3,
+      "case_id": "case-0d8e24a9beca",
+      "task_id": "7a8d95129c624c0bbc8d31ea5307c18b",
+      "failures": [
+        {
+          "reason": "final report budget reserved",
+          "error_type": "ValueError"
+        }
+      ],
+      "analysis_usage": {
+        "seconds": 10.51500000001397,
+        "steps": 4,
+        "model_calls": 4,
+        "tokens": 11206,
+        "cost": null
+      },
+      "end_to_end_steps": 7,
+      "token_guard_remaining": 18794,
+      "model_call_guard_would_trigger": false,
+      "completed_models": [
+        {
+          "id": "7a8d95129c624c0bbc8d31ea5307c18b:diagnose:1",
+          "reserved": 10645,
+          "actual": 1815,
+          "state": "completed"
+        },
+        {
+          "id": "7a8d95129c624c0bbc8d31ea5307c18b:diagnose:2",
+          "reserved": 12528,
+          "actual": 2370,
+          "state": "completed"
+        },
+        {
+          "id": "7a8d95129c624c0bbc8d31ea5307c18b:diagnose:3",
+          "reserved": 15180,
+          "actual": 3177,
+          "state": "completed"
+        },
+        {
+          "id": "7a8d95129c624c0bbc8d31ea5307c18b:diagnose:4",
+          "reserved": 17492,
+          "actual": 3844,
+          "state": "completed"
+        }
+      ]
+    }
+  ],
+  "a1_budget_interpretation": "All 9 have 4 completed model calls; 4+1 < model limit 10. The final report budget reserved error therefore identifies the token reservation scheduler guard (actual consumed tokens + next serialized input byte reservation + output cap + 1024 report headroom > 30000), not an actual 30000-token consumption or model-call cap. Blocked next-call reservation size is not persisted. No extra model attempt is dispatched.",
+  "limitations": [
+    "Remote model weights cannot be independently established immutable.",
+    "Percentiles include all 24 analysis durations, including 0 for the failed preflight; preflight active time is separately included in totals.",
+    "Human semantic receipts remain pending; this review does not replace human judgment."
+  ],
+  "formal_acceptance_passed": false,
+  "conclusion": "Execution artifacts and accounting verified; P0 formal acceptance failed. Do not close Issue as passed."
+}
