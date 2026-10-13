@@ -1,0 +1,785 @@
+{
+  "purpose": "development-only independent reference; not product input",
+  "cases": [
+    {
+      "case": "january",
+      "database": "D:\\ai coding\\metricguard\\artifacts\\t12-reference\\january\\public\\snapshot.duckdb",
+      "current_start": "2026-01-08",
+      "end": "2026-01-15",
+      "logical_hash": "617dbee3ae98c96937bca15fa1adaed84bf13102cf263b0348836a866e1ab796",
+      "private_parameters": {
+        "seed": 1201,
+        "new_version": "2.0",
+        "crash_probability": 0.65
+      },
+      "reference": {
+        "timezone": "Asia/Shanghai",
+        "bounds": "start-inclusive,end-exclusive",
+        "previous": {
+          "start": "2026-01-01",
+          "end": "2026-01-08",
+          "groups": [
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "new_users": 1656,
+              "d1_retained": 1165,
+              "d1_retention_rate": 0.7035024154589372,
+              "first_day_crash_users": 44,
+              "first_day_crash_rate": 0.026570048309178744
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": null,
+              "new_users": 828,
+              "d1_retained": 419,
+              "d1_retention_rate": 0.5060386473429952,
+              "first_day_crash_users": 26,
+              "first_day_crash_rate": 0.03140096618357488
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": "1.0",
+              "new_users": 828,
+              "d1_retained": 419,
+              "d1_retention_rate": 0.5060386473429952,
+              "first_day_crash_users": 26,
+              "first_day_crash_rate": 0.03140096618357488
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": null,
+              "new_users": 828,
+              "d1_retained": 746,
+              "d1_retention_rate": 0.9009661835748792,
+              "first_day_crash_users": 18,
+              "first_day_crash_rate": 0.021739130434782608
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": "1.0",
+              "new_users": 828,
+              "d1_retained": 746,
+              "d1_retention_rate": 0.9009661835748792,
+              "first_day_crash_users": 18,
+              "first_day_crash_rate": 0.021739130434782608
+            }
+          ],
+          "actual_crashes": [
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "actual_os": "Android",
+              "actual_version": "1.0",
+              "first_day_crash_users": 26
+            },
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "actual_os": "iOS",
+              "actual_version": "1.0",
+              "first_day_crash_users": 18
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": null,
+              "actual_os": "Android",
+              "actual_version": "1.0",
+              "first_day_crash_users": 26
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": "1.0",
+              "actual_os": "Android",
+              "actual_version": "1.0",
+              "first_day_crash_users": 26
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": null,
+              "actual_os": "iOS",
+              "actual_version": "1.0",
+              "first_day_crash_users": 18
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": "1.0",
+              "actual_os": "iOS",
+              "actual_version": "1.0",
+              "first_day_crash_users": 18
+            }
+          ]
+        },
+        "current": {
+          "start": "2026-01-08",
+          "end": "2026-01-15",
+          "groups": [
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "new_users": 1680,
+              "d1_retained": 1045,
+              "d1_retention_rate": 0.6220238095238095,
+              "first_day_crash_users": 294,
+              "first_day_crash_rate": 0.175
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": null,
+              "new_users": 840,
+              "d1_retained": 292,
+              "d1_retention_rate": 0.3476190476190476,
+              "first_day_crash_users": 279,
+              "first_day_crash_rate": 0.33214285714285713
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": "1.0",
+              "new_users": 420,
+              "d1_retained": 192,
+              "d1_retention_rate": 0.45714285714285713,
+              "first_day_crash_users": 9,
+              "first_day_crash_rate": 0.02142857142857143
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": "2.0",
+              "new_users": 420,
+              "d1_retained": 100,
+              "d1_retention_rate": 0.23809523809523808,
+              "first_day_crash_users": 270,
+              "first_day_crash_rate": 0.6428571428571429
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": null,
+              "new_users": 840,
+              "d1_retained": 753,
+              "d1_retention_rate": 0.8964285714285715,
+              "first_day_crash_users": 15,
+              "first_day_crash_rate": 0.017857142857142856
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": "1.0",
+              "new_users": 840,
+              "d1_retained": 753,
+              "d1_retention_rate": 0.8964285714285715,
+              "first_day_crash_users": 15,
+              "first_day_crash_rate": 0.017857142857142856
+            }
+          ],
+          "actual_crashes": [
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "actual_os": "Android",
+              "actual_version": "1.0",
+              "first_day_crash_users": 9
+            },
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "actual_os": "Android",
+              "actual_version": "2.0",
+              "first_day_crash_users": 270
+            },
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "actual_os": "iOS",
+              "actual_version": "1.0",
+              "first_day_crash_users": 15
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": null,
+              "actual_os": "Android",
+              "actual_version": "1.0",
+              "first_day_crash_users": 9
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": null,
+              "actual_os": "Android",
+              "actual_version": "2.0",
+              "first_day_crash_users": 270
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": "1.0",
+              "actual_os": "Android",
+              "actual_version": "1.0",
+              "first_day_crash_users": 9
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": "2.0",
+              "actual_os": "Android",
+              "actual_version": "2.0",
+              "first_day_crash_users": 270
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": null,
+              "actual_os": "iOS",
+              "actual_version": "1.0",
+              "first_day_crash_users": 15
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": "1.0",
+              "actual_os": "iOS",
+              "actual_version": "1.0",
+              "first_day_crash_users": 15
+            }
+          ]
+        },
+        "releases": [
+          {
+            "os": "Android",
+            "version": "1.0",
+            "released_at": "2025-12-02T00:00:00+08:00",
+            "release_date": "2025-12-02"
+          },
+          {
+            "os": "Android",
+            "version": "2.0",
+            "released_at": "2026-01-08T00:00:00+08:00",
+            "release_date": "2026-01-08"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0",
+            "released_at": "2025-12-02T00:00:00+08:00",
+            "release_date": "2025-12-02"
+          }
+        ],
+        "limitations": [
+          "Descriptive comparison only; no causal or independence claim.",
+          "Completeness and maturity must be verified separately from these counts."
+        ]
+      }
+    },
+    {
+      "case": "march",
+      "database": "D:\\ai coding\\metricguard\\artifacts\\t12-reference\\march\\public\\snapshot.duckdb",
+      "current_start": "2026-03-10",
+      "end": "2026-03-17",
+      "logical_hash": "e2eaef57976b5facc0088ea18b487be922c31fa46ae852a7f6bd6c523d1c5ec6",
+      "private_parameters": {
+        "seed": 1202,
+        "new_version": "4.7",
+        "crash_probability": 0.35
+      },
+      "reference": {
+        "timezone": "Asia/Shanghai",
+        "bounds": "start-inclusive,end-exclusive",
+        "previous": {
+          "start": "2026-03-03",
+          "end": "2026-03-10",
+          "groups": [
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "new_users": 1656,
+              "d1_retained": 1161,
+              "d1_retention_rate": 0.7010869565217391,
+              "first_day_crash_users": 26,
+              "first_day_crash_rate": 0.01570048309178744
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": null,
+              "new_users": 828,
+              "d1_retained": 408,
+              "d1_retention_rate": 0.4927536231884058,
+              "first_day_crash_users": 18,
+              "first_day_crash_rate": 0.021739130434782608
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": "1.0",
+              "new_users": 828,
+              "d1_retained": 408,
+              "d1_retention_rate": 0.4927536231884058,
+              "first_day_crash_users": 18,
+              "first_day_crash_rate": 0.021739130434782608
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": null,
+              "new_users": 828,
+              "d1_retained": 753,
+              "d1_retention_rate": 0.9094202898550725,
+              "first_day_crash_users": 8,
+              "first_day_crash_rate": 0.00966183574879227
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": "1.0",
+              "new_users": 828,
+              "d1_retained": 753,
+              "d1_retention_rate": 0.9094202898550725,
+              "first_day_crash_users": 8,
+              "first_day_crash_rate": 0.00966183574879227
+            }
+          ],
+          "actual_crashes": [
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "actual_os": "Android",
+              "actual_version": "1.0",
+              "first_day_crash_users": 18
+            },
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "actual_os": "iOS",
+              "actual_version": "1.0",
+              "first_day_crash_users": 8
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": null,
+              "actual_os": "Android",
+              "actual_version": "1.0",
+              "first_day_crash_users": 18
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": "1.0",
+              "actual_os": "Android",
+              "actual_version": "1.0",
+              "first_day_crash_users": 18
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": null,
+              "actual_os": "iOS",
+              "actual_version": "1.0",
+              "first_day_crash_users": 8
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": "1.0",
+              "actual_os": "iOS",
+              "actual_version": "1.0",
+              "first_day_crash_users": 8
+            }
+          ]
+        },
+        "current": {
+          "start": "2026-03-10",
+          "end": "2026-03-17",
+          "groups": [
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "new_users": 1680,
+              "d1_retained": 1122,
+              "d1_retention_rate": 0.6678571428571428,
+              "first_day_crash_users": 156,
+              "first_day_crash_rate": 0.09285714285714286
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": null,
+              "new_users": 840,
+              "d1_retained": 371,
+              "d1_retention_rate": 0.44166666666666665,
+              "first_day_crash_users": 144,
+              "first_day_crash_rate": 0.17142857142857143
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": "1.0",
+              "new_users": 420,
+              "d1_retained": 207,
+              "d1_retention_rate": 0.4928571428571429,
+              "first_day_crash_users": 9,
+              "first_day_crash_rate": 0.02142857142857143
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": "4.7",
+              "new_users": 420,
+              "d1_retained": 164,
+              "d1_retention_rate": 0.3904761904761905,
+              "first_day_crash_users": 135,
+              "first_day_crash_rate": 0.32142857142857145
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": null,
+              "new_users": 840,
+              "d1_retained": 751,
+              "d1_retention_rate": 0.8940476190476191,
+              "first_day_crash_users": 12,
+              "first_day_crash_rate": 0.014285714285714285
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": "1.0",
+              "new_users": 840,
+              "d1_retained": 751,
+              "d1_retention_rate": 0.8940476190476191,
+              "first_day_crash_users": 12,
+              "first_day_crash_rate": 0.014285714285714285
+            }
+          ],
+          "actual_crashes": [
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "actual_os": "Android",
+              "actual_version": "1.0",
+              "first_day_crash_users": 9
+            },
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "actual_os": "Android",
+              "actual_version": "4.7",
+              "first_day_crash_users": 135
+            },
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "actual_os": "iOS",
+              "actual_version": "1.0",
+              "first_day_crash_users": 12
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": null,
+              "actual_os": "Android",
+              "actual_version": "1.0",
+              "first_day_crash_users": 9
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": null,
+              "actual_os": "Android",
+              "actual_version": "4.7",
+              "first_day_crash_users": 135
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": "1.0",
+              "actual_os": "Android",
+              "actual_version": "1.0",
+              "first_day_crash_users": 9
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": "4.7",
+              "actual_os": "Android",
+              "actual_version": "4.7",
+              "first_day_crash_users": 135
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": null,
+              "actual_os": "iOS",
+              "actual_version": "1.0",
+              "first_day_crash_users": 12
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": "1.0",
+              "actual_os": "iOS",
+              "actual_version": "1.0",
+              "first_day_crash_users": 12
+            }
+          ]
+        },
+        "releases": [
+          {
+            "os": "Android",
+            "version": "1.0",
+            "released_at": "2026-02-01T00:00:00+08:00",
+            "release_date": "2026-02-01"
+          },
+          {
+            "os": "Android",
+            "version": "4.7",
+            "released_at": "2026-03-10T00:00:00+08:00",
+            "release_date": "2026-03-10"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0",
+            "released_at": "2026-02-01T00:00:00+08:00",
+            "release_date": "2026-02-01"
+          }
+        ],
+        "limitations": [
+          "Descriptive comparison only; no causal or independence claim.",
+          "Completeness and maturity must be verified separately from these counts."
+        ]
+      }
+    },
+    {
+      "case": "july",
+      "database": "D:\\ai coding\\metricguard\\artifacts\\t12-reference\\july\\public\\snapshot.duckdb",
+      "current_start": "2026-07-12",
+      "end": "2026-07-19",
+      "logical_hash": "a0b44c4b8a2856a93995e17d6f3d6c1ec24d600749f9650a00ffbfc660b3404e",
+      "private_parameters": {
+        "seed": 1203,
+        "new_version": "9.2",
+        "crash_probability": 0.85
+      },
+      "reference": {
+        "timezone": "Asia/Shanghai",
+        "bounds": "start-inclusive,end-exclusive",
+        "previous": {
+          "start": "2026-07-05",
+          "end": "2026-07-12",
+          "groups": [
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "new_users": 1656,
+              "d1_retained": 1150,
+              "d1_retention_rate": 0.6944444444444444,
+              "first_day_crash_users": 29,
+              "first_day_crash_rate": 0.017512077294685992
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": null,
+              "new_users": 828,
+              "d1_retained": 393,
+              "d1_retention_rate": 0.4746376811594203,
+              "first_day_crash_users": 16,
+              "first_day_crash_rate": 0.01932367149758454
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": "1.0",
+              "new_users": 828,
+              "d1_retained": 393,
+              "d1_retention_rate": 0.4746376811594203,
+              "first_day_crash_users": 16,
+              "first_day_crash_rate": 0.01932367149758454
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": null,
+              "new_users": 828,
+              "d1_retained": 757,
+              "d1_retention_rate": 0.9142512077294686,
+              "first_day_crash_users": 13,
+              "first_day_crash_rate": 0.01570048309178744
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": "1.0",
+              "new_users": 828,
+              "d1_retained": 757,
+              "d1_retention_rate": 0.9142512077294686,
+              "first_day_crash_users": 13,
+              "first_day_crash_rate": 0.01570048309178744
+            }
+          ],
+          "actual_crashes": [
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "actual_os": "Android",
+              "actual_version": "1.0",
+              "first_day_crash_users": 16
+            },
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "actual_os": "iOS",
+              "actual_version": "1.0",
+              "first_day_crash_users": 13
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": null,
+              "actual_os": "Android",
+              "actual_version": "1.0",
+              "first_day_crash_users": 16
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": "1.0",
+              "actual_os": "Android",
+              "actual_version": "1.0",
+              "first_day_crash_users": 16
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": null,
+              "actual_os": "iOS",
+              "actual_version": "1.0",
+              "first_day_crash_users": 13
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": "1.0",
+              "actual_os": "iOS",
+              "actual_version": "1.0",
+              "first_day_crash_users": 13
+            }
+          ]
+        },
+        "current": {
+          "start": "2026-07-12",
+          "end": "2026-07-19",
+          "groups": [
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "new_users": 1680,
+              "d1_retained": 1002,
+              "d1_retention_rate": 0.5964285714285714,
+              "first_day_crash_users": 377,
+              "first_day_crash_rate": 0.2244047619047619
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": null,
+              "new_users": 840,
+              "d1_retained": 252,
+              "d1_retention_rate": 0.3,
+              "first_day_crash_users": 359,
+              "first_day_crash_rate": 0.42738095238095236
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": "1.0",
+              "new_users": 420,
+              "d1_retained": 205,
+              "d1_retention_rate": 0.4880952380952381,
+              "first_day_crash_users": 7,
+              "first_day_crash_rate": 0.016666666666666666
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": "9.2",
+              "new_users": 420,
+              "d1_retained": 47,
+              "d1_retention_rate": 0.11190476190476191,
+              "first_day_crash_users": 352,
+              "first_day_crash_rate": 0.8380952380952381
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": null,
+              "new_users": 840,
+              "d1_retained": 750,
+              "d1_retention_rate": 0.8928571428571429,
+              "first_day_crash_users": 18,
+              "first_day_crash_rate": 0.02142857142857143
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": "1.0",
+              "new_users": 840,
+              "d1_retained": 750,
+              "d1_retention_rate": 0.8928571428571429,
+              "first_day_crash_users": 18,
+              "first_day_crash_rate": 0.02142857142857143
+            }
+          ],
+          "actual_crashes": [
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "actual_os": "Android",
+              "actual_version": "1.0",
+              "first_day_crash_users": 7
+            },
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "actual_os": "Android",
+              "actual_version": "9.2",
+              "first_day_crash_users": 352
+            },
+            {
+              "registration_os": null,
+              "registration_version": null,
+              "actual_os": "iOS",
+              "actual_version": "1.0",
+              "first_day_crash_users": 18
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": null,
+              "actual_os": "Android",
+              "actual_version": "1.0",
+              "first_day_crash_users": 7
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": null,
+              "actual_os": "Android",
+              "actual_version": "9.2",
+              "first_day_crash_users": 352
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": "1.0",
+              "actual_os": "Android",
+              "actual_version": "1.0",
+              "first_day_crash_users": 7
+            },
+            {
+              "registration_os": "Android",
+              "registration_version": "9.2",
+              "actual_os": "Android",
+              "actual_version": "9.2",
+              "first_day_crash_users": 352
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": null,
+              "actual_os": "iOS",
+              "actual_version": "1.0",
+              "first_day_crash_users": 18
+            },
+            {
+              "registration_os": "iOS",
+              "registration_version": "1.0",
+              "actual_os": "iOS",
+              "actual_version": "1.0",
+              "first_day_crash_users": 18
+            }
+          ]
+        },
+        "releases": [
+          {
+            "os": "Android",
+            "version": "1.0",
+            "released_at": "2026-06-05T00:00:00+08:00",
+            "release_date": "2026-06-05"
+          },
+          {
+            "os": "Android",
+            "version": "9.2",
+            "released_at": "2026-07-12T00:00:00+08:00",
+            "release_date": "2026-07-12"
+          },
+          {
+            "os": "iOS",
+            "version": "1.0",
+            "released_at": "2026-06-05T00:00:00+08:00",
+            "release_date": "2026-06-05"
+          }
+        ],
+        "limitations": [
+          "Descriptive comparison only; no causal or independence claim.",
+          "Completeness and maturity must be verified separately from these counts."
+        ]
+      }
+    }
+  ]
+}

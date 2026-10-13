@@ -40,7 +40,10 @@ def draw(seed: int, *key: object) -> float:
     return random.Random(int.from_bytes(digest, "big")).random()
 
 
-def build_snapshot(root: Path, *, scenario: str, seed: int) -> Snapshot:
+def build_snapshot(root: Path, *, scenario: str, seed: int, base_start: datetime = START,
+                   new_version: str = "2.0", crash_probability: float = .65) -> Snapshot:
+    if base_start.tzinfo is None or not new_version or new_version == "1.0" or not 0 <= crash_probability <= 1:
+        raise ValueError("Invalid development parameters")
     if scenario not in MECHANISMS:
         raise ValueError(f"Unknown development scenario: {scenario}")
     if root.exists():
@@ -51,7 +54,7 @@ def build_snapshot(root: Path, *, scenario: str, seed: int) -> Snapshot:
     private.mkdir()
     rows: dict[str, list[tuple[Any, ...]]] = {table: [] for table in TABLES}
     for day in range(16):
-        date = START + timedelta(days=day)
+        date = base_start + timedelta(days=day)
         counts = {"organic": 0, "paid": 0}
         for os in ("Android", "iOS"):
             for channel in ("organic", "paid"):
@@ -63,13 +66,13 @@ def build_snapshot(root: Path, *, scenario: str, seed: int) -> Snapshot:
                     volume = 40 if os == "Android" else 80
                 for index in range(round(volume * scale)):
                     uid = f"u{day:02d}-{os}-{channel}-{index:03d}"
-                    version = "2.0" if day >= 7 and os == "Android" and index % 2 == 0 else "1.0"
+                    version = new_version if day >= 7 and os == "Android" and index % 2 == 0 else "1.0"
                     registered = date + timedelta(hours=23, minutes=50) if index == 0 else date + timedelta(hours=8)
                     rows["users"].append((uid, registered, os, version, channel))
                     counts[channel] += 1
-                    affected_version = day >= 7 and os == "Android" and version == "2.0"
-                    crash_probability = .65 if scenario == "A1" and affected_version else .02
-                    crashed = draw(seed, uid, "crash") < crash_probability
+                    affected_version = day >= 7 and os == "Android" and version == new_version
+                    entity_crash_probability = crash_probability if scenario == "A1" and affected_version else .02
+                    crashed = draw(seed, uid, "crash") < entity_crash_probability
                     sid = uid + "-first"
                     rows["sessions"].append((sid, uid, registered + timedelta(minutes=1), os, version, crashed))
                     probability = .5 if os == "Android" else .9
@@ -101,12 +104,12 @@ def build_snapshot(root: Path, *, scenario: str, seed: int) -> Snapshot:
                 unit_cost = 200
             rows["channel_daily"].append((date.date(), channel, count * unit_cost))
         rows["channel_daily"].append((date.date(), "idle", 100))
-    rows["release_calendar"] = [("Android", "1.0", START - timedelta(days=30)),
-                                 ("iOS", "1.0", START - timedelta(days=30)),
-                                 ("Android", "2.0", START + timedelta(days=7))]
-    rows["source_watermarks"] = [(name, START + timedelta(days=16)) for name in TABLES if name != "source_watermarks"]
+    rows["release_calendar"] = [("Android", "1.0", base_start - timedelta(days=30)),
+                                 ("iOS", "1.0", base_start - timedelta(days=30)),
+                                 ("Android", new_version, base_start + timedelta(days=7))]
+    rows["source_watermarks"] = [(name, base_start + timedelta(days=16)) for name in TABLES if name != "source_watermarks"]
     if scenario == "insufficient":
-        session_cutoff, telemetry_cutoff = START + timedelta(days=11), START + timedelta(days=7)
+        session_cutoff, telemetry_cutoff = base_start + timedelta(days=11), base_start + timedelta(days=7)
         rows["sessions"] = [row for row in rows["sessions"] if row[2] < session_cutoff]
         session_ids = {row[0] for row in rows["sessions"]}
         rows["content_events"] = [row for row in rows["content_events"] if row[2] in session_ids]
@@ -129,7 +132,7 @@ def build_snapshot(root: Path, *, scenario: str, seed: int) -> Snapshot:
     logical_hash = hashlib.sha256(json.dumps(rows, default=str, sort_keys=True).encode()).hexdigest()
     manifest = private / "manifest.json"
     manifest.write_text(json.dumps({"scenario": scenario, "seed": seed,
-        "logical_hash": logical_hash, "human_review": "pending", "mechanism": MECHANISMS[scenario],
-        "parameters": {"base_start": "2026-01-01", "current_start": "2026-01-08", "end": "2026-01-15"},
+        "logical_hash": logical_hash, "human_review": "pending", "mechanism": (f"Android {new_version} first-day crash probability {crash_probability}; crashed users return with probability .05." if scenario == "A1" else MECHANISMS[scenario]),
+        "parameters": {"base_start": base_start.date().isoformat(), "current_start": (base_start + timedelta(days=7)).date().isoformat(), "end": (base_start + timedelta(days=14)).date().isoformat(), "new_version": new_version, "crash_probability": crash_probability},
         "purpose": "development_only"}, indent=2), encoding="utf-8")
     return Snapshot(database, manifest, logical_hash)

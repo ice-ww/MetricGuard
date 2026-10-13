@@ -6,6 +6,17 @@ ACTION_PROMPT = '''Choose the next test from actual evidence; do not assume a ca
 {"action":"profile","table":"users","column":"channel","kind":"distribution"},
 {"action":"stop","unsupported_hypotheses":["untested hypothesis"],"unresolved_questions":["remaining question"]}.
 Profile kinds: distribution, missing, time_coverage (DATE/TIMESTAMP columns only).
+For mature retention/crash comparison use the trusted business profile:
+{"action":"profile","table":"users","column":"registration_version","kind":"cohort_health"}.
+It computes current and immediately preceding equal-length mature cohorts by registration system/version,
+deduplicated D1 retained users and first-day crash affected users, with exact windows and rates.
+To check actual first-day crash system/version against registration attribution:
+{"action":"profile","table":"sessions","column":"version","kind":"crash_versions"}.
+To obtain release dates (all releases before current end, including old control versions):
+{"action":"profile","table":"release_calendar","column":"version","kind":"releases"}.
+Select only relevant tests; their order is your evidence-based choice. Do not repeat successful profiles.
+For version-related retention explanations the program needs cohort_health, crash_versions and releases
+to assess a candidate; stop once these relevant comparisons are available. These profiles do not prove causality.
 The supplied window is already adjusted for source_watermarks and retention maturity by trusted code.
 Use that exact half-open window; NEVER subtract another day for maturity.
 Profiles cover timestamped rows within the supplied window, not the entire snapshot; time coverage is observed not completeness.
@@ -41,6 +52,9 @@ def action_sql(action: dict[str, Any], schema: dict[str, Any], window: list[str]
     table, column, kind = action['table'], action['column'], action['kind']
     if not all(isinstance(v, str) for v in (table, column, kind)) or table not in schema or column not in schema[table]:
         raise ValueError('invalid profile identifiers')
+    from metricguard.metric_profiles import BUSINESS_PROFILES
+    if (table, column, kind) in BUSINESS_PROFILES:
+        return BUSINESS_PROFILES[(table, column, kind)](window)
     timestamp = TIMES[table]
     day = f'"{timestamp}"' if schema[table][timestamp] == 'DATE' else f'CAST("{timestamp}" AT TIME ZONE \'Asia/Shanghai\' AS DATE)'
     where = f" WHERE {day} >= '{window[0]}' AND {day} < '{window[1]}'"

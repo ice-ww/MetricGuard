@@ -261,7 +261,14 @@ class TaskService:
     def _model_evidence(data: dict[str, Any]) -> list[dict[str, Any]]:
         # Keep every actual result cell, but omit duplicated SQL and program-derived contexts.
         fields = ('evidence_id', 'tool', 'source', 'columns', 'rows', 'window', 'truncated', 'limitations')
-        return [{key: evidence[key] for key in fields} for evidence in data['evidence']]
+        from metricguard.metric_profiles import is_business_profile
+        output = []
+        for evidence in data['evidence']:
+            view = {key: evidence[key] for key in fields}
+            if is_business_profile(evidence['parameters']):
+                view['source'] = {k: v for k, v in evidence['parameters'].items() if k != 'sql'}
+            output.append(view)
+        return output
 
     def _diagnose(self, task: str) -> dict[str, Any]:
         from metricguard.diagnosis import ACTION_PROMPT, action_sql, validate_stop
@@ -294,6 +301,8 @@ class TaskService:
             if failure and action.get('action') != 'query':
                 raise ValueError('repair requires query or stop')
             sql = action_sql(action, data['schema'], data['actual_window'])
+            if action.get('kind') == 'cohort_health' and data['definition']['id'] not in ('retention', 'retained_cost'):
+                raise ValueError('cohort_health requires mature retention definition')
             # Conservative equality avoids rewriting SQL literals or claiming semantic equivalence.
             if any(evidence['source'].strip() == sql.strip() for evidence in data['evidence']):
                 data['outcome'] = 'insufficient_evidence'
@@ -330,17 +339,26 @@ class TaskService:
             rows = [dict(zip([c['name'] for c in columns], row, strict=True)) for row in result['rows']]
             eid = task + ':evidence:' + str(step)
             profile = action['action'] == 'profile'
+            from metricguard.metric_profiles import is_business_profile
+            evidence_window = data['actual_window']
+            if action.get('kind') in ('cohort_health', 'crash_versions'):
+                from metricguard.metric_profiles import comparison_window
+                evidence_window = comparison_window(data['actual_window'])
             limitations = ['business_definition_requires_independent_reference']
-            if profile:
+            if profile and is_business_profile(action):
+                limitations += (['release_history_before_current_end_includes_older_dates'] if action['kind'] == 'releases'
+                                else ['current_and_previous_cohorts_exact_windows', 'registration_attribution_separate_from_actual_crash_attribution'])
+            elif profile:
                 limitations += ['profile_within_window_timestamped_rows_only', 'observed_time_coverage_does_not_prove_completeness']
             evidence = {'evidence_id': eid, 'tool': action['action'], 'parameters': {**action, 'sql': sql},
                 'source': sql, 'snapshot_id': data['snapshot_hash'], 'columns': {c['name']: canonical_type(c['type']) for c in columns},
-                'actual_db_types': {c['name']: c['type'] for c in columns}, 'rows': rows, 'window': data['actual_window'],
+                'actual_db_types': {c['name']: c['type'] for c in columns}, 'rows': rows, 'window': evidence_window,
                 'truncated': result['truncated'], 'group': {}, 'sample': {'returned_rows': len(rows)},
                 'limitations': limitations, 'business_definition_status': 'requires_independent_reference',
                 'contexts': {Reference(eid, i, k).pointer: asdict(FactContext(
                     ('profile:' + action['table'] + ':' + action['kind']) if profile else 'query_result:' + data['definition']['id'],
-                    tuple(data['actual_window']), {key: str(v) for key, v in row.items() if v is not None and type(v) not in (int, float)}, None))
+                    (row['window_start'], row['window_end']) if action.get('kind') in ('cohort_health', 'crash_versions') else tuple(evidence_window),
+                    {key: str(v) for key, v in row.items() if v is not None and type(v) not in (int, float)}, None))
                     for i, row in enumerate(rows) for k, value in row.items() if type(value) in (int, float)}}
             data['evidence'].append(evidence)
             try:
@@ -390,6 +408,11 @@ class TaskService:
         report.update(deterministic=deterministic, definition=data['definition'], window=data['actual_window'],
             limitations=data['limitations'], unsupported_hypotheses=data['unsupported_hypotheses'],
             unresolved_questions=data['unresolved_questions'], business_definition_status='requires_independent_reference', inference_status='not_assessed')
+        from metricguard.version_diagnosis import version_diagnosis
+        diagnosis = version_diagnosis(data['evidence'])
+        if diagnosis is not None:
+            report['diagnosis'] = diagnosis
+            report['inference_status'] = 'bounded_descriptive_rule_requires_human_review'
         if data['outcome'] is None:
             data['outcome'] = 'facts_available' if report['validation']['passed'] else 'insufficient_evidence'
         report['outcome'] = data['outcome']
@@ -401,6 +424,10 @@ class TaskService:
         if self.fault_hook:
             self.fault_hook('after_checkpoint')
         task = state['task']; data = self._data(task)
+        from metricguard.metric_profiles import is_business_profile
+        if any(is_business_profile(e['parameters']) for e in data['evidence']):
+            self._finish_report(task, self._known_facts(data), deterministic=True)
+            return {}
         if data['outcome'] or not data['evidence']:
             self._finish_report(task, self._known_facts(data), deterministic=True)
             return {}
