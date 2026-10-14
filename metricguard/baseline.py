@@ -25,6 +25,7 @@ playback_telemetry, play_id, playback_progress: independent progress aligned by 
 For version/crash association plan cohort_health, crash_versions and releases together;
 for playback collection plan both independent profiles; system and channel profiles include both periods.
 Generic profile kinds: distribution, missing, time_coverage (DATE/TIMESTAMP columns only), using listed schema identifiers.
+Use comparison_window exactly if supplied; absent comparison_window means current-only profiles.
 The supplied window is mature and half-open; NEVER subtract another day. Missing independent data is uncertainty.
 Read-only DuckDB SELECT: CTE, JOIN, EXISTS, CASE, COUNT/SUM/MIN/MAX/AVG, NULLIF, COALESCE, arithmetic.
 No FILTER, LEAST, window/table functions, metadata, files, extensions, INTERVAL, date_add or casts other than DATE.
@@ -51,7 +52,7 @@ def execute_baseline(service: 'TaskService', task: str) -> dict[str, Any]:
     budget=service.ledger.inspect(task)
     plan=service._model(task,'baseline_plan',PLAN_PROMPT,
         {'baseline_phase':'plan','definition':data['definition'],'schema':data['schema'],
-         'window':data['actual_window'],'remaining_tool_attempts':budget['limits']['tool']-budget['tool_calls']})
+         'window':data['actual_window'],'comparison_window':data.get('comparison_window'),'remaining_tool_attempts':budget['limits']['tool']-budget['tool_calls']})
     data['baseline_plan_draft']=plan
     service._save(task,data)
     if set(plan)!={'queries'} or not isinstance(plan['queries'],list):
@@ -101,7 +102,7 @@ def report_baseline(service: 'TaskService', task: str) -> dict[str, Any]:
     data=service._data(task)
     draft=service._model(task,'baseline_report',REPORT_PROMPT,
         {'baseline_phase':'report','definition':data['definition'],
-         'window':data['actual_window'],'evidence':service._model_evidence(data),
+         'window':data['actual_window'],'comparison_window':data.get('comparison_window'),'evidence':service._model_evidence(data),
          'query_results':[{k:v for k,v in r.items() if k in ('action','status','error_type','error','cleanup_verified','truncated')}
                           for r in data.get('baseline_results',[])]},final=True)
     data['baseline_report_draft']=draft

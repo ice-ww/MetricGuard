@@ -19,7 +19,7 @@ Completion is watched >= duration; effective playback min(5,duration) is differe
 Profile kinds: distribution, missing, time_coverage (DATE/TIMESTAMP columns only).
 For channel acquisition, mature D1 retention and matching registration-window costs use:
 {"action":"profile","table":"users","column":"channel","kind":"channel_health"}.
-It compares current and immediately preceding equal-length windows, including idle spend with zero users.
+It compares current and user-confirmed comparison windows, including idle spend with zero users.
 This profile suffices for bounded channel contribution interpretation; no version/crash profiles are required.
 Low retention does not establish fraud, and cost per new user need not rise. Zero denominators are unavailable, not zero costs.
 For system composition and retention masking use:
@@ -29,7 +29,7 @@ Stop once available: program computes actual pooled rates, base-share standardiz
 Never average daily percentages or use binomial intervals on standardized derived quantities.
 For mature retention/crash comparison use the trusted business profile:
 {"action":"profile","table":"users","column":"registration_version","kind":"cohort_health"}.
-It computes current and immediately preceding equal-length mature cohorts by registration system/version,
+It computes current and user-confirmed comparison mature cohorts by registration system/version,
 deduplicated D1 retained users and first-day crash affected users, with exact windows and rates.
 To check actual first-day crash system/version against registration attribution:
 {"action":"profile","table":"sessions","column":"version","kind":"crash_versions"}.
@@ -39,7 +39,8 @@ Select only relevant tests; their order is your evidence-based choice. Do not re
 For version-related retention explanations the program needs cohort_health, crash_versions and releases
 to assess a candidate; stop once these relevant comparisons are available. These profiles do not prove causality.
 The supplied window is already adjusted for source_watermarks and retention maturity by trusted code.
-Use that exact half-open window; NEVER subtract another day for maturity.
+Comparison profiles are current-only when comparison_window is absent.
+Use those exact half-open analysis and comparison windows; never substitute an adjacent baseline; NEVER subtract another day for maturity.
 Profiles cover timestamped rows within the supplied window, not the entire snapshot; time coverage is observed not completeness.
 Use only listed physical schema. Query must be read-only DuckDB SELECT. Permitted CTE, JOIN, EXISTS, CASE, COUNT/SUM/MIN/MAX/AVG, NULLIF, COALESCE, arithmetic.
 No FILTER, LEAST, window/table functions, metadata, files, extensions, INTERVAL, date_add or casts other than DATE.
@@ -72,7 +73,7 @@ def refuse_action(action: dict[str, Any]) -> None:
     raise ActionDenied('model_declined_unsupported_capability: ' + action['reason'])
 
 
-def action_sql(action: dict[str, Any], schema: dict[str, Any], window: list[str], *, comparison_start: str | None = None) -> str:
+def action_sql(action: dict[str, Any], schema: dict[str, Any], window: list[str], *, comparison_start: str | None = None, comparison_end: str | None = None) -> str:
     if action.get('action') == 'query':
         if set(action) != {'action', 'sql'} or not isinstance(action['sql'], str) or not action['sql'].strip():
             raise ActionDenied('invalid query action')
@@ -85,7 +86,7 @@ def action_sql(action: dict[str, Any], schema: dict[str, Any], window: list[str]
     from metricguard.metric_profiles import BUSINESS_PROFILES, COMPARISON_PROFILES
     if (table, column, kind) in BUSINESS_PROFILES:
         builder = BUSINESS_PROFILES[(table, column, kind)]
-        return builder(window, previous_start=comparison_start) if kind in COMPARISON_PROFILES else builder(window)
+        return builder(window, previous_start=comparison_start, previous_end=comparison_end) if kind in COMPARISON_PROFILES else builder(window)
     timestamp = TIMES[table]
     day = f'"{timestamp}"' if schema[table][timestamp] == 'DATE' else f'CAST("{timestamp}" AT TIME ZONE \'Asia/Shanghai\' AS DATE)'
     where = f" WHERE {day} >= '{window[0]}' AND {day} < '{window[1]}'"

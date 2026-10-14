@@ -58,7 +58,8 @@ class TaskService:
     def __exit__(self, *args: Any) -> None:
         self.close()
 
-    def create(self, question: str, snapshot_id: str, window: tuple[str, str] | None = None, *, mode: str = 'query') -> str:
+    def create(self, question: str, snapshot_id: str, window: tuple[str, str] | None = None, *, mode: str = 'query',
+               comparison_window: tuple[str, str] | None = None) -> str:
         if mode not in ('query', 'diagnose', 'baseline'):
             raise ValueError('invalid task mode')
         if not isinstance(question, str) or not question.strip() or len(question) > 2000:
@@ -68,6 +69,11 @@ class TaskService:
         if window is not None:
             if len(window) != 2 or date.fromisoformat(window[0]) >= date.fromisoformat(window[1]):
                 raise ValueError('invalid window')
+            window = (date.fromisoformat(window[0]).isoformat(), date.fromisoformat(window[1]).isoformat())
+        if comparison_window is not None:
+            if len(comparison_window) != 2 or date.fromisoformat(comparison_window[0]) >= date.fromisoformat(comparison_window[1]):
+                raise ValueError('invalid comparison window')
+            comparison_window = (date.fromisoformat(comparison_window[0]).isoformat(), date.fromisoformat(comparison_window[1]).isoformat())
         snapshot = self.snapshots[snapshot_id]
         instant = self.clock()
         if instant.tzinfo is None:
@@ -77,15 +83,18 @@ class TaskService:
         self._save(task, {'question': question, 'snapshot_id': snapshot_id, 'snapshot_hash': digest,
                          'requested_window': window, 'original_window': window,
                          'time_anchor': instant.astimezone(timezone(timedelta(hours=8))).isoformat(),
+                         'comparison_window': comparison_window,
+                         'comparison_resolution': 'explicit_parameter' if comparison_window else None,
                          'actual_window': None, 'definition': None,
                          'evidence': [], 'report': None, 'outcome': None, 'limitations': [],
                          'mode': mode, 'diagnostic_history': [], 'repairs_used': 0, 'unsupported_hypotheses': [], 'unresolved_questions': [],
                          'effective_question': question, 'pending_question': None, 'answers': []})
         return task
 
-    def prepare_shared(self, question: str, snapshot_id: str, window: tuple[str, str] | None = None) -> str:
+    def prepare_shared(self, question: str, snapshot_id: str, window: tuple[str, str] | None = None, *,
+                       comparison_window: tuple[str, str] | None = None) -> str:
         from metricguard.comparison import prepare_shared
-        return prepare_shared(self, question, snapshot_id, window)
+        return prepare_shared(self, question, snapshot_id, window, comparison_window=comparison_window)
 
     def create_from_shared(self, prepared: str, *, mode: str) -> str:
         from metricguard.comparison import create_from_shared
@@ -245,6 +254,8 @@ class TaskService:
         if data.get('shared_preflight'):
             return {}
         from metricguard.time_windows import resolve, metric_text
+        from metricguard.comparison_windows import split_question
+        data['analysis_question'], _ = split_question(data['question'])
         clarification = resolve(data)
         if clarification:
             self._clarify(task, data, clarification['reason'], prompt=clarification['prompt'], options=clarification['options'])
@@ -267,6 +278,9 @@ class TaskService:
             self._save(task, data)
             return {}
         data['definition'] = found['definition']
+        if self._confirm_comparison(task, data):
+            self._save(task, data)
+            return {}
         data['schema'] = self._tool(task, 'schema', lambda: BUSINESS_SCHEMA)
         watermarks = self._tool(task, 'watermarks', lambda: self._sandbox(task, data).query('SELECT source, complete_before FROM source_watermarks'))
         if watermarks['status'] != 'ok' or watermarks.get('truncated'):
@@ -292,9 +306,27 @@ class TaskService:
         else:
             data['actual_window'] = [start.isoformat(), end.isoformat()]
         data['watermarks'] = watermarks
+        if not data['outcome']:
+            self._confirm_comparison(task, data)
+        if data.get('comparison_window') and data['actual_window'] and data['comparison_window'][1] > data['actual_window'][0]:
+            data['outcome'] = 'insufficient_evidence'
+            data['limitations'].append('comparison_requires_preceding_disjoint_windows')
+            data['unresolved_questions'].append('当前比较只支持早于分析期且不重叠的基期；已保留所选日期，未替换基期。')
+        if data.get('comparison_window') and date.fromisoformat(data['comparison_window'][1]) > cutoff:
+            data['outcome'] = 'insufficient_evidence'
+            data['limitations'].append('comparison_window_incomplete')
+            data['unresolved_questions'].append('基期数据未全部齐备，未替换或缩短基期。')
         self._save(task, data)
         self._event(task, 'definition_adopted', {'definition': data['definition'], 'actual_window': data['actual_window']})
         return {}
+
+    def _confirm_comparison(self, task: str, data: dict[str, Any]) -> bool:
+        from metricguard.comparison_windows import resolve_comparison
+        question = resolve_comparison(data)
+        if question:
+            self._clarify(task, data, **question)
+            return True
+        return False
 
     def _clarify(self, task: str, data: dict[str, Any], reason: str, *,
                  prompt: str | None = None, options: list[str] | None = None) -> None:
@@ -344,7 +376,7 @@ class TaskService:
         if data['mode'] == 'baseline':
             from metricguard.baseline import execute_baseline
             return execute_baseline(self, task)
-        if data['mode'] == 'diagnose':
+        if data['mode'] == 'diagnose' or data.get('comparison_window'):
             return self._diagnose(task)
         plan = self._model(task, 'sql_plan',
             'Generate one DuckDB read-only SELECT for the requested metric and exact window. '
@@ -409,6 +441,10 @@ class TaskService:
             view = {key: evidence[key] for key in fields}
             if is_business_profile(evidence['parameters']):
                 view['source'] = {k: v for k, v in evidence['parameters'].items() if k != 'sql'}
+                # Trusted profile row keys and JSON values carry the display types.
+                # Keep the full column contract in stored evidence for validation,
+                # but avoid repeating it at every model step. No cells are omitted.
+                view.pop('columns')
             output.append(view)
         return output
 
@@ -425,7 +461,7 @@ class TaskService:
                 messages.append({'role': 'assistant', 'content': json.dumps(turn['action'], ensure_ascii=False, separators=(',', ':'))})
                 messages.append({'role': 'user', 'content': json.dumps(turn['result'], ensure_ascii=False, separators=(',', ':'))})
             action = self._model(task, ('repair:' if failure else 'diagnose:') + str(step), ACTION_PROMPT,
-                {'definition': data['definition'], 'schema': data['schema'], 'window': data['actual_window'],
+                {'definition': data['definition'], 'schema': data['schema'], 'window': data['actual_window'], 'comparison_window': data.get('comparison_window'),
                  'evidence': self._model_evidence(data), 'last_failure': failure, 'repairs_used': data['repairs_used'],
                  'window_contract': {'start_inclusive': data['actual_window'][0], 'end_exclusive': data['actual_window'][1],
                                      'maturity_already_applied': True},
@@ -493,9 +529,10 @@ class TaskService:
 
     def _action_sql(self, data: dict[str, Any], action: dict[str, Any]) -> str:
         from metricguard.diagnosis import action_sql
-        from metricguard.metric_profiles import comparison_window
-        comparison_start = comparison_window(data.get('requested_window') or data['actual_window'])[0]
-        sql = action_sql(action, data['schema'], data['actual_window'], comparison_start=comparison_start)
+        # Without a confirmed baseline, even a model-selected comparison profile
+        # is restricted to the current period. Simple queries never gain scope.
+        baseline = data.get('comparison_window') or [data['actual_window'][0]] * 2
+        sql = action_sql(action, data['schema'], data['actual_window'], comparison_start=baseline[0], comparison_end=baseline[1])
         if action.get('kind') in ('cohort_health', 'channel_health', 'system_retention','retained_user_counts') and data['definition']['id'] not in ('retention', 'retained_cost'):
             raise ValueError('business profile requires mature retention definition')
         if action.get('kind')=='crash_user_counts' and data['definition']['id']!='crash':
@@ -518,8 +555,8 @@ class TaskService:
         from metricguard.metric_profiles import is_business_profile, COMPARISON_PROFILES
         evidence_window = data['actual_window']
         if action.get('kind') in COMPARISON_PROFILES:
-            from metricguard.metric_profiles import comparison_window
-            evidence_window = [comparison_window(data.get('requested_window') or data['actual_window'])[0], data['actual_window'][1]]
+            baseline = data.get('comparison_window') or [data['actual_window'][0]] * 2
+            evidence_window = [baseline[0], data['actual_window'][1]]
         limitations = ['business_definition_requires_independent_reference']
         if action.get('kind') in ('playback_events', 'playback_progress'):
             limitations += ['start_play_instances_not_users', 'independent_progress_requires_alignment_and_complete_sources', 'playback_rates_are_descriptive_only', 'independent_complete_without_event_is_raw_gap_not_verified_missing' ]
@@ -530,14 +567,14 @@ class TaskService:
                             else ['current_and_previous_cohorts_exact_windows', 'registration_attribution_separate_from_actual_crash_attribution'])
         elif profile:
             limitations += ['profile_within_window_timestamped_rows_only', 'observed_time_coverage_does_not_prove_completeness']
-        evidence = {'evidence_id': eid, 'tool': action['action'], 'parameters': {**action, 'sql': sql},
+        evidence = {'evidence_id': eid, 'tool': action['action'], 'parameters': {**action, 'sql': sql, 'comparison_window': data.get('comparison_window')},
             'source': sql, 'snapshot_id': data['snapshot_hash'], 'columns': {c['name']: canonical_type(c['type']) for c in columns},
             'actual_db_types': {c['name']: c['type'] for c in columns}, 'rows': rows, 'window': evidence_window,
             'truncated': result['truncated'], 'group': {}, 'sample': {'returned_rows': len(rows)},
             'limitations': limitations, 'business_definition_status': 'requires_independent_reference',
             'contexts': {Reference(eid, i, k).pointer: asdict(FactContext(
                 ('profile:' + action['table'] + ':' + action['kind']) if profile else 'query_result:' + data['definition']['id'],
-                (row['window_start'], row['window_end']) if action.get('kind') in ('cohort_health', 'crash_versions', 'channel_health', 'system_retention') else ((evidence_window[0], data['actual_window'][0]) if row['period']=='previous' else tuple(data['actual_window'])) if action.get('kind') in ('playback_events', 'playback_progress') else tuple(evidence_window),
+                (row['window_start'], row['window_end']) if action.get('kind') in ('cohort_health', 'crash_versions', 'channel_health', 'system_retention') else (tuple(data.get('comparison_window') or [evidence_window[0], data['actual_window'][0]]) if row['period']=='previous' else tuple(data['actual_window'])) if action.get('kind') in ('playback_events', 'playback_progress') else tuple(evidence_window),
                 {key: str(v) for key, v in row.items() if v is not None and type(v) not in (int, float)}, None))
                 for i, row in enumerate(rows) for k, value in row.items() if type(value) in (int, float)}}
         from metricguard.report_assembly import canonicalize
@@ -588,10 +625,8 @@ class TaskService:
         system = system_diagnosis(data['evidence'])
         # "Affected users" is part of the crash metric's name, not an impact
         # analysis request. Keep analysis words elsewhere in the question.
-        intent_question = data['effective_question'].replace('受影响人数', '').replace('受影响比例', '')
-        assessment_requested = any(word in intent_question for word in
-            ('异常', '诊断', '变化', '原因', '解释', '增长质量', '掩盖', '恶化', '资料是否充分', '完整请求窗口',
-             '分析', '为什么', '为何', '下降', '上升', '降低', '提高', '波动', '影响', '有关', '关联', '检验'))
+        from metricguard.comparison_windows import assessment_requested as wants_assessment
+        assessment_requested = wants_assessment(data['effective_question'])
         # Clarification alone does not establish query intent. The known generic
         # metric question can become a query after naming a metric; requests for
         # analysis in either the original question or the answer take precedence.
@@ -619,6 +654,7 @@ class TaskService:
         report['original_window'] = data.get('original_window', data['requested_window'])
         report['time_anchor'] = data.get('time_anchor')
         report['time_resolution'] = data.get('time_resolution')
+        report['comparison_window'] = data.get('comparison_window')
         data['analysis_result'] = conclusion['analysis_result']
         data['report'] = report
         self._save(task, data)
@@ -671,6 +707,9 @@ class TaskService:
             elif pending['reason'] in ('time_window_conflict', 'time_window_required'):
                 from metricguard.time_windows import apply_time_answer
                 apply_time_answer(data, pending, answer)
+            elif pending['reason'] in ('comparison_window_required', 'comparison_window_conflict'):
+                from metricguard.comparison_windows import apply_comparison_answer
+                apply_comparison_answer(data, answer)
             elif data.get('metric_question'):
                 data['metric_question'] += ' ' + answer
             data['effective_question'] += ' ' + answer
@@ -728,6 +767,9 @@ class TaskService:
             data['time_resolved'] = True
             data['time_resolution'] = 'inherited_explicit_window'
             data['original_window'] = previous.get('original_window')
+        if previous.get('comparison_window'):
+            data['comparison_window'] = previous['comparison_window']
+            data['comparison_resolution'] = 'inherited_explicit_window'
         self._save(new, data)
         with self.ledger.connect() as db:
             db.execute('UPDATE tasks SET parent=? WHERE id=?', (task, new))

@@ -17,7 +17,7 @@ def controlled(request):
 
 def run(tmp_path, image, snapshot):
     with TaskService(tmp_path / 'service', image, {'dev': snapshot.database}, token='controlled', transport=httpx.MockTransport(controlled)) as service:
-        task=service.create('完播率', 'dev', ('2026-01-08', '2026-01-15'), mode='diagnose')
+        task=service.create('完播率', 'dev', ('2026-01-08', '2026-01-15'), mode='diagnose',comparison_window=('2026-01-01','2026-01-08'))
         state=service.run(task)
         state['publication']=service.publish_diagnosis(task)
         return state

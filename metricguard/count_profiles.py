@@ -36,13 +36,13 @@ COUNT_PROMPT = '''For standalone queries without anomaly diagnosis, trusted coun
 users, user_id, new_user_counts: current-window total newly registered users.
 users, user_id, retained_user_counts: current-window mature new users, D1 retained users and retention rate by system; trusted report computes pooled totals.
 users, user_id, crash_user_counts: current-window newly registered users and first-day crash-affected users.
-content_events, play_id, play_start_counts: deduplicated starts by actual system/version, with both periods.
+content_events, play_id, play_start_counts: deduplicated starts by actual system/version, within the current window; includes a baseline only when the user supplied/confirmed it.
 channel_daily, spend_cents, channel_spend: current-window spend in cents by channel.
 Return normal profile actions using these (table,column,kind) tuples. Count profiles return all relevant groups;
 cite the requested group in the report, never guess group counts. They do not establish anomaly explanations.
 For iterative diagnosis, stop after a successful standalone count profile only if it answers a simple count/rate query.
 Anomaly assessment, change explanations and evidence-sufficiency questions require BOTH current and previous periods.
 For general retention anomaly or completeness assessment use system_retention; standalone retained_user_counts cannot answer it.
-Comparison profiles preserve the preceding requested-length comparison period even when source completeness shortens the current period.
-A shortened current period cannot establish a conclusion for the entire requested window; disclose insufficiency.
+Comparison profiles use the supplied comparison_window exactly. Without it they only return current-period facts.
+Never infer or substitute a baseline. Incomplete requested periods require user authorization before any narrowing.
 '''

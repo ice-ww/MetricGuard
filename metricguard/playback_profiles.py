@@ -1,5 +1,5 @@
 """Bounded aggregate playback profiles; all SQL uses the unchanged sandbox."""
-from datetime import date
+from datetime import date, timedelta
 
 def comparison_window(window: list[str]) -> list[str]:
     start, end = map(date.fromisoformat, window)
@@ -16,16 +16,19 @@ def event_base() -> str:
       FROM content_events GROUP BY play_id"""
 
 
-def grouping(window: list[str], began: str, previous_start: str | None = None) -> tuple[str, str]:
+def grouping(window: list[str], began: str, previous_start: str | None = None, previous_end: str | None = None) -> tuple[str, str]:
     previous, end = comparison_window(window)
     previous = previous_start or previous
+    previous_end = previous_end or window[0]
+    previous_last = (date.fromisoformat(previous_end) - timedelta(days=1)).isoformat()
+    current_last = (date.fromisoformat(end) - timedelta(days=1)).isoformat()
     day = f"CAST({began} AT TIME ZONE 'Asia/Shanghai' AS DATE)"
     return (f"CASE WHEN {day}<'{window[0]}' THEN 'previous' ELSE 'current' END",
-            f"{day}>='{previous}' AND {day}<'{end}'")
+            f"({day} BETWEEN '{previous}' AND '{previous_last}' OR {day} BETWEEN '{window[0]}' AND '{current_last}')")
 
 
-def playback_events(window: list[str], *, previous_start: str | None = None) -> str:
-    period, where = grouping(window, 'COALESCE(e.began,e.first_event)', previous_start)
+def playback_events(window: list[str], *, previous_start: str | None = None, previous_end: str | None = None) -> str:
+    period, where = grouping(window, 'COALESCE(e.began,e.first_event)', previous_start, previous_end)
     return f"""WITH e AS ({event_base()})
       SELECT {period} AS period,s.os AS actual_os,s.version AS actual_version,
       MAX(e.last_event) AS last_event,
@@ -36,11 +39,11 @@ def playback_events(window: list[str], *, previous_start: str | None = None) -> 
       GROUP BY period,s.os,s.version ORDER BY period,s.os,s.version"""
 
 
-def playback_progress(window: list[str], *, previous_start: str | None = None) -> str:
+def playback_progress(window: list[str], *, previous_start: str | None = None, previous_end: str | None = None) -> str:
     base = """SELECT play_id,MIN(session_id) AS sid,COUNT(DISTINCT session_id) AS sessions,
       MIN(CASE WHEN event_type='start' THEN occurred_at END) AS began,
       MAX(CASE WHEN event_type='complete' THEN 1 ELSE 0 END) AS completed FROM content_events GROUP BY play_id"""
-    period, where = grouping(window, 'COALESCE(e.began,t.observed)', previous_start)
+    period, where = grouping(window, 'COALESCE(e.began,t.observed)', previous_start, previous_end)
     return f"""WITH e AS ({base}),
       t AS (SELECT play_id,MIN(session_id) AS sid,COUNT(DISTINCT session_id) AS sessions,
         MIN(observed_at) AS observed, MAX(observed_at) AS last_observed, MAX(watched_seconds) AS watched,

@@ -1,5 +1,6 @@
 """Descriptive channel contribution; no fraud or causal inference."""
 from typing import Any
+from datetime import date
 from metricguard.metric_profiles import is_business_profile
 
 
@@ -17,6 +18,11 @@ def channel_diagnosis(evidence: list[dict[str, Any]]) -> dict[str, Any] | None:
         report['missing_evidence'] = ['complete_channel_profile']
         return report
     rows = evidence_row['rows']
+    durations = {r['period']: (date.fromisoformat(r['window_end']) - date.fromisoformat(r['window_start'])).days for r in rows}
+    if len(set(durations.values())) > 1:
+        report['missing_evidence'] = ['equal_duration_windows_required_for_count_growth']
+        report['unexcluded_factors'].append('两期天数不同；保留各期事实，不用总人数差判断渠道增长或增长贡献。')
+        return report
     report['missing_evidence'] += ['channel_spend:' + r['channel'] for r in rows if r['users'] and r['spend_cents'] is None]
     totals = {period: sum(r['users'] for r in rows if r['period'] == period) for period in ('previous', 'current')}
     net = totals['current'] - totals['previous']

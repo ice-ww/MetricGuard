@@ -41,7 +41,7 @@ def test_shared_real_preflight_and_two_call_baseline_match_independent_reference
     calls=[]
     with TaskService(tmp_path/'service',image,{'dev':snapshot.database},token='controlled',
                      transport=httpx.MockTransport(provider_with_plan([SYSTEM_PROFILE],calls))) as service:
-        prepared=service.prepare_shared('新增用户自然日次日留存的系统结构变化','dev',('2026-01-08','2026-01-15'))
+        prepared=service.prepare_shared('新增用户自然日次日留存的系统结构变化','dev',('2026-01-08','2026-01-15'),comparison_window=('2026-01-01','2026-01-08'))
         baseline=service.create_from_shared(prepared,mode='baseline')
         agent=service.create_from_shared(prepared,mode='diagnose')
         result=service.run(baseline)
@@ -72,7 +72,7 @@ def test_query_failure_is_retained_without_repair_and_report_still_called(tmp_pa
     plan=[{'action':'query','sql':'SELECT SUM(user_id) AS users FROM users'},COUNT]
     with TaskService(tmp_path,image,{'dev':baseline_snapshot.database},token='controlled',
                      transport=httpx.MockTransport(provider_with_plan(plan,calls))) as service:
-        pre=service.prepare_shared('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'))
+        pre=service.prepare_shared('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'),comparison_window=('2026-01-01','2026-01-08'))
         task=service.create_from_shared(pre,mode='baseline')
         result=service.run(task); artifact=service.comparison_result(task)
         assert result['model_calls']==2 and artifact['usage']['steps']==2
@@ -90,7 +90,7 @@ def test_failed_real_preflight_retained_for_both_without_model_dispatch(tmp_path
     calls=[]
     with TaskService(tmp_path,'sha256:'+'0'*64,{'dev':baseline_snapshot.database},token='controlled',
                      transport=httpx.MockTransport(provider_with_plan([COUNT],calls))) as service:
-        pre=service.prepare_shared('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'))
+        pre=service.prepare_shared('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'),comparison_window=('2026-01-01','2026-01-08'))
         task=service.create_from_shared(pre,mode=mode)
         service.run(task); artifact=service.comparison_result(task)
         assert artifact['preflight']['status']=='failed'
@@ -104,7 +104,7 @@ def test_same_scheduler_limits_prevent_baseline_extra_dispatch(tmp_path,image,ba
     calls=[]
     with TaskService(tmp_path,image,{'dev':baseline_snapshot.database},token='controlled',limits=limits,
                      transport=httpx.MockTransport(provider_with_plan([COUNT],calls))) as service:
-        pre=service.prepare_shared('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'))
+        pre=service.prepare_shared('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'),comparison_window=('2026-01-01','2026-01-08'))
         task=service.create_from_shared(pre,mode='baseline')
         result=service.run(task); artifact=service.comparison_result(task)
         assert artifact['usage']['steps']==0 and result['outcome']=='budget_exhausted'
@@ -117,7 +117,7 @@ def test_unknown_provider_usage_blocks_report_and_is_not_zero(tmp_path,image,bas
         calls.append(1)
         return response({'queries':[COUNT]},usage=False)
     with TaskService(tmp_path,image,{'dev':baseline_snapshot.database},token='controlled',transport=httpx.MockTransport(provider)) as service:
-        pre=service.prepare_shared('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'))
+        pre=service.prepare_shared('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'),comparison_window=('2026-01-01','2026-01-08'))
         task=service.create_from_shared(pre,mode='baseline')
         result=service.run(task); artifact=service.comparison_result(task)
         assert len(calls)==1 and result['outcome']=='budget_exhausted'
@@ -132,7 +132,7 @@ def test_public_consumption_and_report_protocol_can_be_scored(tmp_path,image,bas
         expected=db.execute('SELECT COUNT(DISTINCT user_id) FROM users').fetchone()[0]
     with TaskService(tmp_path,image,{'dev':baseline_snapshot.database},token='controlled',
                      transport=httpx.MockTransport(provider_with_plan([COUNT],[]))) as service:
-        pre=service.prepare_shared('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'))
+        pre=service.prepare_shared('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'),comparison_window=('2026-01-01','2026-01-08'))
         task=service.create_from_shared(pre,mode='baseline'); service.run(task)
         artifact=service.comparison_result(task)
     usage(artifact['usage'])
@@ -146,7 +146,7 @@ def test_completed_pair_persists_and_cannot_replay_dispatch(tmp_path,image,basel
     calls=[]
     with TaskService(tmp_path,image,{'dev':baseline_snapshot.database},token='controlled',
                      transport=httpx.MockTransport(provider_with_plan([COUNT],calls))) as service:
-        pre=service.prepare_shared('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'))
+        pre=service.prepare_shared('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'),comparison_window=('2026-01-01','2026-01-08'))
         task=service.create_from_shared(pre,mode='baseline'); service.run(task)
         saved=service.comparison_result(task)
     with TaskService(tmp_path,image,{'dev':baseline_snapshot.database},token='controlled',
@@ -165,7 +165,7 @@ def test_batch_cannot_read_files_and_report_cannot_request_more_queries(tmp_path
         if len(calls)==2: return response({'facts':[],'queries':[COUNT]})
         return result
     with TaskService(tmp_path,image,{'dev':baseline_snapshot.database},token='controlled',transport=httpx.MockTransport(provider)) as service:
-        pre=service.prepare_shared('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'))
+        pre=service.prepare_shared('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'),comparison_window=('2026-01-01','2026-01-08'))
         task=service.create_from_shared(pre,mode='baseline'); result=service.run(task)
         assert len(calls)==2 and result['tool_calls']==5 and result['repairs_used']==0
         assert result['baseline_results'][0]['status']=='policy_denied'
@@ -239,7 +239,7 @@ def test_report_fallback_is_exported_as_downgraded_not_complete_success(tmp_path
             return response({'facts':[],'queries':[COUNT]}) if invalid=='shape' else response({'facts':[]},usage=False)
         return result
     with TaskService(tmp_path,image,{'dev':baseline_snapshot.database},token='controlled',transport=httpx.MockTransport(provider)) as service:
-        pre=service.prepare_shared('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'))
+        pre=service.prepare_shared('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'),comparison_window=('2026-01-01','2026-01-08'))
         task=service.create_from_shared(pre,mode='baseline'); result=service.run(task)
         artifact=service.comparison_result(task)
     assert result['report']['facts'] and result['report']['deterministic']

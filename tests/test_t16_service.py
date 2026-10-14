@@ -16,7 +16,7 @@ def run(tmp_path, image, fixture_snapshot, actions, question='新增用户自然
     with TaskService(tmp_path/'service',image,{'dev':fixture_snapshot.database},token='controlled',
                      transport=httpx.MockTransport(lambda request: response(next(sequence))), **kwargs) as service:
         task=service.create(question,
-                            'dev',('2026-01-08','2026-01-15'),mode='diagnose')
+                            'dev',('2026-01-08','2026-01-15'),mode='diagnose',comparison_window=('2026-01-01','2026-01-08'))
         result=service.run(task)
         assert service.report(task)==result['report']
         return result
@@ -83,7 +83,7 @@ def test_visible_material_injection_cannot_expand_access(tmp_path,image,fixture_
         return response({'action':'query','sql':'SELECT * FROM analysis_requests'})
     with TaskService(tmp_path/'service',image,{'dev':fixture_snapshot.database},token='controlled',
                      transport=httpx.MockTransport(provider)) as service:
-        result=service.run(service.create('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'),mode='diagnose'))
+        result=service.run(service.create('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'),mode='diagnose',comparison_window=('2026-01-01','2026-01-08')))
     assert result['analysis_result']=='refused' and len(sends)==2
     assert result['limits']['tool']==12 and result['report']['facts']
     assert result['evidence'][0]['rows'][0]['value']==poison
@@ -142,7 +142,7 @@ def test_unknown_usage_retains_reservation_and_finite_report(tmp_path,image,fixt
         return response(PROFILE if len(sends)==1 else STOP,usage=len(sends)==1)
     with TaskService(tmp_path/'service',image,{'dev':fixture_snapshot.database},token='controlled',
                      transport=httpx.MockTransport(provider)) as service:
-        result=service.run(service.create('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'),mode='diagnose'))
+        result=service.run(service.create('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'),mode='diagnose',comparison_window=('2026-01-01','2026-01-08')))
     assert result['analysis_result']=='budget_exhausted' and result['status']=='ended'
     unknown=[a for a in result['attempts'] if a['kind']=='model' and a['actual'] is None]
     assert len(unknown)==1 and unknown[0]['reserved']>0
@@ -157,6 +157,6 @@ def test_preparation_exhaustion_and_unavailable_window_are_explained(tmp_path,im
     assert not result['evidence'] and result['report']['unresolved_questions']
     with TaskService(tmp_path/'second',image,{'dev':fixture_snapshot.database},token='controlled',
                      transport=httpx.MockTransport(lambda request: pytest.fail('no model needed'))) as service:
-        result=service.run(service.create('新增用户自然日次日留存','dev',('2027-01-01','2027-01-08'),mode='diagnose'))
+        result=service.run(service.create('新增用户自然日次日留存','dev',('2027-01-01','2027-01-08'),mode='diagnose',comparison_window=('2026-01-01','2026-01-08')))
     assert result['analysis_result']=='insufficient_evidence' and result['status']=='ended'
     assert result['report']['unresolved_questions'] and not result['report']['facts']

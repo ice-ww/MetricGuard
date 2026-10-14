@@ -19,7 +19,7 @@ def controlled(request):
 def run(tmp_path, image, snapshot):
     with TaskService(tmp_path / 'service', image, {'dev': snapshot.database}, token='controlled',
                      transport=httpx.MockTransport(controlled)) as service:
-        return service.run(service.create('新增用户自然日次日留存与渠道成本变化', 'dev', ('2026-01-08', '2026-01-15'), mode='diagnose'))
+        return service.run(service.create('新增用户自然日次日留存与渠道成本变化', 'dev', ('2026-01-08', '2026-01-15'), mode='diagnose', comparison_window=('2026-01-01', '2026-01-08')))
 
 
 def test_channel_counts_costs_and_windows_match_independent_reference(tmp_path, image):

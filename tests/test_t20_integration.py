@@ -21,7 +21,8 @@ def test_baseline_compact_selection_resolves_actual_cells(tmp_path, image):
                                        for e in shared['evidence']]})
     with TaskService(tmp_path / 'service', image, {'dev': snapshot.database}, token='controlled',
                      transport=httpx.MockTransport(provider)) as service:
-        prepared = service.prepare_shared('新增用户自然日次日留存', 'dev', ('2026-01-08', '2026-01-15'))
+        prepared = service.prepare_shared('新增用户自然日次日留存', 'dev', ('2026-01-08', '2026-01-15'),
+                                          comparison_window=('2026-01-01', '2026-01-08'))
         task = service.create_from_shared(prepared, mode='baseline')
         state = service.run(task)
         assert len(calls) == 2
@@ -147,18 +148,16 @@ def test_partial_current_window_keeps_requested_comparison_and_discloses_insuffi
     with duckdb.connect(str(snapshot.database)) as db:
         db.execute("UPDATE source_watermarks SET complete_before='2026-01-12T00:00:00+08:00' WHERE source='sessions'")
     with TaskService(tmp_path/'service',image,{'dev':snapshot.database},token='controlled',transport=httpx.MockTransport(controlled())) as service:
-        prepared=service.prepare_shared('请分析完整请求窗口的新增用户自然日次日留存，说明资料是否充分。','dev',('2026-01-08','2026-01-15'))
+        prepared=service.prepare_shared('请分析完整请求窗口的新增用户自然日次日留存，说明资料是否充分。','dev',('2026-01-08','2026-01-15'),comparison_window=('2026-01-01','2026-01-08'))
         task=service.create_from_shared(prepared,mode='diagnose')
         state=service.run(task)
-        rows=state['evidence'][0]['rows']
-        previous=[r for r in rows if r['period']=='previous']
-        assert all(r['window_start']=='2026-01-01' and r['window_end']=='2026-01-08' for r in previous)
-        assert sum(r['users'] for r in previous)==1656
+        assert not state['evidence'] and state['model_calls'] == 0
+        assert state['actual_window'] is None
         assert state['analysis_result']=='insufficient_evidence'
-        assert not state['report']['diagnosis']['candidates']
+        assert 'requested_window_incomplete' in state['limitations']
         artifact=service.comparison_result(task)
         assert 'incomplete_coverage_disclosed' in artifact['report']['behaviors']
-        assert artifact['report']['inferences']
+
 
 
 def test_unknown_cohort_attribution_does_not_invent_zero_crash_groups(tmp_path, image):
@@ -170,7 +169,7 @@ def test_unknown_cohort_attribution_does_not_invent_zero_crash_groups(tmp_path, 
         db.execute("UPDATE sessions SET crashed=FALSE")
     with TaskService(tmp_path/'service',image,{'dev':snapshot.database},token='controlled',
                      transport=controlled(['cohort_health','crash_versions','releases'])) as service:
-        task=service.create('新增用户自然日次日留存下降原因','dev',('2026-01-08','2026-01-15'),mode='diagnose')
+        task=service.create('新增用户自然日次日留存下降原因','dev',('2026-01-08','2026-01-15'),mode='diagnose',comparison_window=('2026-01-01','2026-01-08'))
         state=service.run(task)
         assert state['evidence']
         published=service.publish_diagnosis(task)
@@ -199,7 +198,7 @@ def test_multi_profile_diagnosis_finishes_with_original_token_budget(tmp_path, i
         return httpx.Response(200,json=result)
     with TaskService(tmp_path/'service',image,{'dev':snapshot.database},token='controlled',
                      transport=httpx.MockTransport(provider),limits={'tool':12,'model':10,'tokens':30000,'active_seconds':180}) as service:
-        task=service.create('新增用户自然日次日留存出现变化，请检验可能解释和反对证据。','dev',('2026-01-08','2026-01-15'),mode='diagnose')
+        task=service.create('新增用户自然日次日留存出现变化，请检验可能解释和反对证据。','dev',('2026-01-08','2026-01-15'),mode='diagnose',comparison_window=('2026-01-01','2026-01-08'))
         state=service.run(task)
         assert state['outcome']=='facts_available', state['limitations']
         assert len(calls)==5
@@ -238,15 +237,13 @@ def test_preflight_isolation_failure_preserves_safe_reason_code(tmp_path):
 def test_model_stop_prose_is_not_published_as_verified_limitation(tmp_path,image):
     import duckdb
     snapshot=build_snapshot(tmp_path/'data',scenario='normal',seed=2026035)
-    with duckdb.connect(str(snapshot.database)) as db:
-        db.execute("UPDATE source_watermarks SET complete_before='2026-01-12T00:00:00+08:00' WHERE source='sessions'")
     unverified='本期三天与基期七天是等长窗口，因此新增用户下降。'
     def provider(request):
         shared=json.loads(json.loads(request.content)['system'].split('Shared materials:\n')[1])
         return response({'action':'stop','unsupported_hypotheses':[],'unresolved_questions':[unverified]} if shared['evidence'] else
                         {'action':'profile','table':'users','column':'registration_os','kind':'system_retention'})
     with TaskService(tmp_path/'service',image,{'dev':snapshot.database},token='controlled',transport=httpx.MockTransport(provider)) as service:
-        task=service.create('请分析完整请求窗口的新增用户自然日次日留存，说明资料是否充分。','dev',('2026-01-08','2026-01-15'),mode='diagnose')
+        task=service.create('请分析完整请求窗口的新增用户自然日次日留存，说明资料是否充分。','dev',('2026-01-08','2026-01-11'),mode='diagnose',comparison_window=('2026-01-01','2026-01-08'))
         state=service.run(task)
         publication=service.publish_diagnosis(task)
         assert unverified in state['unresolved_questions']
@@ -264,7 +261,7 @@ def test_query_word_or_clarification_does_not_suppress_requested_diagnosis(tmp_p
     from tests.test_t12_service import controlled
     snapshot=build_snapshot(tmp_path/'data',scenario='A1',seed=1212)
     with TaskService(tmp_path/'service',image,{'dev':snapshot.database},token='controlled',transport=controlled(['releases','cohort_health','crash_versions'])) as service:
-        task=service.create(question,'dev',('2026-01-08','2026-01-15'),mode='diagnose')
+        task=service.create(question,'dev',('2026-01-08','2026-01-15'),mode='diagnose',comparison_window=('2026-01-01','2026-01-08'))
         state=service.run(task)
         if answer:
             pending=state['pending_question']

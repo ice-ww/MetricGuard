@@ -11,7 +11,8 @@ if TYPE_CHECKING:
 
 SHARED_FIELDS=('question','effective_question','snapshot_id','snapshot_hash','requested_window','actual_window',
                'definition','schema','watermarks','retrieval','limitations','outcome','pending_question','answers',
-               'time_anchor','time_resolved','time_resolution','original_window','metric_question')
+               'time_anchor','time_resolved','time_resolution','original_window','metric_question',
+               'comparison_window','comparison_resolution')
 
 
 def measured_usage(attempts: list[dict], seconds: float) -> dict[str, Any]:
@@ -33,8 +34,8 @@ def protocol_usage(usage: dict) -> dict:
     return {key:usage[key] for key in ('seconds','steps','model_calls','tokens','cost')}
 
 
-def prepare_shared(service: 'TaskService', question: str, snapshot_id: str, window) -> str:
-    task=service.create(question,snapshot_id,window)
+def prepare_shared(service: 'TaskService', question: str, snapshot_id: str, window, *, comparison_window=None) -> str:
+    task=service.create(question,snapshot_id,window,comparison_window=comparison_window)
     data=service._data(task); data['preflight_only']=True
     service._save(task,data)
     service.run(task)

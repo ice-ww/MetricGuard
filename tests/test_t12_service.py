@@ -44,7 +44,7 @@ def test_mature_cohort_health_matches_independent_membership_counts(tmp_path, im
         expected.update({(period, *key): value for key, value in groups.items()})
     with TaskService(tmp_path / 'service', image, {'dev': snapshot.database}, token='controlled',
                      transport=controlled(['cohort_health'])) as service:
-        result = service.run(service.create('新增用户自然日次日留存下降原因', 'dev', ('2026-01-08', '2026-01-15'), mode='diagnose'))
+        result = service.run(service.create('新增用户自然日次日留存下降原因', 'dev', ('2026-01-08', '2026-01-15'), mode='diagnose', comparison_window=('2026-01-01', '2026-01-08')))
     assert result['outcome'] == 'facts_available', result['limitations']
     rows = result['evidence'][0]['rows']
     assert {(r['period'], r['registration_os'], r['registration_version']):
@@ -62,7 +62,7 @@ def test_version_association_requires_concordant_evidence_and_retains_controls(t
     snapshot = build_snapshot(tmp_path / 'data', scenario=scenario, seed=1212)
     with TaskService(tmp_path / 'service', image, {'dev': snapshot.database}, token='controlled',
                      transport=controlled(['releases', 'cohort_health', 'crash_versions'])) as service:
-        task = service.create('新增用户自然日次日留存下降原因', 'dev', ('2026-01-08', '2026-01-15'), mode='diagnose')
+        task = service.create('新增用户自然日次日留存下降原因', 'dev', ('2026-01-08', '2026-01-15'), mode='diagnose', comparison_window=('2026-01-01', '2026-01-08'))
         result = service.run(task)
         publication = service.publish_diagnosis(task)
     assert publication['status'] == 'mechanically_valid'
@@ -88,7 +88,7 @@ def test_mismatching_actual_crash_version_is_not_attributed_to_registration_vers
         con.execute("UPDATE sessions SET version='different-runtime' WHERE crashed AND version='2.0'")
     with TaskService(tmp_path / 'service', image, {'dev': snapshot.database}, token='controlled',
                      transport=controlled(['crash_versions', 'cohort_health', 'releases'])) as service:
-        result = service.run(service.create('新增用户自然日次日留存下降原因', 'dev', ('2026-01-08', '2026-01-15'), mode='diagnose'))
+        result = service.run(service.create('新增用户自然日次日留存下降原因', 'dev', ('2026-01-08', '2026-01-15'), mode='diagnose', comparison_window=('2026-01-01', '2026-01-08')))
     assert result['report']['diagnosis']['status'] == 'insufficient_evidence'
     assert 'actual_crash_registration_mismatch' in result['report']['diagnosis']['missing_evidence']
     assert not result['report']['diagnosis']['candidates']
@@ -100,7 +100,7 @@ def test_partial_profiles_publish_facts_without_claiming_explanation(tmp_path, i
     snapshot = build_snapshot(tmp_path / 'data', scenario='A1', seed=1212)
     with TaskService(tmp_path / 'service', image, {'dev': snapshot.database}, token='controlled',
                      transport=controlled(['cohort_health'])) as service:
-        result = service.run(service.create('新增用户自然日次日留存下降原因', 'dev', ('2026-01-08', '2026-01-15'), mode='diagnose'))
+        result = service.run(service.create('新增用户自然日次日留存下降原因', 'dev', ('2026-01-08', '2026-01-15'), mode='diagnose', comparison_window=('2026-01-01', '2026-01-08')))
     assert result['report']['validation']['passed']
     assert result['report']['diagnosis']['status'] == 'insufficient_evidence'
     assert result['report']['diagnosis']['missing_evidence'] == ['crash_versions', 'releases']
@@ -118,7 +118,7 @@ def test_missing_required_controls_or_release_remains_unassessed(tmp_path, image
         con.execute(mutations[missing])
     with TaskService(tmp_path / 'service', image, {'dev': snapshot.database}, token='controlled',
                      transport=controlled(['cohort_health', 'releases', 'crash_versions'])) as service:
-        result = service.run(service.create('新增用户自然日次日留存下降原因', 'dev', ('2026-01-08', '2026-01-15'), mode='diagnose'))
+        result = service.run(service.create('新增用户自然日次日留存下降原因', 'dev', ('2026-01-08', '2026-01-15'), mode='diagnose', comparison_window=('2026-01-01', '2026-01-08')))
     assert result['report']['diagnosis']['status'] == 'insufficient_evidence'
     if missing == 'no_same_system_controls':
         assert {'previous_same_system', 'current_other_version'} <= set(result['report']['diagnosis']['missing_evidence'])

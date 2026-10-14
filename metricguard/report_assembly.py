@@ -18,8 +18,9 @@ def canonicalize(evidence: dict, window: list[str]) -> dict:
     contexts={}
     for i,row in enumerate(evidence['rows']):
         period=row.get('period','current')
-        interval=[row.get('window_start',evidence['window'][0] if period=='previous' else window[0]),
-                  row.get('window_end',window[0] if period=='previous' else window[1])]
+        baseline = evidence['parameters'].get('comparison_window') or [evidence['window'][0], window[0]]
+        interval=[row.get('window_start',baseline[0] if period=='previous' else window[0]),
+                  row.get('window_end',baseline[1] if period=='previous' else window[1])]
         group={}
         if kind in ('cohort_health','system_retention','retained_user_counts'):
             group={k:row[v] for k,v in [('os','registration_os'),('version','registration_version')] if v in row}

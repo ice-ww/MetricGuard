@@ -24,6 +24,8 @@ def interact(service: TaskService, state: dict[str, Any]) -> None:
         print('请求日期：' + display(state['requested_window']))
     if state.get('actual_window'):
         print('实际分析日期：' + display(state['actual_window']))
+    if state.get('comparison_window'):
+        print('比较基期：' + display(state['comparison_window']))
     if state.get('time_resolution') == 'inherited_explicit_window':
         print('本次重跑沿用原任务已明确的日期。')
     if state.get('time_anchor'):

@@ -82,7 +82,7 @@ def metric_text(text: str) -> str:
 def resolve(data: dict[str, Any]) -> dict[str, Any] | None:
     if data.get('time_resolved'):
         return None
-    window, kind = parse_time(data['question'], data.get('time_anchor'))
+    window, kind = parse_time(data.get('analysis_question', data['question']), data.get('time_anchor'))
     if kind == 'ambiguous':
         return {'reason': 'time_window_required', 'prompt': '请提供明确的分析日期，例如 2026-06-08 至 2026-06-14（包含首尾日期）。', 'options': []}
     preset = data.get('requested_window')
