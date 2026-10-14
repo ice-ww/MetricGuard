@@ -1,0 +1,24 @@
+{
+  "source": "C:\\Users\\64341\\AppData\\Local\\Temp\\pytest-of-64341\\pytest-245\\test_query_failure_is_retained0\\ledger.sqlite",
+  "failures": [
+    {
+      "task_id": "f052f9e52dbf4dadb36ab676f347c8c2",
+      "operation": "watermarks",
+      "result": {
+        "error_code": "docker_timeout",
+        "error_type": "SandboxUnavailable",
+        "status": "failed"
+      }
+    },
+    {
+      "task_id": "31da6e3e61984c0098c9b0608b540923",
+      "operation": "shared:watermarks",
+      "result": {
+        "error_code": "docker_timeout",
+        "error_type": "SandboxUnavailable",
+        "status": "failed"
+      }
+    }
+  ],
+  "interpretation": "Docker subprocess timeout; exact control command not retained; no claim of underlying cause repair"
+}

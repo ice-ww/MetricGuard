@@ -21,3 +21,20 @@
 - 原冻结失败定向回归：三个 A1 实例全部 30/30 参考匹配且无停止；澄清、恢复 Agent 完整通过。仅定位/回归，不作未见验收或三轮正式结果。原始记录见 t20-repair-regression.json.gz。
 - 子代理发现两项追加问题：存在查询或澄清时，“为什么下降/分析…是否有关”可能被错误降为纯查询；模型未核验的未决问题可能包含错误“等长窗口”陈述并流入推断。两者均通过公开任务服务复现失败，修复不改黄金答案或评分。
 - 原始模型未决问题继续保存在任务状态和报告中供审计，但不再作为发布推断的已核验附带因素。推断仅使用程序产生的限制与诊断因素；用户查询带明确分析意图时仍给出有界诊断。
+
+
+## 追加验证与版本锁定
+
+补修追加三项反例先失败，修复后四项公开服务测试通过（36.76 秒），mypy 85 源文件通过。Standards 与 Spec 对 633c8f5...726a107 复审均无剩余阻塞。锁定代码 726a107，预算仍为工具12、模型10、Token30000、活动时间180秒。完整安全验证必须在此版本重新通过。
+
+独立评测子代理按预先保存的计划生成新24例；与既有206份 metadata 检查种子、ID、日期、版本、渠道无重合。24/24 独立 SQL/Python 一致，生成失败0，产品调用0，不按产品成功率筛选。新 family metricguard-p0-independent-20261014-b；版本 p0-independent-t20-b-v1；冻结哈希953c2e62ccaf8c8c6ec77689794fe5364f9f7da2545d1855bd26610dc41ce93f；配置哈希4e29776e45d6af85ef1acee767bd481229e66dffbb577276d56057fa2e5ed815。
+
+生成记录见 [新实例计划](t20-independent-b/instance-plan.json.gz) 与 [参考核查记录](t20-independent-b/generation.json.gz)。
+
+
+## 首轮完整安全验证
+
+726a107 完整套件：418 passed、2 failed，2682.73秒。日志、JUnit、配置回执见 t20-repair-safety-first-*；未计为最终安全通过。
+
+1. test_next_plan_receives_actual_action_and_result_history：消息投影过滤固定 next 提示，但持久化历史仍含该提示，违反历史一致性。保留原测试；改为在新成功记录生成时不添加固定 next 提示，并完整序列化实际历史。原有已保存历史不修改。
+2. test_query_failure_is_retained_without_repair_and_report_still_called：共享预检 watermarks 失败，持久化新分类为 docker_timeout，双方模型调用为0。没有证据证明产品查询/报告逻辑失败；也不能把基础设施失败剔除。原始分类见 t20-repair-preflight-timeout.json。具体 Docker 控制命令尚未保存，未声称修复其底层根因。

@@ -385,7 +385,7 @@ class TaskService:
             messages = [{'role': 'user', 'content': data['effective_question']}]
             for turn in data['diagnostic_history']:
                 messages.append({'role': 'assistant', 'content': json.dumps(turn['action'], ensure_ascii=False, separators=(',', ':'))})
-                messages.append({'role': 'user', 'content': json.dumps({k:v for k,v in turn['result'].items() if k != 'next'}, ensure_ascii=False, separators=(',', ':'))})
+                messages.append({'role': 'user', 'content': json.dumps(turn['result'], ensure_ascii=False, separators=(',', ':'))})
             action = self._model(task, ('repair:' if failure else 'diagnose:') + str(step), ACTION_PROMPT,
                 {'definition': data['definition'], 'schema': data['schema'], 'window': data['actual_window'],
                  'evidence': self._model_evidence(data), 'last_failure': failure, 'repairs_used': data['repairs_used'],
@@ -448,7 +448,7 @@ class TaskService:
                 self._save(task, data)
                 raise ValueError('invalid_query_evidence') from None
             data['diagnostic_history'].append({'action': action, 'result': {'status': 'ok', 'evidence_id': evidence['evidence_id'],
-                'cleanup_verified': result.get('cleanup_verified'), 'next': 'Choose the next action using the actual evidence in shared materials.'}})
+                'cleanup_verified': result.get('cleanup_verified')}})
             self._save(task, data)
             if self.fault_hook:
                 self.fault_hook('before_checkpoint')
