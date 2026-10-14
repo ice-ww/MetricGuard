@@ -1,5 +1,7 @@
 # T10 澄清、中断与重跑契约
 
+后续变更：Issue #23 / F1 将下述历史“两轮”策略替换为每个未解决原因两次回答、全任务最多十二次回答；不同信息缺口可连续澄清。当前规则与终端说明见 [F1 交互契约](f1-interaction.md)。预算和重复提交防护不变。
+
 `metricguard.TaskService` 在 T09 公开入口上增加 `answer(task, question_id, version, answer)` 和 `rerun(task)`，CLI 增加同名命令。其余入口与已发布 T09 请求格式保持兼容。
 
 ## 澄清与累计记录

@@ -16,6 +16,12 @@ def main() -> None:
     create = sub.add_parser('create')
     create.add_argument('question'); create.add_argument('snapshot_id')
     create.add_argument('--window', nargs=2)
+    create.add_argument('--mode', choices=['query', 'diagnose'], default='query')
+    chat = sub.add_parser('chat', help='交互式创建、运行并回答澄清')
+    chat.add_argument('question'); chat.add_argument('snapshot_id')
+    chat.add_argument('--window', nargs=2)
+    chat.add_argument('--mode', choices=['query', 'diagnose'], default='query')
+    sub.add_parser('resume', help='继续已保存的待回答任务').add_argument('task')
     answer = sub.add_parser('answer')
     answer.add_argument('task'); answer.add_argument('question_id'); answer.add_argument('version', type=int); answer.add_argument('answer')
     for name in ('run', 'inspect', 'report', 'trace', 'rerun'):
@@ -27,8 +33,17 @@ def main() -> None:
         snapshots[key] = Path(path)
     with TaskService(args.state_dir, args.image, snapshots,
                      token=os.environ.get('ANTHROPIC_AUTH_TOKEN', ''), base_url=args.base_url) as service:
+        if args.command in ('chat', 'resume'):
+            from .console import interact
+            if args.command == 'chat':
+                task = service.create(args.question, args.snapshot_id, tuple(args.window) if args.window else None, mode=args.mode)
+                state = service.run(task)
+            else:
+                state = service.inspect(args.task)
+            interact(service, state)
+            return
         if args.command == 'create':
-            result = {'task_id': service.create(args.question, args.snapshot_id, tuple(args.window) if args.window else None)}
+            result = {'task_id': service.create(args.question, args.snapshot_id, tuple(args.window) if args.window else None, mode=args.mode)}
         elif args.command == 'answer':
             result = service.answer(args.task, args.question_id, args.version, args.answer)
         else:

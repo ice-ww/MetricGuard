@@ -17,6 +17,7 @@ from experiments.t05.service import TaskService as RecoveryOwner
 from experiments.t06.retrieval import retrieve
 from experiments.t07 import ModelAdapter, Request
 from experiments.t08.contract import EvidenceStore, EvidenceResult, FactContext, Assertion, Reference
+from metricguard.clarification import clarification_prompt
 
 class State(TypedDict, total=False):
     task: str
@@ -240,14 +241,11 @@ class TaskService:
         tentative = tuple(data['requested_window']) if data['requested_window'] else ('2000-01-01', '2000-01-02')
         round_index = len(data['answers'])
         retrieval_id = 'retrieval' if round_index == 0 else 'retrieval:' + str(round_index)
-        found = self._tool(task, retrieval_id, lambda: retrieve(data['effective_question'], tentative))
+        found = self._tool(task, retrieval_id, lambda: retrieve(data.get('metric_question', data['effective_question']), tentative))
         data['retrieval'] = found
         if found['status'] != 'adopt':
-            if found['status'] == 'clarify' and round_index < 2:
-                current = self.ledger.inspect(task)
-                data['pending_question'] = {'question_id': task + ':question:' + str(round_index + 1),
-                    'version': current['version'] + 1, 'reason': found['reason'],
-                    'prompt': clarification_prompt(found['reason'])}
+            if found['status'] == 'clarify':
+                self._clarify(task, data, found['reason'])
             else:
                 data['outcome'] = 'unsupported' if found['status'] == 'unsupported' else 'insufficient_evidence'
                 data['limitations'].append(found['reason'] if found['status'] == 'unsupported' else 'clarification_limit')
@@ -280,6 +278,29 @@ class TaskService:
         self._save(task, data)
         self._event(task, 'definition_adopted', {'definition': data['definition'], 'actual_window': data['actual_window']})
         return {}
+
+    def _clarify(self, task: str, data: dict[str, Any], reason: str, *,
+                 prompt: str | None = None, options: list[str] | None = None) -> None:
+        from metricguard.clarification import presentation
+        answers = data['answers']
+        # A new information gap may progress after two successful earlier answers.
+        # Repeating the same unresolved gap twice stops; the overall guard is finite.
+        if sum(a.get('reason') == reason for a in answers) >= 2 or len(answers) >= 12:
+            data['outcome'] = 'insufficient_evidence'
+            data['limitations'].append('clarification_limit')
+            data['unresolved_questions'].append('多次回答仍未明确：' + (prompt or clarification_prompt(reason)))
+            data['pending_question'] = None
+            return
+        current = self.ledger.inspect(task)
+        data['pending_question'] = {
+            'question_id': task + ':question:' + str(len(answers) + 1),
+            'version': current['version'] + 1, 'reason': reason,
+            **presentation(data, reason),
+        }
+        if prompt is not None:
+            data['pending_question']['prompt'] = prompt
+        if options is not None:
+            data['pending_question']['options'] = options
 
     def _model(self, task: str, name: str, system: str, shared: Any, *, final: bool = False, messages: list[dict[str, Any]] | None = None) -> dict[str, Any]:
         request = Request(system, json.dumps(shared, ensure_ascii=False, separators=(',', ':')),
@@ -617,8 +638,18 @@ class TaskService:
     def _apply_answer(self, state: State) -> dict[str, Any]:
         task = state['task']; data = self._data(task)
         if not any(a['question_id'] == state['answered_question'] for a in data['answers']):
-            data['answers'].append({'question_id': state['answered_question'], 'answer': state['clarification_answer']})
-            data['effective_question'] += ' ' + state['clarification_answer']
+            pending = data['pending_question']
+            answer = state['clarification_answer'].strip()
+            options = pending.get('options', [])
+            if answer.isdecimal() and 1 <= int(answer) <= len(options):
+                answer = options[int(answer) - 1]
+            data['answers'].append({'question_id': state['answered_question'], 'answer': answer,
+                                    'reason': pending['reason']})
+            if pending['reason'] in ('metric_required', 'candidate_ambiguity'):
+                data['metric_question'] = answer
+            elif 'metric_question' in data:
+                data['metric_question'] += ' ' + answer
+            data['effective_question'] += ' ' + answer
         data['pending_question'] = None
         self._save(task, data)
         return {}
@@ -667,6 +698,8 @@ class TaskService:
         data = self._data(new)
         data['effective_question'] = previous['effective_question']
         data['inherited_answers'] = previous['answers']
+        if 'metric_question' in previous:
+            data['metric_question'] = previous['metric_question']
         self._save(new, data)
         with self.ledger.connect() as db:
             db.execute('UPDATE tasks SET parent=? WHERE id=?', (task, new))
@@ -723,11 +756,3 @@ def canonical_type(db_type: str) -> str:
         return 'boolean'
     # Worker serializes DATE/TIMESTAMP and DECIMAL as strings, preserving precision.
     return 'string'
-
-
-def clarification_prompt(reason: str) -> str:
-    return {
-        'retention_population_required': '请明确留存人群，例如新增注册用户。',
-        'retention_horizon_required': '请明确留存周期，例如自然日次日。',
-        'candidate_ambiguity': '请明确要查询的指标名称。',
-    }.get(reason, '请补充明确的指标定义或时间窗口。')
