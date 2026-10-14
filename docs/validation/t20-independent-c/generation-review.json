@@ -1,0 +1,49 @@
+{
+  "reviewer": "t20_standards",
+  "review_scope": "Pre-run generation protocol only; not formal product acceptance",
+  "time_utc": "2026-10-14T02:09:13.932731+00:00",
+  "family": "metricguard-p0-independent-20261014-c",
+  "version": "p0-independent-t20-c-v1",
+  "code_ref": "53b52c09dde17c7ba4d23961c384066f03d7fe31",
+  "configuration_hash": "b66f37a765914033e374902888f28dd6b2060378637afdf97c712313369b6886",
+  "plan_sha256": "34a5774935e022373d096baec0b59acf7f2613fcba8b07890e40b9c637536ca0",
+  "generator_sha256": "48feef2233215f48548f6294246fc81d243dca82110736f3eeb34404ea0c4479",
+  "checks": {
+    "plan_hash": true,
+    "script_hash": true,
+    "recipe_hash": true,
+    "actual_recipes_exact_plan": true,
+    "same_B_strength_assignment_and_categories": true,
+    "same_distribution": true,
+    "code_ref": true,
+    "configuration_hash": true,
+    "same_rule_sources": true,
+    "all24_generated_without_failures": true,
+    "all24_reference_agreement_recorded": true,
+    "no_product_or_diagnosis_calls": true,
+    "public_snapshots_match_recorded_hashes": true,
+    "public_logical_ids_unique": true,
+    "no_prior_identity_overlap": true,
+    "no_C_product_runs_in_registry": true,
+    "registry_freeze_binding": true,
+    "generator_static_no_product_execution": true,
+    "presaved_files_precede_generation_output": true
+  },
+  "prior_generation_metadata_files_checked": 224,
+  "identity_overlap": {
+    "base_start": [],
+    "new_version": [],
+    "seed": [],
+    "id": [],
+    "campaign_channel": []
+  },
+  "findings": [],
+  "selection_review": "Saved generator iterates all prespecified 24 recipes, checks independent SQL/Python through unchanged build_case, aborts and retains any generation failure, and freezes only the complete set. It imports no product adapter and makes no product calls; no success-based selection is present.",
+  "limits": [
+    "File timestamps and recorded hashes support provenance; they are local evidence, not a trusted external timestamp service.",
+    "Public task templates/generator mechanism are reused, not unseen; only data instances are new.",
+    "SQL/Python agreement reviewed from unchanged constructor and all 24 generation receipts; not re-executed here.",
+    "No Docker or product execution; no source/test/config/case mutation or repair access."
+  ],
+  "decision": "eligible for locked product run after final safety passes"
+}

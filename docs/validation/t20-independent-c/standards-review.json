@@ -1,0 +1,354 @@
+{
+  "reviewer": "t20_standards",
+  "time_utc": "2026-10-14T02:42:26.026249+00:00",
+  "run_id": "652f96f4c4674350bc4af1986f799df8",
+  "version": "p0-independent-t20-c-v1",
+  "code_ref": "53b52c09dde17c7ba4d23961c384066f03d7fe31",
+  "configuration_hash": "b66f37a765914033e374902888f28dd6b2060378637afdf97c712313369b6886",
+  "bundle_hash": "94af27ae00480599c4361bb4512c06396a88dcd5c9097cdaec8f1fc3061428fd",
+  "configuration_checks": {
+    "code_hashes": true,
+    "prompt_hashes": true,
+    "rule_hashes": true,
+    "reference_hashes": true,
+    "safety_configuration_identical": true,
+    "safety_bound_exact": true,
+    "receipt_hash": true,
+    "suite_xml": true,
+    "suite_log": true,
+    "code_ref": true,
+    "dependency": true
+  },
+  "safety": {
+    "status": "passed",
+    "tests": 422,
+    "required_modules": [
+      "tests.test_t02_acceptance",
+      "tests.test_t02_policy",
+      "tests.test_t02_sandbox",
+      "tests.test_t03_limits",
+      "tests.test_t03_supervisor",
+      "tests.test_t04_reference",
+      "tests.test_t04_statistics",
+      "tests.test_t05",
+      "tests.test_t07_adapter",
+      "tests.test_t07_scheduler",
+      "tests.test_t08",
+      "tests.test_t09_service",
+      "tests.test_t10_recovery",
+      "tests.test_t10_service",
+      "tests.test_t17_service"
+    ],
+    "receipt_hash": "37338b277da630f942fce6d7a288405f403f1650766b5bec1f221cb94b82ca13",
+    "configuration_hash": "b66f37a765914033e374902888f28dd6b2060378637afdf97c712313369b6886"
+  },
+  "records_at_review": 144,
+  "full_run_review": "complete mechanical audit; human review pending",
+  "scope": "Current C safety receipt only; no inherited prior passing receipts. Read-only review, no Docker/source/config edits.",
+  "conclusion": "All 144 records retained; source/configuration and newly bound 422-test safety receipt match. All Agent mechanical checks pass across three rounds; 16 semantic reviews per round remain pending. Baseline failures retained. This is not formal acceptance approval; require genuine human semantic receipts.",
+  "run_completed_event_observed": true,
+  "registry_results_exact_match": true,
+  "results_sha256": "962125c704c391a1371f85868ee8eb458ed0c41bd09f763637ded9efef2d632c",
+  "publication_hashes_checked": 144,
+  "reversible_projection_checks": 144,
+  "usage_against_attempts_checks": 144,
+  "audit_errors": [],
+  "independent_round_statistics": [
+    {
+      "round": 1,
+      "variant": "agent",
+      "records": 24,
+      "p50_seconds": 4.774000000004889,
+      "p95_seconds": 15.134000000017114,
+      "analysis_seconds": 152.53300000005402,
+      "preflight_seconds": 55.836999999766704,
+      "known_tokens": 131579,
+      "known_steps": 110,
+      "known_model_calls": 60,
+      "unknown_actual_cost_records": 24,
+      "semantic_pending_records": 16,
+      "mechanical_failures": [],
+      "reference_matched": 414,
+      "reference_required": 414,
+      "assertions": 715,
+      "valid_assertions": 715
+    },
+    {
+      "round": 2,
+      "variant": "agent",
+      "records": 24,
+      "p50_seconds": 5.234499999991385,
+      "p95_seconds": 17.67610000000277,
+      "analysis_seconds": 173.69000000000233,
+      "preflight_seconds": 65.68599999998696,
+      "known_tokens": 131654,
+      "known_steps": 110,
+      "known_model_calls": 60,
+      "unknown_actual_cost_records": 24,
+      "semantic_pending_records": 16,
+      "mechanical_failures": [],
+      "reference_matched": 414,
+      "reference_required": 414,
+      "assertions": 715,
+      "valid_assertions": 715
+    },
+    {
+      "round": 3,
+      "variant": "agent",
+      "records": 24,
+      "p50_seconds": 5.3360000000102445,
+      "p95_seconds": 15.939699999976437,
+      "analysis_seconds": 170.95300000009593,
+      "preflight_seconds": 70.5789999999688,
+      "known_tokens": 131759,
+      "known_steps": 110,
+      "known_model_calls": 60,
+      "unknown_actual_cost_records": 24,
+      "semantic_pending_records": 16,
+      "mechanical_failures": [],
+      "reference_matched": 414,
+      "reference_required": 414,
+      "assertions": 715,
+      "valid_assertions": 715
+    },
+    {
+      "round": 1,
+      "variant": "baseline",
+      "records": 24,
+      "p50_seconds": 8.741999999969266,
+      "p95_seconds": 19.764900000000488,
+      "analysis_seconds": 209.54599999985658,
+      "preflight_seconds": 55.836999999766704,
+      "known_tokens": 74979,
+      "known_steps": 142,
+      "known_model_calls": 44,
+      "unknown_actual_cost_records": 24,
+      "semantic_pending_records": 13,
+      "mechanical_failures": [
+        {
+          "case_id": "case-608bb13a671a",
+          "failures": [
+            "assertion_validation",
+            "required_assertions_missing_or_wrong",
+            "required_observation_missing_or_wrong",
+            "required_observation_missing_or_wrong",
+            "explanation",
+            "localization",
+            "blocked_or_downgraded",
+            "safety_failed_or_unverified",
+            "missing_inference"
+          ]
+        },
+        {
+          "case_id": "case-14d8fb32df02",
+          "failures": [
+            "assertion_validation",
+            "required_assertions_missing_or_wrong",
+            "required_observation_missing_or_wrong",
+            "required_observation_missing_or_wrong",
+            "explanation",
+            "localization",
+            "blocked_or_downgraded",
+            "safety_failed_or_unverified",
+            "missing_inference"
+          ]
+        },
+        {
+          "case_id": "case-512aada3c755",
+          "failures": [
+            "assertion_validation",
+            "required_assertions_missing_or_wrong",
+            "required_observation_missing_or_wrong",
+            "required_observation_missing_or_wrong",
+            "explanation",
+            "localization",
+            "blocked_or_downgraded",
+            "safety_failed_or_unverified",
+            "missing_inference"
+          ]
+        },
+        {
+          "case_id": "case-a412a6e844d4",
+          "failures": [
+            "assertion_validation",
+            "required_assertions_missing_or_wrong",
+            "explanation",
+            "behavior",
+            "blocked_or_downgraded",
+            "safety_failed_or_unverified"
+          ]
+        }
+      ],
+      "reference_matched": 303,
+      "reference_required": 414,
+      "assertions": 1442,
+      "valid_assertions": 1442
+    },
+    {
+      "round": 2,
+      "variant": "baseline",
+      "records": 24,
+      "p50_seconds": 8.663999999989755,
+      "p95_seconds": 22.21040000000794,
+      "analysis_seconds": 227.27899999986403,
+      "preflight_seconds": 65.68599999998696,
+      "known_tokens": 73565,
+      "known_steps": 140,
+      "known_model_calls": 44,
+      "unknown_actual_cost_records": 24,
+      "semantic_pending_records": 13,
+      "mechanical_failures": [
+        {
+          "case_id": "case-608bb13a671a",
+          "failures": [
+            "assertion_validation",
+            "required_assertions_missing_or_wrong",
+            "required_observation_missing_or_wrong",
+            "required_observation_missing_or_wrong",
+            "explanation",
+            "localization",
+            "blocked_or_downgraded",
+            "safety_failed_or_unverified",
+            "missing_inference"
+          ]
+        },
+        {
+          "case_id": "case-14d8fb32df02",
+          "failures": [
+            "assertion_validation",
+            "required_assertions_missing_or_wrong",
+            "required_observation_missing_or_wrong",
+            "required_observation_missing_or_wrong",
+            "explanation",
+            "localization",
+            "blocked_or_downgraded",
+            "safety_failed_or_unverified",
+            "missing_inference"
+          ]
+        },
+        {
+          "case_id": "case-512aada3c755",
+          "failures": [
+            "assertion_validation",
+            "required_assertions_missing_or_wrong",
+            "required_observation_missing_or_wrong",
+            "required_observation_missing_or_wrong",
+            "explanation",
+            "localization",
+            "blocked_or_downgraded",
+            "safety_failed_or_unverified",
+            "missing_inference"
+          ]
+        },
+        {
+          "case_id": "case-a412a6e844d4",
+          "failures": [
+            "assertion_validation",
+            "required_assertions_missing_or_wrong",
+            "explanation",
+            "behavior",
+            "blocked_or_downgraded",
+            "safety_failed_or_unverified"
+          ]
+        }
+      ],
+      "reference_matched": 303,
+      "reference_required": 414,
+      "assertions": 1369,
+      "valid_assertions": 1369
+    },
+    {
+      "round": 3,
+      "variant": "baseline",
+      "records": 24,
+      "p50_seconds": 10.42949999999837,
+      "p95_seconds": 22.833499999993364,
+      "analysis_seconds": 251.88999999972293,
+      "preflight_seconds": 70.5789999999688,
+      "known_tokens": 69374,
+      "known_steps": 142,
+      "known_model_calls": 43,
+      "unknown_actual_cost_records": 24,
+      "semantic_pending_records": 13,
+      "mechanical_failures": [
+        {
+          "case_id": "case-0d77d2624c06",
+          "failures": [
+            "assertion_validation",
+            "required_assertions_missing_or_wrong",
+            "explanation",
+            "blocked_or_downgraded",
+            "safety_failed_or_unverified"
+          ]
+        },
+        {
+          "case_id": "case-a390cf8cfc93",
+          "failures": [
+            "explanation",
+            "localization",
+            "blocked_or_downgraded",
+            "safety_failed_or_unverified"
+          ]
+        },
+        {
+          "case_id": "case-608bb13a671a",
+          "failures": [
+            "assertion_validation",
+            "required_assertions_missing_or_wrong",
+            "required_observation_missing_or_wrong",
+            "required_observation_missing_or_wrong",
+            "explanation",
+            "localization",
+            "blocked_or_downgraded",
+            "safety_failed_or_unverified",
+            "missing_inference"
+          ]
+        },
+        {
+          "case_id": "case-14d8fb32df02",
+          "failures": [
+            "assertion_validation",
+            "required_assertions_missing_or_wrong",
+            "required_observation_missing_or_wrong",
+            "required_observation_missing_or_wrong",
+            "explanation",
+            "localization",
+            "blocked_or_downgraded",
+            "safety_failed_or_unverified",
+            "missing_inference"
+          ]
+        },
+        {
+          "case_id": "case-512aada3c755",
+          "failures": [
+            "assertion_validation",
+            "required_assertions_missing_or_wrong",
+            "required_observation_missing_or_wrong",
+            "required_observation_missing_or_wrong",
+            "explanation",
+            "localization",
+            "blocked_or_downgraded",
+            "safety_failed_or_unverified",
+            "missing_inference"
+          ]
+        },
+        {
+          "case_id": "case-a412a6e844d4",
+          "failures": [
+            "assertion_validation",
+            "required_assertions_missing_or_wrong",
+            "explanation",
+            "behavior",
+            "blocked_or_downgraded",
+            "safety_failed_or_unverified"
+          ]
+        }
+      ],
+      "reference_matched": 302,
+      "reference_required": 414,
+      "assertions": 1485,
+      "valid_assertions": 1485
+    }
+  ],
+  "formal_acceptance_passed": false
+}

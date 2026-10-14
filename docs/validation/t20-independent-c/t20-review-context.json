@@ -1,0 +1,218 @@
+{
+  "case-8eb4ac83648a": {
+    "id": "case-8eb4ac83648a",
+    "question": "请查询新增用户数并给出可追踪证据。",
+    "window": [
+      "2032-02-16",
+      "2032-02-23"
+    ],
+    "snapshot_id": "bd166ba7a01be5f7024096621ea5e358fb6469ad62000a8745ec0e1ae60b3578"
+  },
+  "case-baf1f23aa276": {
+    "id": "case-baf1f23aa276",
+    "question": "请查询新增用户自然日次日留存人数并给出可追踪证据。",
+    "window": [
+      "2032-03-16",
+      "2032-03-23"
+    ],
+    "snapshot_id": "70e0f74a5e04b82f37fe41303ea910584a4618a5ff6429da14e0a7428988cbef"
+  },
+  "case-7ac76bb7bfe1": {
+    "id": "case-7ac76bb7bfe1",
+    "question": "请查询新增用户自然日次日留存率并给出可追踪证据。",
+    "window": [
+      "2032-04-14",
+      "2032-04-21"
+    ],
+    "snapshot_id": "042d6fdd7a31b0eb081888cb6646089af8bcb927db0e8be38e90455b59d9d3f5"
+  },
+  "case-0d77d2624c06": {
+    "id": "case-0d77d2624c06",
+    "question": "请查询新增用户首日崩溃受影响人数并给出可追踪证据。",
+    "window": [
+      "2032-05-13",
+      "2032-05-20"
+    ],
+    "snapshot_id": "08ce9618639fb4c215e0323d77d1a46644c9872d1370bc0a6ede8ae6a2c8ad8e"
+  },
+  "case-232d0ac9a906": {
+    "id": "case-232d0ac9a906",
+    "question": "请查询Android 13.3 去重播放开始数并给出可追踪证据。",
+    "window": [
+      "2032-06-11",
+      "2032-06-18"
+    ],
+    "snapshot_id": "bfc5cad223e1c930a4dff500b0ef69b773e871627bb508dca41ae1d1ee93f73c"
+  },
+  "case-4cf4c34ddbec": {
+    "id": "case-4cf4c34ddbec",
+    "question": "请查询acquisition-c3 渠道同期支出（分）并给出可追踪证据。",
+    "window": [
+      "2032-07-10",
+      "2032-07-17"
+    ],
+    "snapshot_id": "c9e4f66504345f08721592b648e5871ba576518d5fb387ea4899d12b754f6ed9"
+  },
+  "case-8748b51a0161": {
+    "id": "case-8748b51a0161",
+    "question": "新增用户自然日次日留存出现变化，请检验可能解释和反对证据。",
+    "window": [
+      "2032-08-08",
+      "2032-08-15"
+    ],
+    "snapshot_id": "6258ff0a5413f29aca1c109e002431ad6d07f38b2d1854cde10fc01a6c3d8a43"
+  },
+  "case-923e039fa26f": {
+    "id": "case-923e039fa26f",
+    "question": "新增用户自然日次日留存出现变化，请检验可能解释和反对证据。",
+    "window": [
+      "2032-09-06",
+      "2032-09-13"
+    ],
+    "snapshot_id": "c6dfc31f805d37bf98dbc9270e09316d7967627c8e7e7751b059c32eb43a26b4"
+  },
+  "case-9292d229bd3e": {
+    "id": "case-9292d229bd3e",
+    "question": "新增用户自然日次日留存出现变化，请检验可能解释和反对证据。",
+    "window": [
+      "2032-10-05",
+      "2032-10-12"
+    ],
+    "snapshot_id": "a262fa2da82c8e6c3018dfd38740823447c048f9b301610067c7d16b51733325"
+  },
+  "case-a390cf8cfc93": {
+    "id": "case-a390cf8cfc93",
+    "question": "新增用户增长质量如何？请比较留存与渠道成本并说明限制。",
+    "window": [
+      "2032-11-03",
+      "2032-11-10"
+    ],
+    "snapshot_id": "a315d551f8c78df0b1ea178a481dc1fe01064cc17f4896636ebccd60e3f9558c"
+  },
+  "case-7dbb7b43cb58": {
+    "id": "case-7dbb7b43cb58",
+    "question": "新增用户增长质量如何？请比较留存与渠道成本并说明限制。",
+    "window": [
+      "2032-12-02",
+      "2032-12-09"
+    ],
+    "snapshot_id": "efda2825504afe044cf6dfd89f18e650ba13db32b02804d70c798a987f7784e8"
+  },
+  "case-d92ba0592808": {
+    "id": "case-d92ba0592808",
+    "question": "新增用户增长质量如何？请比较留存与渠道成本并说明限制。",
+    "window": [
+      "2032-12-31",
+      "2033-01-07"
+    ],
+    "snapshot_id": "4efa8fe2df53295289522be9b16c5204fc35193b688060ee64528777ea0336b9"
+  },
+  "case-608bb13a671a": {
+    "id": "case-608bb13a671a",
+    "question": "观测完播率出现变化，请用独立证据检查采集与行为解释。",
+    "window": [
+      "2033-01-29",
+      "2033-02-05"
+    ],
+    "snapshot_id": "c8d292803f1875f4e63379094db417dd2220d53e684e21269eeafb2ec8901d2e"
+  },
+  "case-14d8fb32df02": {
+    "id": "case-14d8fb32df02",
+    "question": "观测完播率出现变化，请用独立证据检查采集与行为解释。",
+    "window": [
+      "2033-02-27",
+      "2033-03-06"
+    ],
+    "snapshot_id": "ef4c841d36692381909590cd44782dd2ea5c770a4bc2146f7473524d9ab33859"
+  },
+  "case-512aada3c755": {
+    "id": "case-512aada3c755",
+    "question": "观测完播率出现变化，请用独立证据检查采集与行为解释。",
+    "window": [
+      "2033-03-28",
+      "2033-04-04"
+    ],
+    "snapshot_id": "f0bbd19a980ab4a6c041607f92e39e6cdc437f0fbdb0ceb169d1b3dca230e6b4"
+  },
+  "case-349e61e2a244": {
+    "id": "case-349e61e2a244",
+    "question": "新增用户自然日次日留存总体表现如何？请检查分群及构成变化。",
+    "window": [
+      "2033-04-26",
+      "2033-05-03"
+    ],
+    "snapshot_id": "268e2de5b15b93ff471cdb5bc968f54b29e075e7f8a9a95d0f3ee78d1e4b6896"
+  },
+  "case-ba4545eccbbb": {
+    "id": "case-ba4545eccbbb",
+    "question": "新增用户自然日次日留存总体表现如何？请检查分群及构成变化。",
+    "window": [
+      "2033-05-25",
+      "2033-06-01"
+    ],
+    "snapshot_id": "8651727d8e3b249917388c9aed5ad368f7c5c556bf55687dca279280dd4d1d5c"
+  },
+  "case-468c33fef957": {
+    "id": "case-468c33fef957",
+    "question": "新增用户自然日次日留存总体表现如何？请检查分群及构成变化。",
+    "window": [
+      "2033-06-23",
+      "2033-06-30"
+    ],
+    "snapshot_id": "403d81aea2d7d9f5f7781f105a2e82775da2fd0f421f0dcd4a164488aa308c99"
+  },
+  "case-fc9bb1d6ffd2": {
+    "id": "case-fc9bb1d6ffd2",
+    "question": "请检查新增用户自然日次日留存是否有足够异常证据。",
+    "window": [
+      "2033-07-22",
+      "2033-07-29"
+    ],
+    "snapshot_id": "226a73770b13c11e217c4aedea46abefd2349a7ed1c7df120dd14ce2fa42c799"
+  },
+  "case-9fd7c653e4eb": {
+    "id": "case-9fd7c653e4eb",
+    "question": "请检查新增用户自然日次日留存是否有足够异常证据。",
+    "window": [
+      "2033-08-20",
+      "2033-08-27"
+    ],
+    "snapshot_id": "2e3a37a720f2a3f3351dc4bb65e3907a169e907ede8a781cf33723c834e29ca0"
+  },
+  "case-d554e5f41201": {
+    "id": "case-d554e5f41201",
+    "question": "请分析完整请求窗口的新增用户自然日次日留存；说明资料是否充分。",
+    "window": [
+      "2033-09-18",
+      "2033-09-25"
+    ],
+    "snapshot_id": "7022dbbafe5cd9de9f56d297960284a46f7a0a61ef81984706797c33553fb82d"
+  },
+  "case-7ed9335e0a35": {
+    "id": "case-7ed9335e0a35",
+    "question": "请分析完整请求窗口的新增用户自然日次日留存；说明资料是否充分。",
+    "window": [
+      "2033-10-17",
+      "2033-10-24"
+    ],
+    "snapshot_id": "1144760113f6fb02f9041aa4d37854d600f45954c070a9925712d0303bdd8efd"
+  },
+  "case-404d484c6f34": {
+    "id": "case-404d484c6f34",
+    "question": "用户表现怎么样？",
+    "window": [
+      "2033-11-15",
+      "2033-11-22"
+    ],
+    "snapshot_id": "ee2320ce4b0994c2e26f33b2971628a2b5ba1e88978d7e734725032f367273aa"
+  },
+  "case-a412a6e844d4": {
+    "id": "case-a412a6e844d4",
+    "question": "请查询新增用户自然日次日留存并处理可恢复工具错误。",
+    "window": [
+      "2033-12-14",
+      "2033-12-21"
+    ],
+    "snapshot_id": "c15104d01af2eb616e43ccafa200ec6b7d0589b24c9a16d73de1def7552c5fa2"
+  }
+}

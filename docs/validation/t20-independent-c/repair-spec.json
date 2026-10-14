@@ -1,0 +1,22 @@
+{
+  "axis": "Spec",
+  "reviewer_kind": "agent",
+  "base": "568a4e81ffecb43df349a9f4c92e78bbfd0edaf8",
+  "head": "53b52c09dde17c7ba4d23961c384066f03d7fe31",
+  "scope": [
+    "metricguard/service.py intent classification",
+    "tests/test_t20_integration.py public behavior regression cases"
+  ],
+  "findings": [],
+  "status": "no_blocking_spec_findings",
+  "observations": [
+    "Only recognized affected-user metric noun phrases are removed from the text used for intent detection; original question, retrieval, SQL and evidence inputs are preserved.",
+    "Explicit impact-analysis words elsewhere in the request remain eligible for diagnostic intent.",
+    "Public tests exercise affected-user count as a query and an explicit retention impact request as diagnosis.",
+    "Budgets, thresholds, score rules, answers and task distribution are unchanged.",
+    "Prior B results remain recorded as regression; this review does not certify new acceptance outcomes."
+  ],
+  "test_execution": "No Docker or tests executed by this reviewer; parent reports 18 integration tests and mypy passing. Full safety and new formal runs require separate receipts.",
+  "source_sha256": "97ee5d504a64e2467a7b03e5b56fde2a1119fc5cad1a58362953d42103e26208",
+  "test_sha256": "7cdd52998a30f9956b3ae1d74cad4f6e8509b318b0c113e51a7c878a65e934b4"
+}

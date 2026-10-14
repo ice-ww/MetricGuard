@@ -1,0 +1,63 @@
+{
+  "axis": "final independent acceptance including human-receipt binding",
+  "reviewer_kind": "agent verifier of actual human approval",
+  "run_id": "652f96f4c4674350bc4af1986f799df8",
+  "version": "p0-independent-t20-c-v1",
+  "approval_source": {
+    "run_id": "652f96f4c4674350bc4af1986f799df8",
+    "proposal_hash": "f3a922402f5a7b9c4700703bdef1d6c6345b33ee11bc511c5e7b9dbf2726ad16",
+    "user_response": "认可全部32组评分与理由",
+    "question_item_id": "[\"request_user_input_async\",\"call_2de69e2ff8ab4547ae03f8b97c741d6d\",0]",
+    "received_utc": "2026-10-14T02:45:56.665931+00:00",
+    "scope": "32 groups, 87 actual C inferences; G31 1/2/2, all other groups 2/2/2; all proposed per-dimension reasons approved",
+    "reviewer_kind": "human"
+  },
+  "proposal_hash_verified": "f3a922402f5a7b9c4700703bdef1d6c6345b33ee11bc511c5e7b9dbf2726ad16",
+  "groups_verified": 32,
+  "bound_human_receipts_verified": 87,
+  "all_144_scores_recomputed": true,
+  "raw_artifacts_unchanged_before_after_human_review": true,
+  "all_six_round_summaries_recomputed": true,
+  "semantic_pending": 0,
+  "G31_baseline_failure_preserved": true,
+  "G31_ordinals": [
+    115
+  ],
+  "agent_complete_passes": [
+    24,
+    24,
+    24
+  ],
+  "baseline_complete_passes": [
+    20,
+    20,
+    18
+  ],
+  "safety": {
+    "status": "passed",
+    "tests": 422,
+    "required_modules": [
+      "tests.test_t02_acceptance",
+      "tests.test_t02_policy",
+      "tests.test_t02_sandbox",
+      "tests.test_t03_limits",
+      "tests.test_t03_supervisor",
+      "tests.test_t04_reference",
+      "tests.test_t04_statistics",
+      "tests.test_t05",
+      "tests.test_t07_adapter",
+      "tests.test_t07_scheduler",
+      "tests.test_t08",
+      "tests.test_t09_service",
+      "tests.test_t10_recovery",
+      "tests.test_t10_service",
+      "tests.test_t17_service"
+    ],
+    "receipt_hash": "37338b277da630f942fce6d7a288405f403f1650766b5bec1f221cb94b82ca13",
+    "configuration_hash": "b66f37a765914033e374902888f28dd6b2060378637afdf97c712313369b6886"
+  },
+  "formal_acceptance_passed": true,
+  "final_results_sha256": "c4c358c0e6054235fadee70455ab4fdda84bec713cdc9768b2369e4eb62b5d76",
+  "conclusion": "PASS: all required Agent gates pass in each of three fixed-version rounds after real human-approved ratings are exactly bound; baseline failures remain recorded. No further Spec acceptance blocker found.",
+  "review_bindings_manifest_verified": 87
+}

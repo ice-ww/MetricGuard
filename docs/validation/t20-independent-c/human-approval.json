@@ -1,0 +1,9 @@
+{
+  "run_id": "652f96f4c4674350bc4af1986f799df8",
+  "proposal_hash": "f3a922402f5a7b9c4700703bdef1d6c6345b33ee11bc511c5e7b9dbf2726ad16",
+  "user_response": "认可全部32组评分与理由",
+  "question_item_id": "[\"request_user_input_async\",\"call_2de69e2ff8ab4547ae03f8b97c741d6d\",0]",
+  "received_utc": "2026-10-14T02:45:56.665931+00:00",
+  "scope": "32 groups, 87 actual C inferences; G31 1/2/2, all other groups 2/2/2; all proposed per-dimension reasons approved",
+  "reviewer_kind": "human"
+}

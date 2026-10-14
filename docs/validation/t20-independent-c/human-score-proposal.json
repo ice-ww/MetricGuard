@@ -1,0 +1,1835 @@
+{
+  "run_id": "652f96f4c4674350bc4af1986f799df8",
+  "status": "proposed_not_human_approved",
+  "groups_hash": "a7b52ed319150738c765364d6efc665d0ed57a63985ad09920674a8f4a245937",
+  "ratings": [
+    {
+      "ordinal": 12,
+      "case_id": "case-8748b51a0161",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "348758cbb008ee8a617060f1b87c51ae00ca69c7a2562ff06aa61e934e3fda57",
+      "evidence_hash": "3454ccf46ec7650d862c6ed95e547f03be42601a6c78abfc5ed28cd99913b52c",
+      "group_id": "G1",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "新版本低留存/高崩溃及同系统旧版反向对照均与实际引用相符；新增文字解释旧版对照如何限制整个系统同等恶化，保留另一系统与基期且未假称其稳定。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 60,
+      "case_id": "case-8748b51a0161",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "eb4ab616981afc5b8092140bbfd030f9f003fad28a53d494963184f621702e6b",
+      "evidence_hash": "99b0f16b94046ed816b68223cd7f8d4df4a2b45d2896787a0737872d38e6e666",
+      "group_id": "G1",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "新版本低留存/高崩溃及同系统旧版反向对照均与实际引用相符；新增文字解释旧版对照如何限制整个系统同等恶化，保留另一系统与基期且未假称其稳定。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 108,
+      "case_id": "case-8748b51a0161",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "baf4e6ad12001e509ea88e4a2c5a407b2bd44002d7f3367a2dd75b29fac904bd",
+      "evidence_hash": "d240f096b554afe439c08a4e91e194c36a42e5a90a3ee54df45cfa2955a307d9",
+      "group_id": "G1",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "新版本低留存/高崩溃及同系统旧版反向对照均与实际引用相符；新增文字解释旧版对照如何限制整个系统同等恶化，保留另一系统与基期且未假称其稳定。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 13,
+      "case_id": "case-8748b51a0161",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "3517f329e00d7ad6bb02a89690a6d294346721fb9997d8203f70b9bbc2e1c686",
+      "evidence_hash": "1e3cd973e300956e3fdbb18c3876e988e31a2d8fe71171f55a27c3e929cceb0b",
+      "group_id": "G2",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "新版本低留存/高崩溃及同系统旧版反向对照均与实际引用相符；新增文字解释旧版对照如何限制整个系统同等恶化，保留另一系统与基期且未假称其稳定。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 61,
+      "case_id": "case-8748b51a0161",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "18889de3fcd27ae8ec1c825669bd6aae7ae6fe127e040002fe23502e0f3299b5",
+      "evidence_hash": "a92ed3e114dd4534f6da57fb2f127264d9c0a32f032100b5ff330aa22991175d",
+      "group_id": "G2",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "新版本低留存/高崩溃及同系统旧版反向对照均与实际引用相符；新增文字解释旧版对照如何限制整个系统同等恶化，保留另一系统与基期且未假称其稳定。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 109,
+      "case_id": "case-8748b51a0161",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "8fc4f4d1fe58eee59b3e246307ccf9c3d7f954edbc24ce36df88bc459c4b27ab",
+      "evidence_hash": "8d522c8ad941b290fe3391817ee60187b2051a096b58509160c27d259b6eff98",
+      "group_id": "G2",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "新版本低留存/高崩溃及同系统旧版反向对照均与实际引用相符；新增文字解释旧版对照如何限制整个系统同等恶化，保留另一系统与基期且未假称其稳定。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 14,
+      "case_id": "case-923e039fa26f",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "8fb066cb32ac493e30898e6a55880d27613e15998c06bed64026894910052677",
+      "evidence_hash": "0656215b565999effb6ecd1b78282481dc9152ee33967d6df1f2a8274b75e1b7",
+      "group_id": "G3",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "新版本低留存/高崩溃及同系统旧版反向对照均与实际引用相符；新增文字解释旧版对照如何限制整个系统同等恶化，保留另一系统与基期且未假称其稳定。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 62,
+      "case_id": "case-923e039fa26f",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "4c4ac1f00922ba60bee3fd26bae5192c1794747480747c91c6e708294e4fcf78",
+      "evidence_hash": "b1bf55bcf2f444f884bd6648047c816b9fb824e20738bc34658b18cb97cdf5d2",
+      "group_id": "G3",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "新版本低留存/高崩溃及同系统旧版反向对照均与实际引用相符；新增文字解释旧版对照如何限制整个系统同等恶化，保留另一系统与基期且未假称其稳定。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 110,
+      "case_id": "case-923e039fa26f",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "1f1ca84fa6a4471f1345685568c1cb735a06e4bdc9d73c5ae3d8eb6941c283a0",
+      "evidence_hash": "fe23642920ed00c51b340c2add385e14825f335525a7f8854fe6a09dd13da6e2",
+      "group_id": "G3",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "新版本低留存/高崩溃及同系统旧版反向对照均与实际引用相符；新增文字解释旧版对照如何限制整个系统同等恶化，保留另一系统与基期且未假称其稳定。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 15,
+      "case_id": "case-923e039fa26f",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "04ff37ab672da5e37a4cfa1a377fcb86bd548d30d6dad3c02341863055df9f3d",
+      "evidence_hash": "c68edcb33ce23ba42370c26a05ea89e22cebfa6ba1f0dd76142a7969638cbbd8",
+      "group_id": "G4",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "新版本低留存/高崩溃及同系统旧版反向对照均与实际引用相符；新增文字解释旧版对照如何限制整个系统同等恶化，保留另一系统与基期且未假称其稳定。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 63,
+      "case_id": "case-923e039fa26f",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "d3514fc0fb0f069b4f519ca5ac7652aa20891c0ff984c70aed901642265f83b4",
+      "evidence_hash": "853cd725f38655fb0b122a06a6ead0da51fd719091b9d37feed06f2a9889ce33",
+      "group_id": "G4",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "新版本低留存/高崩溃及同系统旧版反向对照均与实际引用相符；新增文字解释旧版对照如何限制整个系统同等恶化，保留另一系统与基期且未假称其稳定。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 111,
+      "case_id": "case-923e039fa26f",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "fe26687f3aba319f0c64b8d1af702aa47ccc3aca1ed1fb37d4b8c0981aec3ab9",
+      "evidence_hash": "1e6395d8caf5be14702210c665a496e238d40e6c62d3361614b96045a811cc0b",
+      "group_id": "G4",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "新版本低留存/高崩溃及同系统旧版反向对照均与实际引用相符；新增文字解释旧版对照如何限制整个系统同等恶化，保留另一系统与基期且未假称其稳定。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 16,
+      "case_id": "case-9292d229bd3e",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "fadebb5e17dd8198db46000bcff6c472c5f9e6f216a431194b5cbdae33b3bb65",
+      "evidence_hash": "2345c9c630ac3a184f21b0f45dc234e20def94d386079670192f03fc0543c238",
+      "group_id": "G5",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "新版本低留存/高崩溃及同系统旧版反向对照均与实际引用相符；新增文字解释旧版对照如何限制整个系统同等恶化，保留另一系统与基期且未假称其稳定。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 64,
+      "case_id": "case-9292d229bd3e",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "8a69d17c9ec9d7ff34c3d5f2b2e711178a379b0a30e170cfce9490ef05232fdd",
+      "evidence_hash": "a85a4bb73b5b5f72d41bb7cf0219c54681a2f746f1aff6921aa8903a79d85d6c",
+      "group_id": "G5",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "新版本低留存/高崩溃及同系统旧版反向对照均与实际引用相符；新增文字解释旧版对照如何限制整个系统同等恶化，保留另一系统与基期且未假称其稳定。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 112,
+      "case_id": "case-9292d229bd3e",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "9af100e869547df78bd2467778251d1bcad4194860d71757754ddff0722aa8b5",
+      "evidence_hash": "44f1df90f7d8f0f0991bf3548596e4cbeb7ee52a3be9264b4ac7f35322ef1cfd",
+      "group_id": "G5",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "新版本低留存/高崩溃及同系统旧版反向对照均与实际引用相符；新增文字解释旧版对照如何限制整个系统同等恶化，保留另一系统与基期且未假称其稳定。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 17,
+      "case_id": "case-9292d229bd3e",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "6d719367309e1878a5faa51ab3391cb29b80290765cc44eae07a6660ccce92fe",
+      "evidence_hash": "711d3dbfdd835a8c9f3cd3dd9015fba88400ad0e66cefd0f2935c18848d80d76",
+      "group_id": "G6",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "新版本低留存/高崩溃及同系统旧版反向对照均与实际引用相符；新增文字解释旧版对照如何限制整个系统同等恶化，保留另一系统与基期且未假称其稳定。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 65,
+      "case_id": "case-9292d229bd3e",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "7e2d2a3d50b0e232502e32b038ae77f6622f9b79b0ab1a8e9c06822486ab6f9c",
+      "evidence_hash": "f1254e1b9bf43f98787ccd3b84e5bc37796e03db47443eeeda1e450fa336fd1a",
+      "group_id": "G6",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "新版本低留存/高崩溃及同系统旧版反向对照均与实际引用相符；新增文字解释旧版对照如何限制整个系统同等恶化，保留另一系统与基期且未假称其稳定。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 113,
+      "case_id": "case-9292d229bd3e",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "e0527dea172164584ab77e07516749e1debc404ea047ab6f3a5eabbdcac1d276",
+      "evidence_hash": "810641c3d3b410e66d7a8fb30599f76446f9d30ed052177dd91808c605272775",
+      "group_id": "G6",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "新版本低留存/高崩溃及同系统旧版反向对照均与实际引用相符；新增文字解释旧版对照如何限制整个系统同等恶化，保留另一系统与基期且未假称其稳定。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 18,
+      "case_id": "case-a390cf8cfc93",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "3bdd11208cf6f986595ce9615c06ec74dbfbc5cafa07acda45581f178022dded",
+      "evidence_hash": "e8e915dd1cadde3d242338cfffbaf5a22e5ca50e5a78a19cba34352ffff6fb6e",
+      "group_id": "G7",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际渠道新增上升且当前留存低于其它所引渠道；文本解释比较方向，保留用户构成因素并未断言造假或每新增成本必然上涨。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 66,
+      "case_id": "case-a390cf8cfc93",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "a204e49ddd9b5851827e056f610cec40e4b556811ceed00a1784b24b7df944e4",
+      "evidence_hash": "06759c174483039aa62cb0a1d9cbcb523a53b99280268a50df1551137cd24d06",
+      "group_id": "G7",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际渠道新增上升且当前留存低于其它所引渠道；文本解释比较方向，保留用户构成因素并未断言造假或每新增成本必然上涨。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 114,
+      "case_id": "case-a390cf8cfc93",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "7e6c7d2411a31743eb44bf0157115c00352aeee4f6f7f73bd6f0afd0c03065ec",
+      "evidence_hash": "7a80af2afc893d57c428d52de5c06b2e6a2fa27b2ba272242af920ea0f91cd3c",
+      "group_id": "G7",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际渠道新增上升且当前留存低于其它所引渠道；文本解释比较方向，保留用户构成因素并未断言造假或每新增成本必然上涨。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 19,
+      "case_id": "case-a390cf8cfc93",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "f88ec529a10357d7027153d61a1bc65f33a7bf7e2f525872aca122c54a49843c",
+      "evidence_hash": "6c0edd3410c576743865795c42c8c0589166ba79c944c99878cf5062e0b05ce1",
+      "group_id": "G8",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际渠道新增上升且当前留存低于其它所引渠道；文本解释比较方向，保留用户构成因素并未断言造假或每新增成本必然上涨。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 67,
+      "case_id": "case-a390cf8cfc93",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "cc1e1cee67d9424aab92a23fac1f93e5615e0b94779710fc0c495ea398ec2a73",
+      "evidence_hash": "cf6d16a738a8b71e842eaf2b379409e00e1f3ad550bfe17f199f3e827801d67f",
+      "group_id": "G8",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际渠道新增上升且当前留存低于其它所引渠道；文本解释比较方向，保留用户构成因素并未断言造假或每新增成本必然上涨。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 20,
+      "case_id": "case-7dbb7b43cb58",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "071481b53074158ef2fceb9794da49b13f66940983bbc89c4674ff10ff42128f",
+      "evidence_hash": "46bea1dac1268019ea2b5f973a2adee9bad1b39453b2aee3c8f071be64737e88",
+      "group_id": "G9",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际渠道新增上升且当前留存低于其它所引渠道；文本解释比较方向，保留用户构成因素并未断言造假或每新增成本必然上涨。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 68,
+      "case_id": "case-7dbb7b43cb58",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "27751711bfb3c53f8661a10066d47bbbb213e44ec6721c64d54a0b6929812445",
+      "evidence_hash": "d784272d0bea3135637ec22ab89f70eef5da11b35bfd589c0efb36348536f367",
+      "group_id": "G9",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际渠道新增上升且当前留存低于其它所引渠道；文本解释比较方向，保留用户构成因素并未断言造假或每新增成本必然上涨。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 116,
+      "case_id": "case-7dbb7b43cb58",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "9f81ab0dcb34f5a86536d1025e2873b9b280ad41881d73f8e166c659586d3d5e",
+      "evidence_hash": "b92c08126ad8a521fda380755567f77600c4cc308f58237faca47d0f4bba716f",
+      "group_id": "G9",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际渠道新增上升且当前留存低于其它所引渠道；文本解释比较方向，保留用户构成因素并未断言造假或每新增成本必然上涨。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 21,
+      "case_id": "case-7dbb7b43cb58",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "f8f8790a0d63114380be72deda014efd68f49a086b114367d222d0af19843032",
+      "evidence_hash": "4c913ef334ceb9d732f9ef9a701489c93a41378bf832f765195b2cde7c8dc1fb",
+      "group_id": "G10",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际渠道新增上升且当前留存低于其它所引渠道；文本解释比较方向，保留用户构成因素并未断言造假或每新增成本必然上涨。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 117,
+      "case_id": "case-7dbb7b43cb58",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "ea84efc064648487f9c523a04a0c5c32829ace3da27667637f96d60656b57b7f",
+      "evidence_hash": "3485e1f76fda84efcf0589f9a95c30f7d56bef49d34d24c4943728d367286fd9",
+      "group_id": "G10",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际渠道新增上升且当前留存低于其它所引渠道；文本解释比较方向，保留用户构成因素并未断言造假或每新增成本必然上涨。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 22,
+      "case_id": "case-d92ba0592808",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "89b70a09e1be9011bea6f7b45eb3e1e686cb1380718eaf3d7c2bc93eb23d175a",
+      "evidence_hash": "19dfe8d56f78d9ce0a15b199ddbfaa494492fffcd447fb7735b709150c561d72",
+      "group_id": "G11",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际渠道新增上升且当前留存低于其它所引渠道；文本解释比较方向，保留用户构成因素并未断言造假或每新增成本必然上涨。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 70,
+      "case_id": "case-d92ba0592808",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "374b12cd30d9f53a0821ba25e158bd52ff2adac3dd9b98972e0b04a2abab3f66",
+      "evidence_hash": "0aeae8ea8725fed494da947088d96036ff42cd5954095977655c4e0b375c8c25",
+      "group_id": "G11",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际渠道新增上升且当前留存低于其它所引渠道；文本解释比较方向，保留用户构成因素并未断言造假或每新增成本必然上涨。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 118,
+      "case_id": "case-d92ba0592808",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "8342fe8b4e16dff3fc233aa73bc340042835832dafc1fe8769bb1d697a035614",
+      "evidence_hash": "736b4d24cb4babc397d31ac75d36b56df42c7ad44a92da42aabf41c6f3d15381",
+      "group_id": "G11",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际渠道新增上升且当前留存低于其它所引渠道；文本解释比较方向，保留用户构成因素并未断言造假或每新增成本必然上涨。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 23,
+      "case_id": "case-d92ba0592808",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "47266ccdb85405f084a0e808d431eaec84ce843acff9a4c8cebd59d3e394163b",
+      "evidence_hash": "7d8db00496dd0569110de1e2a318559b2feed1fd2afdbddc2ab08d3171314f9c",
+      "group_id": "G12",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际渠道新增上升且当前留存低于其它所引渠道；文本解释比较方向，保留用户构成因素并未断言造假或每新增成本必然上涨。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 71,
+      "case_id": "case-d92ba0592808",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "950130392ef0e7ecc6bf0c0fae078fb575003a446c6dd21b4c44f05dd2725450",
+      "evidence_hash": "9bd1930a25b9b1ed7785fd27601b22643eee182f27119bdc3b00fbc24e13f5dd",
+      "group_id": "G12",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际渠道新增上升且当前留存低于其它所引渠道；文本解释比较方向，保留用户构成因素并未断言造假或每新增成本必然上涨。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 119,
+      "case_id": "case-d92ba0592808",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "5c86a4f30fe4f9b1daeeff59ba40ac4e2d1fb7580361479447869bf6a63de74e",
+      "evidence_hash": "8df42d172f375662ddf5ef24e81cfb61a3f877d73b5e711aec156df58677be06",
+      "group_id": "G12",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际渠道新增上升且当前留存低于其它所引渠道；文本解释比较方向，保留用户构成因素并未断言造假或每新增成本必然上涨。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 24,
+      "case_id": "case-608bb13a671a",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "759955823d569c39147a7a2993875147f12879c9241bbf1287f9c4da880a3256",
+      "evidence_hash": "1ff784d293b84edff080ba78e31bfda1d8794fde6a2633c6306d162f54850f93",
+      "group_id": "G13",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际双链路差异、质量零标记及覆盖水位支持限定分群的缺失候选；基期/其它分群对照无同类缺失，新增文字明确这些对照限定范围且不排除共同链路偏差。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 72,
+      "case_id": "case-608bb13a671a",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "d3ff2c0ccbecc355d0e0dd6551a15fc0116982ed014d82b2fdce3a7ed62021e3",
+      "evidence_hash": "08a2778426a641e4c43664adb2891193cd57e471d48eb94e6b33d8a8e537b1d9",
+      "group_id": "G13",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际双链路差异、质量零标记及覆盖水位支持限定分群的缺失候选；基期/其它分群对照无同类缺失，新增文字明确这些对照限定范围且不排除共同链路偏差。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 120,
+      "case_id": "case-608bb13a671a",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "e84c39d67ddebc13e2ea9b626ecd0cd42f9efee711e72d2e146a5b9d45e0e7b1",
+      "evidence_hash": "70735fec8f945fe828490e84aaf4e69b83d04583ab4004ce2645d6c0561e756a",
+      "group_id": "G13",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际双链路差异、质量零标记及覆盖水位支持限定分群的缺失候选；基期/其它分群对照无同类缺失，新增文字明确这些对照限定范围且不排除共同链路偏差。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 26,
+      "case_id": "case-14d8fb32df02",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "c6d6976c79c4da93b654cdb9ceac4b38952053b04286ec73a946b344ef05b74a",
+      "evidence_hash": "d14c7d389d7daa985d6cb642903f9e05ad7590557543696353391edb6c585c88",
+      "group_id": "G14",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际双链路差异、质量零标记及覆盖水位支持限定分群的缺失候选；基期/其它分群对照无同类缺失，新增文字明确这些对照限定范围且不排除共同链路偏差。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 74,
+      "case_id": "case-14d8fb32df02",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "d0d66e7b591a6bec0debf249d46567c6b1885368980f90c8c18272227bd8fecf",
+      "evidence_hash": "4c0538d877bb7afe4500b048ec2a202c8bbc11b20d214e67c0fc9360896df934",
+      "group_id": "G14",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际双链路差异、质量零标记及覆盖水位支持限定分群的缺失候选；基期/其它分群对照无同类缺失，新增文字明确这些对照限定范围且不排除共同链路偏差。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 122,
+      "case_id": "case-14d8fb32df02",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "dc6a9dd7f684c125041a8fb7fa566dfaff254e0f051409fc50cee4f8dc3b48a6",
+      "evidence_hash": "4b4139ebe5f72ba95dfaa2f6e735323cb4f41e4789ae7438c7e36f586c424475",
+      "group_id": "G14",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际双链路差异、质量零标记及覆盖水位支持限定分群的缺失候选；基期/其它分群对照无同类缺失，新增文字明确这些对照限定范围且不排除共同链路偏差。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 28,
+      "case_id": "case-512aada3c755",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "aff6881a9db420748049533aff0d2fb918c4508b92b1e8757ca020b25671900f",
+      "evidence_hash": "28af0cf29339b6e6eb5da71e5e6266ab449a9b7f8438894dabef30f972f8bbca",
+      "group_id": "G15",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际双链路差异、质量零标记及覆盖水位支持限定分群的缺失候选；基期/其它分群对照无同类缺失，新增文字明确这些对照限定范围且不排除共同链路偏差。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 76,
+      "case_id": "case-512aada3c755",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "c92b03cf6a40fa6d1b3a755a4559670540d578ec696cb2dabbfb464460142835",
+      "evidence_hash": "36963b1b5ef3a4fa1c7dc4fa273d9a49073d0e3e5008d39f9d1da2e08a448f48",
+      "group_id": "G15",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际双链路差异、质量零标记及覆盖水位支持限定分群的缺失候选；基期/其它分群对照无同类缺失，新增文字明确这些对照限定范围且不排除共同链路偏差。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 124,
+      "case_id": "case-512aada3c755",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "8499acbe9be86354843fbc77c2ed4cd598e47f8ccc9b6fba88ba6efc14670029",
+      "evidence_hash": "17d76f4c9af6caef124bea3f23c1dfa3ed0bbffd2d350842e9ca47c05834962c",
+      "group_id": "G15",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际双链路差异、质量零标记及覆盖水位支持限定分群的缺失候选；基期/其它分群对照无同类缺失，新增文字明确这些对照限定范围且不排除共同链路偏差。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 30,
+      "case_id": "case-349e61e2a244",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "5bdba08e1ca290cbaa953cabbbb4cb56712f0f5e284d2c0cedb867523320996f",
+      "evidence_hash": "f00a24ed5b4280bbefcd3dcc644f17052713ca30c1c6140861816464782c8665",
+      "group_id": "G16",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 78,
+      "case_id": "case-349e61e2a244",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "b18d81ea5d4a49d48278a28e49b1357fbf5a9e19b0ecb27e501ace7a0b1b58f0",
+      "evidence_hash": "980050ebd7fcc2147d01317b5dca506bf393102410401c076a9633d021ee8d05",
+      "group_id": "G16",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 126,
+      "case_id": "case-349e61e2a244",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "4bc03da589177d6b9e703aea9a25256cdc8cd1afe1b27d7548d8a103595a3254",
+      "evidence_hash": "d5129d02c3e8912612ae0940cbfffb74df4dc4ca43ac3fe46235932f27cd218c",
+      "group_id": "G16",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 31,
+      "case_id": "case-349e61e2a244",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "4a17d82ae2086193d5425eb418971e107ae72de697f711990726043204032bbc",
+      "evidence_hash": "152566cdc863cb41268a3f9d5f1dcbc3c5dc1b67703bcc914a8fef935bdca6db",
+      "group_id": "G17",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 79,
+      "case_id": "case-349e61e2a244",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "8eb0952c0b58528aaffae6853ca472d268f97af8d47b23255309ae1946a87456",
+      "evidence_hash": "e725c892a7373ef39a6cf2693417cdb2912d668e88cc19722d191ad48a4939a7",
+      "group_id": "G17",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 127,
+      "case_id": "case-349e61e2a244",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "e3acbcafeb45496a58c73b19ea570ccb777484499afa3c850173506dd53efc21",
+      "evidence_hash": "e6c9e071a820e50803045990547130aef6ea15eb1ced3d57c9cdef679596afd3",
+      "group_id": "G17",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 32,
+      "case_id": "case-ba4545eccbbb",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "ed285399b2d61b4f1b804005277e0588833472c91dbf6a5f1f04f090e1c7f222",
+      "evidence_hash": "5f2d4712c8f22310d747f59d56cd736dc4499aecf719ec1e7dcffc54dd040f00",
+      "group_id": "G18",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 80,
+      "case_id": "case-ba4545eccbbb",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "171df9d08d408c5a2b901de129db866220257c5b8b35dc64cc6306dca11378ec",
+      "evidence_hash": "0af430707c5539e7e8fad74a2697e30cca781fb577eb7b7ede62e7d3577567b1",
+      "group_id": "G18",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 128,
+      "case_id": "case-ba4545eccbbb",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "4b3b7768ff03e46bad5d540f680f2e2899cf2ff7905badfb8af389ee0b760371",
+      "evidence_hash": "7057fc46e35f461bb261d2256364999f28c41ea060dfefcaad6b1dde88b6f3be",
+      "group_id": "G18",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 33,
+      "case_id": "case-ba4545eccbbb",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "d53c7d2a42e608d097f290961d8528880b0007d4e01dde9186fdecf7fae15ebd",
+      "evidence_hash": "e164b8aaa23aa71ab1ca56afb52dfb6b4f90953a5c0d664b290f529140c3f59d",
+      "group_id": "G19",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 81,
+      "case_id": "case-ba4545eccbbb",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "e9e0c1465966cc56d40de5b21dae38fd7341385bc4f91dcec286b8839533c774",
+      "evidence_hash": "81c5ff90d3f408a435e6abea243d351de5b37d136553ada2374b71f90850a1c2",
+      "group_id": "G19",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 129,
+      "case_id": "case-ba4545eccbbb",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "d0f2ec893abe06e4206da92489644422a3723c62a81e77b76b97750da2d0902f",
+      "evidence_hash": "3bbd0594f73ae9460ced060717555eeeafe2c68f7f1af34db4d09997670b59c9",
+      "group_id": "G19",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 34,
+      "case_id": "case-468c33fef957",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "c8e53eff93bb6162b2ec9cae83ec7de1beca794547e0983af9e0674fad188da0",
+      "evidence_hash": "3d87242cecbd18fbfd8984615728472d6ff161cb535babff9aaece966238c0b4",
+      "group_id": "G20",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 82,
+      "case_id": "case-468c33fef957",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "8bcf596b9c9bfed8daf6b97396d4e2125b608b21eaeb4b882cde6407febe8a3f",
+      "evidence_hash": "5e51500d6af4f6bf8fe5848d54e1bba067100ca7dd31bc08a4d6aa72adeef1ae",
+      "group_id": "G20",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 130,
+      "case_id": "case-468c33fef957",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "report_hash": "2822e17843e33f7d9cf7e231cc8f700b60e6cb9e6e7f6e308da42f25b9f2d099",
+      "evidence_hash": "50b8f76480a7ae3e952eb20d9e0969554f7cdb6bfbf8617b76938417bf8d6799",
+      "group_id": "G20",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 35,
+      "case_id": "case-468c33fef957",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "427f8e0b34d1c9279f3c13aa0535310d6402b1746057c56935ede2bcee7deffa",
+      "evidence_hash": "2fa34cdc2f3f6d36badc3c13a37c7ebc48e3c2fe841c452a09078126e36c7ac9",
+      "group_id": "G21",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 83,
+      "case_id": "case-468c33fef957",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "7a64ee1e7aa5063f59aacb3f41e38c56a34d545859391622efc4dcce0944b472",
+      "evidence_hash": "23876560dea5f5682db8cc0a383d918929825776a6ffe9676f7eb2e497572bbf",
+      "group_id": "G21",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 131,
+      "case_id": "case-468c33fef957",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "a633881af16dbbbe3dd7c10e6551425e43b2b1c87c9257b511b56a4863641004",
+      "evidence_hash": "4a47d4d4224b756ca20dfb2372c87d743484ef9e8a8517765342c34eaa74f0a4",
+      "group_id": "G21",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 36,
+      "case_id": "case-fc9bb1d6ffd2",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "report_hash": "f8f77c5ae7faef95f934aa1e9d29c43edabc397fdc1f4f297e53f12cabca0553",
+      "evidence_hash": "e88a513856b17d8409009779a4e747e389683e9c2065fe1cdcd739fa2048a706",
+      "group_id": "G22",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 84,
+      "case_id": "case-fc9bb1d6ffd2",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "report_hash": "dd61e0f4dbafcee065bbcfbcdca832429f64fa954ea4d54cfd599a868ea69056",
+      "evidence_hash": "c06725924349584c0d9f41bb35afdda54a541e2d7607b1fec3b2a369ea5a7e7b",
+      "group_id": "G22",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 132,
+      "case_id": "case-fc9bb1d6ffd2",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "report_hash": "47de254bb233891f6ddf844f8647d45735a1d8e34b315c017bf2eec69632c46f",
+      "evidence_hash": "f2739cbf2f28141ac3a79f98cdec2a837c4efd67368bdd5abe0095ee7896e491",
+      "group_id": "G22",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 37,
+      "case_id": "case-fc9bb1d6ffd2",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "report_hash": "4ab7975b0843e94d8710fdf01cb75cbe8ec8e0912ca3554e467cfac7f9f62790",
+      "evidence_hash": "81ac74826c669c9a269a9425b0e40201c2f886ebecf8906c4e3777264414c386",
+      "group_id": "G23",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 85,
+      "case_id": "case-fc9bb1d6ffd2",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "report_hash": "b6015adf629b4112209fe2359c78a215233a997fb45fc441bf739cda1e1ff64f",
+      "evidence_hash": "727f284ecd235a791520fa391fe1c4209cedb0d26edfb88f1f79d117c191ee6f",
+      "group_id": "G23",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 133,
+      "case_id": "case-fc9bb1d6ffd2",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "report_hash": "80a37c43b42405a7d859820e91fe0d9b0c7978a55e0e1dee82b96393eb5eee7e",
+      "evidence_hash": "b40849215db7990265d451c77f6abd2fc59fc6d3ecf2eddf00c3e91304549f41",
+      "group_id": "G23",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 38,
+      "case_id": "case-9fd7c653e4eb",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "report_hash": "0adeff3027ad81b3ebc87dbb5d6737b519df7fe4ac2addb56650a9a2a8e617d9",
+      "evidence_hash": "89fe57290b6392af19d00878915079d4fe301c31e625e5f6190fd3b8b6fcc494",
+      "group_id": "G24",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 86,
+      "case_id": "case-9fd7c653e4eb",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "report_hash": "372a2265672856a698f91b196d149b316b6d8c7a2fc0034a6b5e256b3ae7cd50",
+      "evidence_hash": "acd310a993634b7461fc53c362003a25e45d081825339bc7fb865646fdfc6431",
+      "group_id": "G24",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 134,
+      "case_id": "case-9fd7c653e4eb",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "report_hash": "8d15f89998da492a689b063896740aeaaceb1e3e352bc99ed3957a6f54764b37",
+      "evidence_hash": "fd786d500c6f9f7d88911d1e2c3cdc6001b8f0e2f2f2e43acf7d45c35ae368c1",
+      "group_id": "G24",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 39,
+      "case_id": "case-9fd7c653e4eb",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "report_hash": "a681e12c7eaa8d4e966eb689c5d47a2f91aa55313324ace7dad0679361aa3f5e",
+      "evidence_hash": "1d46269417af73ef79bfdba7fcb4b594ab516abae07a41999e32d12788a70cc4",
+      "group_id": "G25",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 87,
+      "case_id": "case-9fd7c653e4eb",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "report_hash": "909e43a2480d991cf4d94becfeb8758047d8193620458e2c8e88656d5234fdda",
+      "evidence_hash": "e0416579e43a8f0488668036e2a40546f4d2316d3ad923aae091e09b029afae8",
+      "group_id": "G25",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 135,
+      "case_id": "case-9fd7c653e4eb",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "report_hash": "aac2b9953072005d71bdd0c4163f730a3f79ef339ab02041cad60959e429f8e8",
+      "evidence_hash": "9626d087409d83cf41e8601a1e0849c165f596da2f15875181a411b07709d69b",
+      "group_id": "G25",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "独立重算实际计数、总体率、基期标准化率，与结构判断一致；有候选时解释构成抵消，无候选时限定已检验范围并明确不证明不存在其它异常或总体统计结论。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 40,
+      "case_id": "case-d554e5f41201",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "report_hash": "54ef1351f8771fb38b2bc03ced978de6f2527a1f19b91e30da57a083046e6734",
+      "evidence_hash": "d15b0106b53e7e6177907324a8dffd56e41dde89db68cec7332afd4c524b269f",
+      "group_id": "G26",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际引用确为局部成熟覆盖，当前窗口短于完整基期；文本限定局部事实不能支持完整请求窗口判断，附带因素没有等长或不可比新增下降断言。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 88,
+      "case_id": "case-d554e5f41201",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "report_hash": "7df6b115e70d8067edb270d406f0e53c08ef5e7bb67d1457c1c1ce9ca7526fdd",
+      "evidence_hash": "19c0cfff2c5c67813d9498af5c601df589e7fecde7dce8e56a54706173c64aff",
+      "group_id": "G26",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际引用确为局部成熟覆盖，当前窗口短于完整基期；文本限定局部事实不能支持完整请求窗口判断，附带因素没有等长或不可比新增下降断言。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 136,
+      "case_id": "case-d554e5f41201",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "report_hash": "822fbc0c809fc25327d91b34a34fe879cd8fed594e103d35d042494cad5957fd",
+      "evidence_hash": "b1680aed9ce8d93c12f4096a5bca1211915a18e57be3c531aae3120d317f69d3",
+      "group_id": "G26",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际引用确为局部成熟覆盖，当前窗口短于完整基期；文本限定局部事实不能支持完整请求窗口判断，附带因素没有等长或不可比新增下降断言。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 41,
+      "case_id": "case-d554e5f41201",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "report_hash": "9395e66c871689e3fea58f6f24bdcc3c3e4b50727bbfa310581673346ab41e55",
+      "evidence_hash": "f90397732779c145cd911e86e03285ee97a90c9ebf9eb600f6057d01a0473c2a",
+      "group_id": "G27",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际引用确为局部成熟覆盖，当前窗口短于完整基期；文本限定局部事实不能支持完整请求窗口判断，附带因素没有等长或不可比新增下降断言。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 89,
+      "case_id": "case-d554e5f41201",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "report_hash": "44f46a19f5750fbff047573f4010579374e13132b5caf1c6335228a70315194d",
+      "evidence_hash": "644ce08e2d62f2d55d2cfc4bb37a21667aa4365c27aff122faae135f15f171a0",
+      "group_id": "G27",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际引用确为局部成熟覆盖，当前窗口短于完整基期；文本限定局部事实不能支持完整请求窗口判断，附带因素没有等长或不可比新增下降断言。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 137,
+      "case_id": "case-d554e5f41201",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "report_hash": "2aecbe4e531f0cdd3ce2eda5522baae79f89eaac190f2be4a04e09db52307337",
+      "evidence_hash": "06150be35cf51336a7e0a92744bdb7e5e71bde8bdd4fb7766217e2c539dda12a",
+      "group_id": "G27",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际引用确为局部成熟覆盖，当前窗口短于完整基期；文本限定局部事实不能支持完整请求窗口判断，附带因素没有等长或不可比新增下降断言。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 42,
+      "case_id": "case-7ed9335e0a35",
+      "round": 1,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "report_hash": "102e145f4ff56e31f94839414b78b311ade803abeebb148b0afdab96ee681234",
+      "evidence_hash": "9f4b38dee0f73370e120472b2113b8753e6eada0995bc51fa360d78862496f7e",
+      "group_id": "G28",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际引用确为局部成熟覆盖，当前窗口短于完整基期；文本限定局部事实不能支持完整请求窗口判断，附带因素没有等长或不可比新增下降断言。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 90,
+      "case_id": "case-7ed9335e0a35",
+      "round": 2,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "report_hash": "64bb994bb00c811698d336beb776010160a06de28ed493e76e331410e1b6c97b",
+      "evidence_hash": "6a00be59151a6303e0c2d151b276a35fb4dd49f3fdf85c8ab3a6592e9a23484b",
+      "group_id": "G28",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际引用确为局部成熟覆盖，当前窗口短于完整基期；文本限定局部事实不能支持完整请求窗口判断，附带因素没有等长或不可比新增下降断言。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 138,
+      "case_id": "case-7ed9335e0a35",
+      "round": 3,
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "report_hash": "148f9452b099b38b69cf2ad373d0a494197d26d7894c6d9169761e1613aa4274",
+      "evidence_hash": "3c680568663249f314c9edf81a697b84a84fddb5144bd06da5ac84f1cfbe2a75",
+      "group_id": "G28",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际引用确为局部成熟覆盖，当前窗口短于完整基期；文本限定局部事实不能支持完整请求窗口判断，附带因素没有等长或不可比新增下降断言。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 43,
+      "case_id": "case-7ed9335e0a35",
+      "round": 1,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "report_hash": "139f71427f9e20fdf9d35f8153dd584ba0d65b0d2923f7bab83852a589296d55",
+      "evidence_hash": "4a4f7945c0949857271e4de93655a0327a4d739e528e565c4abdad8b2721ee15",
+      "group_id": "G29",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际引用确为局部成熟覆盖，当前窗口短于完整基期；文本限定局部事实不能支持完整请求窗口判断，附带因素没有等长或不可比新增下降断言。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 91,
+      "case_id": "case-7ed9335e0a35",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "report_hash": "a58084c0433c69aa28afbb43bf89dcf2236c2d1fccb87d70b0c2eea8bec726b5",
+      "evidence_hash": "858864ffde451061f995246136f988614e18dcac85f2c09d6a0a984c20929915",
+      "group_id": "G29",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际引用确为局部成熟覆盖，当前窗口短于完整基期；文本限定局部事实不能支持完整请求窗口判断，附带因素没有等长或不可比新增下降断言。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 69,
+      "case_id": "case-7dbb7b43cb58",
+      "round": 2,
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "report_hash": "c853b063f589a0706a358a46e15908033474d548573352f1ceb072a9bc37391a",
+      "evidence_hash": "68fbbe457c402b3b208995ab054e4a4d9c384f1b4f8ed24975f45adb8ff6d27f",
+      "group_id": "G30",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际渠道新增上升且当前留存低于其它所引渠道；文本解释比较方向，保留用户构成因素并未断言造假或每新增成本必然上涨。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 115,
+      "case_id": "case-a390cf8cfc93",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "report_hash": "191435110a5a5d262d898e5be7a18169f71fd8c0d43f05dd5d14cb877a85a27e",
+      "evidence_hash": "ddd82b661afde932c6f3bd4374761423eed27c74bba95b13e240af0e8b02cabc",
+      "group_id": "G31",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "未知用量停止确有运行账本和Trace支持，但本条推断的引用全部为业务数值，不能证明停止原因；引用只支持保留的业务事实，因此相关性建议1分。没有错误归因或因果夸大。",
+        "counterevidence": "该条仅报告执行保护停止，保留实际事实与未决因素，没有凭停止推断业务原因，也没有排除已取得的相反业务证据；建议2分。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    },
+    {
+      "ordinal": 139,
+      "case_id": "case-7ed9335e0a35",
+      "round": 3,
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "report_hash": "670043cb87fd3ac8c0093ec2bcc3c5260916625e32326781acd75dd712b7dda4",
+      "evidence_hash": "6e4556cc8d00170217a1be7fe7f883ef1f7f42daf414195dedf66456d16ead5d",
+      "group_id": "G32",
+      "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "实际引用确为局部成熟覆盖，当前窗口短于完整基期；文本限定局部事实不能支持完整请求窗口判断，附带因素没有等长或不可比新增下降断言。",
+        "counterevidence": "已核对本条实际支持/反对引用；文本解释对照作用或缺口范围，并保留未排除因素。",
+        "causal_restraint": "未发现确定因果、造假、全平台共同恶化或无候选等于无异常的子句。"
+      }
+    }
+  ],
+  "proposal_hash": "f3a922402f5a7b9c4700703bdef1d6c6345b33ee11bc511c5e7b9dbf2726ad16"
+}
