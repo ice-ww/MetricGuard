@@ -12,7 +12,10 @@ from typing import Any
 
 
 class SandboxUnavailable(RuntimeError):
-    pass
+    """Safe categorical diagnosis; raw Docker errors stay out of task artifacts."""
+    def __init__(self, message: str, *, code: str = 'unspecified'):
+        super().__init__(message)
+        self.code = code
 
 
 def docker(*args: str, timeout: float = 30, input: str | None = None) -> str:
@@ -21,23 +24,23 @@ def docker(*args: str, timeout: float = 30, input: str | None = None) -> str:
                                 encoding="utf-8", timeout=timeout, check=True)
         return result.stdout
     except subprocess.CalledProcessError as exc:
-        raise SandboxUnavailable(f"Docker isolation unavailable: {exc.stderr[-1000:]}") from exc
+        raise SandboxUnavailable(f"Docker isolation unavailable: {exc.stderr[-1000:]}", code="docker_command_failed") from exc
     except (OSError, subprocess.SubprocessError) as exc:
-        raise SandboxUnavailable(f"Docker isolation unavailable: {exc}") from exc
+        raise SandboxUnavailable(f"Docker isolation unavailable: {exc}", code="docker_timeout" if isinstance(exc, subprocess.TimeoutExpired) else "docker_unavailable") from exc
 
 
 class Sandbox:
     def __init__(self, image: str, snapshot: Path, *, deadline_seconds: float = 5.0):
         if not math.isfinite(deadline_seconds) or not 0 < deadline_seconds <= 5:
-            raise SandboxUnavailable("SQL deadline must be positive and at most 5 seconds")
+            raise SandboxUnavailable("SQL deadline must be positive and at most 5 seconds", code="invalid_deadline")
         self.deadline_seconds = deadline_seconds
         if not re.fullmatch(r"sha256:[0-9a-f]{64}", image):
-            raise SandboxUnavailable("An immutable image ID is required")
+            raise SandboxUnavailable("An immutable image ID is required", code="invalid_image")
         self.snapshot = snapshot.resolve()
         if not self.snapshot.is_file() or self.snapshot.suffix != ".duckdb":
-            raise SandboxUnavailable("A dedicated snapshot file is required")
+            raise SandboxUnavailable("A dedicated snapshot file is required", code="invalid_snapshot")
         if "," in str(self.snapshot):
-            raise SandboxUnavailable("Invalid snapshot mount path")
+            raise SandboxUnavailable("Invalid snapshot mount path", code="invalid_mount")
         self.image = image
 
     def _run(self, mode: str, sql: str = "") -> dict[str, Any]:
@@ -74,7 +77,7 @@ class Sandbox:
                         and len(mounts) == 1 and mounts[0]["Type"] == "bind"
                         and mounts[0]["Destination"] == "/data/snapshot.duckdb" and not mounts[0]["RW"])
             if not verified:
-                raise SandboxUnavailable("Docker effective isolation configuration mismatch")
+                raise SandboxUnavailable("Docker effective isolation configuration mismatch", code="isolation_mismatch")
             # Bounded line protocol: bootstrap readiness is separate from the
             # SQL budget. Deadline includes send, parse, execute, fetch, encode,
             # transport, host JSON decode and worker exit; late results discarded.
@@ -101,10 +104,10 @@ class Sandbox:
             try:
                 ready_line = messages.get(timeout=max(.01, 30-(time.monotonic()-started)))
             except queue.Empty as exc:
-                raise SandboxUnavailable("Worker bootstrap deadline exceeded") from exc
+                raise SandboxUnavailable("Worker bootstrap deadline exceeded", code="bootstrap_timeout") from exc
             ready = json.loads(ready_line or b'{}')
             if ready.get("ready") is not True:
-                raise SandboxUnavailable(ready.get("error", "Worker did not attest readiness"))
+                raise SandboxUnavailable(ready.get("error", "Worker did not attest readiness"), code="bootstrap_denied")
             admitted = time.monotonic()
             assert process.stdin is not None
             process.stdin.write(request_bytes)
@@ -135,7 +138,7 @@ class Sandbox:
             response["query_seconds"] = time.monotonic()-admitted
             response["startup_seconds"] = admitted-started
             if response["status"] == "environment_denied":
-                raise SandboxUnavailable(response.get("error", "Worker refused environment"))
+                raise SandboxUnavailable(response.get("error", "Worker refused environment"), code="environment_denied")
             if mode == "audit":
                 response.update(verified=True, docker={"image": inspected["Image"], "host_config": host,
                                                        "mounts": mounts, "config": config})
@@ -159,7 +162,7 @@ class Sandbox:
                         process.stdin.close()
             remaining = docker("ps", "--all", "--quiet", "--filter", f"id={container}").strip()
             if remaining:
-                raise SandboxUnavailable("Container cleanup could not be verified")
+                raise SandboxUnavailable("Container cleanup could not be verified", code="cleanup_unverified")
             response.update(container_id=container, cleanup_verified=True,
                             cleanup_seconds=time.monotonic()-cleanup_start,
                             total_seconds=time.monotonic()-started)

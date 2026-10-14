@@ -63,7 +63,7 @@ def playback_diagnosis(evidence: list[dict[str, Any]], watermarks: list, window:
             continue
         report['candidates'].append({'group': {k: metric[k] for k in ('actual_os', 'actual_version')},
             'window': window, 'causality': 'not_established',
-            'explanation': '两条采集链路齐备且实例可对齐，独立观看进度达到完整时长但缺完成事件，支持完成事件采集缺失候选。',
+            'explanation': '两条采集链路齐备且实例可对齐，独立观看进度达到完整时长但缺完成事件，支持完成事件采集缺失候选。基期及其他系统/版本的开始数、观测完成数与独立完成数作为对照，限定本候选只覆盖有实例缺失证据的分群；其他分群即使没有同类缺失，也不能排除两条链路共同偏差，更不能据此断言全平台用户行为恶化。',
             'supporting_facts': metric['source_facts'],
             'counterevidence': [f for m in report['playback_metrics'] if m is not metric for f in m['source_facts']]})
     report['status'] = 'association_candidate' if report['candidates'] else 'no_supported_candidate'

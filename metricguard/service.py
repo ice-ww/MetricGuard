@@ -12,7 +12,7 @@ from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.types import Command, interrupt
 
-from experiments.t02.sandbox import Sandbox
+from experiments.t02.sandbox import Sandbox, SandboxUnavailable
 from experiments.t05.service import TaskService as RecoveryOwner
 from experiments.t06.retrieval import retrieve
 from experiments.t07 import ModelAdapter, Request
@@ -192,7 +192,8 @@ class TaskService:
         try:
             result = action()
         except Exception as error:
-            self.ledger.settle(attempt['id'], {'status': 'failed', 'error_type': type(error).__name__}, 0, failed=True)
+            self.ledger.settle(attempt['id'], {'status': 'failed', 'error_type': type(error).__name__,
+                **({'error_code': error.code} if isinstance(error, SandboxUnavailable) else {})}, 0, failed=True)
             raise
         failed = isinstance(result, dict) and result.get('status') not in (None, 'ok', 'adopt', 'clarify', 'unsupported')
         self.ledger.settle(attempt['id'], result, 0, failed=failed)
@@ -281,7 +282,7 @@ class TaskService:
         return {}
 
     def _model(self, task: str, name: str, system: str, shared: Any, *, final: bool = False, messages: list[dict[str, Any]] | None = None) -> dict[str, Any]:
-        request = Request(system, json.dumps(shared, ensure_ascii=False),
+        request = Request(system, json.dumps(shared, ensure_ascii=False, separators=(',', ':')),
                           messages if messages is not None else [{'role': 'user', 'content': self._data(task)['effective_question']}], max_output=1024 if final else 2048)
         self.adapter.client.timeout = min(30.0, self._remaining(task))
         result = self.adapter.call(task, name, request, attempt_id=task + ':' + name, final_report=final)
@@ -383,8 +384,8 @@ class TaskService:
             budget = self.ledger.inspect(task)
             messages = [{'role': 'user', 'content': data['effective_question']}]
             for turn in data['diagnostic_history']:
-                messages.append({'role': 'assistant', 'content': json.dumps(turn['action'], ensure_ascii=False)})
-                messages.append({'role': 'user', 'content': json.dumps(turn['result'], ensure_ascii=False)})
+                messages.append({'role': 'assistant', 'content': json.dumps(turn['action'], ensure_ascii=False, separators=(',', ':'))})
+                messages.append({'role': 'user', 'content': json.dumps({k:v for k,v in turn['result'].items() if k != 'next'}, ensure_ascii=False, separators=(',', ':'))})
             action = self._model(task, ('repair:' if failure else 'diagnose:') + str(step), ACTION_PROMPT,
                 {'definition': data['definition'], 'schema': data['schema'], 'window': data['actual_window'],
                  'evidence': self._model_evidence(data), 'last_failure': failure, 'repairs_used': data['repairs_used'],
@@ -547,7 +548,10 @@ class TaskService:
         playback = playback_diagnosis(data['evidence'], (data.get('watermarks') or {}).get('rows', []), data['actual_window'])
         from metricguard.system_diagnosis import system_diagnosis
         system = system_diagnosis(data['evidence'])
-        diagnoses = [d for d in (system, playback, channel, version) if d is not None]
+        assessment_requested = any(word in data['effective_question'] for word in
+            ('异常', '诊断', '变化', '原因', '解释', '增长质量', '掩盖', '恶化', '资料是否充分', '完整请求窗口'))
+        query_requested = not assessment_requested and ('查询' in data['effective_question'] or bool(data['answers']))
+        diagnoses = [] if query_requested else [d for d in (system, playback, channel, version) if d is not None]
         diagnosis = diagnoses[0] if diagnoses else None
         if len(diagnoses) > 1:
             report['additional_diagnoses'] = diagnoses[1:]
@@ -560,10 +564,9 @@ class TaskService:
             data['outcome'] = 'insufficient_evidence'
         report['outcome'] = data['outcome']
         from metricguard.conclusion import conclude
-        assessment_requested = any(word in data['question'] for word in ('异常', '诊断', '变化', '资料是否充分', '完整请求窗口'))
         counts_only=not assessment_requested and bool(data['evidence']) and all(e['parameters'].get('kind') in
             ('new_user_counts','retained_user_counts','crash_user_counts','play_start_counts','channel_spend') for e in data['evidence'])
-        conclusion = conclude(report, data['outcome'], 'query' if counts_only else data['mode'])
+        conclusion = conclude(report, data['outcome'], 'query' if counts_only or query_requested else data['mode'])
         report.update(conclusion)
         data['analysis_result'] = conclusion['analysis_result']
         data['report'] = report
@@ -684,7 +687,8 @@ class TaskService:
             data['limitations'].append(reason)
             data['unresolved_questions'].append('Not fully resolved due to ' + reason + ': ' + data['effective_question'])
             self._save(task, data)
-            self._event(task, 'execution_stopped', {'reason': reason, 'error_type': type(error).__name__})
+            self._event(task, 'execution_stopped', {'reason': reason, 'error_type': type(error).__name__,
+                **({'error_code': error.code} if isinstance(error, SandboxUnavailable) else {})})
             if refused:
                 self._event(task, 'action_refused', {'reason': reason})
             status = 'ended' if budget or refused else 'failed'

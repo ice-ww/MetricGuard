@@ -31,6 +31,15 @@ def conclude(report: dict[str, Any], outcome: str, mode: str) -> dict[str, Any]:
         'no_supported_anomaly': '在已核验的双链路播放实例和当前窗口内，未发现达到开发规则的采集缺失证据；不排除其他异常。',
         'facts_available': '查询事实可复核，未据此推断异常或原因。',
     }[status]
+    if status == 'insufficient_evidence':
+        if 'requested_window_shortened_to_complete_sources' in report.get('limitations', []):
+            summary = '引用的计数仅覆盖各自上下文标明的成熟且齐备窗口，未覆盖完整请求窗口；这些局部事实不能支持对完整窗口的正常或异常判断。'
+        elif diagnoses and all(d.get('status') == 'no_supported_candidate' and not d.get('missing_evidence') for d in diagnoses):
+            subjects = {'system-composition-v1': '前后期各系统新增、留存计数与构成比较未形成结构掩盖分群恶化的候选',
+                        'version-association-v1': '前后期及旧版本留存、崩溃对照未形成版本崩溃相关候选',
+                        'channel-growth-v1': '渠道新增贡献、留存与成本比较未形成低留存渠道拉动增长的候选'}
+            summary = '；'.join(subjects.get(d['rule_version'], '所引比较未形成当前规则的候选') for d in diagnoses)
+            summary += '。这些计数未建立总体推断所需的样本精度与独立同质抽样条件；未形成该候选不能证明不存在其他异常。'
     if status in ('insufficient_evidence', 'budget_exhausted', 'refused'):
         if not report['unresolved_questions']:
             report['unresolved_questions'].append('仍需核验问题相关的完整性、可比较证据及统计适用性。')

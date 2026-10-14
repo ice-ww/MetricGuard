@@ -1,0 +1,7 @@
+{
+  "version": "p0-independent-t20-v1",
+  "purpose": "regression",
+  "regression_reasons": [
+    "targeted repair access by T20 user-authorized targeted repair 2026-10-14"
+  ]
+}

@@ -176,3 +176,60 @@ def test_unknown_cohort_attribution_does_not_invent_zero_crash_groups(tmp_path, 
         published=service.publish_diagnosis(task)
         assert published['assertions']
         assert not any(a['context']['metric']=='actual_first_day_crashed_users' for a in published['assertions'])
+
+
+def test_multi_profile_diagnosis_finishes_with_original_token_budget(tmp_path, image):
+    from tests.test_t12_service import profile
+    snapshot=build_snapshot(tmp_path/'data',scenario='A1',seed=2026001)
+    kinds=['system_retention','cohort_health','crash_versions','releases']
+    usage=[1815,2366,3171,3837,4000]
+    calls=[]
+    def provider(request):
+        payload=json.loads(request.content)
+        shared=json.loads(payload['system'].split('Shared materials:\n')[1])
+        index=len(calls); calls.append(payload)
+        if index==0:
+            action={'action':'profile','table':'users','column':'registration_os','kind':kinds[index]}
+        elif index<4:
+            action=profile(kinds[index])
+        else:
+            action={'action':'stop','unsupported_hypotheses':[],'unresolved_questions':[]}
+        result=response(action).json()
+        result['usage']={'input_tokens':usage[index]-100,'output_tokens':100}
+        return httpx.Response(200,json=result)
+    with TaskService(tmp_path/'service',image,{'dev':snapshot.database},token='controlled',
+                     transport=httpx.MockTransport(provider),limits={'tool':12,'model':10,'tokens':30000,'active_seconds':180}) as service:
+        task=service.create('新增用户自然日次日留存出现变化，请检验可能解释和反对证据。','dev',('2026-01-08','2026-01-15'),mode='diagnose')
+        state=service.run(task)
+        assert state['outcome']=='facts_available', state['limitations']
+        assert len(calls)==5
+        assert state['report']['validation']['passed']
+        assert any(d['candidates'] for d in [state['report']['diagnosis']]+state['report'].get('additional_diagnoses',[]))
+
+
+def test_clarified_metric_query_returns_facts_without_unsolicited_diagnosis(tmp_path,image):
+    from tests.test_t15_service import controlled
+    snapshot=build_snapshot(tmp_path/'data',scenario='normal',seed=2026009)
+    with TaskService(tmp_path/'service',image,{'dev':snapshot.database},token='controlled',transport=httpx.MockTransport(controlled())) as service:
+        prepared=service.prepare_shared('用户表现怎么样？','dev',('2026-01-08','2026-01-15'))
+        pending=service.inspect(prepared)['pending_question']
+        service.answer(prepared,pending['question_id'],pending['version'],'新增用户自然日次日留存，按已提供窗口。')
+        task=service.create_from_shared(prepared,mode='diagnose')
+        service.run(task)
+        artifact=service.comparison_result(task)
+        assert artifact['report']['explanation']=='query_result'
+        assert not artifact['report']['inferences']
+        assert artifact['report']['assertions']
+        assert 'clarified_before_analysis' in artifact['report']['behaviors']
+
+
+def test_preflight_isolation_failure_preserves_safe_reason_code(tmp_path):
+    snapshot=build_snapshot(tmp_path/'data',scenario='normal',seed=2026033)
+    with TaskService(tmp_path/'service','mutable-image-tag',{'dev':snapshot.database},token='unused') as service:
+        prepared=service.prepare_shared('新增用户自然日次日留存','dev',('2026-01-08','2026-01-15'))
+        state=service.inspect(prepared)
+        assert state['prepared_comparison']['failed']
+        failures=[json.loads(a['result']) for a in state['attempts'] if a['state']=='failed']
+        assert failures[0]['error_code']=='invalid_image'
+        assert state['model_calls']==0
+        assert any(json.loads(e['detail']).get('error_code')=='invalid_image' for e in state['trace'] if e['event']=='execution_stopped')

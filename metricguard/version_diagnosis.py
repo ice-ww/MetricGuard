@@ -89,7 +89,7 @@ def version_diagnosis(evidence: list[dict[str, Any]]) -> dict[str, Any] | None:
         system_comparison['current_facts'] = [refs(health, i) for i, r in current if r['registration_os'] == os]
         report['candidates'].append({
             'group': {'registration_os': os, 'registration_version': version}, 'window': [row['window_start'], row['window_end']],
-            'explanation': '该系统新注册版本的留存更低、首日崩溃受影响比例更高；支持版本崩溃与留存下降相关的候选解释。',
+            'explanation': '该系统新注册版本的留存更低、首日崩溃受影响比例更高；支持版本崩溃与留存下降相关的候选解释。同系统旧版本留存更高、崩溃比例更低，限制了“整个系统同等恶化”的解释；另一系统及基期对照仍须保留，跨系统共同变化和用户构成差异不能由此排除。',
             'causality': 'not_established', 'release_date': release[0][1]['release_date'],
             'supporting_facts': [refs(health, index)] + [refs(health, i) for i, _ in past] + [refs(crashes, i) for i, _ in actual] + [refs(releases, release[0][0])],
             'counterevidence': [{'interpretation': '对照的实际表现必须纳入解释；不能忽略其是否也发生同向变化。', 'fact': refs(health, i),
