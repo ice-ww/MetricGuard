@@ -150,8 +150,10 @@ def test_snapshot_default_window_is_mature_and_incomplete_range_is_disclosed(tmp
         default = service.run(service.create('新增用户自然日次日留存', 'development'))
         assert default['actual_window'] == ['2026-01-09', '2026-01-16']
         limited = service.run(service.create('新增用户自然日次日留存', 'development', ('2026-01-10', '2026-01-20')))
-        assert limited['actual_window'] == ['2026-01-10', '2026-01-16']
-        assert 'requested_window_shortened_to_complete_sources' in limited['limitations']
+        # F2 supersedes the historical automatic truncation policy.
+        assert limited['actual_window'] is None
+        assert limited['analysis_result'] == 'insufficient_evidence'
+        assert 'requested_window_incomplete' in limited['limitations']
 
 
 def test_nonfinite_query_evidence_is_rejected_without_breaking_service(tmp_path, fixture_snapshot, image):

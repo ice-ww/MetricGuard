@@ -50,6 +50,13 @@ def test_composition_limits_preserve_known_facts(tmp_path, image, case):
         elif case == 'immature':
             con.execute("UPDATE source_watermarks SET complete_before='2026-01-12T00:00:00+08:00' WHERE source='sessions'")
     result = run(tmp_path, image, snapshot)
+    if case == 'immature':
+        # F2 requires authorization before narrowing the user's requested period.
+        assert result['actual_window'] is None
+        assert result['analysis_result'] == 'insufficient_evidence'
+        assert 'requested_window_incomplete' in result['limitations']
+        assert not result['report']['facts'] and result['model_calls'] == 0
+        return
     diagnosis = result['report']['diagnosis']
     assert result['report']['facts']
     if case in ('missing_system', 'unknown_system', 'empty_previous'):
@@ -59,10 +66,6 @@ def test_composition_limits_preserve_known_facts(tmp_path, image, case):
     elif case == 'normal':
         assert diagnosis['status'] == 'no_supported_candidate'
         assert not diagnosis['candidates']
-    else:
-        assert result['actual_window'] == ['2026-01-08', '2026-01-11']
-        assert 'requested_window_shortened_to_complete_sources' in result['limitations']
-        assert all(row['window_end'] <= '2026-01-11' for row in result['evidence'][0]['rows'])
 
 
 def test_counts_pool_users_instead_of_averaging_daily_rates(tmp_path, image):

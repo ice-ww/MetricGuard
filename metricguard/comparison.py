@@ -10,7 +10,8 @@ if TYPE_CHECKING:
 
 
 SHARED_FIELDS=('question','effective_question','snapshot_id','snapshot_hash','requested_window','actual_window',
-               'definition','schema','watermarks','retrieval','limitations','outcome','pending_question','answers')
+               'definition','schema','watermarks','retrieval','limitations','outcome','pending_question','answers',
+               'time_anchor','time_resolved','time_resolution','original_window','metric_question')
 
 
 def measured_usage(attempts: list[dict], seconds: float) -> dict[str, Any]:
@@ -106,7 +107,7 @@ def comparison_result(service: 'TaskService', task: str) -> dict[str, Any]:
     if data['answers']: behaviors.append('clarified_before_analysis')
     if any(e['event']=='query_predispatch_recovered' for e in data['trace']):
         behaviors.append('recovered_without_duplicate_dispatch')
-    coverage_reasons={'requested_window_shortened_to_complete_sources','no_complete_requested_window','channel_daily_incomplete_for_channel_health'}
+    coverage_reasons={'requested_window_shortened_to_complete_sources','requested_window_incomplete','no_complete_requested_window','channel_daily_incomplete_for_channel_health'}
     if coverage_reasons.intersection(data['limitations']) and coverage_reasons.intersection(report.get('limitations',[])):
         behaviors.append('incomplete_coverage_disclosed')
     return {'task_id':task,'variant':'baseline' if data['mode']=='baseline' else 'agent',

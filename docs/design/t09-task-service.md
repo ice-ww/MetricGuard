@@ -1,5 +1,7 @@
 # T09 单次指标查询集成
 
+后续变更：Issue #24 / F2 替代下述历史自动缩短请求窗口的行为，新增任务在未授权缩小时返回不足。日期解析、冲突确认和时间来源见 [F2 时间契约](f2-time.md)。
+
 ## 公开入口
 
 `metricguard.TaskService(root, image, snapshots, token=..., transport=None, limits=None)` 提供 `create(question, snapshot_id, window=None)`、`run(task_id)`、`inspect`、`report` 与 `trace`。`snapshots`、不可变镜像 ID、预算及 HTTP 提供方由管理员配置，任务输入不能覆盖它们。CLI 使用 `python -m metricguard`，创建与运行是两个显式操作。凭据只从进程环境读取，不写入任务或模型材料。

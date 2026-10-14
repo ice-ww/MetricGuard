@@ -32,7 +32,8 @@ class TaskService:
     """Configuration is administrator supplied; task input cannot alter capabilities."""
     def __init__(self, root: Path, image: str, snapshots: dict[str, Path], *, token: str,
                  base_url: str = 'https://api.deepseek.com/anthropic', transport: Any = None,
-                 limits: dict[str, Any] | None = None, fault_hook: Callable[[str], None] | None = None):
+                 limits: dict[str, Any] | None = None, fault_hook: Callable[[str], None] | None = None,
+                 clock: Callable[[], datetime] | None = None):
         self.root = Path(root)
         self.owner = RecoveryOwner(self.root)
         self.ledger = self.owner.ledger
@@ -40,6 +41,7 @@ class TaskService:
         self.snapshots = {key: Path(path).resolve() for key, path in snapshots.items()}
         self.limits = limits
         self.fault_hook = fault_hook
+        self.clock = clock or (lambda: datetime.now(timezone.utc))
         self.adapter = ModelAdapter(self.ledger, 'deepseek-flash', base_url, token, transport=transport, fault_hook=fault_hook)
         with self.ledger.connect() as db:
             db.execute('CREATE TABLE IF NOT EXISTS analysis_requests(id TEXT PRIMARY KEY, payload TEXT NOT NULL)')
@@ -67,10 +69,15 @@ class TaskService:
             if len(window) != 2 or date.fromisoformat(window[0]) >= date.fromisoformat(window[1]):
                 raise ValueError('invalid window')
         snapshot = self.snapshots[snapshot_id]
+        instant = self.clock()
+        if instant.tzinfo is None:
+            raise ValueError('clock must return a timezone-aware datetime')
         digest = hashlib.sha256(snapshot.read_bytes()).hexdigest()
         task = self.ledger.create_task(limits=self.limits)
         self._save(task, {'question': question, 'snapshot_id': snapshot_id, 'snapshot_hash': digest,
-                         'requested_window': window, 'actual_window': None, 'definition': None,
+                         'requested_window': window, 'original_window': window,
+                         'time_anchor': instant.astimezone(timezone(timedelta(hours=8))).isoformat(),
+                         'actual_window': None, 'definition': None,
                          'evidence': [], 'report': None, 'outcome': None, 'limitations': [],
                          'mode': mode, 'diagnostic_history': [], 'repairs_used': 0, 'unsupported_hypotheses': [], 'unresolved_questions': [],
                          'effective_question': question, 'pending_question': None, 'answers': []})
@@ -237,11 +244,19 @@ class TaskService:
         data = self._data(task)
         if data.get('shared_preflight'):
             return {}
+        from metricguard.time_windows import resolve, metric_text
+        clarification = resolve(data)
+        if clarification:
+            self._clarify(task, data, clarification['reason'], prompt=clarification['prompt'], options=clarification['options'])
+            if data['pending_question'] and 'windows' in clarification:
+                data['pending_question']['windows'] = clarification['windows']
+            self._save(task, data)
+            return {}
         # Retrieval precedes execution; absent windows are handled by snapshot watermarks below.
         tentative = tuple(data['requested_window']) if data['requested_window'] else ('2000-01-01', '2000-01-02')
         round_index = len(data['answers'])
         retrieval_id = 'retrieval' if round_index == 0 else 'retrieval:' + str(round_index)
-        found = self._tool(task, retrieval_id, lambda: retrieve(data.get('metric_question', data['effective_question']), tentative))
+        found = self._tool(task, retrieval_id, lambda: retrieve(metric_text(data.get('metric_question') or data['effective_question']), tentative))
         data['retrieval'] = found
         if found['status'] != 'adopt':
             if found['status'] == 'clarify':
@@ -267,13 +282,15 @@ class TaskService:
         requested = data['requested_window']
         end = min(date.fromisoformat(requested[1]), cutoff) if requested else cutoff
         start = date.fromisoformat(requested[0]) if requested else end - timedelta(days=7)
-        if start >= end:
+        if requested and end.isoformat() != requested[1]:
+            data['outcome'] = 'insufficient_evidence'
+            data['limitations'].append('requested_window_incomplete')
+            data['unresolved_questions'].append('请求日期未全部齐备，未自动缩短范围。')
+        elif start >= end:
             data['outcome'] = 'insufficient_evidence'
             data['limitations'].append('no_complete_requested_window')
         else:
             data['actual_window'] = [start.isoformat(), end.isoformat()]
-            if requested and end.isoformat() != requested[1]:
-                data['limitations'].append('requested_window_shortened_to_complete_sources')
         data['watermarks'] = watermarks
         self._save(task, data)
         self._event(task, 'definition_adopted', {'definition': data['definition'], 'actual_window': data['actual_window']})
@@ -598,6 +615,10 @@ class TaskService:
             ('new_user_counts','retained_user_counts','crash_user_counts','play_start_counts','channel_spend') for e in data['evidence'])
         conclusion = conclude(report, data['outcome'], 'query' if counts_only or query_requested else data['mode'])
         report.update(conclusion)
+        report['requested_window'] = data['requested_window']
+        report['original_window'] = data.get('original_window', data['requested_window'])
+        report['time_anchor'] = data.get('time_anchor')
+        report['time_resolution'] = data.get('time_resolution')
         data['analysis_result'] = conclusion['analysis_result']
         data['report'] = report
         self._save(task, data)
@@ -647,7 +668,10 @@ class TaskService:
                                     'reason': pending['reason']})
             if pending['reason'] in ('metric_required', 'candidate_ambiguity'):
                 data['metric_question'] = answer
-            elif 'metric_question' in data:
+            elif pending['reason'] in ('time_window_conflict', 'time_window_required'):
+                from metricguard.time_windows import apply_time_answer
+                apply_time_answer(data, pending, answer)
+            elif data.get('metric_question'):
                 data['metric_question'] += ' ' + answer
             data['effective_question'] += ' ' + answer
         data['pending_question'] = None
@@ -698,8 +722,12 @@ class TaskService:
         data = self._data(new)
         data['effective_question'] = previous['effective_question']
         data['inherited_answers'] = previous['answers']
-        if 'metric_question' in previous:
+        if previous.get('metric_question'):
             data['metric_question'] = previous['metric_question']
+        if previous.get('time_resolved') and previous.get('requested_window'):
+            data['time_resolved'] = True
+            data['time_resolution'] = 'inherited_explicit_window'
+            data['original_window'] = previous.get('original_window')
         self._save(new, data)
         with self.ledger.connect() as db:
             db.execute('UPDATE tasks SET parent=? WHERE id=?', (task, new))

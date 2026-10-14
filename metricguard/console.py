@@ -19,6 +19,15 @@ def interact(service: TaskService, state: dict[str, Any]) -> None:
             return
         state = service.answer(state['id'], pending['question_id'], pending['version'], answer)
     print('任务已结束。' if state['status'] == 'ended' else '任务已停止。')
+    from .time_windows import display
+    if state.get('requested_window'):
+        print('请求日期：' + display(state['requested_window']))
+    if state.get('actual_window'):
+        print('实际分析日期：' + display(state['actual_window']))
+    if state.get('time_resolution') == 'inherited_explicit_window':
+        print('本次重跑沿用原任务已明确的日期。')
+    if state.get('time_anchor'):
+        print('时间解释基准：' + state['time_anchor'])
     report = service.report(state['id']) or {}
     print(report.get('summary', '暂无报告。'))
     for question in state.get('unresolved_questions', []):
