@@ -197,7 +197,7 @@ def assemble(data: dict, task: str) -> tuple[list[dict],dict]:
         inferences.append({'inference_id':'assessment:0','text':report['summary'],
             'supporting_assertion_ids':[a['assertion_id'] for a in assertions],
             'opposing_assertion_ids':[],
-            'unexcluded_factors':list(dict.fromkeys(report.get('limitations',[])+report.get('unresolved_questions',[])
+            'unexcluded_factors':list(dict.fromkeys(report.get('limitations',[])
                 +[f for d in diagnoses for f in d.get('unexcluded_factors',[])]))})
     return evidence,{'assertions':assertions,'inferences':inferences,'charts':[]}
 

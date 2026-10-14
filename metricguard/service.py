@@ -549,8 +549,14 @@ class TaskService:
         from metricguard.system_diagnosis import system_diagnosis
         system = system_diagnosis(data['evidence'])
         assessment_requested = any(word in data['effective_question'] for word in
-            ('异常', '诊断', '变化', '原因', '解释', '增长质量', '掩盖', '恶化', '资料是否充分', '完整请求窗口'))
-        query_requested = not assessment_requested and ('查询' in data['effective_question'] or bool(data['answers']))
+            ('异常', '诊断', '变化', '原因', '解释', '增长质量', '掩盖', '恶化', '资料是否充分', '完整请求窗口',
+             '分析', '为什么', '为何', '下降', '上升', '降低', '提高', '波动', '影响', '有关', '关联', '检验'))
+        # Clarification alone does not establish query intent. The known generic
+        # metric question can become a query after naming a metric; requests for
+        # analysis in either the original question or the answer take precedence.
+        generic_metric_question = data['question'].strip(' ？?。') in ('用户表现怎么样', '用户表现如何')
+        query_requested = not assessment_requested and ('查询' in data['effective_question'] or
+            (generic_metric_question and bool(data['answers'])))
         diagnoses = [] if query_requested else [d for d in (system, playback, channel, version) if d is not None]
         diagnosis = diagnoses[0] if diagnoses else None
         if len(diagnoses) > 1:

@@ -1,0 +1,188 @@
+{
+  "reviewer": "t20_preflight independent semantic reviewer",
+  "reviewer_kind": "agent",
+  "status": "advisory_only",
+  "rubric_hash": "5303b94713a825142c56552cd4206f7e4c4a52fea8cd6e78267d0444a41f2195",
+  "human_review_status": "pending",
+  "scope": "All six inferences in development-0/3/4 (A1, normal, insufficient), both variants. Each support/opposition reference resolved to original publication cells. No formal dataset or golden answers opened.",
+  "reviews": [
+    {
+      "file": "artifacts\\t20-repair-development-01\\development-0.json",
+      "source_hash": "87822c5882d778a0c797d85af945cab8994c6ba8c2df851590ce66cce9cbe894",
+      "case_id": "development-0",
+      "variant": "agent",
+      "inference_id": "candidate:0",
+      "text": "该系统新注册版本的留存更低、首日崩溃受影响比例更高；支持版本崩溃与留存下降相关的候选解释。同系统旧版本留存更高、崩溃比例更低，限制了“整个系统同等恶化”的解释；另一系统及基期对照仍须保留，跨系统共同变化和用户构成差异不能由此排除。 这是描述性候选，未证明因果关系。",
+      "unexcluded_factors": [
+        "渠道与用户构成、同期产品变化、设备差异等混杂因素未排除。",
+        "发布时间相近和分群差异不能识别崩溃对留存的因果效应。"
+      ],
+      "report_hash": "74ceb9f31f84aaa6dcc72913c40d4af1d9e3364583f2b7ff4044c5111373b763",
+      "evidence_hash": "8de4e1cb2e1df7e2a7b702c4358ed1a1adb6cb3d7907b4ee3962363a6794eca8",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "当前Android9.4留存92/420=21.90%、崩溃260/420=61.90%；当前旧版207/420=49.29%、10/420=2.38%；基期旧版401/828=48.43%、9/828=1.09%。全部相关子句与引用方向一致。",
+        "counterevidence": "新增解释明确旧版对照限制整个系统同等恶化；保留iOS与基期并承认共同变化不能排除，没有把iOS90.10%到89.05%的实际下降写成稳定。",
+        "causal_restraint": "仅相关/描述候选，明确未证明因果及未排除混杂。"
+      },
+      "issues": [],
+      "status": "advisory_only"
+    },
+    {
+      "file": "artifacts\\t20-repair-development-01\\development-0.json",
+      "source_hash": "87822c5882d778a0c797d85af945cab8994c6ba8c2df851590ce66cce9cbe894",
+      "case_id": "development-0",
+      "variant": "baseline",
+      "inference_id": "candidate:0",
+      "text": "该系统新注册版本的留存更低、首日崩溃受影响比例更高；支持版本崩溃与留存下降相关的候选解释。同系统旧版本留存更高、崩溃比例更低，限制了“整个系统同等恶化”的解释；另一系统及基期对照仍须保留，跨系统共同变化和用户构成差异不能由此排除。 这是描述性候选，未证明因果关系。",
+      "unexcluded_factors": [
+        "渠道与用户构成、同期产品变化、设备差异等混杂因素未排除。",
+        "发布时间相近和分群差异不能识别崩溃对留存的因果效应。"
+      ],
+      "report_hash": "8343475b14e661443066b383461c034ff0a231502299f4670bc5e310599ce65c",
+      "evidence_hash": "b5d0c4769215791d55a6c300c4a6eed5c20405d072f58a82ad27609ceee8e8f9",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "当前Android9.4留存92/420=21.90%、崩溃260/420=61.90%；当前旧版207/420=49.29%、10/420=2.38%；基期旧版401/828=48.43%、9/828=1.09%。全部相关子句与引用方向一致。",
+        "counterevidence": "新增解释明确旧版对照限制整个系统同等恶化；保留iOS与基期并承认共同变化不能排除，没有把iOS90.10%到89.05%的实际下降写成稳定。",
+        "causal_restraint": "仅相关/描述候选，明确未证明因果及未排除混杂。"
+      },
+      "issues": [],
+      "status": "advisory_only"
+    },
+    {
+      "file": "artifacts\\t20-repair-development-01\\development-3.json",
+      "source_hash": "3fe5e965ec7b1f80cf59f087e6a87a7f2c3df3e807874600e975e9a6f4dcd3d2",
+      "case_id": "development-3",
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "前后期各系统新增、留存计数与构成比较未形成结构掩盖分群恶化的候选。这些计数未建立总体推断所需的样本精度与独立同质抽样条件；未形成该候选不能证明不存在其他异常。",
+      "unexcluded_factors": [
+        "Android 留存率从 0.4915 降至 0.4833 是否超出正常波动范围",
+        "iOS 留存率从 0.9179 降至 0.8869 的下降是否由系统/版本构成变化或崩溃造成",
+        "系统内渠道和版本构成、采集质量及同期产品变化仍未排除；不证明因果，也不泛称辛普森悖论。"
+      ],
+      "report_hash": "cf9336e0175be8ffc81572f1a247bfe9425d8edae1a8c3af30a5fc47bb68d335",
+      "evidence_hash": "6a2b4765810afa195cdd75cb1d162ba44215983f19edc0fbff07598ec7acc48c",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用系统前后期计数、留存率和份额；两系统份额均为50%，Android49.15%到48.33%、iOS91.79%到88.69%，总体70.47%到68.51%，没有结构抵消。baseline附带版本对照来自其实际查询结果。",
+        "counterevidence": "文本限定于已检验的结构/版本候选，并明确不能从没有候选推出没有其他异常，保留具体未决问题及抽样适用性限制。",
+        "causal_restraint": "没有把描述性比较升级成总体统计结论或确定原因。"
+      },
+      "issues": [],
+      "status": "advisory_only"
+    },
+    {
+      "file": "artifacts\\t20-repair-development-01\\development-3.json",
+      "source_hash": "3fe5e965ec7b1f80cf59f087e6a87a7f2c3df3e807874600e975e9a6f4dcd3d2",
+      "case_id": "development-3",
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "前后期各系统新增、留存计数与构成比较未形成结构掩盖分群恶化的候选；前后期及旧版本留存、崩溃对照未形成版本崩溃相关候选。这些计数未建立总体推断所需的样本精度与独立同质抽样条件；未形成该候选不能证明不存在其他异常。",
+      "unexcluded_factors": [
+        "仍需核验问题相关的完整性、可比较证据及统计适用性。",
+        "系统内渠道和版本构成、采集质量及同期产品变化仍未排除；不证明因果，也不泛称辛普森悖论。",
+        "渠道与用户构成、同期产品变化、设备差异等混杂因素未排除。",
+        "发布时间相近和分群差异不能识别崩溃对留存的因果效应。"
+      ],
+      "report_hash": "30f59f97507be18b20b1de3e1c243dead138235192373e7a06a9d5ec9249bdca",
+      "evidence_hash": "52c51654ad17f2769c3666a4d561a19be36080c3ccbd1060829c1542285a5217",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "引用系统前后期计数、留存率和份额；两系统份额均为50%，Android49.15%到48.33%、iOS91.79%到88.69%，总体70.47%到68.51%，没有结构抵消。baseline附带版本对照来自其实际查询结果。",
+        "counterevidence": "文本限定于已检验的结构/版本候选，并明确不能从没有候选推出没有其他异常，保留具体未决问题及抽样适用性限制。",
+        "causal_restraint": "没有把描述性比较升级成总体统计结论或确定原因。"
+      },
+      "issues": [],
+      "status": "advisory_only"
+    },
+    {
+      "file": "artifacts\\t20-repair-development-01\\development-4.json",
+      "source_hash": "eb929ab7384eeb74057ba9a1672a2135a8705388629151526e683ceed6dd3f30",
+      "case_id": "development-4",
+      "variant": "agent",
+      "inference_id": "assessment:0",
+      "text": "引用的计数仅覆盖各自上下文标明的成熟且齐备窗口，未覆盖完整请求窗口；这些局部事实不能支持对完整窗口的正常或异常判断。",
+      "unexcluded_factors": [
+        "requested_window_shortened_to_complete_sources",
+        "当前窗口 Android 留存率(48.6%)与 iOS(90.6%)差异的具体原因未验证",
+        "当前窗口新增用户总量(720)较上一等长窗口(1656)下降的原因未验证",
+        "Missing evidence: task_ended:insufficient_evidence",
+        "系统内渠道和版本构成、采集质量及同期产品变化仍未排除；不证明因果，也不泛称辛普森悖论。"
+      ],
+      "report_hash": "abac5594cc071c9ffaa5f4a0a437252b554dccdd6c9745e6ebb993db3ee14ffa",
+      "evidence_hash": "56cd66b835168fac60d7deab96ea6543146a55a3bd290fa485f0ed734145b7ff",
+      "scores": {
+        "relevance": 1,
+        "counterevidence": 1,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "主推断有覆盖证据，但附带未排除因素称两期等长，与3天/7天上下文矛盾，故不能给完整2分。",
+        "counterevidence": "已说明覆盖不足，却仍在附带子句忽略该限制比较总新增下降，关键不完整性未被一致处理。",
+        "causal_restraint": "只报告无法判断，不建立异常不存在或因果结论。"
+      },
+      "issues": [
+        {
+          "severity": "substantive",
+          "field": "unexcluded_factors",
+          "text": "当前窗口新增用户总量(720)较上一等长窗口(1656)下降的原因未验证",
+          "reason": "本期仅3天，基期7天，等长为错误事实；局部720与完整基期1656不可直接解释为可比新增下降。"
+        }
+      ],
+      "status": "advisory_only"
+    },
+    {
+      "file": "artifacts\\t20-repair-development-01\\development-4.json",
+      "source_hash": "eb929ab7384eeb74057ba9a1672a2135a8705388629151526e683ceed6dd3f30",
+      "case_id": "development-4",
+      "variant": "baseline",
+      "inference_id": "assessment:0",
+      "text": "引用的计数仅覆盖各自上下文标明的成熟且齐备窗口，未覆盖完整请求窗口；这些局部事实不能支持对完整窗口的正常或异常判断。",
+      "unexcluded_factors": [
+        "requested_window_shortened_to_complete_sources",
+        "仍需核验问题相关的完整性、可比较证据及统计适用性。",
+        "Missing evidence: task_ended:insufficient_evidence",
+        "系统内渠道和版本构成、采集质量及同期产品变化仍未排除；不证明因果，也不泛称辛普森悖论。",
+        "渠道与用户构成、同期产品变化、设备差异等混杂因素未排除。",
+        "发布时间相近和分群差异不能识别崩溃对留存的因果效应。"
+      ],
+      "report_hash": "0047075e137eff29fd0ce3bb8573c31b7d505bbff704d2f623a2376eae5bf82e",
+      "evidence_hash": "9b23b929bf1cf0cbe1839ef569cc09af5c93bd8416442b42365a5ce981369e0d",
+      "scores": {
+        "relevance": 2,
+        "counterevidence": 2,
+        "causal_restraint": 2
+      },
+      "reasons": {
+        "relevance": "主推断将局部事实的上下文窗口与请求窗口连接：请求2026-05-16至05-23，现有本期仅05-16至05-19；不足判断有实际覆盖证据。",
+        "counterevidence": "保留基期及系统对照，不把局部正常/异常外推至完整请求窗口，并说明未排除因素。",
+        "causal_restraint": "只报告无法判断，不建立异常不存在或因果结论。"
+      },
+      "issues": [],
+      "status": "advisory_only"
+    }
+  ],
+  "summary": {
+    "inferences_reviewed": 6,
+    "all_two_suggestions": 5,
+    "substantive_findings": 1
+  }
+}
