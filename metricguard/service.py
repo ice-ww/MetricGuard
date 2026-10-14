@@ -548,7 +548,10 @@ class TaskService:
         playback = playback_diagnosis(data['evidence'], (data.get('watermarks') or {}).get('rows', []), data['actual_window'])
         from metricguard.system_diagnosis import system_diagnosis
         system = system_diagnosis(data['evidence'])
-        assessment_requested = any(word in data['effective_question'] for word in
+        # "Affected users" is part of the crash metric's name, not an impact
+        # analysis request. Keep analysis words elsewhere in the question.
+        intent_question = data['effective_question'].replace('受影响人数', '').replace('受影响比例', '')
+        assessment_requested = any(word in intent_question for word in
             ('异常', '诊断', '变化', '原因', '解释', '增长质量', '掩盖', '恶化', '资料是否充分', '完整请求窗口',
              '分析', '为什么', '为何', '下降', '上升', '降低', '提高', '波动', '影响', '有关', '关联', '检验'))
         # Clarification alone does not establish query intent. The known generic

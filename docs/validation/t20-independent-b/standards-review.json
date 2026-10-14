@@ -1,0 +1,155 @@
+{
+  "reviewer": "t20_standards",
+  "time_utc": "2026-10-14T01:53:27.681614+00:00",
+  "run_id": "957c9e55f5ed4dd4ad9c5390ba25283f",
+  "version": "p0-independent-t20-b-v2",
+  "configuration_hash": "40056681aa8abfb7a9b923b6f99004cd5f76ef032c2154c7afb38a9c840c37e6",
+  "code_ref": "568a4e81ffecb43df349a9f4c92e78bbfd0edaf8",
+  "bundle_hash": "c3004e436d6dad44f2c495db0c36ab90308c42cc345eb780039534fa3936c8c7",
+  "configuration_checks": {
+    "code_hashes": true,
+    "prompt_hashes": true,
+    "rule_hashes": true,
+    "reference_hashes": true,
+    "dependency": true,
+    "safety_same_configuration": true,
+    "suite_xml_matches": true,
+    "suite_log_matches": true
+  },
+  "safety": {
+    "status": "passed",
+    "tests": 420,
+    "required_modules": [
+      "tests.test_t02_acceptance",
+      "tests.test_t02_policy",
+      "tests.test_t02_sandbox",
+      "tests.test_t03_limits",
+      "tests.test_t03_supervisor",
+      "tests.test_t04_reference",
+      "tests.test_t04_statistics",
+      "tests.test_t05",
+      "tests.test_t07_adapter",
+      "tests.test_t07_scheduler",
+      "tests.test_t08",
+      "tests.test_t09_service",
+      "tests.test_t10_recovery",
+      "tests.test_t10_service",
+      "tests.test_t17_service"
+    ],
+    "receipt_hash": "c3b25647fa1c04b25b019830a902ae35eb330133cb990e8d44f52c9e90066bb3",
+    "configuration_hash": "40056681aa8abfb7a9b923b6f99004cd5f76ef032c2154c7afb38a9c840c37e6"
+  },
+  "records_at_review": 144,
+  "run_completed_event_observed": true,
+  "full_run_review": "complete",
+  "publication_hashes_checked": 144,
+  "audit_errors": [],
+  "original_failed_run_records_retained": 144,
+  "prior_artifacts_retained": {
+    "formal_a_results": true,
+    "repair_failed_safety_receipt": true,
+    "prior_regression_results": true
+  },
+  "configuration_revision_events": [
+    {
+      "time": "2026-10-14T01:10:25.220214+00:00",
+      "kind": "configuration_revision",
+      "detail": {
+        "source": "p0-independent-t20-b-v1",
+        "version": "p0-independent-t20-b-v2",
+        "unchanged_cases_hash": "3ae2fcea21964e0747124229a310051b2f94f13f126ae7fb259cdc6395b921d9",
+        "actor": "T20 independent configuration reviewer; exact history serialization repair before any product run"
+      }
+    }
+  ],
+  "known_simple_failures": [
+    {
+      "case_id": "case-f0bb578ebaa6",
+      "round": 1,
+      "variant": "agent",
+      "category": "simple",
+      "failures": [
+        "explanation"
+      ]
+    },
+    {
+      "case_id": "case-f0bb578ebaa6",
+      "round": 2,
+      "variant": "agent",
+      "category": "simple",
+      "failures": [
+        "explanation"
+      ]
+    },
+    {
+      "case_id": "case-f0bb578ebaa6",
+      "round": 3,
+      "variant": "agent",
+      "category": "simple",
+      "failures": [
+        "explanation"
+      ]
+    }
+  ],
+  "conclusion": "Full 144 records retained and match registry exactly. Configuration, bound 420-test safety receipt, publication hashes/reversible evidence projections and accounting verified. Formal acceptance failed; retain all records and do not close Issue as passed.",
+  "results_sha256": "c7d7629cc09089ef59236d950154ee0edaed5c25dc470f86fe97d3123290f553",
+  "reversible_projection_checks": 144,
+  "usage_checks": 144,
+  "independent_round_usage_recalculation": [
+    {
+      "round": 1,
+      "variant": "agent",
+      "records": 24,
+      "p50_seconds": 4.530999999988126,
+      "p95_seconds": 14.01054999997723,
+      "tokens": 131669,
+      "unknown_actual_cost_records": 24
+    },
+    {
+      "round": 2,
+      "variant": "agent",
+      "records": 24,
+      "p50_seconds": 4.703000000008615,
+      "p95_seconds": 15.08920000003127,
+      "tokens": 131560,
+      "unknown_actual_cost_records": 24
+    },
+    {
+      "round": 3,
+      "variant": "agent",
+      "records": 24,
+      "p50_seconds": 4.586500000004889,
+      "p95_seconds": 13.715450000020791,
+      "tokens": 131620,
+      "unknown_actual_cost_records": 24
+    },
+    {
+      "round": 1,
+      "variant": "baseline",
+      "records": 24,
+      "p50_seconds": 8.719000000011874,
+      "p95_seconds": 18.45844999998517,
+      "tokens": 75631,
+      "unknown_actual_cost_records": 24
+    },
+    {
+      "round": 2,
+      "variant": "baseline",
+      "records": 24,
+      "p50_seconds": 9.765500000008615,
+      "p95_seconds": 18.05924999997951,
+      "tokens": 70537,
+      "unknown_actual_cost_records": 24
+    },
+    {
+      "round": 3,
+      "variant": "baseline",
+      "records": 24,
+      "p50_seconds": 8.375,
+      "p95_seconds": 17.884000000017114,
+      "tokens": 73733,
+      "unknown_actual_cost_records": 24
+    }
+  ],
+  "formal_acceptance_passed": false
+}

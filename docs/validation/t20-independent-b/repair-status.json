@@ -1,0 +1,7 @@
+{
+  "version": "p0-independent-t20-b-v2",
+  "purpose": "regression",
+  "regression_reasons": [
+    "targeted repair access by T20 user-authorized continued repair after complete failed B three rounds"
+  ]
+}

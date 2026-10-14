@@ -1,0 +1,23 @@
+{
+  "reviewer": "t20_standards",
+  "base": "568a4e8",
+  "scope": "working source/test diff; read-only; no Docker",
+  "diff_sha256": "439e5c6466a3616f0fc5e7bcf3a438966f6912db6fc70d6cc1079c0329e4b93c",
+  "hard_standard_violations": [],
+  "blocking_findings": [],
+  "smells": [],
+  "checks": [
+    "Only the two metric noun phrases are masked for intent classification; original question, retrieval, prompts and evidence remain intact.",
+    "Diagnostic words elsewhere remain effective; explicit impact assessment is not suppressed.",
+    "No budget, timeout, safety policy, scorer or threshold changes.",
+    "Tests use public TaskService behavior, with metric-only query and explicit impact-analysis counterexample."
+  ],
+  "intent_truth_table": {
+    "metric_count": false,
+    "metric_proportion": false,
+    "explicit_impact": true,
+    "same_metric_diagnosis": true
+  },
+  "test_execution": "No tests executed by reviewer; parent running targeted integration suite. Static phrase checks only.",
+  "conclusion": "No blocking findings in reviewed diff. Eligible for commit and locked full verification after parent targeted tests pass; not a claim that formal acceptance has passed."
+}

@@ -38,3 +38,21 @@
 
 1. test_next_plan_receives_actual_action_and_result_history：消息投影过滤固定 next 提示，但持久化历史仍含该提示，违反历史一致性。保留原测试；改为在新成功记录生成时不添加固定 next 提示，并完整序列化实际历史。原有已保存历史不修改。
 2. test_query_failure_is_retained_without_repair_and_report_still_called：共享预检 watermarks 失败，持久化新分类为 docker_timeout，双方模型调用为0。没有证据证明产品查询/报告逻辑失败；也不能把基础设施失败剔除。原始分类见 t20-repair-preflight-timeout.json。具体 Docker 控制命令尚未保存，未声称修复其底层根因。
+
+
+## 最终完整安全验证
+
+568a4e8：420 passed，1205.97秒（20分05秒）。完整收集身份、JUnit、源码及配置绑定回执通过。配置哈希40056681aa8abfb7a9b923b6f99004cd5f76ef032c2154c7afb38a9c840c37e6；回执哈希c3b25647fa1c04b25b019830a902ae35eb330133cb990e8d44f52c9e90066bb3。最终原始记录见 t20-independent-b/safety-final-*；此前全部失败保留。
+
+Standards/Spec 对726a107..568a4e8追加复审均无新阻塞。新实例仅重新锁定配置为p0-independent-t20-b-v2，cases哈希3ae2fcea21964e0747124229a310051b2f94f13f126ae7fb259cdc6395b921d9保持不变；新冻结哈希c3004e436d6dad44f2c495db0c36ab90308c42cc345eb780039534fa3936c8c7。
+
+
+## B 组三轮失败与继续修复
+
+新实例B完整144条，Agent每轮参考414/414、核心归因12/12，简单查询均5/6（崩溃受影响人数被误识别为影响诊断）。每轮16份推断仍待人工评分。报告与全部调用见 [B报告](t20-independent-b/t20-report.md)。按用户继续修复授权，已在源码修复前将B永久标为回归用途；未改答案、题目或评分。
+
+公开TaskService开发测试复现：纯人数查询返回insufficient_evidence而非query_result。修复意图判定只忽略指标名里的受影响人数/比例，保留其他位置的分析词；反例验证查询留存同时评估版本发布的影响仍保留诊断意图。首次反例使用崩溃定义却提供留存专属画像，被口径守卫正确拒绝；已纠正测试输入为留存指标，没有放宽该守卫。新实例C将在最终版本锁定后独立生成，保留同一题型/参考机制，不称机制未见。
+
+B定向修复后的集成文件18项全部通过（115.21秒）；mypy85文件通过。Standards与Spec源码复审均无阻塞。新C实例计划与生成脚本在执行前留存，维持强度参数/分配，只更换独立实例身份及日期等参数；231份既有metadata无身份重合。
+
+真实模型重查B原失败案例：参考1/1、断言2/2、完整通过，无推断；只作定向回归，不作独立验收。详见 t20-independent-c/b-targeted-regression.json.gz。

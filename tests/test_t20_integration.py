@@ -258,6 +258,7 @@ def test_model_stop_prose_is_not_published_as_verified_limitation(tmp_path,image
 @pytest.mark.parametrize('question,answer',[
     ('请查询新增用户自然日次日留存为什么下降',None),
     ('分析用户表现','新增用户自然日次日留存下降是否与版本发布有关？'),
+    ('查询新增用户自然日次日留存，并评估版本发布的影响',None),
 ])
 def test_query_word_or_clarification_does_not_suppress_requested_diagnosis(tmp_path,image,question,answer):
     from tests.test_t12_service import controlled
@@ -270,3 +271,19 @@ def test_query_word_or_clarification_does_not_suppress_requested_diagnosis(tmp_p
             state=service.answer(task,pending['question_id'],pending['version'],answer)
         assert state['analysis_result']=='supported_descriptive_candidate'
         assert service.publish_diagnosis(task)['inferences']
+
+
+def test_crash_affected_user_count_is_a_metric_query(tmp_path,image):
+    snapshot=build_snapshot(tmp_path/'data',scenario='normal',seed=2026041)
+    def provider(request):
+        shared=json.loads(json.loads(request.content)['system'].split('Shared materials:\n')[1])
+        return response({'action':'stop','unsupported_hypotheses':[],'unresolved_questions':[]} if shared['evidence'] else
+                        {'action':'profile','table':'users','column':'user_id','kind':'crash_user_counts'})
+    with TaskService(tmp_path/'service',image,{'dev':snapshot.database},token='controlled',transport=httpx.MockTransport(provider)) as service:
+        prepared=service.prepare_shared('查询新增用户首日崩溃受影响人数','dev',('2026-01-08','2026-01-15'))
+        task=service.create_from_shared(prepared,mode='diagnose')
+        service.run(task)
+        artifact=service.comparison_result(task)
+        assert artifact['report']['explanation']=='query_result'
+        assert artifact['report']['assertions']
+        assert not artifact['report']['inferences']

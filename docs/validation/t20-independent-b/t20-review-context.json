@@ -1,0 +1,2474 @@
+{
+  "case-e72d5c4c75b8": {
+    "id": "case-e72d5c4c75b8",
+    "question": "请查询新增用户数并给出可追踪证据。",
+    "window": [
+      "2029-04-10",
+      "2029-04-17"
+    ],
+    "snapshot": "case-e72d5c4c75b8/public/snapshot.duckdb",
+    "snapshot_id": "0050063190f1d9857e4e912fa6f12a7f39d1ea8c6fc00127710b09d4183102ce",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-ebb877c42262": {
+    "id": "case-ebb877c42262",
+    "question": "请查询新增用户自然日次日留存人数并给出可追踪证据。",
+    "window": [
+      "2029-05-03",
+      "2029-05-10"
+    ],
+    "snapshot": "case-ebb877c42262/public/snapshot.duckdb",
+    "snapshot_id": "7c5763d95e70d9ef0dbafce2bc6b17000d70edc3e4c8ce2a5ea7d07e7d53fe7e",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-09df6642bf2a": {
+    "id": "case-09df6642bf2a",
+    "question": "请查询新增用户自然日次日留存率并给出可追踪证据。",
+    "window": [
+      "2029-05-26",
+      "2029-06-02"
+    ],
+    "snapshot": "case-09df6642bf2a/public/snapshot.duckdb",
+    "snapshot_id": "41861f796e53620fe2721f10f49469984a6ed16a16c45c2593930081f31dd18e",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-f0bb578ebaa6": {
+    "id": "case-f0bb578ebaa6",
+    "question": "请查询新增用户首日崩溃受影响人数并给出可追踪证据。",
+    "window": [
+      "2029-06-18",
+      "2029-06-25"
+    ],
+    "snapshot": "case-f0bb578ebaa6/public/snapshot.duckdb",
+    "snapshot_id": "e5a57d9865b47b5c3ad74d7a899d5170b4dd451f88cd42e9aeb3752f0cb14105",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-192d65177689": {
+    "id": "case-192d65177689",
+    "question": "请查询Android 10.8 去重播放开始数并给出可追踪证据。",
+    "window": [
+      "2029-07-11",
+      "2029-07-18"
+    ],
+    "snapshot": "case-192d65177689/public/snapshot.duckdb",
+    "snapshot_id": "cba4a153773f5e1057ecaa19a1ffd1734f63173fe9206ef408156cb71b22a0e7",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-343688002470": {
+    "id": "case-343688002470",
+    "question": "请查询acquisition-b3 渠道同期支出（分）并给出可追踪证据。",
+    "window": [
+      "2029-08-03",
+      "2029-08-10"
+    ],
+    "snapshot": "case-343688002470/public/snapshot.duckdb",
+    "snapshot_id": "362fe36ed0d127c0a4825d0f5ea9fa346c036e868b0d14bdc562b655a1649507",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-f285b152436c": {
+    "id": "case-f285b152436c",
+    "question": "新增用户自然日次日留存出现变化，请检验可能解释和反对证据。",
+    "window": [
+      "2029-08-26",
+      "2029-09-02"
+    ],
+    "snapshot": "case-f285b152436c/public/snapshot.duckdb",
+    "snapshot_id": "509bc5f5910419b031c18cf3894fbc327239ecdf1222f6f46a8dbfca243362c8",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-6089c00cbc6b": {
+    "id": "case-6089c00cbc6b",
+    "question": "新增用户自然日次日留存出现变化，请检验可能解释和反对证据。",
+    "window": [
+      "2029-09-18",
+      "2029-09-25"
+    ],
+    "snapshot": "case-6089c00cbc6b/public/snapshot.duckdb",
+    "snapshot_id": "ae301c2a50704c27b1ed08dd1b4978e8c3bd8f5b43776d00a18c3df6126ec9ac",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-f6a63f90d0a0": {
+    "id": "case-f6a63f90d0a0",
+    "question": "新增用户自然日次日留存出现变化，请检验可能解释和反对证据。",
+    "window": [
+      "2029-10-11",
+      "2029-10-18"
+    ],
+    "snapshot": "case-f6a63f90d0a0/public/snapshot.duckdb",
+    "snapshot_id": "6729a4057b77a78d5dff4f0a65a27cf136034f933a5c85b577e2521612d1abfb",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-a4995b53906a": {
+    "id": "case-a4995b53906a",
+    "question": "新增用户增长质量如何？请比较留存与渠道成本并说明限制。",
+    "window": [
+      "2029-11-03",
+      "2029-11-10"
+    ],
+    "snapshot": "case-a4995b53906a/public/snapshot.duckdb",
+    "snapshot_id": "3dce87ba51baffef13323d6dfcdcbcc9701f9878eab81f14c93a74ba31bf3d4f",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-662aa709bd8b": {
+    "id": "case-662aa709bd8b",
+    "question": "新增用户增长质量如何？请比较留存与渠道成本并说明限制。",
+    "window": [
+      "2029-11-26",
+      "2029-12-03"
+    ],
+    "snapshot": "case-662aa709bd8b/public/snapshot.duckdb",
+    "snapshot_id": "1e5857ff329681d553a6d9b232a0db6cd5e915353b107b782cce8e7be8281574",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-fce12e1562e2": {
+    "id": "case-fce12e1562e2",
+    "question": "新增用户增长质量如何？请比较留存与渠道成本并说明限制。",
+    "window": [
+      "2029-12-19",
+      "2029-12-26"
+    ],
+    "snapshot": "case-fce12e1562e2/public/snapshot.duckdb",
+    "snapshot_id": "d5e312c8299e0b5d228bcdcc20f5f1efa30d72b12ecc081c99b36a0b30ed1fea",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-4a61522c7687": {
+    "id": "case-4a61522c7687",
+    "question": "观测完播率出现变化，请用独立证据检查采集与行为解释。",
+    "window": [
+      "2030-01-11",
+      "2030-01-18"
+    ],
+    "snapshot": "case-4a61522c7687/public/snapshot.duckdb",
+    "snapshot_id": "3c2308deba7acd90486d7098d74bc2faa25da33a2efb0ce691ad499906e9ba35",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-b977da42f0c3": {
+    "id": "case-b977da42f0c3",
+    "question": "观测完播率出现变化，请用独立证据检查采集与行为解释。",
+    "window": [
+      "2030-02-03",
+      "2030-02-10"
+    ],
+    "snapshot": "case-b977da42f0c3/public/snapshot.duckdb",
+    "snapshot_id": "c6a0643da0a160091074f101a694fe9b5f71bd4cefb5f21f6de6798ca80a2275",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-5bf0b8212acc": {
+    "id": "case-5bf0b8212acc",
+    "question": "观测完播率出现变化，请用独立证据检查采集与行为解释。",
+    "window": [
+      "2030-02-26",
+      "2030-03-05"
+    ],
+    "snapshot": "case-5bf0b8212acc/public/snapshot.duckdb",
+    "snapshot_id": "9c0263a55568de468a1964289efeb95c901e573d6942646ce1b295466c4e0320",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-8a737b4182ec": {
+    "id": "case-8a737b4182ec",
+    "question": "新增用户自然日次日留存总体表现如何？请检查分群及构成变化。",
+    "window": [
+      "2030-03-21",
+      "2030-03-28"
+    ],
+    "snapshot": "case-8a737b4182ec/public/snapshot.duckdb",
+    "snapshot_id": "27bae6515a24ca3479e1dba1cc671333e321003ce872dcc0e06c648dcface711",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-3bd33e9fd2f8": {
+    "id": "case-3bd33e9fd2f8",
+    "question": "新增用户自然日次日留存总体表现如何？请检查分群及构成变化。",
+    "window": [
+      "2030-04-13",
+      "2030-04-20"
+    ],
+    "snapshot": "case-3bd33e9fd2f8/public/snapshot.duckdb",
+    "snapshot_id": "197b212fd485da112f6f6c4c105ce6d4d60c77e521b936e7a83143e162281cce",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-d89163837b4e": {
+    "id": "case-d89163837b4e",
+    "question": "新增用户自然日次日留存总体表现如何？请检查分群及构成变化。",
+    "window": [
+      "2030-05-06",
+      "2030-05-13"
+    ],
+    "snapshot": "case-d89163837b4e/public/snapshot.duckdb",
+    "snapshot_id": "3e6ef406062b855bf1f8fbbfd880a173c7adc0e8335e65940f102eda1178c12e",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-bd76cc4b496d": {
+    "id": "case-bd76cc4b496d",
+    "question": "请检查新增用户自然日次日留存是否有足够异常证据。",
+    "window": [
+      "2030-05-29",
+      "2030-06-05"
+    ],
+    "snapshot": "case-bd76cc4b496d/public/snapshot.duckdb",
+    "snapshot_id": "0975ce378504ed7feab661e549b043f7ae6157c85c9cf9edef0805f31806dffe",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-092aa80f778b": {
+    "id": "case-092aa80f778b",
+    "question": "请检查新增用户自然日次日留存是否有足够异常证据。",
+    "window": [
+      "2030-06-21",
+      "2030-06-28"
+    ],
+    "snapshot": "case-092aa80f778b/public/snapshot.duckdb",
+    "snapshot_id": "61a187848c145d29426178bd63e4195dbb1564513fe086c8719b90c02bc041ee",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-55ddb54215f1": {
+    "id": "case-55ddb54215f1",
+    "question": "请分析完整请求窗口的新增用户自然日次日留存；说明资料是否充分。",
+    "window": [
+      "2030-07-14",
+      "2030-07-21"
+    ],
+    "snapshot": "case-55ddb54215f1/public/snapshot.duckdb",
+    "snapshot_id": "d21ebfc6ed2f4b948eb79747ceb362f453a1ce4c9d5d0f1cba4d2df4a6f70f9c",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-dff26c54b27a": {
+    "id": "case-dff26c54b27a",
+    "question": "请分析完整请求窗口的新增用户自然日次日留存；说明资料是否充分。",
+    "window": [
+      "2030-08-06",
+      "2030-08-13"
+    ],
+    "snapshot": "case-dff26c54b27a/public/snapshot.duckdb",
+    "snapshot_id": "3b1ef140987744f5a71669eb6541cbbb8030590d9223a375c8e31dd8020fc84b",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-63fbdbcfe4ab": {
+    "id": "case-63fbdbcfe4ab",
+    "question": "用户表现怎么样？",
+    "window": [
+      "2030-08-29",
+      "2030-09-05"
+    ],
+    "snapshot": "case-63fbdbcfe4ab/public/snapshot.duckdb",
+    "snapshot_id": "7f56b48467275c9e6c3c6fa4c3ffd309e4e66d0d6d5dd6a1f373eaf68c74277f",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  },
+  "case-a42971caddfd": {
+    "id": "case-a42971caddfd",
+    "question": "请查询新增用户自然日次日留存并处理可恢复工具错误。",
+    "window": [
+      "2030-09-21",
+      "2030-09-28"
+    ],
+    "snapshot": "case-a42971caddfd/public/snapshot.duckdb",
+    "snapshot_id": "522692f572d5d7eed97902fc434ba7d8f4eed86769aecc22875c75a4a6ce5721",
+    "definition": [
+      {
+        "id": "retention",
+        "name": "新增用户自然日次日留存",
+        "aliases": [
+          "新用户次日留存",
+          "注册次日留存率"
+        ],
+        "definition": "新增注册用户第二天回来产生会话的比例。",
+        "numerator": "D 日注册且 D+1 有至少一次会话的去重 user_id 数",
+        "denominator": "D 日首次注册去重用户数；为零则不可计算",
+        "dimensions": "users.registration_os / registration_version / channel 固定注册归属",
+        "joins": "users.user_id = sessions.user_id；EXISTS 防止多会话重复计数",
+        "time": "Asia/Shanghai 自然日；注册窗口 [start,end)；D+1 完整结束且 users/sessions 水位齐备；D+2 <= sessions.complete_before",
+        "pitfalls": "不是滚动 24 小时；不混入活跃老用户；跨日用总留存/总新增，不平均每日比例"
+      },
+      {
+        "id": "completion",
+        "name": "完播率",
+        "aliases": [
+          "完成播放率",
+          "视频播完比例"
+        ],
+        "definition": "播放开始中有完成事件的播放次数比例。",
+        "numerator": "content_events 中有 complete 的去重 play_id 数",
+        "denominator": "有 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events.session_id = sessions.session_id；sessions.user_id = users.user_id；start/complete 按 play_id 关联",
+        "time": "Asia/Shanghai；播放开始日在 [start,end)；content_events/sessions 水位完整；不能把缺失当零",
+        "pitfalls": "重复上报去重；重复观看新 play_id；完成事件缺失影响观测，独立 playback_telemetry 可交叉核对，不能仅凭差异证明采集故障"
+      },
+      {
+        "id": "effective",
+        "name": "有效播放率",
+        "aliases": [
+          "有效观看比例",
+          "至少看五秒比例"
+        ],
+        "definition": "观看时长达到 min(5 秒,视频时长) 的播放次数占开始次数比例。",
+        "numerator": "playback_telemetry 同一 play_id 最大 watched_seconds >= min(5,duration_seconds) 的次数",
+        "denominator": "content_events 中 start 的去重 play_id 数；为零则不可计算",
+        "dimensions": "sessions.os / version 与 users.channel",
+        "joins": "content_events 与 playback_telemetry 按 play_id/session_id 对齐；session_id 连 sessions；user_id 连 users",
+        "time": "Asia/Shanghai 播放开始日 [start,end)；所有来源水位完整",
+        "pitfalls": "不是完播率；遥测缺失不可当未有效；时长须正且一致；重复上报取最大进度"
+      },
+      {
+        "id": "new_cost",
+        "name": "每新增用户成本",
+        "aliases": [
+          "获客成本",
+          "新增成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增人数。",
+        "numerator": "channel_daily.spend_cents 渠道支出总分",
+        "denominator": "users 同渠道同窗口注册的去重 user_id 数；零返回 null",
+        "dimensions": "channel",
+        "joins": "channel_daily 与 users 各自按 day/channel 聚合后关联；不得原始明细多对多放大支出",
+        "time": "Asia/Shanghai 注册日 [start,end) 与支出 day 同期；对应水位完整",
+        "pitfalls": "金额单位分；不扩展到观察日；不得以日均成本代替总支出/总人数"
+      },
+      {
+        "id": "retained_cost",
+        "name": "每次日留存用户成本",
+        "aliases": [
+          "留存获客成本",
+          "留存用户成本"
+        ],
+        "definition": "渠道支出除以同一注册窗口新增用户中第二天返回人数。",
+        "numerator": "channel_daily.spend_cents 同渠道注册窗口总分",
+        "denominator": "同一批新增用户在注册次日有会话的去重 user_id 数；零返回 null",
+        "dimensions": "注册 channel",
+        "joins": "users 与 sessions 按 user_id EXISTS；计数后与 day/channel 支出聚合关联",
+        "time": "Asia/Shanghai；采用完整成熟注册窗口 [start,end)；支出相同注册日范围",
+        "pitfalls": "不能把所有活跃用户当留存新增；不要将次日支出放入分子"
+      },
+      {
+        "id": "crash",
+        "name": "新增用户首日崩溃受影响比例",
+        "aliases": [
+          "新用户首日崩溃比例",
+          "注册日崩溃用户占比"
+        ],
+        "definition": "新增用户注册当日发生过崩溃的人数比例。",
+        "numerator": "注册日 sessions.crashed=true 的去重 user_id 数",
+        "denominator": "同日注册去重 user_id 数；零不可计算",
+        "dimensions": "注册系统版本渠道；实际崩溃运行版本用 sessions.os/version 另核对",
+        "joins": "users.user_id=sessions.user_id 且注册自然日等于会话日；EXISTS 去重",
+        "time": "Asia/Shanghai 注册日 [start,end)；users/sessions 水位完整",
+        "pitfalls": "不是会话级崩溃率；同人多次崩溃仅一次；关联不证明因果"
+      }
+    ],
+    "schema": "CREATE TABLE users(user_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ,\n    registration_os VARCHAR, registration_version VARCHAR, channel VARCHAR);\nCREATE TABLE sessions(session_id VARCHAR PRIMARY KEY, user_id VARCHAR,\n    started_at TIMESTAMPTZ, os VARCHAR, version VARCHAR, crashed BOOLEAN);\nCREATE TABLE content_events(event_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, event_type VARCHAR, occurred_at TIMESTAMPTZ);\nCREATE TABLE playback_telemetry(report_id VARCHAR PRIMARY KEY, play_id VARCHAR,\n    session_id VARCHAR, observed_at TIMESTAMPTZ, watched_seconds INTEGER,\n    duration_seconds INTEGER);\nCREATE TABLE channel_daily(day DATE, channel VARCHAR, spend_cents BIGINT,\n    PRIMARY KEY(day, channel));\nCREATE TABLE release_calendar(os VARCHAR, version VARCHAR, released_at TIMESTAMPTZ);\nCREATE TABLE source_watermarks(source VARCHAR PRIMARY KEY, complete_before TIMESTAMPTZ);\n"
+  }
+}

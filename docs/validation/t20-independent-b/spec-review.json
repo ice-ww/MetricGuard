@@ -1,0 +1,976 @@
+{
+  "reviewer_kind": "agent",
+  "role": "independent Spec and reference verification; not human semantic reviewer",
+  "run_id": "957c9e55f5ed4dd4ad9c5390ba25283f",
+  "version": "p0-independent-t20-b-v2",
+  "source_sha256": "c7d7629cc09089ef59236d950154ee0edaed5c25dc470f86fe97d3123290f553",
+  "code_ref": "568a4e81ffecb43df349a9f4c92e78bbfd0edaf8",
+  "records_rescored_identically": 144,
+  "round_summaries_recomputed_identically": 6,
+  "all_round_variant_case_identities_present": true,
+  "independent_reference_checks": [
+    {
+      "case_id": "case-f285b152436c",
+      "category": "A1",
+      "snapshot_sha256": "1cd41fd3828a8e559872f6bcef1253f6ea62ef3b9f40daf8f39996f90a3b16d4",
+      "reference": [
+        {
+          "period": "previous",
+          "window": [
+            "2029-08-19",
+            "2029-08-26"
+          ],
+          "sql_python_equal": true,
+          "reference": {
+            "retention": [
+              {
+                "os": "Android",
+                "version": "1.0",
+                "channel": "acquisition-b1",
+                "users": 414,
+                "retained": 210,
+                "crashed_users": 5,
+                "retention_rate": 0.5072463768115942
+              },
+              {
+                "os": "Android",
+                "version": "1.0",
+                "channel": "organic",
+                "users": 414,
+                "retained": 203,
+                "crashed_users": 5,
+                "retention_rate": 0.49033816425120774
+              },
+              {
+                "os": "iOS",
+                "version": "1.0",
+                "channel": "acquisition-b1",
+                "users": 414,
+                "retained": 364,
+                "crashed_users": 5,
+                "retention_rate": 0.8792270531400966
+              },
+              {
+                "os": "iOS",
+                "version": "1.0",
+                "channel": "organic",
+                "users": 414,
+                "retained": 369,
+                "crashed_users": 10,
+                "retention_rate": 0.8913043478260869
+              }
+            ],
+            "channels": [
+              {
+                "channel": "acquisition-b1",
+                "spend_cents": 82800,
+                "users": 828,
+                "retained": 574,
+                "cost_per_new_cents": 100.0,
+                "cost_per_retained_cents": 144.25087108013938
+              },
+              {
+                "channel": "idle",
+                "spend_cents": 700,
+                "users": 0,
+                "retained": 0,
+                "cost_per_new_cents": null,
+                "cost_per_retained_cents": null
+              },
+              {
+                "channel": "organic",
+                "spend_cents": 16560,
+                "users": 828,
+                "retained": 572,
+                "cost_per_new_cents": 20.0,
+                "cost_per_retained_cents": 28.95104895104895
+              }
+            ],
+            "playback": [
+              {
+                "os": "Android",
+                "version": "1.0",
+                "starts": 1656,
+                "completions": 1253,
+                "telemetry_complete": 1253,
+                "missing_complete": 0,
+                "unmatched": 0,
+                "effective": 1253,
+                "watched_seconds": 38799
+              },
+              {
+                "os": "iOS",
+                "version": "1.0",
+                "starts": 1656,
+                "completions": 1232,
+                "telemetry_complete": 1232,
+                "missing_complete": 0,
+                "unmatched": 0,
+                "effective": 1232,
+                "watched_seconds": 38232
+              }
+            ],
+            "coverage": {
+              "requested_start": "2029-08-19",
+              "requested_end": "2029-08-26",
+              "retention_end": "2029-08-26",
+              "playback_end": "2029-08-26",
+              "retention_complete": true,
+              "playback_complete": true
+            }
+          }
+        },
+        {
+          "period": "current",
+          "window": [
+            "2029-08-26",
+            "2029-09-02"
+          ],
+          "sql_python_equal": true,
+          "reference": {
+            "retention": [
+              {
+                "os": "Android",
+                "version": "1.0",
+                "channel": "acquisition-b1",
+                "users": 210,
+                "retained": 99,
+                "crashed_users": 7,
+                "retention_rate": 0.4714285714285714
+              },
+              {
+                "os": "Android",
+                "version": "1.0",
+                "channel": "organic",
+                "users": 210,
+                "retained": 93,
+                "crashed_users": 3,
+                "retention_rate": 0.44285714285714284
+              },
+              {
+                "os": "Android",
+                "version": "10.7",
+                "channel": "acquisition-b1",
+                "users": 210,
+                "retained": 43,
+                "crashed_users": 129,
+                "retention_rate": 0.20476190476190476
+              },
+              {
+                "os": "Android",
+                "version": "10.7",
+                "channel": "organic",
+                "users": 210,
+                "retained": 58,
+                "crashed_users": 107,
+                "retention_rate": 0.2761904761904762
+              },
+              {
+                "os": "iOS",
+                "version": "1.0",
+                "channel": "acquisition-b1",
+                "users": 420,
+                "retained": 378,
+                "crashed_users": 7,
+                "retention_rate": 0.9
+              },
+              {
+                "os": "iOS",
+                "version": "1.0",
+                "channel": "organic",
+                "users": 420,
+                "retained": 378,
+                "crashed_users": 5,
+                "retention_rate": 0.9
+              }
+            ],
+            "channels": [
+              {
+                "channel": "acquisition-b1",
+                "spend_cents": 84000,
+                "users": 840,
+                "retained": 520,
+                "cost_per_new_cents": 100.0,
+                "cost_per_retained_cents": 161.53846153846155
+              },
+              {
+                "channel": "idle",
+                "spend_cents": 700,
+                "users": 0,
+                "retained": 0,
+                "cost_per_new_cents": null,
+                "cost_per_retained_cents": null
+              },
+              {
+                "channel": "organic",
+                "spend_cents": 16800,
+                "users": 840,
+                "retained": 529,
+                "cost_per_new_cents": 20.0,
+                "cost_per_retained_cents": 31.75803402646503
+              }
+            ],
+            "playback": [
+              {
+                "os": "Android",
+                "version": "1.0",
+                "starts": 840,
+                "completions": 629,
+                "telemetry_complete": 629,
+                "missing_complete": 0,
+                "unmatched": 0,
+                "effective": 629,
+                "watched_seconds": 19503
+              },
+              {
+                "os": "Android",
+                "version": "10.7",
+                "starts": 840,
+                "completions": 629,
+                "telemetry_complete": 629,
+                "missing_complete": 0,
+                "unmatched": 0,
+                "effective": 629,
+                "watched_seconds": 19503
+              },
+              {
+                "os": "iOS",
+                "version": "1.0",
+                "starts": 1680,
+                "completions": 1256,
+                "telemetry_complete": 1256,
+                "missing_complete": 0,
+                "unmatched": 0,
+                "effective": 1256,
+                "watched_seconds": 38952
+              }
+            ],
+            "coverage": {
+              "requested_start": "2029-08-26",
+              "requested_end": "2029-09-02",
+              "retention_end": "2029-09-02",
+              "playback_end": "2029-09-02",
+              "retention_complete": true,
+              "playback_complete": true
+            }
+          }
+        }
+      ],
+      "comparisons": [
+        {
+          "round": 1,
+          "variant": "agent",
+          "compared": 55,
+          "mismatches": 0
+        },
+        {
+          "round": 1,
+          "variant": "baseline",
+          "compared": 121,
+          "mismatches": 0
+        },
+        {
+          "round": 2,
+          "variant": "agent",
+          "compared": 55,
+          "mismatches": 0
+        },
+        {
+          "round": 2,
+          "variant": "baseline",
+          "compared": 121,
+          "mismatches": 0
+        },
+        {
+          "round": 3,
+          "variant": "agent",
+          "compared": 55,
+          "mismatches": 0
+        },
+        {
+          "round": 3,
+          "variant": "baseline",
+          "compared": 121,
+          "mismatches": 0
+        }
+      ]
+    },
+    {
+      "case_id": "case-4a61522c7687",
+      "category": "A3",
+      "snapshot_sha256": "faf93ad435e6e9831153cc79d7186690b3fc28ee763fbf7a175ba38b77ca25d8",
+      "reference": [
+        {
+          "period": "previous",
+          "window": [
+            "2030-01-04",
+            "2030-01-11"
+          ],
+          "sql_python_equal": true,
+          "reference": {
+            "retention": [
+              {
+                "os": "Android",
+                "version": "1.0",
+                "channel": "acquisition-b1",
+                "users": 414,
+                "retained": 199,
+                "crashed_users": 5,
+                "retention_rate": 0.4806763285024155
+              },
+              {
+                "os": "Android",
+                "version": "1.0",
+                "channel": "organic",
+                "users": 414,
+                "retained": 207,
+                "crashed_users": 3,
+                "retention_rate": 0.5
+              },
+              {
+                "os": "iOS",
+                "version": "1.0",
+                "channel": "acquisition-b1",
+                "users": 414,
+                "retained": 373,
+                "crashed_users": 2,
+                "retention_rate": 0.9009661835748792
+              },
+              {
+                "os": "iOS",
+                "version": "1.0",
+                "channel": "organic",
+                "users": 414,
+                "retained": 376,
+                "crashed_users": 11,
+                "retention_rate": 0.9082125603864735
+              }
+            ],
+            "channels": [
+              {
+                "channel": "acquisition-b1",
+                "spend_cents": 82800,
+                "users": 828,
+                "retained": 572,
+                "cost_per_new_cents": 100.0,
+                "cost_per_retained_cents": 144.75524475524475
+              },
+              {
+                "channel": "idle",
+                "spend_cents": 700,
+                "users": 0,
+                "retained": 0,
+                "cost_per_new_cents": null,
+                "cost_per_retained_cents": null
+              },
+              {
+                "channel": "organic",
+                "spend_cents": 16560,
+                "users": 828,
+                "retained": 583,
+                "cost_per_new_cents": 20.0,
+                "cost_per_retained_cents": 28.404802744425385
+              }
+            ],
+            "playback": [
+              {
+                "os": "Android",
+                "version": "1.0",
+                "starts": 1656,
+                "completions": 1203,
+                "telemetry_complete": 1203,
+                "missing_complete": 0,
+                "unmatched": 0,
+                "effective": 1203,
+                "watched_seconds": 37449
+              },
+              {
+                "os": "iOS",
+                "version": "1.0",
+                "starts": 1656,
+                "completions": 1270,
+                "telemetry_complete": 1270,
+                "missing_complete": 0,
+                "unmatched": 0,
+                "effective": 1270,
+                "watched_seconds": 39258
+              }
+            ],
+            "coverage": {
+              "requested_start": "2030-01-04",
+              "requested_end": "2030-01-11",
+              "retention_end": "2030-01-11",
+              "playback_end": "2030-01-11",
+              "retention_complete": true,
+              "playback_complete": true
+            }
+          }
+        },
+        {
+          "period": "current",
+          "window": [
+            "2030-01-11",
+            "2030-01-18"
+          ],
+          "sql_python_equal": true,
+          "reference": {
+            "retention": [
+              {
+                "os": "Android",
+                "version": "1.0",
+                "channel": "acquisition-b1",
+                "users": 210,
+                "retained": 109,
+                "crashed_users": 7,
+                "retention_rate": 0.5190476190476191
+              },
+              {
+                "os": "Android",
+                "version": "1.0",
+                "channel": "organic",
+                "users": 210,
+                "retained": 101,
+                "crashed_users": 5,
+                "retention_rate": 0.48095238095238096
+              },
+              {
+                "os": "Android",
+                "version": "10.7",
+                "channel": "acquisition-b1",
+                "users": 210,
+                "retained": 102,
+                "crashed_users": 2,
+                "retention_rate": 0.4857142857142857
+              },
+              {
+                "os": "Android",
+                "version": "10.7",
+                "channel": "organic",
+                "users": 210,
+                "retained": 105,
+                "crashed_users": 6,
+                "retention_rate": 0.5
+              },
+              {
+                "os": "iOS",
+                "version": "1.0",
+                "channel": "acquisition-b1",
+                "users": 420,
+                "retained": 375,
+                "crashed_users": 9,
+                "retention_rate": 0.8928571428571429
+              },
+              {
+                "os": "iOS",
+                "version": "1.0",
+                "channel": "organic",
+                "users": 420,
+                "retained": 374,
+                "crashed_users": 4,
+                "retention_rate": 0.8904761904761904
+              }
+            ],
+            "channels": [
+              {
+                "channel": "acquisition-b1",
+                "spend_cents": 84000,
+                "users": 840,
+                "retained": 586,
+                "cost_per_new_cents": 100.0,
+                "cost_per_retained_cents": 143.34470989761093
+              },
+              {
+                "channel": "idle",
+                "spend_cents": 700,
+                "users": 0,
+                "retained": 0,
+                "cost_per_new_cents": null,
+                "cost_per_retained_cents": null
+              },
+              {
+                "channel": "organic",
+                "spend_cents": 16800,
+                "users": 840,
+                "retained": 580,
+                "cost_per_new_cents": 20.0,
+                "cost_per_retained_cents": 28.96551724137931
+              }
+            ],
+            "playback": [
+              {
+                "os": "Android",
+                "version": "1.0",
+                "starts": 840,
+                "completions": 621,
+                "telemetry_complete": 621,
+                "missing_complete": 0,
+                "unmatched": 0,
+                "effective": 621,
+                "watched_seconds": 19287
+              },
+              {
+                "os": "Android",
+                "version": "10.7",
+                "starts": 840,
+                "completions": 130,
+                "telemetry_complete": 622,
+                "missing_complete": 492,
+                "unmatched": 0,
+                "effective": 622,
+                "watched_seconds": 19314
+              },
+              {
+                "os": "iOS",
+                "version": "1.0",
+                "starts": 1680,
+                "completions": 1259,
+                "telemetry_complete": 1259,
+                "missing_complete": 0,
+                "unmatched": 0,
+                "effective": 1259,
+                "watched_seconds": 39033
+              }
+            ],
+            "coverage": {
+              "requested_start": "2030-01-11",
+              "requested_end": "2030-01-18",
+              "retention_end": "2030-01-18",
+              "playback_end": "2030-01-18",
+              "retention_complete": true,
+              "playback_complete": true
+            }
+          }
+        }
+      ],
+      "comparisons": [
+        {
+          "round": 1,
+          "variant": "agent",
+          "compared": 40,
+          "mismatches": 0
+        },
+        {
+          "round": 1,
+          "variant": "baseline",
+          "compared": 0,
+          "mismatches": 0
+        },
+        {
+          "round": 2,
+          "variant": "agent",
+          "compared": 40,
+          "mismatches": 0
+        },
+        {
+          "round": 2,
+          "variant": "baseline",
+          "compared": 0,
+          "mismatches": 0
+        },
+        {
+          "round": 3,
+          "variant": "agent",
+          "compared": 40,
+          "mismatches": 0
+        },
+        {
+          "round": 3,
+          "variant": "baseline",
+          "compared": 0,
+          "mismatches": 0
+        }
+      ]
+    }
+  ],
+  "agent_rounds": [
+    {
+      "round": 1,
+      "simple_passes": 5,
+      "simple_total": 6,
+      "required_matched": 414,
+      "required_total": 414,
+      "core_attribution_hits": 12,
+      "core_total": 12,
+      "semantic_pending": 16,
+      "nonsemantic_failures": [
+        {
+          "case_id": "case-f0bb578ebaa6",
+          "category": "simple",
+          "failures": [
+            "explanation"
+          ]
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "simple_passes": 5,
+      "simple_total": 6,
+      "required_matched": 414,
+      "required_total": 414,
+      "core_attribution_hits": 12,
+      "core_total": 12,
+      "semantic_pending": 16,
+      "nonsemantic_failures": [
+        {
+          "case_id": "case-f0bb578ebaa6",
+          "category": "simple",
+          "failures": [
+            "explanation"
+          ]
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "simple_passes": 5,
+      "simple_total": 6,
+      "required_matched": 414,
+      "required_total": 414,
+      "core_attribution_hits": 12,
+      "core_total": 12,
+      "semantic_pending": 16,
+      "nonsemantic_failures": [
+        {
+          "case_id": "case-f0bb578ebaa6",
+          "category": "simple",
+          "failures": [
+            "explanation"
+          ]
+        }
+      ]
+    }
+  ],
+  "baseline_failures": [
+    {
+      "round": 1,
+      "case_id": "case-f0bb578ebaa6",
+      "category": "simple",
+      "failures": [
+        "explanation"
+      ],
+      "execution_failures": []
+    },
+    {
+      "round": 1,
+      "case_id": "case-4a61522c7687",
+      "category": "A3",
+      "failures": [
+        "assertion_validation",
+        "required_assertions_missing_or_wrong",
+        "required_observation_missing_or_wrong",
+        "required_observation_missing_or_wrong",
+        "explanation",
+        "localization",
+        "blocked_or_downgraded",
+        "safety_failed_or_unverified",
+        "missing_inference"
+      ],
+      "execution_failures": [
+        {
+          "reason": "business profile requires mature retention definition",
+          "error_type": "ValueError"
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "case_id": "case-b977da42f0c3",
+      "category": "A3",
+      "failures": [
+        "assertion_validation",
+        "required_assertions_missing_or_wrong",
+        "required_observation_missing_or_wrong",
+        "required_observation_missing_or_wrong",
+        "explanation",
+        "localization",
+        "blocked_or_downgraded",
+        "safety_failed_or_unverified",
+        "missing_inference"
+      ],
+      "execution_failures": [
+        {
+          "reason": "business profile requires mature retention definition",
+          "error_type": "ValueError"
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "case_id": "case-5bf0b8212acc",
+      "category": "A3",
+      "failures": [
+        "assertion_validation",
+        "required_assertions_missing_or_wrong",
+        "required_observation_missing_or_wrong",
+        "required_observation_missing_or_wrong",
+        "explanation",
+        "localization",
+        "blocked_or_downgraded",
+        "safety_failed_or_unverified",
+        "missing_inference"
+      ],
+      "execution_failures": [
+        {
+          "reason": "business profile requires mature retention definition",
+          "error_type": "ValueError"
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "case_id": "case-a42971caddfd",
+      "category": "recovery",
+      "failures": [
+        "assertion_validation",
+        "required_assertions_missing_or_wrong",
+        "explanation",
+        "behavior",
+        "blocked_or_downgraded",
+        "safety_failed_or_unverified"
+      ],
+      "execution_failures": [
+        {
+          "reason": "QueryNotDispatched",
+          "error_type": "QueryNotDispatched"
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "case_id": "case-f0bb578ebaa6",
+      "category": "simple",
+      "failures": [
+        "explanation"
+      ],
+      "execution_failures": []
+    },
+    {
+      "round": 2,
+      "case_id": "case-4a61522c7687",
+      "category": "A3",
+      "failures": [
+        "assertion_validation",
+        "required_assertions_missing_or_wrong",
+        "required_observation_missing_or_wrong",
+        "required_observation_missing_or_wrong",
+        "explanation",
+        "localization",
+        "blocked_or_downgraded",
+        "safety_failed_or_unverified",
+        "missing_inference"
+      ],
+      "execution_failures": [
+        {
+          "reason": "business profile requires mature retention definition",
+          "error_type": "ValueError"
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "case_id": "case-b977da42f0c3",
+      "category": "A3",
+      "failures": [
+        "assertion_validation",
+        "required_assertions_missing_or_wrong",
+        "required_observation_missing_or_wrong",
+        "required_observation_missing_or_wrong",
+        "explanation",
+        "localization",
+        "blocked_or_downgraded",
+        "safety_failed_or_unverified",
+        "missing_inference"
+      ],
+      "execution_failures": [
+        {
+          "reason": "business profile requires mature retention definition",
+          "error_type": "ValueError"
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "case_id": "case-5bf0b8212acc",
+      "category": "A3",
+      "failures": [
+        "assertion_validation",
+        "required_assertions_missing_or_wrong",
+        "required_observation_missing_or_wrong",
+        "required_observation_missing_or_wrong",
+        "explanation",
+        "localization",
+        "blocked_or_downgraded",
+        "safety_failed_or_unverified",
+        "missing_inference"
+      ],
+      "execution_failures": [
+        {
+          "reason": "business profile requires mature retention definition",
+          "error_type": "ValueError"
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "case_id": "case-d89163837b4e",
+      "category": "A4",
+      "failures": [
+        "assertion_validation",
+        "required_assertions_missing_or_wrong",
+        "explanation",
+        "localization",
+        "blocked_or_downgraded",
+        "safety_failed_or_unverified",
+        "missing_inference"
+      ],
+      "execution_failures": [
+        {
+          "reason": "unknown model usage",
+          "error_type": "ValueError"
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "case_id": "case-a42971caddfd",
+      "category": "recovery",
+      "failures": [
+        "assertion_validation",
+        "required_assertions_missing_or_wrong",
+        "explanation",
+        "behavior",
+        "blocked_or_downgraded",
+        "safety_failed_or_unverified"
+      ],
+      "execution_failures": [
+        {
+          "reason": "QueryNotDispatched",
+          "error_type": "QueryNotDispatched"
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "case_id": "case-f0bb578ebaa6",
+      "category": "simple",
+      "failures": [
+        "explanation"
+      ],
+      "execution_failures": []
+    },
+    {
+      "round": 3,
+      "case_id": "case-4a61522c7687",
+      "category": "A3",
+      "failures": [
+        "assertion_validation",
+        "required_assertions_missing_or_wrong",
+        "required_observation_missing_or_wrong",
+        "required_observation_missing_or_wrong",
+        "explanation",
+        "localization",
+        "blocked_or_downgraded",
+        "safety_failed_or_unverified",
+        "missing_inference"
+      ],
+      "execution_failures": [
+        {
+          "reason": "business profile requires mature retention definition",
+          "error_type": "ValueError"
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "case_id": "case-b977da42f0c3",
+      "category": "A3",
+      "failures": [
+        "assertion_validation",
+        "required_assertions_missing_or_wrong",
+        "required_observation_missing_or_wrong",
+        "required_observation_missing_or_wrong",
+        "explanation",
+        "localization",
+        "blocked_or_downgraded",
+        "safety_failed_or_unverified",
+        "missing_inference"
+      ],
+      "execution_failures": [
+        {
+          "reason": "business profile requires mature retention definition",
+          "error_type": "ValueError"
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "case_id": "case-5bf0b8212acc",
+      "category": "A3",
+      "failures": [
+        "assertion_validation",
+        "required_assertions_missing_or_wrong",
+        "required_observation_missing_or_wrong",
+        "required_observation_missing_or_wrong",
+        "explanation",
+        "localization",
+        "blocked_or_downgraded",
+        "safety_failed_or_unverified",
+        "missing_inference"
+      ],
+      "execution_failures": [
+        {
+          "reason": "business profile requires mature retention definition",
+          "error_type": "ValueError"
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "case_id": "case-a42971caddfd",
+      "category": "recovery",
+      "failures": [
+        "assertion_validation",
+        "required_assertions_missing_or_wrong",
+        "explanation",
+        "behavior",
+        "blocked_or_downgraded",
+        "safety_failed_or_unverified"
+      ],
+      "execution_failures": [
+        {
+          "reason": "QueryNotDispatched",
+          "error_type": "QueryNotDispatched"
+        }
+      ]
+    }
+  ],
+  "human_reviews": 0,
+  "all_semantic_pending": 86,
+  "safety": {
+    "status": "passed",
+    "tests": 420,
+    "required_modules": [
+      "tests.test_t02_acceptance",
+      "tests.test_t02_policy",
+      "tests.test_t02_sandbox",
+      "tests.test_t03_limits",
+      "tests.test_t03_supervisor",
+      "tests.test_t04_reference",
+      "tests.test_t04_statistics",
+      "tests.test_t05",
+      "tests.test_t07_adapter",
+      "tests.test_t07_scheduler",
+      "tests.test_t08",
+      "tests.test_t09_service",
+      "tests.test_t10_recovery",
+      "tests.test_t10_service",
+      "tests.test_t17_service"
+    ],
+    "receipt_hash": "c3b25647fa1c04b25b019830a902ae35eb330133cb990e8d44f52c9e90066bb3",
+    "configuration_hash": "40056681aa8abfb7a9b923b6f99004cd5f76ef032c2154c7afb38a9c840c37e6"
+  },
+  "formal_acceptance_passed": false,
+  "conclusion": "FAIL: all three agent rounds have simple-query 5/6 due crash-affected-user count being classified as insufficient_evidence; human review remains pending and cannot override this failed gate.",
+  "mutations": "Only this new review artifact; formal_run access audit. No source, snapshots, cases, expected answers, or existing results changed."
+}

@@ -1,0 +1,74 @@
+"""Pre-saved C generator; run only after root authorizes the locked commit."""
+import argparse
+import contextlib
+import json
+from pathlib import Path
+import sys
+import traceback
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from metricguard.evaluation import EvaluationRunner, file_hash
+from metricguard.semantic_rubric import digest
+from experiments.t18.freeze import build_case, configuration
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--locked-commit', required=True)
+    args = parser.parse_args()
+    assert Path.cwd().resolve() == ROOT
+    plan_path = ROOT / 'artifacts/t20-independent-c-plan.json'
+    plan = json.loads(plan_path.read_text(encoding='utf-8'))
+    assert digest(plan['recipes']) == plan['recipe_hash']
+    for name, expected in plan['rule_hashes'].items():
+        assert file_hash(ROOT / name) == expected, name
+    config = configuration(plan['image'])
+    assert config['code_ref'] == args.locked_commit
+    output = ROOT / 'artifacts/t20-independent-c'
+    output.mkdir(exist_ok=False)
+    data = output / 'data'
+    owner = EvaluationRunner(ROOT / 'artifacts/evaluation-registry', repository=ROOT, snapshot_root=data)
+    generation = {'status': 'running', 'plan_sha256': file_hash(plan_path),
+                  'script_sha256': file_hash(Path(__file__)), 'command': sys.argv,
+                  'recipe_hash': plan['recipe_hash'], 'family': plan['family'],
+                  'version': plan['version'], 'configuration': config,
+                  'configuration_hash': digest(config), 'product_runs': 0,
+                  'diagnosis_runs': 0, 'provenance': [], 'failures': []}
+
+    def save():
+        (output / 'generation.json').write_text(json.dumps(generation, ensure_ascii=False, indent=2), encoding='utf-8')
+
+    save()
+    cases = []
+    with (output / 'stdout.txt').open('x', encoding='utf-8') as stdout, (output / 'stderr.txt').open('x', encoding='utf-8') as stderr:
+        with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+            try:
+                for index, recipe in enumerate(plan['recipes']):
+                    owner.verify_configuration(config)
+                    case, provenance = build_case(recipe, data)
+                    cases.append(case)
+                    generation['provenance'].append(provenance)
+                    save()
+                    print(json.dumps({'generated': index + 1, 'reference_agreement': True}), flush=True)
+                owner.verify_configuration(config)
+                assert len(cases) == 24 and len({c['snapshot_id'] for c in cases}) == 24
+                frozen = owner.freeze(plan['version'], plan['family'], cases, config)
+                generation.update(status='frozen', freeze=frozen, locked_status=owner.status(plan['version']),
+                                  unchanged_cases_hash=digest(cases), reference_agreements=24, unique_snapshot_ids=24)
+                (data / 'provenance.json').write_text(json.dumps(generation['provenance'], ensure_ascii=False, indent=2), encoding='utf-8')
+                (output / 'public-tasks.json').write_text(json.dumps([c['public'] for c in cases], ensure_ascii=False, indent=2), encoding='utf-8')
+                save()
+                print(json.dumps({'status': 'frozen', 'freeze': frozen, 'configuration_hash': digest(config),
+                                  'cases_hash': digest(cases), 'reference_agreements': 24, 'product_runs': 0}), flush=True)
+            except BaseException as error:
+                generation['status'] = 'generation_failed'
+                generation['failures'].append({'type': type(error).__name__, 'message': str(error),
+                                               'traceback': traceback.format_exc(), 'completed_cases': len(cases)})
+                save()
+                traceback.print_exc()
+                raise
+
+
+if __name__ == '__main__':
+    main()
