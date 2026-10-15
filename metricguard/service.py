@@ -142,6 +142,11 @@ class TaskService:
         if data['status'] not in ('ended','failed','interrupted'):
             raise ValueError('terminal task required')
         result=publish(data['evidence'],draft)
+        report = data.get('report') or {}
+        if report.get('coverage'):
+            from metricguard.coverage import explain
+            result = {'scope_statement': report.get('scope_statement') or explain(report['coverage']),
+                      'coverage': report['coverage'], 'comparison_coverage': report.get('comparison_coverage'), **result}
         result['publication_id']=digest({'task':task,'publication':result})
         # Persist a JSON-normalized immutable revision; no model or query call.
         payload=json.dumps(result,ensure_ascii=False,allow_nan=False)
@@ -285,37 +290,35 @@ class TaskService:
         watermarks = self._tool(task, 'watermarks', lambda: self._sandbox(task, data).query('SELECT source, complete_before FROM source_watermarks'))
         if watermarks['status'] != 'ok' or watermarks.get('truncated'):
             raise ValueError('watermarks unavailable')
-        local = timezone(timedelta(hours=8))
-        dates = {row[0]: datetime.fromisoformat(row[1]).astimezone(local).date() for row in watermarks['rows']}
-        metric = data['definition']['id']
-        needed = {'retention': ['users', 'sessions'], 'retained_cost': ['users', 'sessions', 'channel_daily'],
-            'new_cost': ['users', 'channel_daily'], 'crash': ['users', 'sessions'],
-            'completion': ['sessions', 'content_events'], 'effective': ['sessions', 'content_events', 'playback_telemetry'],
-            'new_users': ['users'], 'play_starts': ['sessions', 'content_events'], 'spend': ['channel_daily']}[metric]
-        cutoff = min(dates[name] - timedelta(days=1 if name == 'sessions' and metric in ('retention', 'retained_cost') else 0) for name in needed)
-        requested = data['requested_window']
-        end = min(date.fromisoformat(requested[1]), cutoff) if requested else cutoff
-        start = date.fromisoformat(requested[0]) if requested else end - timedelta(days=7)
-        if requested and end.isoformat() != requested[1]:
+        from metricguard.coverage import assess, explain, options
+        data['watermarks'] = watermarks
+        coverage = data.get('coverage') or assess(data['definition']['id'], watermarks['rows'], data['requested_window'])
+        data['coverage'] = coverage
+        cutoff = date.fromisoformat(coverage['cutoff'])
+        if coverage.get('decision') == 'use_available':
+            data['actual_window'] = coverage['confirmed_window']
+        elif coverage['missing_window']:
+            if coverage['available_window'] and coverage.get('decision') != 'keep_original':
+                self._clarify(task, data, 'coverage_scope_required', prompt=explain(coverage), options=options(coverage))
+                self._save(task, data)
+                return {}
             data['outcome'] = 'insufficient_evidence'
             data['limitations'].append('requested_window_incomplete')
-            data['unresolved_questions'].append('请求日期未全部齐备，未自动缩短范围。')
-        elif start >= end:
-            data['outcome'] = 'insufficient_evidence'
-            data['limitations'].append('no_complete_requested_window')
+            data['unresolved_questions'].append(explain(coverage))
         else:
-            data['actual_window'] = [start.isoformat(), end.isoformat()]
-        data['watermarks'] = watermarks
+            data['actual_window'] = coverage['available_window']
         if not data['outcome']:
             self._confirm_comparison(task, data)
         if data.get('comparison_window') and data['actual_window'] and data['comparison_window'][1] > data['actual_window'][0]:
             data['outcome'] = 'insufficient_evidence'
             data['limitations'].append('comparison_requires_preceding_disjoint_windows')
             data['unresolved_questions'].append('当前比较只支持早于分析期且不重叠的基期；已保留所选日期，未替换基期。')
+        if data.get('comparison_window'):
+            data['comparison_coverage'] = assess(data['definition']['id'], watermarks['rows'], data['comparison_window'])
         if data.get('comparison_window') and date.fromisoformat(data['comparison_window'][1]) > cutoff:
             data['outcome'] = 'insufficient_evidence'
             data['limitations'].append('comparison_window_incomplete')
-            data['unresolved_questions'].append('基期数据未全部齐备，未替换或缩短基期。')
+            data['unresolved_questions'].append('基期数据未全部齐备，未替换或缩短基期。' + explain(data['comparison_coverage']))
         self._save(task, data)
         self._event(task, 'definition_adopted', {'definition': data['definition'], 'actual_window': data['actual_window']})
         return {}
@@ -655,6 +658,12 @@ class TaskService:
         report['time_anchor'] = data.get('time_anchor')
         report['time_resolution'] = data.get('time_resolution')
         report['comparison_window'] = data.get('comparison_window')
+        report['coverage'] = data.get('coverage')
+        report['comparison_coverage'] = data.get('comparison_coverage')
+        if (data.get('coverage') or {}).get('decision') == 'use_available':
+            from metricguard.time_windows import display
+            report['scope_statement'] = ('原请求范围：' + display(data['coverage']['requested_window']) +
+                '；用户确认范围：' + display(data['coverage']['confirmed_window']) + '。以下结果仅适用于确认范围，不能推广至原请求范围。')
         data['analysis_result'] = conclusion['analysis_result']
         data['report'] = report
         self._save(task, data)
@@ -710,6 +719,9 @@ class TaskService:
             elif pending['reason'] in ('comparison_window_required', 'comparison_window_conflict'):
                 from metricguard.comparison_windows import apply_comparison_answer
                 apply_comparison_answer(data, answer)
+            elif pending['reason'] == 'coverage_scope_required':
+                from metricguard.coverage import apply_answer
+                apply_answer(data, answer)
             elif data.get('metric_question'):
                 data['metric_question'] += ' ' + answer
             data['effective_question'] += ' ' + answer

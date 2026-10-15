@@ -149,6 +149,8 @@ def test_partial_current_window_keeps_requested_comparison_and_discloses_insuffi
         db.execute("UPDATE source_watermarks SET complete_before='2026-01-12T00:00:00+08:00' WHERE source='sessions'")
     with TaskService(tmp_path/'service',image,{'dev':snapshot.database},token='controlled',transport=httpx.MockTransport(controlled())) as service:
         prepared=service.prepare_shared('请分析完整请求窗口的新增用户自然日次日留存，说明资料是否充分。','dev',('2026-01-08','2026-01-15'),comparison_window=('2026-01-01','2026-01-08'))
+        pending=service.inspect(prepared)['pending_question']
+        service.answer(prepared,pending['question_id'],pending['version'],'2')
         task=service.create_from_shared(prepared,mode='diagnose')
         state=service.run(task)
         assert not state['evidence'] and state['model_calls'] == 0

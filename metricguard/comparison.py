@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 SHARED_FIELDS=('question','effective_question','snapshot_id','snapshot_hash','requested_window','actual_window',
                'definition','schema','watermarks','retrieval','limitations','outcome','pending_question','answers',
                'time_anchor','time_resolved','time_resolution','original_window','metric_question',
-               'comparison_window','comparison_resolution')
+               'comparison_window','comparison_resolution','coverage','comparison_coverage')
 
 
 def measured_usage(attempts: list[dict], seconds: float) -> dict[str, Any]:

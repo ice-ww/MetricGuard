@@ -17,8 +17,12 @@ def controlled():
 def run(tmp_path, image, snapshot):
     with TaskService(tmp_path / 'service', image, {'dev': snapshot.database}, token='controlled',
                      transport=httpx.MockTransport(controlled())) as service:
-        return service.run(service.create('新增用户自然日次日留存，分析系统占比变化', 'dev',
+        state = service.run(service.create('新增用户自然日次日留存，分析系统占比变化', 'dev',
                                          ('2026-01-08', '2026-01-15'), mode='diagnose', comparison_window=('2026-01-01', '2026-01-08')))
+        if state['pending_question'] and state['pending_question']['reason'] == 'coverage_scope_required':
+            pending = state['pending_question']
+            state = service.answer(state['id'], pending['question_id'], pending['version'], '2')
+        return state
 
 
 def test_system_composition_decomposition_matches_raw_reference(tmp_path, image):
