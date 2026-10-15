@@ -92,6 +92,9 @@ def test_incomplete_request_is_not_silently_shortened(tmp_path):
     snapshot = build_snapshot(tmp_path / 'data', scenario='insufficient', seed=2402).database
     with TaskService(tmp_path / 'state', image, {'dev': snapshot}, token='controlled') as service:
         state = service.run(service.create('新增用户自然日次日留存', 'dev', ('2026-01-08', '2026-01-15')))
+        # F4 now asks before narrowing; explicit rejection retains this F2 contract.
+        pending = state['pending_question']
+        state = service.answer(state['id'], pending['question_id'], pending['version'], '2')
         assert state['analysis_result'] == 'insufficient_evidence'
         assert state['actual_window'] is None and state['model_calls'] == 0
         assert state['requested_window'] == ['2026-01-08', '2026-01-15']

@@ -131,6 +131,20 @@ class TaskService:
     def report(self, task: str) -> dict[str, Any] | None:
         return self._data(task)['report']
 
+    def export_report(self, task: str) -> dict[str, str]:
+        """Save a human report and its exact publication/evidence without model calls."""
+        from metricguard.readable import render
+        publication = self.publish_diagnosis(task)
+        data = self.inspect(task)
+        body, markdown = render(data, publication)
+        directory = self.root / 'reports' / task / publication['publication_id']
+        directory.mkdir(parents=True, exist_ok=True)
+        (directory / 'report.md').write_text(markdown, encoding='utf-8')
+        for name, value in [('evidence', data['evidence']), ('publication', publication), ('task', data)]:
+            (directory / (name + '.json')).write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False), encoding='utf-8')
+        return {'body': body, 'report': str((directory / 'report.md').resolve()),
+                'evidence': str((directory / 'evidence.json').resolve())}
+
     def trace(self, task: str) -> list[dict[str, Any]]:
         return self.ledger.inspect(task)['trace']
 

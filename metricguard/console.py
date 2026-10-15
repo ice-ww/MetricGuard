@@ -30,10 +30,7 @@ def interact(service: TaskService, state: dict[str, Any]) -> None:
         print('本次重跑沿用原任务已明确的日期。')
     if state.get('time_anchor'):
         print('时间解释基准：' + state['time_anchor'])
-    report = service.report(state['id']) or {}
-    if report.get('scope_statement'):
-        print(report['scope_statement'])
-    print(report.get('summary', '暂无报告。'))
-    for question in state.get('unresolved_questions', []):
-        print(question)
+    exported = service.export_report(state['id'])
+    print(exported['body'])
+    print('完整报告：' + exported['report'])
     print('查看完整记录：inspect ' + state['id'])
