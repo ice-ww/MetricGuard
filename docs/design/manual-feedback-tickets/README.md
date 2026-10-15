@@ -1,6 +1,6 @@
 # 手动验收反馈修复任务索引
 
-父规格：[Issue #22](https://github.com/ice-ww/MetricGuard/issues/22)。用户已确认六项拆分；各任务已关联原生子 Issue、阻塞关系及 ready-for-agent 标签。F1–F3 已交付，验证记录见 `docs/validation/f1-report.md`、`f2-report.md`、`f3-report.md`；F4–F6 尚未实施。
+父规格：[Issue #22](https://github.com/ice-ww/MetricGuard/issues/22)。用户已确认六项拆分；各任务已关联原生子 Issue、阻塞关系及 ready-for-agent 标签。F1–F3 已交付，验证记录见 `docs/validation/f1-report.md`、`f2-report.md`、`f3-report.md`；F4–F5 已交付，验证记录见 `docs/validation/f4-report.md`、`f5-report.md`；F6 集成验证及用户复验材料见 [F6报告](../../validation/f6-report.md) 和 [手动清单](../../validation/f6-manual-checklist.md)，人工体验待验。
 
 |任务|Issue|前置依赖|
 |---|---|---|
