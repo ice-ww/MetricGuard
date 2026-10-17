@@ -1,0 +1,36 @@
+{
+  "baseline": "0ab2b0a",
+  "issue": 30,
+  "python": "3.12.10",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "packages": {
+    "pytest": "9.1.1",
+    "mypy": "1.20.2",
+    "playwright": "1.64.0",
+    "duckdb": "1.5.6"
+  },
+  "docker_image": "sha256:4cadf9b4afae2394df26a2d518ab7d68fbbc4e086081f4273c45410fae456cb0",
+  "browser_channel": "msedge",
+  "source_sha256": {
+    "metricguard/web.py": "4d5025016be251fdab5830e7b24ddcc9910c76c0aae100ec1223f43121bb7af1",
+    "metricguard/web_start.py": "60d3fc12d55e3df3f98ebe80c639adbecf13bcf08efe475ebf6f83ec7c4b584a",
+    "metricguard/web_assets/index.html": "3ae432d847b9a2a2d7f1101478d402e45f0007bc51624766e5f7070cd83baa1b",
+    "metricguard/web_assets/app.css": "9bc8f5988dad5f0955876b5adabc389b7e5f0a56ceccd74c54e589f55218a5a0",
+    "metricguard/web_assets/app.js": "45481e0528ddd2156f38ecd07e5cb03ec8512d2c6ee09f4cdb8b6fb7758be742",
+    "experiments/u1_live.py": "323784cde1c6b5a637b08e83d11977e44a9d2fbb34a247c050d33d1ef647388b",
+    "tests/test_u1_web.py": "59a8bb3b6b6c572fb96a8b1f9cb4c398a6bea27ccff257f676fd6d8f3d72fc3e",
+    "tests/test_u1_browser.py": "07741556a51af109bff6bdfe7bc1662e3519ac29e2d4c054abe87693d98dc93c",
+    "pyproject.toml": "92f625ad57e59422fc312d33da26125038d4eac071b8912b415a5c99b1c3e9c0",
+    "uv.lock": "415f948f2021575d41907232697f2e1aaba4e415ff259482588a33711a3e1a31"
+  },
+  "typecheck": {
+    "command": "uv run mypy",
+    "sources": 93,
+    "passed": true
+  },
+  "experiment_typecheck": {
+    "command": "uv run mypy experiments/u1_live.py",
+    "sources": 1,
+    "passed": true
+  }
+}

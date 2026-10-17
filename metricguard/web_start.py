@@ -1,0 +1,81 @@
+"""Start the single-user local browser interface: python -m metricguard.web_start."""
+import argparse
+import os
+from pathlib import Path
+import re
+import threading
+from urllib.parse import urlsplit
+
+from experiments.t02.sandbox import Sandbox, SandboxUnavailable, docker
+from metricguard import TaskService
+from metricguard.web import LocalWeb
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description='MetricGuard 本机浏览器界面；按 Ctrl+C 停止服务。')
+    parser.add_argument('--state-dir',type=Path,default=Path('artifacts/local-ui/state'))
+    parser.add_argument('--image',default=os.environ.get('METRICGUARD_TEST_IMAGE',''))
+    parser.add_argument('--snapshot',action='append',default=[],metavar='ID=PATH')
+    parser.add_argument('--demo',action='store_true',help='使用可重现开发示例，日期为 2026-01-08 至 2026-01-15')
+    parser.add_argument('--port',type=int,default=8765)
+    parser.add_argument('--base-url',default='https://api.deepseek.com/anthropic')
+    args=parser.parse_args()
+    token=os.environ.get('ANTHROPIC_AUTH_TOKEN','')
+    if not token.strip():
+        parser.error('请在启动终端配置 ANTHROPIC_AUTH_TOKEN；不要把密钥写到网页或任务中。')
+    if not re.fullmatch(r'sha256:[0-9a-f]{64}',args.image):
+        parser.error('请设置 METRICGUARD_TEST_IMAGE 或 --image 为已验证的 sha256 镜像 ID。')
+    if not 0<=args.port<=65535:
+        parser.error('请使用 0–65535 范围内的端口。')
+    try:
+        endpoint=urlsplit(args.base_url)
+        if endpoint.scheme not in {'http','https'} or not endpoint.hostname or endpoint.username or endpoint.password or endpoint.query or endpoint.fragment:
+            raise ValueError()
+        endpoint.port  # Validate malformed ports before any network access.
+    except ValueError:
+        parser.error('模型服务地址必须是无凭据、无查询参数的 HTTP(S) 地址。')
+    snapshots={}
+    for entry in args.snapshot:
+        key,sep,value=entry.partition('=')
+        if not sep or not re.fullmatch(r'[a-zA-Z0-9_-]{1,64}',key) or not value or key in snapshots or (args.demo and key=='demo'):
+            parser.error('请使用不重复的 --snapshot ID=PATH；demo 名称保留给示例。')
+        snapshots[key]=Path(value).resolve()
+    if not args.demo and not snapshots:
+        parser.error('请选择 --demo 或使用 --snapshot ID=PATH 注册兼容快照。')
+    try:
+        if docker('info','--format','{{.OSType}}').strip()!='linux':
+            parser.error('请启动 Docker Desktop 的 Linux 引擎。')
+        docker('image','inspect',args.image)
+    except SandboxUnavailable:
+        parser.error('Docker 或已配置镜像不可用。请启动 Linux 引擎并按项目说明准备固定镜像。')
+    example=None
+    if args.demo:
+        from experiments.t01.snapshots import build_snapshot
+        directory=args.state_dir.resolve().parent/'demo-data'
+        snapshot=directory/'public'/'snapshot.duckdb'
+        if not directory.exists():
+            snapshot=build_snapshot(directory,scenario='normal',seed=301001).database
+        snapshots['demo']=snapshot
+        example={'snapshot_id':'demo','question':'查询新增用户数','window':['2026-01-08','2026-01-15']}
+    for key,path in snapshots.items():
+        try:
+            audit=Sandbox(args.image,path).inspect_environment()
+            if audit.get('schema_profile')!='business' or audit.get('status')!='ok':
+                parser.error('快照 '+key+' 不符合现有业务结构，请使用已验证的兼容快照。')
+        except SandboxUnavailable:
+            parser.error('快照 '+key+' 无法通过隔离环境检查，请核对文件、业务结构和镜像。')
+    try:
+        with TaskService(args.state_dir,args.image,snapshots,token=token,base_url=args.base_url) as service:
+            with LocalWeb(service,args.port,example=example) as app:
+                print('本机界面：'+app.origin,flush=True)
+                print('关闭浏览器不会停止任务。按 Ctrl+C 停止服务；正在执行的任务将等待本次执行结束。',flush=True)
+                try:
+                    threading.Event().wait()
+                except KeyboardInterrupt:
+                    print('正在停止服务，请等待当前任务结束。',flush=True)
+    except (OSError,ValueError):
+        parser.error('无法启动服务。请检查端口是否占用、目录是否可写，或是否已有进程使用同一状态目录。')
+
+
+if __name__=='__main__':
+    main()

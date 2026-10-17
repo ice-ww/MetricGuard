@@ -1,0 +1,110 @@
+[
+  {
+    "file": "u1-browser-initial.xml.gz",
+    "sha256_uncompressed": "f01efec1f1e795a525bf3f688a2a8168a8f601181d72abb903393c416f07008a",
+    "tests": "1",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "22.173"
+  },
+  {
+    "file": "u1-browser-reopen-red.xml.gz",
+    "sha256_uncompressed": "103301587b7f192792673d9f4353d8bdc103dcaa82c16b7548fd0759b0ac79e2",
+    "tests": "1",
+    "failures": "1",
+    "errors": "0",
+    "skipped": "0",
+    "time": "39.171"
+  },
+  {
+    "file": "u1-http-green.xml.gz",
+    "sha256_uncompressed": "67a54aa6cf1c241619e36271b7b1a71ac016afdab737dacc4aedec2fdb49142c",
+    "tests": "1",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "15.300"
+  },
+  {
+    "file": "u1-http-red.xml.gz",
+    "sha256_uncompressed": "56c5ade17190e2dec4670f14c1f42188c2c140b9138a3f3557fef24dc5c01643",
+    "tests": "1",
+    "failures": "0",
+    "errors": "1",
+    "skipped": "0",
+    "time": "8.730"
+  },
+  {
+    "file": "u1-interrupted-green.xml.gz",
+    "sha256_uncompressed": "b9823ed68f51ae200ec63b85444ea617208fed150ad3a5e9db2dfbdc38738b1d",
+    "tests": "1",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "22.904"
+  },
+  {
+    "file": "u1-interrupted-red.xml.gz",
+    "sha256_uncompressed": "a5b42cac176f3b05e12fdd670101e17a3b10aacc32783fc82a5ff55cd2587713",
+    "tests": "1",
+    "failures": "1",
+    "errors": "0",
+    "skipped": "0",
+    "time": "24.033"
+  },
+  {
+    "file": "u1-review-red.xml.gz",
+    "sha256_uncompressed": "8e5807e00766325e31a120344ca469407b3dea5f5f4b41adbb1919773199ad2e",
+    "tests": "2",
+    "failures": "2",
+    "errors": "0",
+    "skipped": "0",
+    "time": "25.571"
+  },
+  {
+    "file": "u1-startup-green.xml.gz",
+    "sha256_uncompressed": "4830e1ef18e416828fd6ab4826fd22f14cc99aef3b6287eea51d73c2130ea626",
+    "tests": "3",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "17.529"
+  },
+  {
+    "file": "u1-startup-red.xml.gz",
+    "sha256_uncompressed": "7d0f53754260ac0f71834c93824352864f79d7ea1895e789c6fef6ffbd1d0d9b",
+    "tests": "3",
+    "failures": "1",
+    "errors": "0",
+    "skipped": "0",
+    "time": "19.952"
+  },
+  {
+    "file": "u1-targeted-final.xml.gz",
+    "sha256_uncompressed": "d1360278ec0bc0f904f8d149443d2775cef402b6910bc51b253766234b6d4abc",
+    "tests": "7",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "48.432"
+  },
+  {
+    "file": "u1-targeted.xml.gz",
+    "sha256_uncompressed": "027fe3e6b8648852887fe0fb074492e987623d2366e119091bf87ac6c8f4b0ff",
+    "tests": "5",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "36.289"
+  },
+  {
+    "file": "u1-full-suite.xml.gz",
+    "sha256_uncompressed": "bed15aa2cd7d69f68a267f8b16322192b1128d46f58ae2250619128d01545860",
+    "tests": "498",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "1349.443"
+  }
+]
