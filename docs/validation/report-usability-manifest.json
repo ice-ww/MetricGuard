@@ -1,0 +1,29 @@
+{
+  "baseline": "5c0a0c70afb007ab66dc6658c1ad78ebaee975c5",
+  "full_suite": {
+    "passed": 490,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 1281.0
+  },
+  "files": {
+    "experiments\\f5_live.py": "33fecff8127f994ee4174661fb2fa1f0f9c8e223071430bbfcc0a3a9e6fa61a3",
+    "experiments\\f5_rerender.py": "02bb21259004bad0739ca97604b9d001b2689263ba66c8aff2899f1aced83871",
+    "experiments\\f6_acceptance.py": "519c2c1ddbe913a6eab90e0c27c0e3bda31ae5e95ab0c960451cab459bf32740",
+    "metricguard\\console.py": "faa8c8f446eb2ca842727032c80b7d53bbd4193195a41f30ee0fa8e19bf231a8",
+    "metricguard\\readable.py": "48cc7eaeb7a41a09018f33c2a72154dfd8b5c5dad36eb1129bd52e9fd22ff96b",
+    "metricguard\\service.py": "407b74f78ca9a09154bff3f4105f94281af9e0576c4da8e9942448a5ef703814",
+    "tests\\test_f5_readable.py": "21e5f8e996179aeb16ed7b01d604edc06a53b0758cdbc6c4df4fda7ddb1aacc8",
+    "docs\\superpowers\\plans\\2026-10-17-report-usability.md": "0e4771036c97573ac0b859cad5c626fd64d41bc160d86342815b81e3a8b44f45",
+    "docs\\validation\\report-usability-after.json.gz": "f272c35d1be44ae2ef1aa3a37e9ebf59be2f43e26a4ee6f0616c9c0a50227297",
+    "docs\\validation\\report-usability-before.json.gz": "0115270b67762c5b231ec004e518015ab0d3b6231d65ba7dd9730dc50c7d0e62",
+    "docs\\validation\\report-usability-live.json.gz": "a8fa906c26f04f507f8a5ec31590d63e922db9d41e633d29122b4be46dc66ffe",
+    "docs\\validation\\report-usability-log.md": "cb20ea0368c21472a2831303dd18bb46a8f5bf99db9804cdfa624664b075ac5c",
+    "docs\\validation\\report-usability-manual-checklist.md": "01cf7be68d5925aef2253ab90bd730469b52e095df98d387890cfb11ebf89c7c",
+    "docs\\validation\\report-usability-tests.json.gz": "a66212f51ee008bdf0e14219faffc42bbe747c0d690f89b101c40975cba452ae",
+    "experiments\\report_usability_live.py": "87746605d0e6110617e4f73210b912c79afc368ed8eacd21056370dcf5709bdc",
+    "experiments\\report_usability_replay.py": "9b9f9ad759ae7331eb65483a33e90313200d2f89dd955034eaceff38c84da588",
+    "tests\\test_report_usability.py": "6ff49d32bbe1674e1cc8238d806ebf73e9452444c8143f27863895290f5fff39"
+  }
+}

@@ -23,7 +23,7 @@ def main():
         assert before['model_calls']==after['model_calls'] and before['tool_calls']==after['tool_calls']
         model_questions={q for step in after['diagnostic_history'] if step['action']['action']=='stop' for q in step['action']['unresolved_questions']}
         assert all(q not in exported['body'] for q in model_questions)
-        assert exported['body'] in output.getvalue()
+        assert exported['terminal_body'] in output.getvalue()
         report=Path(exported['report']).read_text(encoding='utf-8')
         assert exported['body'] in report
         updated={**previous,'task':after,'terminal':output.getvalue(),'exported':exported,'markdown':report,

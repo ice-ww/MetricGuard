@@ -38,6 +38,7 @@ class TaskService:
         self.owner = RecoveryOwner(self.root)
         self.ledger = self.owner.ledger
         self.image = image
+        self.base_url = base_url
         self.snapshots = {key: Path(path).resolve() for key, path in snapshots.items()}
         self.limits = limits
         self.fault_hook = fault_hook
@@ -131,18 +132,33 @@ class TaskService:
     def report(self, task: str) -> dict[str, Any] | None:
         return self._data(task)['report']
 
+    def resume_command(self, task: str) -> str:
+        """PowerShell command for the same persisted task; credentials stay in the environment."""
+        import sys
+        data = self.inspect(task)
+        snapshot_id = data['snapshot_id']
+        def quote(value: str) -> str:
+            return "'" + value.replace("'", "''") + "'"
+        args = [sys.executable, '-m', 'metricguard', '--state-dir', str(self.root.resolve()),
+                '--image', self.image, '--snapshot', snapshot_id + '=' + str(self.snapshots[snapshot_id]),
+                '--base-url', self.base_url]
+        return ('Set-Location -LiteralPath ' + quote(str(Path(__file__).resolve().parent.parent)) + '\n' +
+                '& ' + ' '.join(map(quote, args)) + ' resume ' + task)
+
     def export_report(self, task: str) -> dict[str, str]:
         """Save a human report and its exact publication/evidence without model calls."""
-        from metricguard.readable import render
+        from metricguard.readable import render, terminal_text
         publication = self.publish_diagnosis(task)
         data = self.inspect(task)
         body, markdown = render(data, publication)
-        directory = self.root / 'reports' / task / publication['publication_id']
+        terminal = terminal_text(body)
+        presentation_id = hashlib.sha256((markdown + '\n' + terminal).encode('utf-8')).hexdigest()
+        directory = self.root / 'reports' / task / (publication['publication_id'] + '-' + presentation_id[:16])
         directory.mkdir(parents=True, exist_ok=True)
         (directory / 'report.md').write_text(markdown, encoding='utf-8')
         for name, value in [('evidence', data['evidence']), ('publication', publication), ('task', data)]:
             (directory / (name + '.json')).write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False), encoding='utf-8')
-        return {'body': body, 'report': str((directory / 'report.md').resolve()),
+        return {'body': body, 'terminal_body': terminal, 'presentation_id': presentation_id, 'report': str((directory / 'report.md').resolve()),
                 'evidence': str((directory / 'evidence.json').resolve())}
 
     def trace(self, task: str) -> list[dict[str, Any]]:

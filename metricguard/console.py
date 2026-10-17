@@ -15,22 +15,16 @@ def interact(service: TaskService, state: dict[str, Any]) -> None:
         except EOFError:
             answer = ''
         if not answer:
-            print('已保留待回答任务。恢复命令：resume ' + state['id'])
+            print('已保留待回答任务。请在已配置模型凭据的 PowerShell 中执行：')
+            print(service.resume_command(state['id']))
             return
         state = service.answer(state['id'], pending['question_id'], pending['version'], answer)
     print('任务已结束。' if state['status'] == 'ended' else '任务已停止。')
-    from .time_windows import display
-    if state.get('requested_window'):
-        print('请求日期：' + display(state['requested_window']))
-    if state.get('actual_window'):
-        print('实际分析日期：' + display(state['actual_window']))
-    if state.get('comparison_window'):
-        print('比较基期：' + display(state['comparison_window']))
     if state.get('time_resolution') == 'inherited_explicit_window':
         print('本次重跑沿用原任务已明确的日期。')
     if state.get('time_anchor'):
         print('时间解释基准：' + state['time_anchor'])
     exported = service.export_report(state['id'])
-    print(exported['body'])
+    print(exported['terminal_body'])
     print('完整报告：' + exported['report'])
     print('查看完整记录：inspect ' + state['id'])

@@ -46,7 +46,7 @@ def run(case: str, root: Path, image: str) -> dict:
     output=directory/'result.json'
     output.write_text(json.dumps(receipt,ensure_ascii=False,indent=2),encoding='utf-8')
     assert state['status']=='ended' and state['outcome']=='facts_available',state['limitations']
-    assert exported['body'] in process.stdout
+    assert exported['terminal_body'] in process.stdout
     assert publication['status']=='mechanically_valid'
     sources={e['evidence_id']:e for e in state['evidence']}
     for a in publication['assertions']:

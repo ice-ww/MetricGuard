@@ -112,7 +112,7 @@ def run(case: str, root: Path) -> dict:
     result_path=directory/'result.json'
     result_path.write_text(json.dumps(receipt,ensure_ascii=False,indent=2),encoding='utf-8')
     assert state['status']=='ended' and state['time_anchor']==anchor
-    assert exported['body'] in output.getvalue() and exported['body'] in receipt['markdown']
+    assert exported['terminal_body'] in output.getvalue() and exported['body'] in receipt['markdown']
     assert 'question_id' not in output.getvalue() and 'coverage_scope_required' not in output.getvalue()
     sources={e['evidence_id']:e for e in state['evidence']}
     for fact in publication['assertions']:
