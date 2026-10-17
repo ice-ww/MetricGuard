@@ -34,6 +34,7 @@ class LocalWeb:
         self.database = service.root / 'web-operations.sqlite'
         with self.connect() as db:
             db.execute('CREATE TABLE IF NOT EXISTS operations (key TEXT PRIMARY KEY, payload TEXT NOT NULL, task TEXT, started REAL NOT NULL, finished REAL, body TEXT)')
+            db.execute('CREATE TABLE IF NOT EXISTS answers (key TEXT PRIMARY KEY, payload TEXT NOT NULL, task TEXT NOT NULL, finished INTEGER NOT NULL DEFAULT 0)')
         self.executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix='metricguard-task')
         app = self
         class Handler(BaseHTTPRequestHandler):
@@ -117,7 +118,7 @@ class LocalWeb:
                 return 200, {'token': self.token, 'snapshots': list(self.service.snapshots), 'example': self.example}, 'application/json'
         if not secrets.compare_digest(handler.headers.get('X-MetricGuard-Token',''), self.token):
             raise WebError(403, '页面会话已失效，请刷新页面。')
-        if handler.command == 'POST' and path == '/api/tasks':
+        if handler.command == 'POST' and (path == '/api/tasks' or re.fullmatch(r'/api/tasks/[a-f0-9]{32}/answers', path)):
             try:
                 length = int(handler.headers.get('Content-Length', '0'))
                 if not 0 < length <= 16384 or handler.headers.get_content_type() != 'application/json':
@@ -126,7 +127,8 @@ class LocalWeb:
                 payload = json.loads(handler.rfile.read(length))
             except (ValueError, OSError):
                 raise WebError(400, '请输入有效的问题、快照和日期。') from None
-            return 202, {'id': self.submit(payload)}, 'application/json'
+            task = self.submit(payload) if path == '/api/tasks' else self.answer(path.split('/')[3], payload)
+            return 202, {'id': task}, 'application/json'
         if handler.command == 'GET' and re.fullmatch(r'/api/tasks/[a-f0-9]{32}', path):
             return 200, self.inspect(path.rsplit('/',1)[1]), 'application/json'
         raise WebError(404, '找不到此页面或任务。')
@@ -174,21 +176,57 @@ class LocalWeb:
             self.executor.submit(self.execute, task)
             return task
 
-    def execute(self, task: str) -> None:
+    def answer(self, task: str, payload: Any) -> str:
+        if not isinstance(payload, dict) or set(payload) != {'request_id','question_id','version','answer'}:
+            raise WebError(400, '回答格式无效，请刷新后再试。')
+        key = payload['request_id']
+        if not isinstance(key,str) or not re.fullmatch(r'[a-zA-Z0-9_-]{8,100}',key):
+            raise WebError(400, '操作标识无效，请刷新后再试。')
+        if not isinstance(payload['question_id'],str) or type(payload['version']) is not int or not isinstance(payload['answer'],str) or not payload['answer'].strip() or len(payload['answer'])>2000:
+            raise WebError(400, '请填写不超过 2000 字的回答。')
+        encoded = json.dumps(payload,sort_keys=True,ensure_ascii=False)
+        with self.lock:
+            current = self.inspect(task)
+            with self.connect() as db:
+                old = db.execute('SELECT * FROM answers WHERE key=?',(key,)).fetchone()
+                if old:
+                    if old['task'] != task or old['payload'] != encoded:
+                        raise WebError(409, '同一回答操作不能更换内容。请重新读取当前问题。')
+                    if old['finished'] == -1:
+                        raise WebError(409, '上次回答执行失败，记录已保留；不能重放同一操作。')
+                    if not old['finished'] and self.active != task:
+                        raise WebError(409, '上次回答因服务中断未完成确认，不会自动重放。请保留任务记录。')
+                    return task
+                if self.closing or self.active is not None:
+                    raise WebError(409, '已有任务正在执行；本次回答尚未接受，请稍后重试。')
+                pending = current['clarification']
+                if current['status'] != 'waiting' or not pending or pending['question_id'] != payload['question_id'] or pending['version'] != payload['version']:
+                    raise WebError(409, '待答问题已更新或已处理，请刷新查看最新状态。')
+                db.execute('INSERT INTO answers(key,payload,task) VALUES(?,?,?)',(key,encoded,task))
+                db.execute('UPDATE operations SET started=?,finished=NULL,body=NULL WHERE task=?',(time.time(),task))
+            self.active = task
+            self.executor.submit(self.execute,task,payload)
+            return task
+
+    def execute(self, task: str, answer: dict[str, Any] | None = None) -> None:
         body = ''
+        failed = False
         try:
-            state = self.service.run(task)
+            state = self.service.answer(task,answer['question_id'],answer['version'],answer['answer']) if answer else self.service.run(task)
             if state['status'] != 'waiting':
                 if state['status'] == 'failed':
                     body = '分析未能完成。请检查模型服务和本机查询环境；已获得的记录已保留。'
                 else:
                     body = self.service.export_report(task)['terminal_body']
         except Exception:
+            failed = True
             body = '任务执行或报告导出失败，记录已保留。请检查本机服务后重新打开任务。'
         finally:
             with self.lock:
                 with self.connect() as db:
                     db.execute('UPDATE operations SET finished=?,body=? WHERE task=?',(time.time(),body,task))
+                    if answer:
+                        db.execute('UPDATE answers SET finished=? WHERE key=?',(-1 if failed else 1,answer['request_id']))
                 self.active = None
 
     def inspect(self, task: str) -> dict[str, Any]:
@@ -196,14 +234,15 @@ class LocalWeb:
         with self.lock:
             with self.connect() as db:
                 row = db.execute('SELECT * FROM operations WHERE task=?',(task,)).fetchone()
+                unfinished_answer = db.execute('SELECT finished FROM answers WHERE task=? AND finished<=0',(task,)).fetchone()
             if row is None:
                 raise WebError(404, '此任务不属于当前界面工作目录。')
             state = self.service.inspect(task)
             active = self.active == task
             status = 'running' if active else state['status']
             # A crash between durable creation and worker admission is not an invitation to replay.
-            if not active and status in ('created','running'):
-                status = 'interrupted'
+            if not active and (status in ('created','running') or unfinished_answer):
+                status = 'failed' if unfinished_answer and unfinished_answer['finished']==-1 else 'interrupted'
             end = row['finished'] if row['finished'] is not None else (time.time() if active else None)
             pending = state.get('pending_question') or {}
             return {'id':task,'question':state['question'],'snapshot_id':state['snapshot_id'],
@@ -211,4 +250,5 @@ class LocalWeb:
                     'window':state.get('actual_window') or state.get('requested_window'),
                     'window_confirmed': bool(state.get('actual_window')), 'comparison_window': state.get('comparison_window'),
                     'body':row['body'] or '', 'pending': pending.get('prompt') if status=='waiting' else None,
+                    'clarification':{key:pending.get(key) for key in ('question_id','version','known_information','prompt','options')} if status=='waiting' else None,
                     'active_task':self.active}

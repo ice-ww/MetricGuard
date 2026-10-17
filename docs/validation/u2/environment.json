@@ -1,0 +1,31 @@
+{
+  "baseline": "ad64f10",
+  "issue": 31,
+  "python": "3.12.10",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "packages": {
+    "pytest": "9.1.1",
+    "mypy": "1.20.2",
+    "playwright": "1.64.0",
+    "duckdb": "1.5.6"
+  },
+  "docker_image": "sha256:4cadf9b4afae2394df26a2d518ab7d68fbbc4e086081f4273c45410fae456cb0",
+  "browser_channel": "msedge",
+  "source_sha256": {
+    "metricguard/web.py": "58b5fbb0bcce1552d8223d5a6e4eec9451fae2995ab16e144c4fc1a6e744048c",
+    "metricguard/web_assets/index.html": "140e4029629aaebda187e891ce1a8c1eef6d66ef3e85eb178a26f31013bbf994",
+    "metricguard/web_assets/app.css": "c79fc6307f4fb2abd95072a290a04373bc96a493deb2ba83ad73922f01574ba6",
+    "metricguard/web_assets/app.js": "3044bbd698b4d90d0b5e713853812016cbe30de44790c500049280d99408568f",
+    "tests/test_u2_web.py": "1be05ac06563439c22e23dfc1426ab0586bf6f3c1d49b54eb0643a1c864537a7",
+    "tests/test_u2_browser.py": "026b35d183c1001bc2e3b29af83577cb1c347a4c3781153b95cfa1ef5a1d6ab4",
+    "experiments/u2_live.py": "b39fa605025d4bcf729f02dafa1eb815f1ad080e84a5600cbc2d7c61299d7ebe"
+  },
+  "typecheck": {
+    "sources": 93,
+    "passed": true
+  },
+  "experiment_typecheck": {
+    "sources": 1,
+    "passed": true
+  }
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "file": "continuous.json.gz",
+    "task_id": "1e22e5ab2e3d449cb60afb60fc00618b",
+    "input": "昨天用户表现有什么变化？",
+    "outcome": "insufficient_evidence",
+    "sha256_uncompressed": "4f620dfd658571bcc1eb3d14603d2a2acdbc8b6a040291edec25240c617adf89"
+  },
+  {
+    "file": "reject.json.gz",
+    "task_id": "b8ed663012ad4293a71ea4b073c32519",
+    "input": "查询新增用户自然日次日留存",
+    "outcome": "insufficient_evidence",
+    "sha256_uncompressed": "63b47d62291fe2d88abf3a01d7f01aab1291a9dc288daa52c62319417b6fb6a4"
+  },
+  {
+    "file": "simple.json.gz",
+    "task_id": "71b870828301458b870f00d1229272c7",
+    "input": "用户表现怎么样？",
+    "outcome": "facts_available",
+    "sha256_uncompressed": "250e5555377aadcec00e61721b550327c35c0f34db1848c6789e127ddcdbf3b3"
+  },
+  {
+    "file": "unavailable.json.gz",
+    "task_id": "4779798387af4e3a9c84ddb724d66f64",
+    "input": "查询新增用户自然日次日留存",
+    "outcome": "insufficient_evidence",
+    "sha256_uncompressed": "b68a1525440900f24eb974bfa109c34ccd015ee282bf24fce96dd81a7a46580f"
+  }
+]

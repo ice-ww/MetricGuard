@@ -1,11 +1,11 @@
 "use strict";
 const el = id => document.getElementById(id);
-let token, pending = null, timer, view = 0;
+let token, pending = null, timer, view = 0, taskState = null, pendingAnswer = null;
 const names = {created:"准备执行",running:"正在分析",waiting:"等待澄清",ended:"已结束",failed:"执行失败",interrupted:"已中断"};
 async function api(path, data) {
   const response = await fetch(path, {method:data?"POST":"GET", headers:{"X-MetricGuard-Token":token,"Content-Type":"application/json"},body:data?JSON.stringify(data):undefined});
   const value=await response.json();
-  if(!response.ok) throw new Error(value.error || "请求未完成，请重新打开任务。");
+  if(!response.ok) {const error=new Error(value.error || "请求未完成，请重新打开任务。");error.status=response.status;throw error;}
   return value;
 }
 function fill(value) {
@@ -32,7 +32,7 @@ async function showTask(id, generation = ++view) {
     el("elapsed").textContent=state.elapsed_seconds===null?"运行历时未完整记录":"本次运行历时 "+state.elapsed_seconds+" 秒";
     el("task-question").textContent=state.question;
     el("scope").textContent=state.window?(state.window_confirmed?"分析范围：":"请求范围（尚未分析）：")+state.window[0]+" 至 "+state.window[1]+"（结束日不包含）":"";
-    el("pending").textContent=state.pending?state.pending+" 本版暂不支持网页回答；任务已保留。":"";
+    taskState=state;renderClarification(state);
     el("result").textContent=state.body;
     if(["created","running"].includes(state.status)) timer=setTimeout(()=>showTask(id,generation),1000);
   } catch(error) {
@@ -40,6 +40,51 @@ async function showTask(id, generation = ++view) {
     el("connection").textContent="暂时无法读取任务。请确认本机服务仍在运行后刷新；不会自动重新执行。";
   }
 }
+function renderClarification(state) {
+  const question=state.clarification;
+  el("clarification").hidden=!question;
+  const storageKey="metricguard-answer:"+state.id;
+  const saved=sessionStorage.getItem(storageKey);
+  pendingAnswer=saved?JSON.parse(saved):null;
+  if(!question || pendingAnswer && (pendingAnswer.question_id!==question.question_id || pendingAnswer.version!==question.version)) {
+    pendingAnswer=null;sessionStorage.removeItem(storageKey);
+  }
+  if(!question) return;
+  el("known-information").textContent=question.known_information||"";
+  el("clarification-prompt").textContent=question.prompt;
+  el("answer-options").replaceChildren();
+  for(const option of question.options||[]) {
+    const button=document.createElement("button");button.type="button";button.textContent=option;
+    button.addEventListener("click",()=>{el("answer").value=option;el("answer").focus();});
+    el("answer-options").append(button);
+  }
+  el("answer").value=pendingAnswer?pendingAnswer.answer:"";
+  el("answer-fields").disabled=!!pendingAnswer;el("answer-submit").disabled=false;el("answer-refresh").disabled=false;
+  el("answer-submit").textContent=pendingAnswer?"重试相同回答":"提交回答";
+  el("answer-error").textContent=pendingAnswer?"上次回答尚未确认。重试沿用同一操作，不会重复执行。":"";
+}
+el("answer-form").addEventListener("submit",async event=>{
+  event.preventDefault();
+  if(!taskState?.clarification) return;
+  const generation=++view;clearTimeout(timer);
+  const id=taskState.id, question=taskState.clarification, storageKey="metricguard-answer:"+id;
+  if(!pendingAnswer) pendingAnswer={request_id:crypto.randomUUID(),question_id:question.question_id,version:question.version,answer:el("answer").value};
+  sessionStorage.setItem(storageKey,JSON.stringify(pendingAnswer));
+  el("answer-fields").disabled=true;el("answer-submit").disabled=true;el("answer-refresh").disabled=true;el("new").disabled=true;el("answer-error").textContent="";
+  try {
+    await api("/api/tasks/"+id+"/answers",pendingAnswer);
+    if(generation!==view) return;
+    pendingAnswer=null;sessionStorage.removeItem(storageKey);el("new").disabled=false;
+    await showTask(id,generation);
+  } catch(error) {
+    if(generation!==view) return;
+    if(error.status && error.status<500) {pendingAnswer=null;sessionStorage.removeItem(storageKey);el("answer-fields").disabled=false;}
+    el("answer-error").textContent=error.message;
+    el("answer-submit").disabled=false;el("answer-refresh").disabled=false;el("new").disabled=false;
+    el("answer-submit").textContent=pendingAnswer?"重试相同回答":"提交回答";
+  }
+});
+el("answer-refresh").addEventListener("click",()=>{if(taskState) showTask(taskState.id);});
 el("analysis-form").addEventListener("submit",async event=>{
   const generation=++view;clearTimeout(timer);
   event.preventDefault();el("error").textContent="";el("submit").disabled=true;el("new").disabled=true;
@@ -60,7 +105,7 @@ el("analysis-form").addEventListener("submit",async event=>{
   }
 });
 el("new").addEventListener("click",()=>{
-  view++;clearTimeout(timer);pending=null;sessionStorage.removeItem("metricguard-pending");history.pushState(null,"","/");
+  view++;clearTimeout(timer);taskState=null;pendingAnswer=null;pending=null;sessionStorage.removeItem("metricguard-pending");history.pushState(null,"","/");
   el("task").hidden=true;el("empty").hidden=false;el("status").textContent="尚未开始";el("new").hidden=true;el("error").textContent="";unlock();
 });
 window.addEventListener("popstate",()=>location.reload());

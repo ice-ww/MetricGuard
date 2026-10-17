@@ -1,0 +1,92 @@
+[
+  {
+    "file": "u2-browser-green.xml.gz",
+    "sha256_uncompressed": "2a2b7be9590f856f2d8c0af2073954d710784cddaad2df9561781f32b881f935",
+    "tests": "1",
+    "failures": "1",
+    "errors": "0",
+    "skipped": "0",
+    "time": "27.447"
+  },
+  {
+    "file": "u2-browser-red.xml.gz",
+    "sha256_uncompressed": "dd73591a9bdd1cf52c18db6a9d3dae523cea04331a85390118f0c15c136adca6",
+    "tests": "1",
+    "failures": "1",
+    "errors": "0",
+    "skipped": "0",
+    "time": "18.758"
+  },
+  {
+    "file": "u2-checkpoint-red.xml.gz",
+    "sha256_uncompressed": "5023fd8df20dccec649563d760d18d581ef712e9a0b3682332aa0f09e8164efa",
+    "tests": "1",
+    "failures": "1",
+    "errors": "0",
+    "skipped": "0",
+    "time": "9.526"
+  },
+  {
+    "file": "u2-core-green.xml.gz",
+    "sha256_uncompressed": "c1ade51a68f857a920c1454a21d026ec5ebb826d2dff4f8e76dc79b26be4d0e8",
+    "tests": "3",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "35.843"
+  },
+  {
+    "file": "u2-failure-green.xml.gz",
+    "sha256_uncompressed": "552aca72b3644944d59ef9c8827cdeb8200b5b526de9ebd0a6b8a14aaa14c671",
+    "tests": "2",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "22.428"
+  },
+  {
+    "file": "u2-http-green.xml.gz",
+    "sha256_uncompressed": "73c3045a96c1f55eaa12504821f449e0842e6b3c783850e5d51f9e6bc4448ed3",
+    "tests": "1",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "9.035"
+  },
+  {
+    "file": "u2-http-red.xml.gz",
+    "sha256_uncompressed": "1f23c49d4fe574948b4c32c04b5c0396966baa7535cc972c9a78ae609a5bfcac",
+    "tests": "1",
+    "failures": "1",
+    "errors": "0",
+    "skipped": "0",
+    "time": "9.914"
+  },
+  {
+    "file": "u2-integration.xml.gz",
+    "sha256_uncompressed": "48a281df88ad9fd0f1dd33da863bb8d63841bf439d35d66ef4c4f12be53d5797",
+    "tests": "17",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "136.237"
+  },
+  {
+    "file": "u2-targeted.xml.gz",
+    "sha256_uncompressed": "07e79094c5f2f70dcff0ab4bdb548fc97bdff64df2dca6f7de2dd68c98d7e7d9",
+    "tests": "7",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "67.159"
+  },
+  {
+    "file": "u2-full-suite.xml.gz",
+    "sha256_uncompressed": "460f08e6db1e5d98e272ecb95b89e95c675a1f1d561fe44026679e07dcdae2fc",
+    "tests": "507",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "1375.230"
+  }
+]
