@@ -1,4 +1,4 @@
-# 本机浏览器界面（U1–U3）
+# 本机浏览器界面（U1–U4）
 
 在仓库 PowerShell 中启动。需要现有 Python/uv 环境、已启动的 Docker Desktop Linux 引擎、已验证镜像及当前终端中的模型凭据。不要将密钥写入页面、截图或版本库。
 
@@ -47,9 +47,20 @@ uv run python -m metricguard.web_start --demo
 
 新工作目录显示空列表；不会导入旧 CLI 或历史验收目录。无效任务链接会明确提示，可从列表选择任务或新建问题。自动化测试已覆盖受控跨日恢复，尚未登记人工跨日验收；异常退出后的深入恢复仍属 U5。
 
+## 阅读报告与核查引用
+
+默认展示已有结论、关键比较、日期范围及必要限制。查询事实、描述性候选、证据不足和未形成支持充分的异常候选分别标示；“已结束”只表示执行状态，不代表已证明原因。
+
+1. 点击结论或比较中的 A 编号，页面自动展开完整事实表并聚焦相应事实。
+2. 点击该事实下的证据位置，自动展开原始证据并聚焦具体单元格。行号从 0 开始；表格保留原始值，展示百分比可能取整。
+3. 支持依据、反对证据与对照、完整推断可按需展开。未排除因素、因果限制和范围不足说明保持默认可见。
+4. 原始证据区包含查询参数、字段类型、快照、截断状态等；执行记录区保留发布版本、范围授权和 Trace。完整文本报告仍可展开。
+
+浏览证据只读，不重新执行分析或生成模型摘要。无报告、已知失败或读取失败会明确提示。报告接口只允许当前 Web 任务，不能用于浏览任意本机文件。
+
 ## 当前阶段边界
 
-- 已提供新建、状态、基础文本结果、历史列表、任务链接与连续澄清回答。分层证据和关联重跑在后续任务实现。
+- 已提供新建、状态、分层报告、历史列表、任务链接与连续澄清回答。关联重跑在后续任务实现。
 - 简单查询无需比较基期；诊断若缺少条件可能进入等待。不要把“等待澄清”当成失败或后台还在运行。
 - 模型故障与查询失败会保留服务任务记录，页面显示安全的失败说明；深入失败处理与重跑留给 U5。
 - 页面历时不是预算活动计时；服务的真实预算规则保持不变。
@@ -61,7 +72,7 @@ uv run python -m metricguard.web_start --demo
 开发测试依赖已写入依赖锁文件。浏览器测试在 Windows 默认使用已安装的 Microsoft Edge；其他安装可通过 METRICGUARD_BROWSER_CHANNEL 指定受支持的浏览器通道。浏览器缺失会使必要测试失败，不会静默跳过。
 
 ```powershell
-uv run pytest tests/test_u1_web.py tests/test_u1_browser.py tests/test_u2_web.py tests/test_u2_browser.py tests/test_u3_history.py tests/test_u3_browser.py -q
+uv run pytest tests/test_u1_web.py tests/test_u1_browser.py tests/test_u2_web.py tests/test_u2_browser.py tests/test_u3_history.py tests/test_u3_browser.py tests/test_u4_web.py tests/test_u4_browser.py -q
 ```
 
 必须配置 METRICGUARD_TEST_IMAGE，查询使用实际 Docker 隔离环境；模型提供方可受控。真实模型实验与人工体验单独登记，不能混为同一种验证。

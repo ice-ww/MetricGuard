@@ -1,0 +1,137 @@
+[
+  {
+    "file": "u4-diagnosis-red.xml.gz",
+    "tests": 3,
+    "failures": 3,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 55.238,
+    "sha256": "e82d7a1a6dc6d6e513cd7d895ceb497c503bc09356ff0f8e6d509134b73d9aed"
+  },
+  {
+    "file": "u4-final-targeted.xml.gz",
+    "tests": 7,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 72.804,
+    "sha256": "4aff0a9bf41efa5a709c0b8dca6e55c498b2c19692ebddbbb72563bfcfce04e5"
+  },
+  {
+    "file": "u4-fragment-red.xml.gz",
+    "tests": 2,
+    "failures": 2,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 9.358,
+    "sha256": "5156104b8f8a6db6fe0c7e9386795ced21d0ed467934ced1481e29ba97deb76b"
+  },
+  {
+    "file": "u4-full-suite-final.xml.gz",
+    "tests": 519,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 1475.745,
+    "sha256": "044429b66f56a2cb41d438ddb845600f3e2f0e98b68476c347b25a54c27c52b7"
+  },
+  {
+    "file": "u4-full-suite-first.xml.gz",
+    "tests": 517,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 1454.223,
+    "sha256": "a134a6d8c26ed40411cb07b5b2f673a3e4e43a384287752e4baaf175951952fd"
+  },
+  {
+    "file": "u4-green.xml.gz",
+    "tests": 6,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 68.031,
+    "sha256": "4e69ddc5db03ca8db39fde8552f253f83a5a1193178be581eb537d81ef06342f"
+  },
+  {
+    "file": "u4-integer-red-2.xml.gz",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 25.713,
+    "sha256": "005dd9c2ca9353350bbda3b2c6b8f4a977754bd690de63cc7da6e2b027383dd9"
+  },
+  {
+    "file": "u4-integer-red.xml.gz",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 25.677,
+    "sha256": "c1edaf7574bc653c2931689271dcb10596869c3eeba8297589710496d06b74d2"
+  },
+  {
+    "file": "u4-origin-recheck.xml.gz",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 9.933,
+    "sha256": "6ee0d87a0056041cd03b0cffa2facd8623f3b30a089314d8b7faccd9270950ec"
+  },
+  {
+    "file": "u4-query-green.xml.gz",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 17.74,
+    "sha256": "dd003c72ace7de6ca6783b767e1b68ad6288b5582e61e52673bccd01dfa35225"
+  },
+  {
+    "file": "u4-query-red.xml.gz",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 25.956,
+    "sha256": "82b1beb1f68c64c54e8cc0c6019e561b8b381b329f2296f9dfb5fcdc8efd994c"
+  },
+  {
+    "file": "u4-related.xml.gz",
+    "tests": 26,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 214.045,
+    "sha256": "0d1364186afd878f57aa433225af8b09d922d7a0a0c546dd7ff879039d7ae258"
+  },
+  {
+    "file": "u4-transport-green.xml.gz",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 25.073,
+    "sha256": "48d2829e32a2d43b30ebde287de01808fa46656dfb4f808c1e62df767c305fc1"
+  },
+  {
+    "file": "u4-transport-related.xml.gz",
+    "tests": 14,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 79.327,
+    "sha256": "155ec6692594b24d66d74c3033479cbc77d8bbd2bbf5436bbb87842362e46291"
+  },
+  {
+    "file": "u4-web-green.xml.gz",
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 9.544,
+    "sha256": "72bd5967bfb811ffe2acc73e28e77d691da0440d678dc8672532f6ea2fa8b172"
+  }
+]

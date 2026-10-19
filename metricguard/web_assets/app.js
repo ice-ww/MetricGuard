@@ -54,12 +54,24 @@ async function showTask(id, generation = ++view) {
     if(taskState?.id!==state.id || taskState?.status!==state.status) refreshHistory();
     taskState=state;renderClarification(state);
     el("result").textContent=state.body;
+    el("report-view").replaceChildren();
+    if(!["created","running","waiting"].includes(state.status)) {
+      try {
+        const report=await api("/api/tasks/"+encodeURIComponent(id)+"/report");
+        if(generation!==view) return;
+        renderReport(report,el("report-view"));
+      } catch(error) {
+        if(generation!==view) return;
+        el("report-view").textContent="报告读取失败。请刷新重试；已有文本报告和任务记录仍保留。";
+      }
+    }
+    el("text-report").hidden=!state.body;
     if(["created","running"].includes(state.status)) timer=setTimeout(()=>showTask(id,generation),1000);
   } catch(error) {
     if(generation!==view) return;
     if(error.status===404) {
       taskState=null;el("clarification").hidden=true;el("status").textContent="无法打开任务";
-      for(const name of ["result","scope","elapsed","task-question"]) el(name).textContent="";
+      for(const name of ["result","report-view","scope","elapsed","task-question"]) el(name).textContent="";
       el("connection").textContent=error.message+" 请从历史列表选择任务，或新建问题。";
     } else el("connection").textContent="暂时无法读取任务。请确认本机服务仍在运行后刷新；不会自动重新执行。";
   }

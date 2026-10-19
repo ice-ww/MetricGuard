@@ -1,0 +1,24 @@
+{
+  "checks": [
+    {
+      "task": "788e492ced364edca10058b2c7503762",
+      "checked_cells": 1,
+      "state_unchanged": true
+    },
+    {
+      "task": "6ea367d94b794f72abef3a48d953a475",
+      "checked_cells": 23,
+      "state_unchanged": true
+    }
+  ],
+  "new_model_calls": 0,
+  "source_sha256": {
+    "metricguard\\web.py": "ff2232d7a52c6d2ae3035d7e9143d71b362dc9eac7585714b2603922b174abd9",
+    "metricguard\\web_report.py": "880aeb2d4be6a341a387f741dd72f462b8aeb71ceba4b5d29cf9ea66cd7e0653",
+    "metricguard\\web_assets\\app.css": "643751abc5b4874638b82e89314dbb4efa0b90807527b4694dd993df8d2ce946",
+    "metricguard\\web_assets\\app.js": "c43db6f22d61f91779741cf155763cfdf82f880f91ab02f8d7ba9ca69cf20f91",
+    "metricguard\\web_assets\\index.html": "fbb8ccab84b29215f953bb2c16f94a4dd14ecd07c07cced3ff419d4c37334ef4",
+    "metricguard\\web_assets\\report.js": "c343abeac1f1472e103eff75e9c39a2e72473fd02a66c0071a3f8797120aa99d"
+  },
+  "passed": true
+}

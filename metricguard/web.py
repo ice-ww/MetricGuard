@@ -48,6 +48,13 @@ class LocalWeb:
                 self.respond()
 
             def respond(self) -> None:
+                self.unread_body = 0
+                try:
+                    length = int(self.headers.get('Content-Length', '0'))
+                    if self.command == 'POST' and 0 < length <= 16384:
+                        self.unread_body = length
+                except ValueError:
+                    pass
                 try:
                     app.check_request(self)
                     status, content, mime = app.dispatch(self)
@@ -55,6 +62,19 @@ class LocalWeb:
                     status, content, mime = error.status, {'error': error.message}, 'application/json'
                 except Exception:
                     status, content, mime = 500, {'error': '本地服务处理失败；任务记录已保留，请检查服务后重新打开任务。'}, 'application/json'
+                # Closing with an unread POST body can reset the connection on Windows,
+                # losing the intended rejection response. Drain only bounded bodies,
+                # with a total deadline, and never parse or execute rejected content.
+                deadline = time.monotonic() + 1
+                try:
+                    while self.unread_body and time.monotonic() < deadline:
+                        self.connection.settimeout(max(.001, deadline - time.monotonic()))
+                        chunk = self.rfile.read1(self.unread_body)
+                        if not chunk:
+                            break
+                        self.unread_body -= len(chunk)
+                except OSError:
+                    pass
                 encoded = json.dumps(content, ensure_ascii=False).encode() if mime=='application/json' else content
                 self.send_response(status)
                 self.send_header('Content-Type', mime + '; charset=utf-8')
@@ -110,7 +130,7 @@ class LocalWeb:
     def dispatch(self, handler: BaseHTTPRequestHandler) -> tuple[int, Any, str]:
         path = urlsplit(handler.path).path
         if handler.command == 'GET':
-            assets = {'/': ('index.html','text/html'), '/app.js': ('app.js','text/javascript'), '/app.css': ('app.css','text/css')}
+            assets = {'/': ('index.html','text/html'), '/app.js': ('app.js','text/javascript'), '/app.css': ('app.css','text/css'), '/report.js': ('report.js','text/javascript')}
             if path in assets:
                 name, mime = assets[path]
                 return 200, (Path(__file__).parent/'web_assets'/name).read_bytes(), mime
@@ -124,6 +144,7 @@ class LocalWeb:
                 if not 0 < length <= 16384 or handler.headers.get_content_type() != 'application/json':
                     raise ValueError()
                 handler.connection.settimeout(5)
+                setattr(handler, 'unread_body', 0)
                 payload = json.loads(handler.rfile.read(length))
             except (ValueError, OSError):
                 raise WebError(400, '请输入有效的问题、快照和日期。') from None
@@ -131,6 +152,8 @@ class LocalWeb:
             return 202, {'id': task}, 'application/json'
         if handler.command == 'GET' and path == '/api/tasks':
             return 200, {'tasks': self.list_tasks()}, 'application/json'
+        if handler.command == 'GET' and re.fullmatch(r'/api/tasks/[a-f0-9]{32}/report', path):
+            return 200, self.report(path.split('/')[3]), 'application/json'
         if handler.command == 'GET' and re.fullmatch(r'/api/tasks/[a-f0-9]{32}', path):
             return 200, self.inspect(path.rsplit('/',1)[1]), 'application/json'
         raise WebError(404, '找不到此页面或任务。')
@@ -230,6 +253,20 @@ class LocalWeb:
                     if answer:
                         db.execute('UPDATE answers SET finished=? WHERE key=?',(-1 if failed else 1,answer['request_id']))
                 self.active = None
+
+    def report(self, task: str) -> dict[str, Any]:
+        """Read an existing publication through owned task APIs; never publish on GET."""
+        from metricguard.web_report import presentation
+        with self.lock:
+            state = self.inspect(task)  # Enforce Web ownership before reading any evidence.
+            data = self.service.inspect(task)
+            if state['status'] != 'ended' or not data.get('report'):
+                return {'available': False, 'message': state['body'] or '当前任务尚无已发布报告。'}
+            revisions = [json.loads(e['detail'])['publication_id'] for e in data['trace'] if e['event']=='report_published']
+            if not revisions:
+                return {'available': False, 'message': '当前任务尚无已发布报告。'}
+            publication = self.service.publication(task, revisions[-1])
+            return presentation(data, publication)
 
     def list_tasks(self) -> list[dict[str, Any]]:
         """Only tasks admitted by this Web owner, newest creation first; never execute."""
