@@ -1,0 +1,24 @@
+{
+  "python": "3.12.10",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "image": "sha256:4cadf9b4afae2394df26a2d518ab7d68fbbc4e086081f4273c45410fae456cb0",
+  "packages": {
+    "pytest": "9.1.1",
+    "mypy": "1.20.2",
+    "playwright": "1.64.0",
+    "duckdb": "1.5.6",
+    "langgraph": "1.2.14",
+    "anthropic": "1.13.0"
+  },
+  "source_sha256": {
+    "metricguard/service.py": "4bced85a7a2c4d2e986f2ab0113000ccb26a487d853d2b49e73f3c167edf3570",
+    "metricguard/web.py": "ab9a3be79c0816171d4ba57bc8f2c37d5b204127d55fabf26f7caac57b1749ba",
+    "metricguard/web_assets/app.js": "5583e9eae048181b430f26519ab02408015c9ce89bf924f9548feb29fbf4d6c2",
+    "metricguard/web_assets/index.html": "711d79783a3c5286cdf653224c34fe075ae7a1559a1a13b6572ee5bbcf0d64a6",
+    "tests/test_u5_web.py": "aa6dbddfa169a0cb03a12519e25a0ac8d5df2138322d242f1a19688288cacc1a",
+    "tests/test_u5_browser.py": "411f8886f1a0d35ee845ebe386d69f3af661ced66b860a3934f6998c27d8ec1f",
+    "tests/u5_crash_worker.py": "dded7e466112af09c0d5f486d2669ab3e14dc87e344249017a330a2e3c5f59a9"
+  },
+  "model_verification": "controlled provider faults and responses; no live model run",
+  "baseline": "30a5557403e9169195de7783a63b9eaae80da01a"
+}

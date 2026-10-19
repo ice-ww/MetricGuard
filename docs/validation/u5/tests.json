@@ -1,0 +1,10 @@
+{
+  "command": "uv run pytest -q --junitxml=artifacts/u5-full-suite.xml",
+  "exit_code": 0,
+  "tests": 524,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "seconds": 1558.283,
+  "junit_sha256": "ba61974ab7d4846c2f01e30cd85ddc6a9c84a2fd5bf5850a8a540e65655d84cf"
+}

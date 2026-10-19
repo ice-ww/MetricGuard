@@ -52,7 +52,7 @@ async function showTask(id, generation = ++view) {
     el("task-question").textContent=state.question;
     el("scope").textContent=state.window?(state.window_confirmed?"分析范围：":"请求范围（尚未分析）：")+state.window[0]+" 至 "+state.window[1]+"（结束日不包含）":"";
     if(taskState?.id!==state.id || taskState?.status!==state.status) refreshHistory();
-    taskState=state;renderClarification(state);
+    taskState=state;renderClarification(state);renderRecovery(state);
     el("result").textContent=state.body;
     el("report-view").replaceChildren();
     if(!["created","running","waiting"].includes(state.status)) {
@@ -70,12 +70,50 @@ async function showTask(id, generation = ++view) {
   } catch(error) {
     if(generation!==view) return;
     if(error.status===404) {
-      taskState=null;el("clarification").hidden=true;el("status").textContent="无法打开任务";
+      taskState=null;el("clarification").hidden=true;el("recovery-actions").hidden=true;el("parent-link").hidden=true;el("recovery-message").textContent="";el("status").textContent="无法打开任务";
       for(const name of ["result","report-view","scope","elapsed","task-question"]) el(name).textContent="";
       el("connection").textContent=error.message+" 请从历史列表选择任务，或新建问题。";
     } else el("connection").textContent="暂时无法读取任务。请确认本机服务仍在运行后刷新；不会自动重新执行。";
   }
 }
+function renderRecovery(state) {
+  el("recovery-actions").hidden=false;
+  el("recovery-message").textContent=state.recovery_message;
+  el("parent-link").hidden=!state.parent;
+  if(state.parent) el("parent-link").href="/?task="+encodeURIComponent(state.parent);
+  el("rerun").hidden=!["ended","failed","interrupted"].includes(state.status);
+  el("rerun").disabled=false;el("copy").disabled=false;
+  const saved=sessionStorage.getItem("metricguard-rerun:"+state.id);
+  el("rerun").textContent=saved?"重试关联重跑":"创建关联重跑";
+  el("rerun-error").textContent=saved?"上次重跑尚未确认。重试将沿用同一操作，不会重复创建任务。":"";
+}
+el("copy").addEventListener("click",()=>{
+  if(!taskState) return;
+  const source=taskState;
+  el("new").click();fill(source);el("question").focus();
+  el("error").textContent="已复制问题、快照和明确日期。请修改并点击开始分析；新任务不会继承旧结论或证据。";
+});
+el("rerun").addEventListener("click",async()=>{
+  if(!taskState) return;
+  const id=taskState.id, generation=++view, key="metricguard-rerun:"+id;
+  clearTimeout(timer);
+  const saved=sessionStorage.getItem(key), data=saved?JSON.parse(saved):{request_id:crypto.randomUUID()};
+  sessionStorage.setItem(key,JSON.stringify(data));
+  el("rerun").disabled=true;el("copy").disabled=true;el("new").disabled=true;el("rerun-error").textContent="";
+  try {
+    const result=await api("/api/tasks/"+id+"/rerun",data);
+    if(generation!==view) return;
+    sessionStorage.removeItem(key);el("new").disabled=false;
+    history.pushState(null,"","/?task="+encodeURIComponent(result.id));
+    await showTask(result.id,generation);
+  } catch(error) {
+    if(generation!==view) return;
+    if(error.status && error.status<500) sessionStorage.removeItem(key);
+    el("rerun-error").textContent=error.message;
+    el("rerun").disabled=false;el("copy").disabled=false;el("new").disabled=false;
+    el("rerun").textContent=sessionStorage.getItem(key)?"重试关联重跑":"创建关联重跑";
+  }
+});
 function renderClarification(state) {
   const question=state.clarification;
   el("clarification").hidden=!question;

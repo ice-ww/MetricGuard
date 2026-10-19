@@ -818,6 +818,19 @@ class TaskService:
         self._event(new, 'rerun_created', {'parent': task})
         return new
 
+    def record_execution_stop(self, task: str, *, failed: bool = False) -> None:
+        """Owner-only lifecycle notification after execution has stopped, never cancellation.
+
+        The Web owner also knows about failures before graph admission and lost
+        submissions. Preserve all evidence and attempts; do not resume any work.
+        """
+        self._data(task)
+        status = 'failed' if failed else 'interrupted'
+        with self.ledger.connect() as db:
+            changed = db.execute("UPDATE tasks SET status=?,question=NULL WHERE id=? AND status IN ('created','running','waiting')", (status, task))
+            if changed.rowcount:
+                db.execute('INSERT INTO trace(task,event,detail) VALUES(?,?,?)', (task, 'execution_owner_stopped', status))
+
     def _execute(self, task: str, value: Any) -> dict[str, Any]:
         self.ledger.start_activity(task)
         status = 'ended'

@@ -35,6 +35,10 @@ class LocalWeb:
         with self.connect() as db:
             db.execute('CREATE TABLE IF NOT EXISTS operations (key TEXT PRIMARY KEY, payload TEXT NOT NULL, task TEXT, started REAL NOT NULL, finished REAL, body TEXT)')
             db.execute('CREATE TABLE IF NOT EXISTS answers (key TEXT PRIMARY KEY, payload TEXT NOT NULL, task TEXT NOT NULL, finished INTEGER NOT NULL DEFAULT 0)')
+            # The previous owner is gone. Reconcile durable admissions without replay.
+            for row in db.execute('SELECT task FROM operations WHERE task IS NOT NULL AND finished IS NULL UNION SELECT task FROM answers WHERE finished<=0'):
+                failed = db.execute('SELECT 1 FROM answers WHERE task=? AND finished=-1', (row['task'],)).fetchone()
+                service.record_execution_stop(row['task'], failed=bool(failed))
         self.executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix='metricguard-task')
         app = self
         class Handler(BaseHTTPRequestHandler):
@@ -138,7 +142,7 @@ class LocalWeb:
                 return 200, {'token': self.token, 'snapshots': list(self.service.snapshots), 'example': self.example}, 'application/json'
         if not secrets.compare_digest(handler.headers.get('X-MetricGuard-Token',''), self.token):
             raise WebError(403, '页面会话已失效，请刷新页面。')
-        if handler.command == 'POST' and (path == '/api/tasks' or re.fullmatch(r'/api/tasks/[a-f0-9]{32}/answers', path)):
+        if handler.command == 'POST' and (path == '/api/tasks' or re.fullmatch(r'/api/tasks/[a-f0-9]{32}/(answers|rerun)', path)):
             try:
                 length = int(handler.headers.get('Content-Length', '0'))
                 if not 0 < length <= 16384 or handler.headers.get_content_type() != 'application/json':
@@ -148,7 +152,12 @@ class LocalWeb:
                 payload = json.loads(handler.rfile.read(length))
             except (ValueError, OSError):
                 raise WebError(400, '请输入有效的问题、快照和日期。') from None
-            task = self.submit(payload) if path == '/api/tasks' else self.answer(path.split('/')[3], payload)
+            if path == '/api/tasks':
+                task = self.submit(payload)
+            elif path.endswith('/rerun'):
+                task = self.submit(payload, parent=path.split('/')[3])
+            else:
+                task = self.answer(path.split('/')[3], payload)
             return 202, {'id': task}, 'application/json'
         if handler.command == 'GET' and path == '/api/tasks':
             return 200, {'tasks': self.list_tasks()}, 'application/json'
@@ -158,14 +167,19 @@ class LocalWeb:
             return 200, self.inspect(path.rsplit('/',1)[1]), 'application/json'
         raise WebError(404, '找不到此页面或任务。')
 
-    def submit(self, payload: Any) -> str:
+    def submit(self, payload: Any, *, parent: str | None = None) -> str:
+        if parent:
+            if not isinstance(payload, dict) or set(payload) != {'request_id'}:
+                raise WebError(400, '重跑只接受操作标识；修改问题请使用复制并修改。')
+            previous = self.inspect(parent)
+            payload = {**payload, **{key: previous[key] for key in ('question','snapshot_id','window','comparison_window')}}
         if not isinstance(payload, dict) or set(payload)-{'request_id','question','snapshot_id','window','comparison_window'}:
             raise WebError(400, '请求包含不受支持的设置。')
         key = payload.get('request_id')
         if not isinstance(key,str) or not re.fullmatch(r'[a-zA-Z0-9_-]{8,100}', key):
             raise WebError(400, '操作标识无效，请重新打开页面。')
         question = payload.get('question'); snapshot = payload.get('snapshot_id')
-        if not isinstance(question,str) or not question.strip() or len(question)>2000 or not isinstance(snapshot,str) or snapshot not in self.service.snapshots:
+        if not isinstance(question,str) or not question.strip() or len(question)>2000 or not isinstance(snapshot,str) or (not parent and snapshot not in self.service.snapshots):
             raise WebError(400, '请填写问题并选择已配置的数据快照。')
         from datetime import date
         for name in ('window','comparison_window'):
@@ -176,7 +190,7 @@ class LocalWeb:
                         raise ValueError()
                 except ValueError:
                     raise WebError(400, '日期范围无效：结束日期必须晚于开始日期。') from None
-        encoded = json.dumps(payload, sort_keys=True, ensure_ascii=False)
+        encoded = json.dumps({'request_id': key, 'parent': parent} if parent else payload, sort_keys=True, ensure_ascii=False)
         with self.lock:
             with self.connect() as db:
                 old = db.execute('SELECT * FROM operations WHERE key=?',(key,)).fetchone()
@@ -188,9 +202,11 @@ class LocalWeb:
                     raise WebError(409, '此操作在服务退出前未完成确认；不会自动重放，请创建新操作。')
                 if self.closing or self.active is not None:
                     raise WebError(409, '已有任务正在执行，请等待结束或进入等待澄清状态后再提交。')
+                if parent and self.inspect(parent)['status'] not in ('ended','failed','interrupted'):
+                    raise WebError(409, '原任务尚未结束；等待澄清时请继续回答原任务。')
                 db.execute('INSERT INTO operations(key,payload,started) VALUES(?,?,?)',(key,encoded,time.time()))
             try:
-                task = self.service.create(question, snapshot, tuple(payload['window']) if payload.get('window') else None,
+                task = self.service.rerun(parent) if parent else self.service.create(question, snapshot, tuple(payload['window']) if payload.get('window') else None,
                     comparison_window=tuple(payload['comparison_window']) if payload.get('comparison_window') else None, mode='diagnose')
             except Exception:
                 # Keep the reservation: an unknown failure must not replay a potentially created task.
@@ -245,6 +261,7 @@ class LocalWeb:
                     body = self.service.export_report(task)['terminal_body']
         except Exception:
             failed = True
+            self.service.record_execution_stop(task, failed=True)
             body = '任务执行或报告导出失败，记录已保留。请检查本机服务后重新打开任务。'
         finally:
             with self.lock:
@@ -292,10 +309,20 @@ class LocalWeb:
                 status = 'failed' if unfinished_answer and unfinished_answer['finished']==-1 else 'interrupted'
             end = row['finished'] if row['finished'] is not None else (time.time() if active else None)
             pending = state.get('pending_question') or {}
-            return {'id':task,'question':state['question'],'snapshot_id':state['snapshot_id'],
+            message = ''
+            if status == 'interrupted':
+                message = '服务意外停止，任务已中断。已有记录和证据保留，未知模型调用不会自动重放。可创建关联新任务重跑；这不是断点续跑。'
+            elif status == 'failed':
+                message = '任务执行失败，已有记录和证据保留。请检查模型服务和本机环境后创建关联新任务重跑。'
+            model_errors = [json.loads(a['result']).get('error_type', '') for a in state['attempts'] if a['kind']=='model' and a.get('result')]
+            if not active and any('Timeout' in error for error in model_errors):
+                message = '模型请求超时，分析未完成。已有记录和证据保留，未知调用不会自动重放。请检查模型服务后创建关联新任务重跑。'
+            elif not active and any(model_errors):
+                message = '模型调用失败，分析未完成。已有记录和证据保留。请检查模型服务后创建关联新任务重跑。'
+            return {'id':task,'parent':state.get('parent'),'question':state['question'],'snapshot_id':state['snapshot_id'],
                     'status':status,'elapsed_seconds':max(0,round(end-row['started'],1)) if end is not None else None,
                     'window':state.get('actual_window') or state.get('requested_window'),
                     'window_confirmed': bool(state.get('actual_window')), 'comparison_window': state.get('comparison_window'),
-                    'body':row['body'] or '', 'pending': pending.get('prompt') if status=='waiting' else None,
+                    'body':row['body'] or '', 'recovery_message':message, 'pending': pending.get('prompt') if status=='waiting' else None,
                     'clarification':{key:pending.get(key) for key in ('question_id','version','known_information','prompt','options')} if status=='waiting' else None,
                     'active_task':self.active}
