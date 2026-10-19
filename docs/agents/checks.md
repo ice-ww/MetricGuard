@@ -6,7 +6,8 @@ Run from the repository root after `uv sync --locked`:
 uv run python -m tools.check
 ```
 
-The command checks acceptance evidence, runs the configured mypy targets, then
+The command checks acceptance evidence, runs the configured mypy targets for
+both Windows and Linux (with separate caches), then
 runs the complete pytest suite. It stops at the first failed stage. The type
 targets include both U6 acceptance scripts and the maintenance tools.
 

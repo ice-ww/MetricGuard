@@ -44,7 +44,12 @@ def main() -> int:
         if stage == 'evidence':
             code = evidence.check(root)
         elif stage == 'types':
-            code = subprocess.run([sys.executable, '-m', 'mypy'], cwd=root).returncode
+            code = 0
+            for platform in ('win32', 'linux'):
+                print(f'types: {platform}', flush=True)
+                result = subprocess.run([sys.executable, '-m', 'mypy', '--platform', platform,
+                                         '--cache-dir', f'.mypy_cache/{platform}'], cwd=root)
+                code = code or result.returncode
         else:
             code = tests(root)
         if code:

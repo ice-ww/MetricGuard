@@ -24,3 +24,9 @@ GitHub Actions 使用 Ubuntu、Python 3.12、锁定依赖、Chromium 和从当�
 ## 审查
 
 Standards：未发现待修复违规或实质代码异味。Spec：初审发现 Linux runner 与三个 Windows 专用测试启动方式不兼容，已修复；复审无未解决项。审查代理没有并行执行完整套件或真实模型。
+
+## 首次远端 CI 后的类型检查修复
+
+首次 [CI 运行](https://github.com/ice-ww/MetricGuard/actions/runs/39226447065) 在 Linux mypy 阶段发现 T05 文件锁的四个 Windows API 类型错误，完整测试未开始。相同依赖下，`mypy --platform linux` 可复现：`os.name` 分支没有被静态排除。改为 `sys.platform` 后保留平台锁行为，并移除不再需要的 fcntl 类型忽略。
+
+统一类型检查现在分别检查 Windows/Linux 并使用独立缓存，两个新 CLI 回归先验证旧入口会漏掉另一平台的错误，再验证修复。两平台各 99 个文件通过；维护命令与 T05 相关测试 **23 passed，0 skipped**（[JUnit](repository-checks/ci-platform.xml.gz)）。Standards/Spec 复审无待修复项。远端完整结果以 [Actions](https://github.com/ice-ww/MetricGuard/actions/workflows/check.yml) 对应提交的运行记录为准；上面的 533 项本机结果属于最初提交。

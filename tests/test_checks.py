@@ -3,6 +3,7 @@ import gzip
 from pathlib import Path
 import subprocess
 import sys
+import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -73,6 +74,17 @@ def test_unified_command_stops_on_type_failure(tmp_path):
     assert result.returncode != 0
     assert 'Incompatible types' in result.stdout
     assert 'tests must not run' not in result.stdout
+
+
+@pytest.mark.parametrize('platform', ['win32', 'linux'])
+def test_types_checks_both_platform_branches(tmp_path, platform):
+    repository(tmp_path)
+    (tmp_path / 'pyproject.toml').write_text('[tool.mypy]\nfiles = ["sample.py"]\n', encoding='utf-8')
+    (tmp_path / 'sample.py').write_text(
+        f'import sys\nif sys.platform == "{platform}":\n    number: int = "wrong"\n', encoding='utf-8')
+    result = run_check(tmp_path, 'types')
+    assert result.returncode != 0
+    assert 'Incompatible types' in result.stdout
 
 
 def test_test_stage_rejects_skips_and_preserves_junit(tmp_path, monkeypatch):

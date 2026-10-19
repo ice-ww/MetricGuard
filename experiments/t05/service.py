@@ -1,6 +1,7 @@
 """Minimal real LangGraph experiment, deliberately not a diagnosis workflow."""
 import json
 import os
+import sys
 from pathlib import Path
 from typing import Any, TypedDict
 from langgraph.graph import StateGraph, START, END
@@ -25,12 +26,12 @@ class TaskService:
             self.lock.write(b'0'); self.lock.flush()
         self.lock.seek(0)
         try:
-            if os.name == 'nt':
+            if sys.platform == 'win32':
                 import msvcrt
                 msvcrt.locking(self.lock.fileno(), msvcrt.LK_NBLCK, 1)
             else:
                 import fcntl
-                fcntl.flock(self.lock, fcntl.LOCK_EX | fcntl.LOCK_NB)  # type: ignore[attr-defined]
+                fcntl.flock(self.lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except OSError:
             self.lock.close()
             raise ValueError('service already owned') from None
@@ -45,7 +46,7 @@ class TaskService:
 
     def close(self) -> None:
         if not self.lock.closed:
-            if os.name == 'nt':
+            if sys.platform == 'win32':
                 import msvcrt
                 self.lock.seek(0); msvcrt.locking(self.lock.fileno(), msvcrt.LK_UNLCK, 1)
             self.lock.close()
