@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-19",
+  "baseline": "4fe472be1c38bcf58e7c7e19a6313c6bcd4456e1",
+  "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "browser": "Microsoft Edge (Playwright channel msedge)",
+  "image": "sha256:4cadf9b4afae2394df26a2d518ab7d68fbbc4e086081f4273c45410fae456cb0",
+  "source_sha256": {
+    "metricguard\\web.py": "0d53b60e1020c2a0acd00a196fc68155eb7273f6aa1ec305f601996c94f9fbed",
+    "metricguard\\web_assets\\app.css": "c56d9c35381cf4cc55f4dd23b1bebdd57531688a2704bb352ce9e21d78f45182",
+    "metricguard\\web_assets\\app.js": "b8bc627ff4dce0b9564ef287fe4a320fbf5ed4254bc649cf9561ab9266b10aac",
+    "metricguard\\web_assets\\index.html": "b3a48c5d2d92d940fb870faa0b50051818318690ab9e2574aa31c552849ff4ae",
+    "tests\\test_u3_history.py": "9625222fe76651143ea652dfddaa2ce813aa4356bb99c65805f82add7c945b96",
+    "tests\\test_u3_browser.py": "23a8a62d9ad1c4e7eee828aa5c5e7e8ee483f6757fd376fd9e225c4d58e45676",
+    "experiments\\u3_live.py": "b8069dda50fad5567f0c64783de1daf3a171f2aa1b642e312b532152085e4631"
+  }
+}

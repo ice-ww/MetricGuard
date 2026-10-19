@@ -1,6 +1,6 @@
 "use strict";
 const el = id => document.getElementById(id);
-let token, pending = null, timer, view = 0, taskState = null, pendingAnswer = null;
+let token, pending = null, timer, view = 0, taskState = null, pendingAnswer = null, historyView = 0;
 const names = {created:"准备执行",running:"正在分析",waiting:"等待澄清",ended:"已结束",failed:"执行失败",interrupted:"已中断"};
 async function api(path, data) {
   const response = await fetch(path, {method:data?"POST":"GET", headers:{"X-MetricGuard-Token":token,"Content-Type":"application/json"},body:data?JSON.stringify(data):undefined});
@@ -8,6 +8,25 @@ async function api(path, data) {
   if(!response.ok) {const error=new Error(value.error || "请求未完成，请重新打开任务。");error.status=response.status;throw error;}
   return value;
 }
+async function refreshHistory() {
+  const generation=++historyView;
+  try {
+    const result=await api("/api/tasks");
+    if(generation!==historyView) return;
+    el("history-list").replaceChildren();
+    for(const task of result.tasks) {
+      const item=document.createElement("li"),link=document.createElement("a"),detail=document.createElement("small");
+      link.href="/?task="+encodeURIComponent(task.id);link.textContent=task.question;
+      detail.textContent=(names[task.status]||task.status)+" · "+task.snapshot_id+" · "+task.id.slice(0,8);
+      item.append(link,detail);el("history-list").append(item);
+    }
+    el("history-message").textContent=result.tasks.length?"":"尚无历史任务。";
+  } catch(error) {
+    if(generation!==historyView) return;
+    el("history-message").textContent="历史列表读取失败。请确认服务仍在运行后点击刷新列表；已显示内容可能不是最新状态。";
+  }
+}
+el("history-refresh").addEventListener("click",refreshHistory);
 function fill(value) {
   el("snapshot").value=value.snapshot_id; el("question").value=value.question;
   ["start","end"].forEach((id,i)=>el(id).value=value.window?.[i]||"");
@@ -32,12 +51,17 @@ async function showTask(id, generation = ++view) {
     el("elapsed").textContent=state.elapsed_seconds===null?"运行历时未完整记录":"本次运行历时 "+state.elapsed_seconds+" 秒";
     el("task-question").textContent=state.question;
     el("scope").textContent=state.window?(state.window_confirmed?"分析范围：":"请求范围（尚未分析）：")+state.window[0]+" 至 "+state.window[1]+"（结束日不包含）":"";
+    if(taskState?.id!==state.id || taskState?.status!==state.status) refreshHistory();
     taskState=state;renderClarification(state);
     el("result").textContent=state.body;
     if(["created","running"].includes(state.status)) timer=setTimeout(()=>showTask(id,generation),1000);
   } catch(error) {
     if(generation!==view) return;
-    el("connection").textContent="暂时无法读取任务。请确认本机服务仍在运行后刷新；不会自动重新执行。";
+    if(error.status===404) {
+      taskState=null;el("clarification").hidden=true;el("status").textContent="无法打开任务";
+      for(const name of ["result","scope","elapsed","task-question"]) el(name).textContent="";
+      el("connection").textContent=error.message+" 请从历史列表选择任务，或新建问题。";
+    } else el("connection").textContent="暂时无法读取任务。请确认本机服务仍在运行后刷新；不会自动重新执行。";
   }
 }
 function renderClarification(state) {
@@ -114,7 +138,7 @@ window.addEventListener("popstate",()=>location.reload());
     const config=await (await fetch("/api/config")).json();token=config.token;
     for(const name of config.snapshots){const option=document.createElement("option");option.value=name;option.textContent=name;el("snapshot").append(option);}
     if(config.example){el("example").hidden=false;el("example").addEventListener("click",()=>fill(config.example));}
-    unlock();
+    unlock();refreshHistory();
     const id=new URLSearchParams(location.search).get("task");
     if(id){el("fields").disabled=true;el("submit").disabled=true;await showTask(id);return;}
     const saved=sessionStorage.getItem("metricguard-pending");

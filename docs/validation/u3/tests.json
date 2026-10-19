@@ -1,0 +1,56 @@
+[
+  {
+    "file": "u3-browser-green.xml.gz",
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 48.538,
+    "sha256": "4bba5ba9645059dc15e252757a272d8d3f477b3977e78558b3b035dba1dcd6dc"
+  },
+  {
+    "file": "u3-browser-red.xml.gz",
+    "tests": 2,
+    "failures": 2,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 29.128,
+    "sha256": "9ce8fd9a67ba346ab31da7b80182d8d457233c474fe90f45d1156d3933e515ec"
+  },
+  {
+    "file": "u3-http-green.xml.gz",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 9.513,
+    "sha256": "ab7051d5649d83d4ee9b89dcf83aa6af73b9966c5537de47bd778d7820a9348f"
+  },
+  {
+    "file": "u3-http-red.xml.gz",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 11.028,
+    "sha256": "bcfc4c628742d7c547d4433d0455f7684bef67ce0dc0586a9461b743be590571"
+  },
+  {
+    "file": "u3-related.xml.gz",
+    "tests": 20,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 156.746,
+    "sha256": "b1a26b36e66363f17f6fb2db1f0d81483b1f2d67c8af5e02fdeeab2d45e1ca27"
+  },
+  {
+    "file": "u3-full-suite.xml.gz",
+    "tests": 510,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 1557.655,
+    "sha256": "c8b8d53ab509172aa407ce5090800a33cfd15926781f716de484feea18edd677"
+  }
+]

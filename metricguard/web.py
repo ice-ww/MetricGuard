@@ -129,6 +129,8 @@ class LocalWeb:
                 raise WebError(400, '请输入有效的问题、快照和日期。') from None
             task = self.submit(payload) if path == '/api/tasks' else self.answer(path.split('/')[3], payload)
             return 202, {'id': task}, 'application/json'
+        if handler.command == 'GET' and path == '/api/tasks':
+            return 200, {'tasks': self.list_tasks()}, 'application/json'
         if handler.command == 'GET' and re.fullmatch(r'/api/tasks/[a-f0-9]{32}', path):
             return 200, self.inspect(path.rsplit('/',1)[1]), 'application/json'
         raise WebError(404, '找不到此页面或任务。')
@@ -228,6 +230,14 @@ class LocalWeb:
                     if answer:
                         db.execute('UPDATE answers SET finished=? WHERE key=?',(-1 if failed else 1,answer['request_id']))
                 self.active = None
+
+    def list_tasks(self) -> list[dict[str, Any]]:
+        """Only tasks admitted by this Web owner, newest creation first; never execute."""
+        with self.lock:
+            with self.connect() as db:
+                tasks = [row['task'] for row in db.execute('SELECT task FROM operations WHERE task IS NOT NULL ORDER BY rowid DESC')]
+            return [{key: state[key] for key in ('id','question','snapshot_id','status','window')}
+                    for state in (self.inspect(task) for task in tasks)]
 
     def inspect(self, task: str) -> dict[str, Any]:
         # Terminal state and its exported body must be observed together.
