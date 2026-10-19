@@ -18,6 +18,7 @@ dev = [
     "anthropic==1.13.0",
     "types-pytz>=2026.5.0.20261006",
     "playwright>=1.64.0",
+    "markdown-it-py>=3,<5",
 ]
 
 [tool.uv]
@@ -30,4 +31,4 @@ testpaths = ["tests"]
 [tool.mypy]
 python_version = "3.12"
 check_untyped_defs = true
-files = ["experiments/t01", "experiments/t02", "experiments/t03", "experiments/t04", "experiments/t05", "experiments/t06", "experiments/t07", "experiments/t08", "experiments/t09", "experiments/t10", "experiments/t11", "experiments/t12", "experiments/t13", "experiments/t14", "experiments/t15", "experiments/t16", "experiments/t17", "experiments/t18", "experiments/t19", "experiments/t20", "metricguard"]
+files = ["experiments/t01", "experiments/t02", "experiments/t03", "experiments/t04", "experiments/t05", "experiments/t06", "experiments/t07", "experiments/t08", "experiments/t09", "experiments/t10", "experiments/t11", "experiments/t12", "experiments/t13", "experiments/t14", "experiments/t15", "experiments/t16", "experiments/t17", "experiments/t18", "experiments/t19", "experiments/t20", "experiments/u6_manual.py", "experiments/u6_live.py", "metricguard", "tools"]

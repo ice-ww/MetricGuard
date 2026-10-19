@@ -88,6 +88,8 @@ uv run python -m experiments.u6_manual
 
 ## 自动复验
 
+仓库统一检查入口为 `uv run python -m tools.check`，依次执行验收证据、类型检查和完整测试；CI 使用同一入口。环境准备和单阶段命令见 [检查说明](agents/checks.md)。
+
 开发测试依赖已写入依赖锁文件。浏览器测试在 Windows 默认使用已安装的 Microsoft Edge；其他安装可通过 METRICGUARD_BROWSER_CHANNEL 指定受支持的浏览器通道。浏览器缺失会使必要测试失败，不会静默跳过。
 
 ```powershell

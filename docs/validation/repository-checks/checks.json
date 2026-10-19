@@ -1,0 +1,42 @@
+{
+  "command": "uv run python -m tools.check",
+  "platform": "Windows; Edge; Docker Linux containers",
+  "runs": [
+    {
+      "name": "full-suite",
+      "exit_code": 0,
+      "tests": "533",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "1578.565",
+      "sha256": "cc4a33eeaa7f28b58a44a91c8c446d59718a896bb7d23eb9f6842d144de1d1a6"
+    },
+    {
+      "name": "compatibility",
+      "exit_code": 0,
+      "tests": "3",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "55.568",
+      "sha256": "ad918c0f83ab33a67af050f90891952ab8466b54e32d2723afdf7b2fc08137c6"
+    }
+  ],
+  "mypy_files": 99,
+  "actionlint": "1.7.12; shellcheck and pyflakes disabled",
+  "remote_ci": "not run; workflow not yet pushed",
+  "live_model": "not run; explicitly separate",
+  "source_sha256": {
+    ".github/workflows/check.yml": "606a7295d98370e405c675d22afab26f3688a3e4c1e6c19d1fba3e5d934337ee",
+    "pyproject.toml": "fe2d345cb302d62bd2fdd021bec9b3b1412ab39bb19c7f26e3f5627556ff4fa6",
+    "tests/test_checks.py": "43fe30ff90769e89ba98cc25cb78af370cb1ff72d9db3d43b3549e8f71c4e5b3",
+    "tests/test_report_usability.py": "cc1506bde0d0d2283a28282c34399567cb1e775af267bd1ee378470caa3d8be4",
+    "tests/test_u1_web.py": "bfe66a76ff08aea388db90180bd8842dc65ee94ae97afe1605cd5aaebac344d8",
+    "tests/test_u2_web.py": "68b07b6ae2f73b510c5ae9a85a0c55c4f28799c26c69d684256fbd519536d271",
+    "tools/__init__.py": "3eb6936d753c6823d92076a5dd58357f7ec66c8bb47d337210f789663c8e04a8",
+    "tools/check.py": "13c09c313b57502e0e3212b50d3d23f3db76d855b785f2386452a2201bb424b7",
+    "tools/evidence.py": "b04e4fcff90da3dc9a3741a8ba7ae25007aa6b642288ecee4332a19e332cd5d0",
+    "uv.lock": "b53aeeb2d390d18e26426df465968c6490afad4ddf2aa5427a7d5d0636d57db7"
+  }
+}

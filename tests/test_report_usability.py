@@ -20,7 +20,8 @@ def test_printed_recovery_command_executes_from_another_directory(tmp_path, monk
     assert command is not None,'Recovery must include a complete executable command'
     cwd=next(line for line in lines if line.startswith('Set-Location '))
     assert 'do-not-print-this' not in output
-    result=subprocess.run(['powershell','-NoProfile','-Command',cwd+'; '+command],input='\n',text=True,
+    shell = 'powershell' if os.name == 'nt' else 'pwsh'
+    result=subprocess.run([shell,'-NoProfile','-Command',cwd+'; '+command],input='\n',text=True,
         encoding='utf-8',capture_output=True,cwd=tmp_path,env={**os.environ,'PYTHONUTF8':'1'},timeout=30)
     assert result.returncode==0,result.stderr
     assert state['id'] in result.stdout and '2026-08-10' in result.stdout

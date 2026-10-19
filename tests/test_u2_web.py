@@ -118,7 +118,7 @@ with TaskService(root/'state',sys.argv[2],{'dev':Path(sys.argv[3])},token='contr
         (root/'ready.json').write_text(json.dumps({'origin':app.origin,'token':app.token}))
         threading.Event().wait(60)
 """
-    process=subprocess.Popen([sys.executable,'-c',script,str(tmp_path),image,str(snapshot)],creationflags=subprocess.CREATE_NO_WINDOW)
+    process=subprocess.Popen([sys.executable,'-c',script,str(tmp_path),image,str(snapshot)],creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
     try:
         deadline=time.monotonic()+30
         while not ready.exists() and time.monotonic()<deadline:
