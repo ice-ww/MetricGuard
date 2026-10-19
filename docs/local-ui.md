@@ -19,7 +19,7 @@ uv run python -m metricguard.web_start --demo
 uv run python -m experiments.u6_manual
 ```
 
-该入口调用同一个正式 Web 启动器，数据和任务保存在 `artifacts/u6-manual/`；同一目录重启保留原任务。默认端口 8765，冲突时加 `--port 8766`。简短步骤、停止和恢复操作见 [人工复验清单](validation/u6-manual-checklist.md)，各项自动、真实模型及人工结果见 [U6 验证记录](validation/u6-report.md)。用户体验尚待用户反馈，自动结果不代替人工通过。
+该入口调用同一个正式 Web 启动器，数据和任务保存在 `artifacts/u6-manual/`；同一目录重启保留原任务。默认端口 8765，冲突时加 `--port 8766`。简短步骤、停止和恢复操作见 [人工复验清单](validation/u6-manual-checklist.md)，各项自动、真实模型及人工结果见 [U6 验证记录](validation/u6-report.md)。用户已于 2026-10-19 确认核心流程人工验收通过，记录与自动验证分开保存。
 
 ## 做一次查询
 
