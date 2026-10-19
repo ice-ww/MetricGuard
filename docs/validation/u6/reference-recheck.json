@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "checked_groups": [
+    "previous/Android",
+    "previous/iOS",
+    "current/Android",
+    "current/iOS"
+  ],
+  "explicit_windows_checked": true,
+  "new_model_calls": 0,
+  "source_sha256": "ac0dc8f54085470dd4eb59a4f430ccf9fd12cde43818e11c9ec41f962b699678",
+  "record_sha256": "1c86bead6252082206581ef33ce16fb0e349f802742eda8dcbbb1d56ff59bc6d"
+}

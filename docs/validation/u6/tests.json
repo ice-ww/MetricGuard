@@ -1,0 +1,40 @@
+[
+  {
+    "name": "u6-entry-red",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 23.525,
+    "sha256": "e06e9fb2c54b26724b436c2285e39a0a7d4aa392b4518685912173816945be57"
+  },
+  {
+    "name": "u6-entry-green",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 44.412,
+    "sha256": "ba96adf95fe68cc99e5f01c40d4f8d0d9d6448ca84512e4b8fd576e22fd842e9"
+  },
+  {
+    "name": "u6-targeted",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 69.384,
+    "sha256": "434ef14e6acf92b6bfaf01ffeda8a1bc8c2550ba7c6e977807a6fcad99182198"
+  },
+  {
+    "name": "u6-full-suite",
+    "command": "uv run pytest -q --junitxml=artifacts/u6-full-suite.xml",
+    "exit_code": 0,
+    "tests": 529,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 1570.578,
+    "sha256": "317755c72f31bfd493fbec9b5cd83d630da36aa27d710b03c560938f92b1eeac"
+  }
+]

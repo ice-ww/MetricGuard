@@ -1,4 +1,4 @@
-# 本机浏览器界面（U1–U5）
+# 本机浏览器界面（U1–U6）
 
 在仓库 PowerShell 中启动。需要现有 Python/uv 环境、已启动的 Docker Desktop Linux 引擎、已验证镜像及当前终端中的模型凭据。不要将密钥写入页面、截图或版本库。
 
@@ -10,6 +10,16 @@ uv run python -m metricguard.web_start --demo
 ```
 
 默认地址为 http://127.0.0.1:8765 ，以启动终端实际显示的地址为准。不支持其他设备访问或使用 localhost 别名。端口占用可加 `--port 8766`。模型服务默认使用既有 DeepSeek 兼容端点；管理员可在启动命令追加 `--base-url https://api.deepseek.com/anthropic`，页面不接受此设置。命令先检查配置及实际隔离查询环境，不会调用模型生成报告；准备完成后显示地址。
+
+## 整体复验入口
+
+完成上述环境配置后，可用一条命令启动包含普通查询和分系统留存示例的独立验收界面：
+
+```powershell
+uv run python -m experiments.u6_manual
+```
+
+该入口调用同一个正式 Web 启动器，数据和任务保存在 `artifacts/u6-manual/`；同一目录重启保留原任务。默认端口 8765，冲突时加 `--port 8766`。简短步骤、停止和恢复操作见 [人工复验清单](validation/u6-manual-checklist.md)，各项自动、真实模型及人工结果见 [U6 验证记录](validation/u6-report.md)。用户体验尚待用户反馈，自动结果不代替人工通过。
 
 ## 做一次查询
 
@@ -81,7 +91,15 @@ uv run python -m metricguard.web_start --demo
 开发测试依赖已写入依赖锁文件。浏览器测试在 Windows 默认使用已安装的 Microsoft Edge；其他安装可通过 METRICGUARD_BROWSER_CHANNEL 指定受支持的浏览器通道。浏览器缺失会使必要测试失败，不会静默跳过。
 
 ```powershell
-uv run pytest tests/test_u1_web.py tests/test_u1_browser.py tests/test_u2_web.py tests/test_u2_browser.py tests/test_u3_history.py tests/test_u3_browser.py tests/test_u4_web.py tests/test_u4_browser.py tests/test_u5_web.py tests/test_u5_browser.py -q
+uv run pytest tests/test_u1_web.py tests/test_u1_browser.py tests/test_u2_web.py tests/test_u2_browser.py tests/test_u3_history.py tests/test_u3_browser.py tests/test_u4_web.py tests/test_u4_browser.py tests/test_u5_web.py tests/test_u5_browser.py tests/test_u6_acceptance.py -q
 ```
 
 必须配置 METRICGUARD_TEST_IMAGE，查询使用实际 Docker 隔离环境；模型提供方可受控。真实模型实验与人工体验单独登记，不能混为同一种验证。
+
+真实模型整体复验（会产生模型调用，使用新的独立运行目录）：
+
+```powershell
+uv run python -m experiments.u6_live
+```
+
+该脚本通过实际启动命令与浏览器执行简单查询、等待任务恢复、连续澄清及证据定位，核对原始数据并打印记录目录；每次保留新的运行记录。真实模型故障会使本次实验失败，不会自动改用受控模型冒充通过。

@@ -1,0 +1,23 @@
+{
+  "baseline": "5a577c0aeb5fd9674cf3c50e18cd17616376b201",
+  "python": "3.12.10",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "image": "sha256:4cadf9b4afae2394df26a2d518ab7d68fbbc4e086081f4273c45410fae456cb0",
+  "packages": {
+    "pytest": "9.1.1",
+    "mypy": "1.20.2",
+    "playwright": "1.64.0",
+    "duckdb": "1.5.6",
+    "anthropic": "1.13.0",
+    "langgraph": "1.2.14"
+  },
+  "final_source_sha256": {
+    "metricguard/web_start.py": "d8f019980aca651571931e6bce5f0b423f7e03fb3dfa3873cdaeac4039f8d075",
+    "experiments/u6_manual.py": "8d23798af556ed49eeb453754c5108e0557fa2691d64de91a2ee8e9f171612b7",
+    "experiments/u6_live.py": "ac0dc8f54085470dd4eb59a4f430ccf9fd12cde43818e11c9ec41f962b699678",
+    "tests/test_u6_acceptance.py": "8426cb6adbd958fca0ae5da244addacb4f06ac319ae55dcacd935fc5f4f82501"
+  },
+  "human_acceptance": "pending user feedback",
+  "real_model": "passed; live.json.gz",
+  "automatic_browser": "passed real-model flow and complete controlled regression (529 passed, 0 skipped)"
+}
