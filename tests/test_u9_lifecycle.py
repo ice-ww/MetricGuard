@@ -88,12 +88,17 @@ def test_report_failure_keeps_manual_recovery_and_late_report_cannot_replace_dra
                 page.on('request',lambda req:reads.append(req.url) if '/api/tasks/'+task in req.url else None)
                 page.route('**/report',lambda route:route.abort())
                 page.goto(app.origin+'/?task='+task)
-                expect(page.locator('#report-view')).to_contain_text('报告读取失败')
+                expect(page.locator('#report-message')).to_contain_text('报告读取失败')
                 expect(page.locator('#connection')).to_contain_text('连接正常')
                 assert len(reads) == 2
-                page.clock.run_for(30000); assert len(reads) == 2
-                visibility(page,True); visibility(page,False)
-                page.clock.run_for(30000); assert len(reads) == 2
+                with page.expect_request('**/report'):
+                    page.clock.run_for(1000)
+                assert len(reads) == 3
+                visibility(page,True); page.clock.run_for(120000)
+                with page.expect_response(app.origin+'/api/tasks/'+task):
+                    visibility(page,False)
+                expect(page.locator('#report-message')).to_contain_text('两分钟上限')
+                count = len(reads); page.clock.run_for(30000); assert len(reads) == count
                 page.unroute('**/report')
                 page.get_by_role('button',name='刷新任务',exact=True).click()
                 expect(page.locator('#report-view')).to_contain_text('预算限制')

@@ -1,8 +1,8 @@
 "use strict";
 const el = id => document.getElementById(id);
-let token, pending = null, timer, view = 0, taskState = null, pendingAnswer = null, historyView = 0;
+let token, pending = null, timer, view = 0, taskState = null, pendingAnswer = null;
 let shownQuestion = null, staleSignature = "";
-let currentTaskId=null, readController=null, writing=false, needsManualRefresh=false;
+let currentTaskId=null, readController=null, writing=false;
 let connected=false, recoveryDeadline=null, recoveryAttempt=0, recoveryStopped=false;
 let composing=!new URLSearchParams(location.search).has("task");
 let checkedWrites=new Set();
@@ -53,9 +53,11 @@ function retryState(id,generation) {
     if(!recoveryExpired()) showTask(id,generation);
   },Math.min(delay,recoveryDeadline-Date.now()));
 }
-function reconnect() {
+async function reconnect() {
   if(writing || readController || (!currentTaskId && !composing)) return;
-  resetRecovery();showTask(currentTaskId);
+  const generation=++view;
+  resetRecovery();await showTask(currentTaskId,generation);
+  if(generation===view && connected && reportTask) reportRegion.refresh({manual:true});
 }
 function recoverWriteConnection(error) {
   if(knownWriteRejection(error)) return;
@@ -65,7 +67,7 @@ function recoverWriteConnection(error) {
   } else retryState(currentTaskId,view);
 }
 function knownWriteRejection(error) {return error.status && error.status<500 && ![401,403].includes(error.status);}
-function stopReading() {clearTimeout(timer);readController?.abort();readController=null;}
+function stopReading() {clearTimeout(timer);timer=null;readController?.abort();readController=null;}
 const composeFields=["snapshot","question","start","end","previous-start","previous-end"];
 function saveCompose() {
   if(!el("fields").disabled) drafts.saveCompose(Object.fromEntries(composeFields.map(id=>[id,el(id).value])));
@@ -90,30 +92,44 @@ async function api(path, data, signal) {
   if(!response.ok) {const error=new Error(value.error || "请求未完成，请重新打开任务。");error.status=response.status;error.code=value.code;throw error;}
   return value;
 }
-async function readTask(id,signal,generation) {
-  if(!id) {
-    const config=await api("/api/config",undefined,signal);
-    if(signal.aborted || generation!==view) throw new DOMException("读取已取消","AbortError");
-    if(typeof config.token!=="string" || !config.token) throw new Error("无法核对服务会话。");
-    token=config.token;return null;
+let sessionRefresh=null;
+async function sessionConfig(signal) {
+  if(!sessionRefresh) {
+    const controller=new AbortController(), timeout=setTimeout(()=>controller.abort(),10000);
+    sessionRefresh=api("/api/config",undefined,controller.signal).then(config=>{
+      if(typeof config.token!=="string" || !config.token) throw new Error("无法核对服务会话。");
+      token=config.token;
+    }).finally(()=>{clearTimeout(timeout);sessionRefresh=null;});
   }
-  const path="/api/tasks/"+encodeURIComponent(id);
+  await waitForRead(sessionRefresh,signal);
+}
+async function readSession(path,signal) {
+  const sentToken=token;
   try {return await api(path,undefined,signal);}
   catch(error) {
     if(error.status!==403 || error.code!=="session_expired") throw error;
-    connectionFailed("页面会话已失效，正在重新核对原任务。");
-    const config=await api("/api/config",undefined,signal);
-    if(signal.aborted || generation!==view) throw new DOMException("读取已取消","AbortError");
-    if(typeof config.token!=="string" || !config.token || config.token===token) throw error;
-    token=config.token;
-    // Only one session refresh per read, under the original ten-second deadline.
+    if(token===sentToken) {
+      if(!sessionRefresh) connectionFailed("页面会话已失效，正在重新核对服务与原任务。");
+      try {await sessionConfig(signal);}
+      finally {
+        // Local regions share session renewal; only the task reader unlocks writes.
+        if(!readController && !writing && !document.hidden && !recoveryStopped && !timer)
+          retryState(currentTaskId,view);
+      }
+    }
+    if(signal.aborted) throw new DOMException("读取已取消","AbortError");
+    if(token===sentToken) throw error;
     return await api(path,undefined,signal);
   }
+}
+async function readTask(id,signal) {
+  if(!id) {await sessionConfig(signal);return null;}
+  return await readSession("/api/tasks/"+encodeURIComponent(id),signal);
 }
 async function reconcileWrites(signal,generation) {
   let acceptedTask=null;
   for(const operation of unknownWrites()) {
-    const result=await api("/api/operations/"+operation.kind+"/"+encodeURIComponent(operation.data.request_id),undefined,signal);
+    const result=await readSession("/api/operations/"+operation.kind+"/"+encodeURIComponent(operation.data.request_id),signal);
     if(signal.aborted || generation!==view) throw new DOMException("读取已取消","AbortError");
     if(result.accepted && (operation.kind==="create" ||
         (operation.kind==="answer"?result.id===operation.task:result.parent===operation.task))) {
@@ -127,11 +143,11 @@ async function reconcileWrites(signal,generation) {
   }
   return acceptedTask;
 }
-async function refreshHistory() {
-  const generation=++historyView;
-  try {
-    const result=await api("/api/tasks");
-    if(generation!==historyView) return;
+let historyEmpty="正在读取历史任务…", reportTask=null;
+const historyRegion=readRegion({
+  label:"历史列表", read:(_,signal)=>readSession("/api/tasks",signal),
+  clear:()=>{}, message:error=>el("history-message").textContent=error ?? historyEmpty,
+  render(result) {
     el("history-list").replaceChildren();
     for(const task of result.tasks) {
       const item=document.createElement("li"),link=document.createElement("a"),detail=document.createElement("small");
@@ -139,13 +155,21 @@ async function refreshHistory() {
       detail.textContent=(names[task.status]||task.status)+" · "+task.snapshot_id+" · "+task.id.slice(0,8);
       item.append(link,detail);el("history-list").append(item);
     }
-    el("history-message").textContent=result.tasks.length?"":"尚无历史任务。";
-  } catch(error) {
-    if(generation!==historyView) return;
-    el("history-message").textContent="历史列表读取失败。请确认服务仍在运行后点击刷新列表；已显示内容可能不是最新状态。";
+    historyEmpty=result.tasks.length?"":"尚无历史任务。";
   }
+});
+historyRegion.select("history");
+const reportRegion=readRegion({
+  label:"报告", read:(id,signal)=>readSession("/api/tasks/"+encodeURIComponent(id)+"/report",signal),
+  clear:()=>el("report-view").replaceChildren(), message:error=>el("report-message").textContent=error||"",
+  render:report=>renderReport(report,el("report-view")),
+});
+function setReportTask(id) {
+  reportTask=id;reportRegion.select(id);el("report-refresh").hidden=!id;
 }
-el("history-refresh").addEventListener("click",refreshHistory);
+function refreshHistory() {historyRegion.refresh({invalidate:true});}
+el("history-refresh").addEventListener("click",()=>historyRegion.refresh({manual:true}));
+el("report-refresh").addEventListener("click",()=>reportRegion.refresh({manual:true}));
 function fill(value) {
   el("snapshot").value=value.snapshot_id; el("question").value=value.question;
   ["start","end"].forEach((id,i)=>el(id).value=value.window?.[i]||"");
@@ -160,22 +184,25 @@ function windowValue(a,b) {
 function unlock() {el("fields").disabled=false;el("submit").disabled=false;el("submit").formNoValidate=!!pending;el("submit").textContent=pending?"重试相同提交":"开始分析";gateWrites();}
 async function showTask(id, generation = ++view) {
   if(recoveryExpired()) return;
+  const wasConnected=connected;
   if(!composing && taskState?.id!==id) {
     connectionFailed("正在核对原任务状态，请稍候。");
   }
-  stopReading();currentTaskId=id;needsManualRefresh=false;
+  if(currentTaskId!==id) setReportTask(null);
+  stopReading();currentTaskId=id;
   const controller=new AbortController();readController=controller;
   if(!composing) {el("empty").hidden=true;el("task").hidden=false;el("new").hidden=false;}
   el("task-link").textContent="任务 "+id;el("task-link").href="/?task="+encodeURIComponent(id);
   let timedOut=false;
   const timeout=setTimeout(()=>{timedOut=true;controller.abort();},Math.min(10000,recoveryDeadline===null?10000:recoveryDeadline-Date.now()));
   try {
-    let state=await readTask(id,controller.signal,generation);
+    let state=await readTask(id,controller.signal);
     const acceptedTask=await reconcileWrites(controller.signal,generation);
     if(acceptedTask) {
+      if(id!==acceptedTask) setReportTask(null);
       id=acceptedTask;currentTaskId=id;composing=false;
       history.replaceState(null,"","/?task="+encodeURIComponent(id));
-      state=await readTask(id,controller.signal,generation);
+      state=await readTask(id,controller.signal);
       el("fields").disabled=true;el("submit").disabled=true;
       el("empty").hidden=true;el("task").hidden=false;el("new").hidden=false;
       el("task-link").textContent="任务 "+id;el("task-link").href="/?task="+encodeURIComponent(id);
@@ -184,6 +211,7 @@ async function showTask(id, generation = ++view) {
     if(generation!==view || controller.signal.aborted) return;
     connected=true;resetRecovery();el("reconnect").hidden=true;
     if(composing) {
+      if(!wasConnected) refreshHistory();
       currentTaskId=null;unlock();el("connection").textContent=id?"连接正常 · 已核对原任务状态":"连接正常 · 已恢复服务连接，原提交仍待确认";
       el("connection").dataset.state="connected";return;
     }
@@ -195,27 +223,18 @@ async function showTask(id, generation = ++view) {
     el("elapsed").textContent=state.elapsed_seconds===null?"运行历时未完整记录":"本次运行历时 "+state.elapsed_seconds+" 秒";
     el("task-question").textContent=state.question;
     el("scope").textContent=state.window?(state.window_confirmed?"分析范围：":"请求范围（尚未分析）：")+state.window[0]+" 至 "+state.window[1]+"（结束日不包含）":"";
-    if(taskState?.id!==state.id || taskState?.status!==state.status) refreshHistory();
+    if(!wasConnected || writing || acceptedTask ||
+       (taskState && (taskState.id!==state.id || taskState.status!==state.status))) refreshHistory();
     taskState=state;renderClarification(state);renderRecovery(state);gateWrites();
     el("result").textContent=state.body;
-    el("report-view").replaceChildren();
     if(!["created","running","waiting"].includes(state.status)) {
-      try {
-        const report=await api("/api/tasks/"+encodeURIComponent(id)+"/report",undefined,controller.signal);
-        if(generation!==view || controller.signal.aborted) return;
-        renderReport(report,el("report-view"));
-      } catch(error) {
-        if(generation!==view || controller.signal.aborted) return;
-        needsManualRefresh=true;
-        el("report-view").textContent="报告读取失败。请刷新重试；已有文本报告和任务记录仍保留。";
-      }
-    }
+      setReportTask(id);reportRegion.ensure(id);
+    } else setReportTask(null);
     el("text-report").hidden=!state.body;
     if(!document.hidden && ["created","running","waiting"].includes(state.status))
       timer=setTimeout(()=>showTask(id,generation),state.status==="waiting"?5000:1000);
   } catch(error) {
     if(generation!==view || (controller.signal.aborted && !timedOut)) return;
-    needsManualRefresh=false;
     connectionFailed(timedOut?"任务状态读取超过 10 秒，连接异常。":"暂时无法读取任务，连接异常。");
     if(error.status===403 || error.status===401) {
       recoveryStopped=true;connectionFailed(error.message+" 访问被拒绝，已停止自动重连。");
@@ -240,8 +259,12 @@ async function showTask(id, generation = ++view) {
 el("task-refresh").addEventListener("click",reconnect);
 el("reconnect").addEventListener("click",reconnect);
 document.addEventListener("visibilitychange",()=>{
-  if(document.hidden) {clearTimeout(timer);if(!writing) stopReading();}
-  else if((currentTaskId || (!connected && composing)) && !writing && !needsManualRefresh && !recoveryExpired()) showTask(currentTaskId);
+  if(document.hidden) {
+    clearTimeout(timer);if(!writing) stopReading();historyRegion.pause();reportRegion.pause();
+  } else {
+    historyRegion.resume();reportRegion.resume();
+    if((currentTaskId || (!connected && composing)) && !writing && !recoveryExpired()) showTask(currentTaskId);
+  }
 });
 function renderBudget(state) {
   const budget=state.budget;
@@ -422,7 +445,7 @@ el("analysis-form").addEventListener("submit",async event=>{
   }
 });
 el("new").addEventListener("click",()=>{
-  view++;stopReading();if(connected) currentTaskId=null;
+  view++;stopReading();setReportTask(null);refreshHistory();if(connected) currentTaskId=null;
   composing=true;shownQuestion=null;taskState=null;pendingAnswer=null;history.pushState(null,"","/");
   el("task").hidden=true;el("empty").hidden=false;el("status").textContent="尚未开始";el("new").hidden=true;el("error").textContent="";
   el("analysis-form").reset();restoreCompose();unlock();
