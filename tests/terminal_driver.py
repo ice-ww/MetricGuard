@@ -123,6 +123,8 @@ def perform(child, operations, read, write):
     deadline = time.monotonic()+30
     while child.poll() is None and time.monotonic()<deadline:
         time.sleep(.05)
+    if child.poll() is None:
+        raise RuntimeError('terminal did not exit:\n'+read())
     return read()
 
 

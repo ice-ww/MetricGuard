@@ -3,5 +3,8 @@ from pathlib import Path
 
 
 if __name__ == '__main__':
+    from startup_runtime import bootstrap
+    if not bootstrap(Path(__file__).resolve().parent):
+        raise SystemExit(1)
     from metricguard.daily import main
     raise SystemExit(main(Path(__file__).resolve().parent))
