@@ -44,7 +44,11 @@ def test_history_resumes_original_waiting_task_after_next_day_restart(tmp_path,i
                     page.get_by_label('结束日期（不包含）',exact=True).fill('2026-01-15')
                     page.get_by_role('button',name='开始分析',exact=True).click()
                     expect(page.locator('#status')).to_have_text('已结束',timeout=60000)
-                    old_task=page.url.split('task=')[1];old_state=service.inspect(old_task);old_body=page.locator('#result').inner_text()
+                    expect(page.locator('#result')).to_contain_text('1680 人')
+                    old_task=page.url.split('task=')[1];old_state=service.inspect(old_task)
+                    # The text report is collapsed; innerText can be empty despite stored content.
+                    old_body=page.locator('#result').text_content()
+                    assert old_body
                     assert len(calls)==2
                 finally:browser.close()
         with TaskService(tmp_path/'state',image,{'dev':snapshot.database},token='controlled',clock=lambda:datetime(2026,1,16,tzinfo=timezone.utc),transport=httpx.MockTransport(provider)) as service:
