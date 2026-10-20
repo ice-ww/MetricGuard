@@ -1,4 +1,5 @@
 """Confirmed, non-secret daily configuration around the existing service."""
+import argparse
 import json
 import os
 from pathlib import Path
@@ -57,12 +58,14 @@ def save(path: Path, config: dict[str, Any]) -> None:
             temporary.unlink(missing_ok=True)
 
 
-def configure(root: Path) -> dict[str, Any] | None:
-    print('首次配置：相对路径均以项目目录为基准：'+str(root), flush=True)
-    choice = input('任务目录：沿用已有输入 existing，创建新目录输入 new：').strip()
+def configure(root: Path, previous: dict[str, Any] | None = None) -> dict[str, Any] | None:
+    print(('修改配置' if previous else '首次配置')+'：相对路径均以项目目录为基准：'+str(root), flush=True)
+    def ask(label: str, default: str = '') -> str:
+        return input(label+(f' [{default}]' if default else '')+'：').strip() or default
+    choice = ask('任务目录：沿用已有输入 existing，创建新目录输入 new', 'existing' if previous else '')
     if choice not in {'existing', 'new'}:
         raise ValueError('请明确选择 existing 或 new；未保存配置。')
-    state_input = input('任务目录路径：').strip()
+    state_input = ask('任务目录路径', previous['state_dir'] if previous else '')
     if not state_input:
         raise ValueError('必须明确填写任务目录；未保存配置。')
     state = absolute(root, state_input)
@@ -70,29 +73,60 @@ def configure(root: Path) -> dict[str, Any] | None:
         raise ValueError('选择的已有任务目录不存在；请核对原目录。')
     if choice == 'new' and state.exists():
         raise ValueError('新目录已经存在；请明确选择沿用已有目录，不会覆盖。')
-    snapshots = {}
-    while True:
-        entry = input('已有兼容快照 ID=PATH（完成后空行）：').strip()
-        if not entry:
-            break
-        key, sep, value = entry.partition('=')
-        if not sep or key in snapshots:
-            raise ValueError('请填写不重复的 ID=PATH。')
-        snapshots[key] = value
+    source = ask('数据来源：已有兼容快照 existing，开发示例 example', 'existing')
+    snapshots: dict[str, str] = {}
+    example_dir = state.parent / 'demo-data'
+    if source == 'example':
+        if choice != 'new':
+            raise ValueError('开发示例仅供明确选择的新任务目录；已有目录请注册原兼容快照。')
+        snapshots['demo'] = str(example_dir/'public/snapshot.duckdb')
+    elif source == 'existing':
+        while True:
+            entry = input('已有兼容快照 ID=PATH（完成后空行；同目录修改时空行沿用）：').strip()
+            if not entry:
+                break
+            key, sep, value = entry.partition('=')
+            if not sep or key in snapshots:
+                raise ValueError('请填写不重复的 ID=PATH。')
+            snapshots[key] = value
+        if not snapshots and previous and str(state) == previous['state_dir']:
+            snapshots = previous['snapshots']
+    else:
+        raise ValueError('请选择 existing 或 example。')
+    image = ask('已有镜像名称或固定 sha256 ID', previous['image'] if previous else '')
+    from experiments.t02.sandbox import docker, SandboxUnavailable
+    print('正在核对镜像并固定 ID（最多 30 秒）…', flush=True)
+    try:
+        image = docker('image','inspect',image,'--format','{{.Id}}').strip()
+    except SandboxUnavailable:
+        raise ValueError('镜像不可用。请启动 Docker Linux 引擎；如需构建，运行 docker build -t metricguard-check experiments/t02，然后重新配置。') from None
     config = validate({'state_dir':str(state), 'snapshots':snapshots,
-                       'image':input('固定镜像 sha256 ID：').strip(),
-                       'port':int(input('端口 [8765]：').strip() or '8765'),
-                       'base_url':input('模型服务地址 [https://api.deepseek.com/anthropic]：').strip()
-                                  or 'https://api.deepseek.com/anthropic'}, root)
-    print(json.dumps(config, ensure_ascii=False, indent=2), flush=True)
+                       'image':image,
+                       'port':int(ask('端口',str(previous['port']) if previous else '8765')),
+                       'base_url':ask('模型服务地址',previous['base_url'] if previous else
+                                      'https://api.deepseek.com/anthropic')}, root)
+    if previous:
+        print('修改前：\n'+json.dumps(previous, ensure_ascii=False, indent=2), flush=True)
+        if previous['port'] != config['port']:
+            print('端口变更：旧页面需打开新地址，不会自动发现新服务。', flush=True)
+    print('修改后：\n'+json.dumps(config, ensure_ascii=False, indent=2), flush=True)
     if input('确认保存并启动？输入 yes：').strip() != 'yes':
         print('已取消；未保存配置。', flush=True)
         return None
+    if source == 'example':
+        if not example_dir.exists():
+            from experiments.t01.snapshots import build_snapshot
+            build_snapshot(example_dir, scenario='normal', seed=301001)
+        elif not Path(snapshots['demo']).is_file():
+            raise ValueError('示例目录已有文件但缺少快照；不会覆盖。请指定其他新目录或已有兼容快照。')
     save(root / CONFIG_NAME, config)
     return config
 
 
 def main(root: Path) -> int:
+    parser = argparse.ArgumentParser(description='MetricGuard 日常启动；--configure 修改已保存设置。')
+    parser.add_argument('--configure', action='store_true')
+    options = parser.parse_args()
     try:
         config: dict[str, Any] | None
         path = root / CONFIG_NAME
@@ -101,6 +135,8 @@ def main(root: Path) -> int:
             if not isinstance(content, dict):
                 raise ValueError('本机配置损坏；请核对配置，不会切换历史目录。')
             config = validate(content, root)
+            if options.configure:
+                config = configure(root, config)
         else:
             config = configure(root)
         if config is None:

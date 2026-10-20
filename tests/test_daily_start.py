@@ -34,9 +34,14 @@ def test_first_configuration_and_restart_from_other_directory(tmp_path, image):
         port = sock.getsockname()[1]
     original = snapshot.database.read_bytes()
     records = {}
-    for restart in range(2):
+    for restart in range(3):
+        if restart == 2:
+            with socket.socket() as sock:
+                sock.bind(('127.0.0.1', 0))
+                port = sock.getsockname()[1]
         child = subprocess.Popen(
-            [sys.executable, str(ROOT/'tests/daily_start_worker.py'), str(project/'start.py')],
+            [sys.executable, str(ROOT/'tests/daily_start_worker.py'), str(project/'start.py'),
+             *(['--configure'] if restart == 2 else [])],
             cwd=tmp_path if restart else project, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT, text=True, encoding='utf-8',
             env={**os.environ, 'PYTHONUTF8':'1', 'PYTHONPATH':str(ROOT),
@@ -52,8 +57,11 @@ def test_first_configuration_and_restart_from_other_directory(tmp_path, image):
         output = []
         try:
             if not restart:
-                child.stdin.write('\n'.join(['new','state','dev=data/public/snapshot.duckdb',
+                child.stdin.write('\n'.join(['new','state','existing','dev=data/public/snapshot.duckdb',
                                             '',image,str(port),'http://127.0.0.1:1','yes'])+'\n')
+                child.stdin.flush()
+            elif restart == 2:
+                child.stdin.write('\n'.join(['','','existing','','',str(port),'','yes'])+'\n')
                 child.stdin.flush()
             while True:
                 line = lines.get(timeout=90)
@@ -93,6 +101,8 @@ def test_first_configuration_and_restart_from_other_directory(tmp_path, image):
             assert 'daily-sentinel' not in ''.join(output)
             if restart:
                 assert '首次配置' not in ''.join(output)
+            if restart == 2:
+                assert '修改前' in ''.join(output) and '旧页面' in ''.join(output)
             assert snapshot.database.read_bytes() == original
             if not restart:
                 # Prepare a completed public record using a controlled provider;
@@ -117,4 +127,3 @@ def test_first_configuration_and_restart_from_other_directory(tmp_path, image):
             if child.poll() is None:
                 child.kill()
             child.communicate(timeout=10)
-
