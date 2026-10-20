@@ -12,7 +12,7 @@ from metricguard import TaskService
 from metricguard.web import LocalWeb
 
 
-def main(argv: list[str] | None = None) -> None:
+def main(argv: list[str] | None = None, *, token: str | None = None) -> None:
     parser = argparse.ArgumentParser(description='MetricGuard 本机浏览器界面；按 Ctrl+C 停止服务。')
     parser.add_argument('--state-dir',type=Path,default=Path('artifacts/local-ui/state'))
     parser.add_argument('--image',default=os.environ.get('METRICGUARD_TEST_IMAGE',''))
@@ -22,7 +22,8 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument('--base-url',default='https://api.deepseek.com/anthropic')
     parser.add_argument('--open-browser',action='store_true',help='服务就绪后打开本机页面')
     args=parser.parse_args(argv)
-    token=os.environ.get('ANTHROPIC_AUTH_TOKEN','')
+    if token is None:
+        token=os.environ.get('ANTHROPIC_AUTH_TOKEN','')
     if not token.strip():
         parser.error('请在启动终端配置 ANTHROPIC_AUTH_TOKEN；不要把密钥写到网页或任务中。')
     if not re.fullmatch(r'sha256:[0-9a-f]{64}',args.image):

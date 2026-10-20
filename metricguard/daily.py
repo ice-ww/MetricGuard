@@ -142,12 +142,14 @@ def main(root: Path) -> int:
         if config is None:
             return 0
         print('本次使用设置：\n'+json.dumps(config, ensure_ascii=False, indent=2), flush=True)
+        from metricguard.credentials import session_token
+        token = session_token()
         from metricguard.web_start import main as start
         args = ['--state-dir',config['state_dir'], '--image',config['image'],
                 '--port',str(config['port']), '--base-url',config['base_url'], '--open-browser']
         for key, value in config['snapshots'].items():
             args.extend(['--snapshot',key+'='+value])
-        start(args)
+        start(args, token=token)
         return 0
     except (EOFError, KeyboardInterrupt):
         print('\n已取消启动。', flush=True)
