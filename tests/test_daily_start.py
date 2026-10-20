@@ -19,12 +19,13 @@ from metricguard.web import LocalWeb
 from tests.test_t09_service import image, response
 from tests.test_u1_web import request, wait_done
 from tests.test_u2_browser import open_browser
+from tests.test_daily_credentials import provider
 
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_first_configuration_and_restart_from_other_directory(tmp_path, image):
+def test_first_configuration_and_restart_from_other_directory(tmp_path, image, provider):
     project = tmp_path / 'project with spaces'
     project.mkdir()
     shutil.copyfile(ROOT / 'start.py', project / 'start.py')
@@ -34,6 +35,7 @@ def test_first_configuration_and_restart_from_other_directory(tmp_path, image):
         port = sock.getsockname()[1]
     original = snapshot.database.read_bytes()
     records = {}
+    reports = {}
     for restart in range(3):
         if restart == 2:
             with socket.socket() as sock:
@@ -58,7 +60,7 @@ def test_first_configuration_and_restart_from_other_directory(tmp_path, image):
         try:
             if not restart:
                 child.stdin.write('\n'.join(['new','state','existing','dev=data/public/snapshot.duckdb',
-                                            '',image,str(port),'http://127.0.0.1:1','yes'])+'\n')
+                                            '',image,str(port),provider[0],'yes'])+'\n')
                 child.stdin.flush()
             elif restart == 2:
                 child.stdin.write('\n'.join(['','','existing','','',str(port),'','yes'])+'\n')
@@ -76,6 +78,8 @@ def test_first_configuration_and_restart_from_other_directory(tmp_path, image):
             app = SimpleNamespace(**ready)
             for task, record in records.items():
                 assert request(app, '/api/tasks/'+task)[1] == record
+            for task, report in reports.items():
+                assert request(app, '/api/tasks/'+task+'/report')[1] == report
             with sync_playwright() as pw:
                 browser = open_browser(pw)
                 try:
@@ -108,13 +112,13 @@ def test_first_configuration_and_restart_from_other_directory(tmp_path, image):
                 # Prepare a completed public record using a controlled provider;
                 # neither subsequent startup nor read-only browser may call it.
                 calls = []
-                def provider(req):
+                def analysis_provider(req):
                     calls.append(req)
                     return response({'action':'profile','table':'users','column':'user_id','kind':'new_user_counts'}
                                     if len(calls) == 1 else
                                     {'action':'stop','unsupported_hypotheses':[],'unresolved_questions':[]})
                 with TaskService(project/'state', image, {'dev':snapshot.database},
-                                 token='controlled', transport=httpx.MockTransport(provider)) as service:
+                                 token='controlled', transport=httpx.MockTransport(analysis_provider)) as service:
                     with LocalWeb(service) as app:
                         _, created = request(app, '/api/tasks', {'request_id':'daily-ended',
                             'question':'查询新增用户数','snapshot_id':'dev',
@@ -122,8 +126,10 @@ def test_first_configuration_and_restart_from_other_directory(tmp_path, image):
                         record = wait_done(app, created['id'])
                         assert record['status'] == 'ended'
                         records[created['id']] = record
+                        reports[created['id']] = request(app, '/api/tasks/'+created['id']+'/report')[1]
                         assert len(calls) == 2
         finally:
             if child.poll() is None:
                 child.kill()
             child.communicate(timeout=10)
+    assert provider[1] == []
