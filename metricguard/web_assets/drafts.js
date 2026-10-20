@@ -22,14 +22,20 @@ const drafts = (() => {
   return {
     compose:()=>read(composeKey,null),
     saveCompose:value=>write(composeKey,value),
-    clearCompose:()=>write(composeKey,null),
+    clearCompose(operation) {
+      const saved=read(composeKey,null);
+      const submitted={snapshot:operation.snapshot_id,question:operation.question,
+        start:operation.window?.[0]||"",end:operation.window?.[1]||"",
+        "previous-start":operation.comparison_window?.[0]||"","previous-end":operation.comparison_window?.[1]||""};
+      if(!saved || Object.entries(submitted).every(([key,value])=>saved[key]===value)) write(composeKey,null);
+    },
     matches, answers,
     answer:(task,question)=>answers(task).find(d=>matches(d,question)),
     saveAnswer(task,question,answer) {
       const saved=answers(task).filter(d=>!matches(d,question));
-      if(answer) saved.push({question_id:question.question_id,version:question.version,prompt:question.prompt,answer});
+      saved.push({question_id:question.question_id,version:question.version,prompt:question.prompt,answer});
       write(answerPrefix+task,saved);
     },
-    clearAnswer(task,question) {write(answerPrefix+task,answers(task).filter(d=>!matches(d,question)));}
+    clearAnswer(task,question) {write(answerPrefix+task,answers(task).filter(d=>!matches(d,question) || d.answer!==question.answer));}
   };
 })();

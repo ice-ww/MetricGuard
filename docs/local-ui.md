@@ -80,7 +80,15 @@ uv run python -m experiments.u6_manual
 
 另一标签页已回答或问题版本变化时，本页旧回答保留在“旧回答草稿”区供选中复制，新问题不会自动带入旧答案。成功提交清除对应草稿。响应丢失时原提交内容与操作标识继续保留；若回答问题已变化，可先手动“重试原回答”确认原操作，编辑的新草稿不会替换原提交，不自动重放。
 
-已结束或中断任务在报告读取完成后停止周期读取。状态或报告读取失败时保留对应错误提示，使用“刷新任务”或刷新页面手动处理；本阶段尚未提供自动失败重连。相同问题在不同标签页提交仍是不同操作，不按问题文字做全局去重。
+已结束或中断任务在报告读取完成后停止周期读取。报告、历史的局部读取失败仍需手动刷新，对应区域保留错误提示。相同问题在不同标签页提交仍是不同操作，不按问题文字做全局去重。
+
+## 短暂断连与服务重启
+
+任务状态单次读取最多等待 10 秒。失败或超时后保留已显示内容并标记“可能过期”，按约 1、2、4、8 秒，之后每 10 秒只读重连。从首次异常起最多自动尝试两分钟，包括请求等待和后台停留；后台暂停读取，返回页面不会重置期限。超限后停止自动尝试，可点击“立即重连”，连续点击不会并行发起多个流程。
+
+连接或原任务状态尚未确认时，新建、回答、关联重跑的提交暂停，草稿仍可编辑、复制。恢复后根据实际任务和未知提交状态开放操作；原操作标识及内容保留，不自动重放写请求，也不恢复执行或新增模型、分析工具调用。未知提交与断连期间后来编辑的草稿分开保存；确认原提交时只清理相同内容，后来编辑的不同内容仍保留。
+
+同地址、同工作目录重启服务后，页面遇到明确的会话失效会重新读取同源配置并核对原任务；每次读取最多更新一次会话，仍受上述超时限制。等待和结束任务按持久记录显示，已中断任务保持中断。普通访问拒绝和任务不存在会显示具体提示并停止自动重试。页面不会寻找新地址或其他目录，网络错误本身不能证明地址或目录发生变化。
 
 ## 查看分析预算占用
 
@@ -119,7 +127,7 @@ uv run python -m experiments.u6_manual
 开发测试依赖已写入依赖锁文件。浏览器测试在 Windows 默认使用已安装的 Microsoft Edge；其他安装可通过 METRICGUARD_BROWSER_CHANNEL 指定受支持的浏览器通道。浏览器缺失会使必要测试失败，不会静默跳过。
 
 ```powershell
-uv run pytest tests/test_u1_web.py tests/test_u1_browser.py tests/test_u2_web.py tests/test_u2_browser.py tests/test_u3_history.py tests/test_u3_browser.py tests/test_u4_web.py tests/test_u4_browser.py tests/test_u5_web.py tests/test_u5_browser.py tests/test_u6_acceptance.py tests/test_u7_progress.py tests/test_u8_budget.py tests/test_u9_drafts.py tests/test_u9_lifecycle.py -q
+uv run pytest tests/test_u1_web.py tests/test_u1_browser.py tests/test_u2_web.py tests/test_u2_browser.py tests/test_u3_history.py tests/test_u3_browser.py tests/test_u4_web.py tests/test_u4_browser.py tests/test_u5_web.py tests/test_u5_browser.py tests/test_u6_acceptance.py tests/test_u7_progress.py tests/test_u8_budget.py tests/test_u9_drafts.py tests/test_u9_lifecycle.py tests/test_u10_reconnect.py tests/test_u10_restart.py tests/test_u10_pending.py -q
 ```
 
 必须配置 METRICGUARD_TEST_IMAGE，查询使用实际 Docker 隔离环境；模型提供方可受控。真实模型实验与人工体验单独登记，不能混为同一种验证。

@@ -67,7 +67,7 @@ def test_unknown_answer_keeps_original_operation_when_question_has_changed(tmp_p
                 page.route('**/answers', lose)
                 page.get_by_label('你的回答').fill('留存')
                 page.get_by_role('button', name='提交回答', exact=True).click()
-                expect(page.get_by_role('button', name='重试相同回答', exact=True)).to_be_enabled()
+                expect(page.locator('#connection')).to_contain_text('提交已暂停')
                 wait_done(app, task); before = service.inspect(task)
                 page.reload()
                 expect(page.locator('#clarification-prompt')).to_contain_text('留存人群')

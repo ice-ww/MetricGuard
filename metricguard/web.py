@@ -18,8 +18,9 @@ from metricguard import TaskService
 
 
 class WebError(Exception):
-    def __init__(self, status: int, message: str):
+    def __init__(self, status: int, message: str, *, code: str | None = None):
         self.status, self.message = status, message
+        self.code = code
 
 
 class LocalWeb:
@@ -64,6 +65,8 @@ class LocalWeb:
                     status, content, mime = app.dispatch(self)
                 except WebError as error:
                     status, content, mime = error.status, {'error': error.message}, 'application/json'
+                    if error.code:
+                        content['code'] = error.code
                 except Exception:
                     status, content, mime = 500, {'error': '本地服务处理失败；任务记录已保留，请检查服务后重新打开任务。'}, 'application/json'
                 # Closing with an unread POST body can reset the connection on Windows,
@@ -141,7 +144,7 @@ class LocalWeb:
             if path == '/api/config':
                 return 200, {'token': self.token, 'snapshots': list(self.service.snapshots), 'example': self.example}, 'application/json'
         if not secrets.compare_digest(handler.headers.get('X-MetricGuard-Token',''), self.token):
-            raise WebError(403, '页面会话已失效，请刷新页面。')
+            raise WebError(403, '页面会话已失效，请重新连接。', code='session_expired')
         if handler.command == 'POST' and (path == '/api/tasks' or re.fullmatch(r'/api/tasks/[a-f0-9]{32}/(answers|rerun)', path)):
             try:
                 length = int(handler.headers.get('Content-Length', '0'))
