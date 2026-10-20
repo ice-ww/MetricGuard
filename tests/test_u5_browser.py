@@ -91,6 +91,12 @@ def test_process_crash_history_rerun_preserves_evidence(tmp_path, image):
                         'action':None, 'latest_at':'2026-10-19T01:00:00+00:00', 'quiet':False}
                     expect(page.locator('#current-action')).to_have_text('当前动作：无（已中断）')
                     expect(page.locator('#progress-notice')).to_be_empty()
+                    expect(page.locator('#budget-summary')).to_have_text('已计入预算：模型 2 / 10 次 · 工具 4 / 12 次')
+                    page.get_by_text('预算详情', exact=True).click()
+                    expect(page.locator('#budget-unknown')).to_have_text('尚待确认用量：0 次；用量未知：1 次。')
+                    expect(page.locator('#budget-tokens')).to_contain_text('已知用量：48')
+                    expect(page.locator('#budget-stop')).to_be_empty()
+                    assert request(app, '/api/tasks/'+task)[1]['budget']['active_seconds'] == 180
                     assert old['evidence'] and any(a['state']=='unknown' for a in old['attempts'])
                     with duckdb.connect(str(snapshot.database), read_only=True) as db:
                         expected = db.execute("SELECT COUNT(*) FROM users WHERE registered_at >= TIMESTAMPTZ '2026-01-08T00:00:00+08:00' AND registered_at < TIMESTAMPTZ '2026-01-15T00:00:00+08:00'").fetchone()[0]

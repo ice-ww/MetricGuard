@@ -50,6 +50,7 @@ async function showTask(id, generation = ++view) {
     el("connection").textContent="连接正常 · 已读取任务状态";el("status").textContent=names[state.status]||state.status;
     el("connection").dataset.state="connected";
     renderProgress(state);
+    renderBudget(state);
     el("elapsed").textContent=state.elapsed_seconds===null?"运行历时未完整记录":"本次运行历时 "+state.elapsed_seconds+" 秒";
     el("task-question").textContent=state.question;
     el("scope").textContent=state.window?(state.window_confirmed?"分析范围：":"请求范围（尚未分析）：")+state.window[0]+" 至 "+state.window[1]+"（结束日不包含）":"";
@@ -73,6 +74,7 @@ async function showTask(id, generation = ++view) {
     if(generation!==view) return;
     el("connection").dataset.state="unavailable";
     if(error.status===404) {
+      el("budget").hidden=true;
       taskState=null;el("clarification").hidden=true;el("recovery-actions").hidden=true;el("parent-link").hidden=true;el("recovery-message").textContent="";el("status").textContent="无法打开任务";
       for(const name of ["result","report-view","scope","elapsed","task-question","current-action","progress-time","progress-notice"]) el(name).textContent="";
       el("connection").textContent=error.message+" 请从历史列表选择任务，或新建问题。";
@@ -81,6 +83,18 @@ async function showTask(id, generation = ++view) {
       el("progress-notice").textContent="";
     }
   }
+}
+function renderBudget(state) {
+  const budget=state.budget;
+  el("budget").hidden=!budget;
+  if(!budget) return;
+  el("budget-summary").textContent=`已计入预算：模型 ${budget.model_calls} / ${budget.limits.model} 次 · 工具 ${budget.tool_calls} / ${budget.limits.tool} 次`;
+  el("budget-tokens").textContent=`Token 预算占用：${budget.tokens} / ${budget.limits.tokens}；已知用量：${budget.known_tokens}；保留预留量：${budget.reserved_tokens}`;
+  el("budget-unknown").textContent=`尚待确认用量：${budget.pending_calls} 次；用量未知：${budget.unknown_calls} 次。`;
+  el("budget-time").textContent=`累计时间预算（服务已确认）：${budget.active_seconds.toFixed(3)} / ${budget.limits.active_seconds} 秒；与本次运行历时不同，不随页面计时增长。`;
+  const labels={model:"模型计入次数",tool:"工具计入次数",tokens:"Token 预算占用"};
+  el("budget-notice").textContent=budget.near_limits.map(key=>labels[key]+"已达上限的 80%"+(key==="tokens"?"（可能含预留）":"")+" 或以上。").join(" ");
+  el("budget-stop").textContent=budget.stopped_reason||"";
 }
 function renderProgress(state) {
   const progress=state.progress||{};
