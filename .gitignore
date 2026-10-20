@@ -1,4 +1,6 @@
 # Credentials and machine-local configuration
+/.metricguard-local.json
+/.metricguard-local.json.*.tmp
 .env
 .env.*
 !.env.example

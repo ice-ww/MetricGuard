@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import re
 import threading
+import webbrowser
 from urllib.parse import urlsplit
 
 from experiments.t02.sandbox import Sandbox, SandboxUnavailable, docker
@@ -19,6 +20,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument('--demo',action='store_true',help='使用可重现开发示例，日期为 2026-01-08 至 2026-01-15')
     parser.add_argument('--port',type=int,default=8765)
     parser.add_argument('--base-url',default='https://api.deepseek.com/anthropic')
+    parser.add_argument('--open-browser',action='store_true',help='服务就绪后打开本机页面')
     args=parser.parse_args(argv)
     token=os.environ.get('ANTHROPIC_AUTH_TOKEN','')
     if not token.strip():
@@ -70,7 +72,11 @@ def main(argv: list[str] | None = None) -> None:
                 print('本机界面：'+app.origin,flush=True)
                 print('关闭浏览器不会停止任务。按 Ctrl+C 停止服务；正在执行的任务将等待本次执行结束。',flush=True)
                 try:
-                    threading.Event().wait()
+                    if args.open_browser:
+                        webbrowser.open(app.origin)
+                    stop = threading.Event()
+                    while not stop.wait(.2):
+                        pass
                 except KeyboardInterrupt:
                     print('正在停止服务，请等待当前任务结束。',flush=True)
     except (OSError,ValueError):
