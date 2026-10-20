@@ -5,7 +5,9 @@
 ```powershell
 Set-Location 'D:\ai coding\metricguard'
 $env:PYTHONUTF8='1'
-$env:METRICGUARD_TEST_IMAGE='sha256:4cadf9b4afae2394df26a2d518ab7d68fbbc4e086081f4273c45410fae456cb0'
+uv sync --locked
+docker build -t metricguard-check experiments/t02
+$env:METRICGUARD_TEST_IMAGE=(docker image inspect metricguard-check --format '{{.Id}}')
 uv run python -m metricguard.web_start --demo
 ```
 
@@ -20,6 +22,8 @@ uv run python -m experiments.u6_manual
 ```
 
 该入口调用同一个正式 Web 启动器，数据和任务保存在 `artifacts/u6-manual/`；同一目录重启保留原任务。默认端口 8765，冲突时加 `--port 8766`。简短步骤、停止和恢复操作见 [人工复验清单](validation/u6-manual-checklist.md)，各项自动、真实模型及人工结果见 [U6 验证记录](validation/u6-report.md)。用户已于 2026-10-19 确认核心流程人工验收通过，记录与自动验证分开保存。
+
+运行透明度与断连恢复这一轮（#36）的逐项覆盖见 [U13 验收记录](validation/u13-report.md)，用户复验见 [U13 简短清单](validation/u13-manual-checklist.md)。本轮人工体验仍待确认；此前 U6 的人工通过不替代本轮确认。
 
 ## 做一次查询
 
@@ -80,7 +84,9 @@ uv run python -m experiments.u6_manual
 
 另一标签页已回答或问题版本变化时，本页旧回答保留在“旧回答草稿”区供选中复制，新问题不会自动带入旧答案。成功提交清除对应草稿。响应丢失时原提交内容与操作标识继续保留；若回答问题已变化，可先手动“重试原回答”确认原操作，编辑的新草稿不会替换原提交，不自动重放。
 
-已结束或中断任务在报告读取完成后停止周期读取。报告、历史的局部读取失败仍需手动刷新，对应区域保留错误提示。相同问题在不同标签页提交仍是不同操作，不按问题文字做全局去重。
+已结束或中断任务在报告读取完成后停止周期读取。报告、历史的局部读取失败各自进行有限自动恢复，保留已显示内容并提示可能过期或尚未读到；不会单独把全页标为断连。某一区域恢复只清除自身提示，其他正常区域及任务操作仍可使用；主任务或服务状态也无法确认时仍暂停提交。
+
+两个区域分别遵循单次 10 秒等待、约 1/2/4/8/10 秒退避及两分钟总期限，包含后续请求等待和后台时间。明确拒绝或不存在时停止自动重试。可用“刷新报告”或“刷新列表”手动恢复，连续点击不并行发起重复读取。连接恢复后同步历史；各读取共用会话更新，均不触发新分析。相同问题在不同标签页提交仍是不同操作，不按问题文字做全局去重。
 
 ## 短暂断连与服务重启
 

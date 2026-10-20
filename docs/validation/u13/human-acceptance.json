@@ -1,0 +1,11 @@
+{
+  "issue": 43,
+  "parent_issue": 36,
+  "date": "2026-10-20",
+  "status": "pending",
+  "source": "User reply in the implementation chat",
+  "question_scope": ["阶段信息", "断连提示", "同地址重连", "草稿保留"],
+  "user_reply": "待验",
+  "claims": "No human acceptance claimed for this iteration; prior U6 acceptance is separate.",
+  "parent_close_authorized": false
+}
