@@ -87,12 +87,17 @@ def test_process_crash_history_rerun_preserves_evidence(tmp_path, image):
                     page.get_by_role('link', name='查询新增用户数', exact=True).click()
                     expect(page.locator('#recovery-message')).to_contain_text('不会自动重放')
                     task = page.url.split('task=')[1]; old = service.inspect(task)
+                    assert request(app, '/api/tasks/'+task)[1]['progress'] == {
+                        'action':None, 'latest_at':'2026-10-19T01:00:00+00:00', 'quiet':False}
+                    expect(page.locator('#current-action')).to_have_text('当前动作：无（已中断）')
+                    expect(page.locator('#progress-notice')).to_be_empty()
                     assert old['evidence'] and any(a['state']=='unknown' for a in old['attempts'])
                     with duckdb.connect(str(snapshot.database), read_only=True) as db:
                         expected = db.execute("SELECT COUNT(*) FROM users WHERE registered_at >= TIMESTAMPTZ '2026-01-08T00:00:00+08:00' AND registered_at < TIMESTAMPTZ '2026-01-15T00:00:00+08:00'").fetchone()[0]
                     assert sum(row['users'] for row in old['evidence'][0]['rows']) == expected
                     assert calls == []
                     page.reload(); expect(page.locator('#status')).to_have_text('已中断')
+                    assert request(app, '/api/tasks/'+task)[1]['progress']['latest_at'] == '2026-10-19T01:00:00+00:00'
                     assert calls == []
                     page.get_by_role('button', name='创建关联重跑', exact=True).click()
                     expect(page.locator('#status')).to_have_text('已结束', timeout=60000)

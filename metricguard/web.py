@@ -319,7 +319,9 @@ class LocalWeb:
                 message = '模型请求超时，分析未完成。已有记录和证据保留，未知调用不会自动重放。请检查模型服务后创建关联新任务重跑。'
             elif not active and any(model_errors):
                 message = '模型调用失败，分析未完成。已有记录和证据保留。请检查模型服务后创建关联新任务重跑。'
+            from metricguard.progress import describe
             return {'id':task,'parent':state.get('parent'),'question':state['question'],'snapshot_id':state['snapshot_id'],
+                    'progress':describe(state, status, self.service.ledger.progress_clock()),
                     'status':status,'elapsed_seconds':max(0,round(end-row['started'],1)) if end is not None else None,
                     'window':state.get('actual_window') or state.get('requested_window'),
                     'window_confirmed': bool(state.get('actual_window')), 'comparison_window': state.get('comparison_window'),

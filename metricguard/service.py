@@ -33,9 +33,10 @@ class TaskService:
     def __init__(self, root: Path, image: str, snapshots: dict[str, Path], *, token: str,
                  base_url: str = 'https://api.deepseek.com/anthropic', transport: Any = None,
                  limits: dict[str, Any] | None = None, fault_hook: Callable[[str], None] | None = None,
-                 clock: Callable[[], datetime] | None = None):
+                 clock: Callable[[], datetime] | None = None,
+                 progress_clock: Callable[[], datetime] | None = None):
         self.root = Path(root)
-        self.owner = RecoveryOwner(self.root)
+        self.owner = RecoveryOwner(self.root, progress_clock=progress_clock)
         self.ledger = self.owner.ledger
         self.image = image
         self.base_url = base_url
@@ -223,7 +224,10 @@ class TaskService:
 
     def _event(self, task: str, event: str, detail: Any) -> None:
         with self.ledger.connect() as db:
-            db.execute('INSERT INTO trace(task,event,detail) VALUES(?,?,?)', (task, event, json.dumps(detail, ensure_ascii=False)))
+            # Publication/review can happen during later reads; they are not execution progress.
+            instant = None if event in ('report_published', 'semantic_review_recorded') else self.ledger.progress_time()
+            db.execute('INSERT INTO trace(task,event,detail,occurred_at) VALUES(?,?,?,?)',
+                       (task, event, json.dumps(detail, ensure_ascii=False), instant))
 
     def _remaining(self, task: str) -> float:
         self.ledger.accrue_activity(task)
@@ -285,6 +289,7 @@ class TaskService:
     def _prepare(self, state: State) -> dict[str, Any]:
         from experiments.t02.profiles import BUSINESS_SCHEMA
         task = state['task']
+        self._event(task, 'progress_phase', 'prepare')
         data = self._data(task)
         if data.get('shared_preflight'):
             return {}
@@ -643,6 +648,7 @@ class TaskService:
         return {'facts': accepted, 'rejected_facts': rejected, 'validation': asdict(store.validate_report(tuple(assertions)))}
 
     def _finish_report(self, task: str, facts: list[Any], *, deterministic: bool) -> None:
+        self._event(task, 'progress_phase', 'report')
         data = self._data(task)
         report = self._validated(data, facts)
         report.update(deterministic=deterministic, definition=data['definition'], window=data['actual_window'],
@@ -865,6 +871,8 @@ class TaskService:
             self.ledger.accrue_activity(task, stop=True)
             with self.ledger.connect() as db:
                 db.execute("UPDATE tasks SET status=?,question=CASE WHEN ?='waiting' THEN question ELSE NULL END WHERE id=?", (status, status, task))
+                db.execute('INSERT INTO trace(task,event,detail,occurred_at) VALUES(?,?,?,?)',
+                           (task, 'execution_finished', status, self.ledger.progress_time()))
         if self._data(task).get('preflight_only'):
             from metricguard.comparison import complete_preflight
             complete_preflight(self, task)

@@ -3,7 +3,8 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Any, TypedDict
+from datetime import datetime
+from typing import Any, Callable, TypedDict
 from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.types import Command, interrupt
@@ -15,10 +16,10 @@ class State(TypedDict):
     answer: str
 
 class TaskService:
-    def __init__(self, root: Path, crash_point: str | None = None):
+    def __init__(self, root: Path, crash_point: str | None = None, *, progress_clock: Callable[[], datetime] | None = None):
         self.root = Path(root)
         self.root.mkdir(parents=True, exist_ok=True)
-        self.ledger = Ledger(self.root / 'ledger.sqlite')
+        self.ledger = Ledger(self.root / 'ledger.sqlite', progress_clock=progress_clock)
         self.crash_point = crash_point
         # Single process owner is enforced by OS file lock, not a stale PID file.
         self.lock = (self.root / 'owner.lock').open('a+b')

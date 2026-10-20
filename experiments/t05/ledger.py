@@ -4,18 +4,20 @@ import math
 import sqlite3
 import time
 import uuid
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 from collections.abc import Iterator
 from contextlib import contextmanager
 
 DEFAULT_LIMITS = {'tool': 12, 'model': 10, 'tokens': 30000, 'active_seconds': 180}
 
 class Ledger:
-    def __init__(self, path: Path):
+    def __init__(self, path: Path, *, progress_clock: Callable[[], datetime] | None = None):
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.active_segments: dict[str, float] = {}
+        self.progress_clock = progress_clock or (lambda: datetime.now(timezone.utc))
         with self.connect() as db:
             db.executescript('''
             CREATE TABLE IF NOT EXISTS tasks(id TEXT PRIMARY KEY, status TEXT, rounds INTEGER, version INTEGER,
@@ -24,6 +26,14 @@ class Ledger:
               reserved INTEGER, actual INTEGER, state TEXT, result TEXT);
             CREATE TABLE IF NOT EXISTS trace(seq INTEGER PRIMARY KEY, task TEXT, event TEXT, detail TEXT);
             ''')
+            if 'occurred_at' not in {row['name'] for row in db.execute('PRAGMA table_info(trace)')}:
+                db.execute('ALTER TABLE trace ADD COLUMN occurred_at TEXT')
+
+    def progress_time(self) -> str:
+        instant = self.progress_clock()
+        if instant.tzinfo is None:
+            raise ValueError('progress clock must return a timezone-aware datetime')
+        return instant.astimezone(timezone.utc).isoformat()
 
     @contextmanager
     def connect(self) -> Iterator[sqlite3.Connection]:
@@ -104,7 +114,8 @@ class Ledger:
             if row is None or row['state'] != 'reserved':
                 raise ValueError('attempt must be fresh reservation')
             db.execute("UPDATE attempts SET state='sent' WHERE id=?", (attempt_id,))
-            db.execute('INSERT INTO trace(task,event,detail) VALUES(?,?,?)', (row['task'], 'sent', attempt_id))
+            db.execute('INSERT INTO trace(task,event,detail,occurred_at) VALUES(?,?,?,?)',
+                       (row['task'], 'sent', attempt_id, self.progress_time()))
 
     def settle(self, attempt_id: str, result: Any, actual_tokens: int | None = None, failed: bool = False) -> None:
         if actual_tokens is not None and (type(actual_tokens) is not int or actual_tokens < 0):
@@ -117,7 +128,8 @@ class Ledger:
                 raise ValueError('only sent attempt can settle')
             state = 'failed' if failed else 'completed'
             db.execute('UPDATE attempts SET actual=?,state=?,result=? WHERE id=?', (actual_tokens, state, encoded, attempt_id))
-            db.execute('INSERT INTO trace(task,event,detail) VALUES(?,?,?)', (row['task'], state, attempt_id))
+            db.execute('INSERT INTO trace(task,event,detail,occurred_at) VALUES(?,?,?,?)',
+                       (row['task'], state, attempt_id, self.progress_time()))
 
     def inspect(self, task_id: str) -> dict[str, Any]:
         with self.connect() as db:

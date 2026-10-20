@@ -1,4 +1,4 @@
-# 本机浏览器界面（U1–U6）
+# 本机浏览器界面
 
 在仓库 PowerShell 中启动。需要现有 Python/uv 环境、已启动的 Docker Desktop Linux 引擎、已验证镜像及当前终端中的模型凭据。不要将密钥写入页面、截图或版本库。
 
@@ -31,6 +31,12 @@ uv run python -m experiments.u6_manual
 需要使用已配置的其他兼容快照时，省略 --demo，使用 `--snapshot 名称=完整路径`，可以重复提供。只接受既有业务结构的 DuckDB 快照，不支持上传或任意表结构。默认界面工作目录为 artifacts/local-ui/state；可用 --state-dir 指定独立目录。不要让 CLI 和网页同时持有同一个目录。
 
 浏览器暂时收不到提交结果时，“重试相同提交”沿用原操作标识，避免重复执行；修改内容应先点“新建问题”。服务重启后同一操作仍去重；未确认完成的异常操作不会自动重放。
+
+## 查看执行进展
+
+任务区分别展示执行状态、当前动作、最近可靠进展时间和连接状态。动作随真实执行变化，模型请求与查询可能交替多次；只有实际整理报告时才显示报告阶段。没有可靠动作记录时显示粗粒度状态，旧任务缺少进展时间时显示“未记录”。刷新、重新打开和服务重启不会把读取时间记为分析进展。
+
+运行任务连续 60 秒没有新的进展记录时，页面温和提醒当前动作可能仍在进行，不据此判定失败或自动重试。等待澄清时不出现此提醒。读取失败时标注最后已知信息，恢复读取后再以服务记录为准。“本次运行历时”仍是本次执行时间，不代表累计预算、完成比例或预计剩余时间。
 
 ## 回答澄清
 
@@ -93,7 +99,7 @@ uv run python -m experiments.u6_manual
 开发测试依赖已写入依赖锁文件。浏览器测试在 Windows 默认使用已安装的 Microsoft Edge；其他安装可通过 METRICGUARD_BROWSER_CHANNEL 指定受支持的浏览器通道。浏览器缺失会使必要测试失败，不会静默跳过。
 
 ```powershell
-uv run pytest tests/test_u1_web.py tests/test_u1_browser.py tests/test_u2_web.py tests/test_u2_browser.py tests/test_u3_history.py tests/test_u3_browser.py tests/test_u4_web.py tests/test_u4_browser.py tests/test_u5_web.py tests/test_u5_browser.py tests/test_u6_acceptance.py -q
+uv run pytest tests/test_u1_web.py tests/test_u1_browser.py tests/test_u2_web.py tests/test_u2_browser.py tests/test_u3_history.py tests/test_u3_browser.py tests/test_u4_web.py tests/test_u4_browser.py tests/test_u5_web.py tests/test_u5_browser.py tests/test_u6_acceptance.py tests/test_u7_progress.py -q
 ```
 
 必须配置 METRICGUARD_TEST_IMAGE，查询使用实际 Docker 隔离环境；模型提供方可受控。真实模型实验与人工体验单独登记，不能混为同一种验证。

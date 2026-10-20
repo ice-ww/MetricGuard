@@ -47,7 +47,9 @@ async function showTask(id, generation = ++view) {
     const state=await api("/api/tasks/"+encodeURIComponent(id));
     if(generation!==view) return;
     fill(state);
-    el("connection").textContent="";el("status").textContent=names[state.status]||state.status;
+    el("connection").textContent="连接正常 · 已读取任务状态";el("status").textContent=names[state.status]||state.status;
+    el("connection").dataset.state="connected";
+    renderProgress(state);
     el("elapsed").textContent=state.elapsed_seconds===null?"运行历时未完整记录":"本次运行历时 "+state.elapsed_seconds+" 秒";
     el("task-question").textContent=state.question;
     el("scope").textContent=state.window?(state.window_confirmed?"分析范围：":"请求范围（尚未分析）：")+state.window[0]+" 至 "+state.window[1]+"（结束日不包含）":"";
@@ -69,12 +71,23 @@ async function showTask(id, generation = ++view) {
     if(["created","running"].includes(state.status)) timer=setTimeout(()=>showTask(id,generation),1000);
   } catch(error) {
     if(generation!==view) return;
+    el("connection").dataset.state="unavailable";
     if(error.status===404) {
       taskState=null;el("clarification").hidden=true;el("recovery-actions").hidden=true;el("parent-link").hidden=true;el("recovery-message").textContent="";el("status").textContent="无法打开任务";
-      for(const name of ["result","report-view","scope","elapsed","task-question"]) el(name).textContent="";
+      for(const name of ["result","report-view","scope","elapsed","task-question","current-action","progress-time","progress-notice"]) el(name).textContent="";
       el("connection").textContent=error.message+" 请从历史列表选择任务，或新建问题。";
-    } else el("connection").textContent="暂时无法读取任务。请确认本机服务仍在运行后刷新；不会自动重新执行。";
+    } else {
+      el("connection").textContent="暂时无法读取任务。以下为最后已知信息；请确认本机服务仍在运行后刷新，不会自动重新执行。";
+      el("progress-notice").textContent="";
+    }
   }
+}
+function renderProgress(state) {
+  const progress=state.progress||{};
+  const fallback={created:"准备执行",running:"正在分析（未记录具体动作）",waiting:"等待澄清",ended:"无（已结束）",failed:"无（执行失败）",interrupted:"无（已中断）"};
+  el("current-action").textContent="当前动作："+(progress.action||fallback[state.status]||"未记录");
+  el("progress-time").textContent="最近可靠进展："+(progress.latest_at?new Date(progress.latest_at).toLocaleString("zh-CN",{hour12:false})+"（本地时间）":"未记录");
+  el("progress-notice").textContent=progress.quiet?"已至少 60 秒没有新的执行进展记录，当前动作可能仍在进行。这不表示任务失败，不会自动重试。":"";
 }
 function renderRecovery(state) {
   el("recovery-actions").hidden=false;
