@@ -218,6 +218,8 @@ def test_recovery_never_replays_or_replaces_unknown_answer(tmp_path):
                 def lose(route):
                     writes.append(route.request.post_data_json); route.fetch(); route.abort()
                 page.route('**/answers',lose)
+                # Inconclusive lookup exercises the explicit retry path.
+                page.route('**/api/operations/**', lambda route: route.fulfill(json={'accepted':False}))
                 page.get_by_label('你的回答').fill('留存')
                 page.get_by_role('button',name='提交回答',exact=True).click()
                 expect(page.get_by_role('button',name='重试相同回答',exact=True)).to_be_disabled()

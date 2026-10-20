@@ -164,11 +164,29 @@ class LocalWeb:
             return 202, {'id': task}, 'application/json'
         if handler.command == 'GET' and path == '/api/tasks':
             return 200, {'tasks': self.list_tasks()}, 'application/json'
+        operation = re.fullmatch(r'/api/operations/(create|answer|rerun)/([a-zA-Z0-9_-]{8,100})', path)
+        if handler.command == 'GET' and operation:
+            return 200, self.operation(*operation.groups()), 'application/json'
         if handler.command == 'GET' and re.fullmatch(r'/api/tasks/[a-f0-9]{32}/report', path):
             return 200, self.report(path.split('/')[3]), 'application/json'
         if handler.command == 'GET' and re.fullmatch(r'/api/tasks/[a-f0-9]{32}', path):
             return 200, self.inspect(path.rsplit('/',1)[1]), 'application/json'
         raise WebError(404, '找不到此页面或任务。')
+
+    def operation(self, kind: str, key: str) -> dict[str, Any]:
+        """Read durable admission, not execution success; never resume an operation."""
+        with self.lock, self.connect() as db:
+            table = 'answers' if kind == 'answer' else 'operations'
+            row = db.execute(f'SELECT * FROM {table} WHERE key=?', (key,)).fetchone()
+            if row is None:
+                return {'accepted': False}
+            payload = json.loads(row['payload'])
+            parent = payload.get('parent')
+            if kind != 'answer' and (kind == 'rerun') != bool(parent):
+                return {'accepted': False}
+            if not row['task']:
+                return {'accepted': False}
+            return {'accepted': True, 'id': row['task'], 'parent': parent}
 
     def submit(self, payload: Any, *, parent: str | None = None) -> str:
         if parent:

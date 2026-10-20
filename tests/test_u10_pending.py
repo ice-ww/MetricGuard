@@ -26,6 +26,8 @@ def test_offline_edits_stay_distinct_from_unknown_answer_and_survive_confirmatio
                     if accepted: route.fetch()
                     route.abort()
                 page.route('**/answers',lose)
+                # Inconclusive lookup exercises the explicit retry path.
+                page.route('**/api/operations/**', lambda route: route.fulfill(json={'accepted':False}))
                 page.get_by_label('你的回答').fill('留存')
                 page.get_by_role('button',name='提交回答',exact=True).click()
                 expect(page.locator('#connection')).to_contain_text('提交已暂停')
@@ -90,6 +92,8 @@ def test_unknown_write_then_expired_retry_keeps_original_operation(tmp_path,kind
                     else:
                         route.continue_()
                 page.route('**'+target,fault)
+                # Inconclusive lookup exercises the explicit retry path.
+                page.route('**/api/operations/**', lambda route: route.fulfill(json={'accepted':False}))
                 page.get_by_role('button',name=submit,exact=True).click()
                 expect(page.locator('#connection')).to_contain_text('提交已暂停')
                 wait_done(app,accepted[0])

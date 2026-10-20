@@ -150,12 +150,15 @@ def test_lost_answer_response_refreshes_latest_question_and_stale_tab_is_rejecte
                     url=page.url;task=url.split('task=')[1]
                     other=browser.new_page();other.clock.install(time=0);other.clock.pause_at(1000);other.goto(url)
                     expect(other.locator('#clarification-prompt')).to_contain_text('哪个指标')
+                    writes=[]
                     def lose_response(route):
+                        writes.append(route.request.post_data_json)
                         route.fetch();route.abort()
                     page.route('**/answers',lose_response)
                     submit_answer(page,'留存')
                     expect(page.locator('#clarification-prompt')).to_contain_text('留存人群')
-                    expect(page.locator('#unknown-answer-text')).to_have_value('留存')
+                    expect(page.locator('#unknown-answer')).to_be_hidden()
+                    assert len(writes)==1  # Read-only lookup confirms admission without replay.
                     page.reload()
                     expect(page.locator('#clarification-prompt')).to_contain_text('留存人群')
                     submit_answer(other,'观测完播率')

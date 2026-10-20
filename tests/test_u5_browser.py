@@ -145,6 +145,8 @@ def test_lost_rerun_response_retries_same_operation_after_reload(tmp_path):
                         assert route.fetch().status == 202
                         route.abort()
                     page.route('**/rerun', lose_response, times=1)
+                    # Inconclusive lookup exercises the explicit retry path.
+                    page.route('**/api/operations/**', lambda route: route.fulfill(json={'accepted':False}))
                     page.get_by_role('button', name='创建关联重跑', exact=True).click()
                     expect(page.get_by_role('button', name='重试关联重跑', exact=True)).to_be_enabled()
                     tasks = request(app, '/api/tasks')[1]['tasks']

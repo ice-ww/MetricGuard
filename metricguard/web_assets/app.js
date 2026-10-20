@@ -5,11 +5,32 @@ let shownQuestion = null, staleSignature = "";
 let currentTaskId=null, readController=null, writing=false, needsManualRefresh=false;
 let connected=false, recoveryDeadline=null, recoveryAttempt=0, recoveryStopped=false;
 let composing=!new URLSearchParams(location.search).has("task");
+let checkedWrites=new Set();
+function unknownWrites() {
+  return Object.keys(sessionStorage).flatMap(key=>{
+    const kind=key==="metricguard-pending"?"create":key.startsWith("metricguard-answer:")?"answer":key.startsWith("metricguard-rerun:")?"rerun":null;
+    return kind?[{key,kind,task:kind==="create"?null:key.split(":")[1],data:JSON.parse(sessionStorage.getItem(key))}]:[];
+  });
+}
 function gateWrites() {
-  if(!connected) for(const id of ["submit","answer-submit","rerun","unknown-answer-retry"]) el(id).disabled=true;
+  const unknown=unknownWrites();
+  const notice=el("pending-operations");notice.hidden=!unknown.length;notice.replaceChildren();
+  for(const operation of unknown) {
+    const link=document.createElement("a");
+    link.href=operation.task?"/?task="+encodeURIComponent(operation.task):"/";
+    link.textContent={create:"查看原新建提交",answer:"查看原回答",rerun:"查看原关联重跑"}[operation.kind];
+    const text=document.createElement("p");
+    text.textContent="提交结果尚未确认。先只读核对，仍无法确认时可手动重试同一次操作。"+
+      (operation.data.question?" 原问题："+operation.data.question:"");
+    text.append(" ",link);notice.append(text);
+  }
+  for(const [id,kind] of [["submit","create"],["answer-submit","answer"],["rerun","rerun"],["unknown-answer-retry","answer"]]) {
+    const own=unknown.find(op=>op.kind===kind && (kind==="create" || op.task===taskState?.id));
+    if(!connected || (unknown.length && (!own || !checkedWrites.has(own.key)))) el(id).disabled=true;
+  }
 }
 function connectionFailed(message) {
-  connected=false;gateWrites();
+  connected=false;checkedWrites.clear();gateWrites();
   if(composing) el("fields").disabled=false;
   if(taskState?.clarification) el("answer-fields").disabled=false;
   el("reconnect").hidden=false;
@@ -89,6 +110,23 @@ async function readTask(id,signal,generation) {
     return await api(path,undefined,signal);
   }
 }
+async function reconcileWrites(signal,generation) {
+  let acceptedTask=null;
+  for(const operation of unknownWrites()) {
+    const result=await api("/api/operations/"+operation.kind+"/"+encodeURIComponent(operation.data.request_id),undefined,signal);
+    if(signal.aborted || generation!==view) throw new DOMException("读取已取消","AbortError");
+    if(result.accepted && (operation.kind==="create" ||
+        (operation.kind==="answer"?result.id===operation.task:result.parent===operation.task))) {
+      if(operation.kind==="create") {drafts.clearCompose(operation.data);pending=null;el("error").textContent="";}
+      if(operation.kind==="answer") {drafts.clearAnswer(operation.task,operation.data);pendingAnswer=null;shownQuestion=null;}
+      sessionStorage.removeItem(operation.key);
+      acceptedTask=result.id;
+    } else {
+      checkedWrites.add(operation.key);
+    }
+  }
+  return acceptedTask;
+}
 async function refreshHistory() {
   const generation=++historyView;
   try {
@@ -132,7 +170,16 @@ async function showTask(id, generation = ++view) {
   let timedOut=false;
   const timeout=setTimeout(()=>{timedOut=true;controller.abort();},Math.min(10000,recoveryDeadline===null?10000:recoveryDeadline-Date.now()));
   try {
-    const state=await readTask(id,controller.signal,generation);
+    let state=await readTask(id,controller.signal,generation);
+    const acceptedTask=await reconcileWrites(controller.signal,generation);
+    if(acceptedTask) {
+      id=acceptedTask;currentTaskId=id;composing=false;
+      history.replaceState(null,"","/?task="+encodeURIComponent(id));
+      state=await readTask(id,controller.signal,generation);
+      el("fields").disabled=true;el("submit").disabled=true;
+      el("empty").hidden=true;el("task").hidden=false;el("new").hidden=false;
+      el("task-link").textContent="任务 "+id;el("task-link").href="/?task="+encodeURIComponent(id);
+    }
     clearTimeout(timeout);
     if(generation!==view || controller.signal.aborted) return;
     connected=true;resetRecovery();el("reconnect").hidden=true;
@@ -149,7 +196,7 @@ async function showTask(id, generation = ++view) {
     el("task-question").textContent=state.question;
     el("scope").textContent=state.window?(state.window_confirmed?"分析范围：":"请求范围（尚未分析）：")+state.window[0]+" 至 "+state.window[1]+"（结束日不包含）":"";
     if(taskState?.id!==state.id || taskState?.status!==state.status) refreshHistory();
-    taskState=state;renderClarification(state);renderRecovery(state);
+    taskState=state;renderClarification(state);renderRecovery(state);gateWrites();
     el("result").textContent=state.body;
     el("report-view").replaceChildren();
     if(!["created","running","waiting"].includes(state.status)) {
@@ -387,11 +434,13 @@ window.addEventListener("popstate",()=>location.reload());
     const config=await (await fetch("/api/config")).json();token=config.token;connected=true;
     for(const name of config.snapshots){const option=document.createElement("option");option.value=name;option.textContent=name;el("snapshot").append(option);}
     if(config.example){el("example").hidden=false;el("example").addEventListener("click",()=>{fill(config.example);saveCompose();});}
-    unlock();refreshHistory();
+    refreshHistory();
+    const saved=sessionStorage.getItem("metricguard-pending");
+    if(saved) pending=JSON.parse(saved);
     const id=new URLSearchParams(location.search).get("task");
     if(id){el("fields").disabled=true;el("submit").disabled=true;await showTask(id);return;}
-    const saved=sessionStorage.getItem("metricguard-pending");
     if(saved){pending=JSON.parse(saved);fill(pending);restoreCompose();unlock();el("new").hidden=false;el("error").textContent="上次提交尚未确认。重试仍提交原问题「"+pending.question+"」及原条件；草稿修改不会替换原操作。";}
-    else restoreCompose();
+    else {restoreCompose();unlock();}
+    if(unknownWrites().length) await showTask(null);
   } catch(error){el("error").textContent="无法连接本机服务，请检查启动终端后刷新。";}
 })();
