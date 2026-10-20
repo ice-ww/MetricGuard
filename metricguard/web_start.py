@@ -1,8 +1,10 @@
 """Start the single-user local browser interface: python -m metricguard.web_start."""
 import argparse
+import errno
 import os
 from pathlib import Path
 import re
+import sqlite3
 import threading
 import webbrowser
 from typing import Callable
@@ -86,14 +88,27 @@ def main(argv: list[str] | None = None, *, token: str | None = None,
                 print('关闭浏览器不会停止任务。按 Ctrl+C 停止服务；正在执行的任务将等待本次执行结束。',flush=True)
                 try:
                     if args.open_browser:
-                        webbrowser.open(app.origin)
+                        try:
+                            opened = webbrowser.open(app.origin)
+                        except Exception:
+                            opened = False
+                        if not opened:
+                            print('浏览器未能打开；服务仍在运行，请手动访问：'+app.origin,flush=True)
                     stop = threading.Event()
                     while not stop.wait(.2):
                         pass
                 except KeyboardInterrupt:
                     print('正在停止服务，请等待当前任务结束。',flush=True)
-    except (OSError,ValueError):
-        parser.error('无法启动服务。请检查端口是否占用、目录是否可写，或是否已有进程使用同一状态目录。')
+    except ValueError as error:
+        if str(error) == 'service already owned':
+            parser.error('任务目录已被其他进程占用。请在原服务窗口正常停止后重试；不会绕过目录锁或切换历史。')
+        parser.error('无法启动服务，请核对已确认的配置。')
+    except OSError as error:
+        if error.errno == errno.EADDRINUSE or getattr(error,'winerror',None) == 10048:
+            parser.error('端口已占用。请释放端口或通过 --configure 明确修改；不会自动换端口或结束进程。')
+        parser.error('任务目录不可写或文件无法访问；请核对原目录和权限，不会切换历史。')
+    except sqlite3.Error:
+        parser.error('任务目录中的记录无法打开或写入；请核对目录权限和数据库状态，不会创建替代历史。')
 
 
 if __name__=='__main__':

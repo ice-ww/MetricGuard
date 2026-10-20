@@ -6,6 +6,8 @@ import os
 import subprocess
 import sys
 import time
+from pathlib import Path
+import signal
 
 
 def windows(command, operations):
@@ -67,8 +69,12 @@ def windows(command, operations):
             written = wintypes.DWORD()
             if not kernel.WriteConsoleInputW(input_handle,ctypes.byref(record),1,ctypes.byref(written)):
                 raise ctypes.WinError(ctypes.get_last_error())
+    def interrupt():
+        kernel.SetConsoleCtrlHandler(None,True)
+        if not kernel.GenerateConsoleCtrlEvent(0,0):
+            raise ctypes.WinError(ctypes.get_last_error())
     try:
-        screen = perform(child, operations, read, write)
+        screen = perform(child, operations, read, write, interrupt)
         return {'code':child.wait(timeout=20),'screen':screen}
     finally:
         if child.poll() is None:
@@ -103,7 +109,8 @@ def posix(command, operations):
             data.extend(chunk)
         return data.decode('utf-8',errors='replace')
     try:
-        screen = perform(child,operations,read,lambda value:os.write(master,value.encode()))
+        screen = perform(child,operations,read,lambda value:os.write(master,value.encode()),
+                         lambda:os.killpg(child.pid,signal.SIGINT))
         return {'code':child.wait(timeout=20),'screen':screen}
     finally:
         if child.poll() is None:
@@ -112,14 +119,25 @@ def posix(command, operations):
         os.close(master)
 
 
-def perform(child, operations, read, write):
+def perform(child, operations, read, write, interrupt):
     for operation in operations:
         deadline = time.monotonic()+90
-        while operation['wait'] not in read():
+        def ready():
+            return Path(operation['wait_file']).exists() if 'wait_file' in operation else operation['wait'] in read()
+        while not ready():
             if child.poll() is not None or time.monotonic()>deadline:
-                raise RuntimeError('terminal condition not met: '+operation['wait']+'\n'+read())
+                raise RuntimeError('terminal condition not met:\n'+read())
             time.sleep(.05)
-        write(operation['write'])
+        if operation.get('hold'):
+            time.sleep(operation['hold'])
+            if child.poll() is not None:
+                raise RuntimeError('terminal closed before dismissal')
+        if operation.get('interrupt'):
+            interrupt()
+        else:
+            write(operation.get('write',''))
+        if 'touch' in operation:
+            Path(operation['touch']).touch()
     deadline = time.monotonic()+30
     while child.poll() is None and time.monotonic()<deadline:
         time.sleep(.05)

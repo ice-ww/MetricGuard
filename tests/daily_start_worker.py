@@ -24,6 +24,7 @@ def open_browser(origin):
 
 
 webbrowser.open = open_browser
-target = sys.argv[1]
-sys.argv = [target, *sys.argv[2:]]
-runpy.run_path(target, run_name='__main__')
+if __name__ == '__main__':
+    target = sys.argv[1]
+    sys.argv = [target, *sys.argv[2:]]
+    runpy.run_path(target, run_name='__main__')
