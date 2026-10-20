@@ -10,8 +10,8 @@ from startup_runtime import command, docker_ready, report
 def check(image: str, snapshots: dict[str, Path], state: Path, port: int) -> bool:
     ready = True
     try:
-        with socket.socket() as probe:
-            probe.bind(('127.0.0.1',port))
+        with socket.create_server(('127.0.0.1',port)):
+            pass
         report('端口','已就绪',str(port))
     except OSError:
         report('端口','需要处理',f'{port} 已占用或不可用。释放该端口，或使用 --configure 明确修改；不会自动换端口或结束进程。')

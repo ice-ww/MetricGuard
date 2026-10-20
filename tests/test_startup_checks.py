@@ -7,7 +7,25 @@ from pathlib import Path
 import shutil
 import json
 
-from tests.test_daily_config import ROOT, project
+from tests.test_daily_config import ROOT, project, run
+
+
+def test_stopped_listener_can_restart_but_live_listener_is_rejected(tmp_path):
+    import socket
+    config = project(tmp_path, 'sha256:'+'a'*64)
+    with socket.create_server(('127.0.0.1',0)) as server:
+        address = server.getsockname()
+        with socket.create_connection(address) as client:
+            accepted, _ = server.accept()
+            accepted.close()  # The server closes first, leaving TCP TIME_WAIT.
+            assert client.recv(1) == b''
+    config['port'] = address[1]
+    (tmp_path/'.metricguard-local.json').write_text(json.dumps(config),encoding='utf-8')
+    stopped = run(tmp_path,'')
+    assert '端口：已就绪' in stopped.stdout, stopped.stdout+stopped.stderr
+    with socket.create_server(address):
+        occupied = run(tmp_path,'')
+    assert '端口：需要处理' in occupied.stdout, occupied.stdout+occupied.stderr
 
 
 def test_missing_tools_are_reported_together_without_cascading_failures(tmp_path):
