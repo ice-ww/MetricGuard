@@ -94,11 +94,17 @@ def test_confirmed_example_starts_real_service_and_is_reused(tmp_path, image):
         sock.bind(('127.0.0.1',0))
         port = sock.getsockname()[1]
     tag = 'metricguard-startup-test:'+uuid.uuid4().hex
-    subprocess.run(['docker','tag',image,tag], check=True, capture_output=True, timeout=30)
+    container = subprocess.run(['docker','create',image],check=True,capture_output=True,text=True,timeout=30).stdout.strip()
+    try:
+        replacement = subprocess.run(['docker','commit','--change','LABEL metricguard.test='+tag,
+                                      container],check=True,capture_output=True,text=True,timeout=30).stdout.strip()
+    finally:
+        subprocess.run(['docker','rm',container],check=True,capture_output=True,timeout=30)
     first = '\n'.join(['new','state','example',tag,str(port),'http://127.0.0.1:1','yes','stop'])+'\n'
     snapshot = tmp_path/'demo-data/public/snapshot.duckdb'
     before = None
     try:
+        subprocess.run(['docker','tag',image,tag], check=True, capture_output=True, timeout=30)
         for answers in (first, 'stop\n'):
             result = subprocess.run([sys.executable,str(ROOT/'tests/daily_start_worker.py'),str(tmp_path/'start.py')],
                 input=answers, env={**os.environ,'PYTHONUTF8':'1','PYTHONPATH':str(ROOT),
@@ -110,9 +116,12 @@ def test_confirmed_example_starts_real_service_and_is_reused(tmp_path, image):
             if before is not None:
                 assert snapshot.read_bytes() == before
             else:
-                # Removing the mutable tag must not affect the saved fixed ID.
-                subprocess.run(['docker','image','rm',tag], check=True, capture_output=True, timeout=30)
+                # Moving a mutable tag leaves the original fixed ID available,
+                # including when the shared CI image originally had no tags.
+                subprocess.run(['docker','tag',replacement,tag], check=True, capture_output=True, timeout=30)
             before = snapshot.read_bytes()
     finally:
-        subprocess.run(['docker','image','rm',tag], capture_output=True, timeout=30)
+        subprocess.run(['docker','tag',replacement,tag], check=True, capture_output=True, timeout=30)
+        subprocess.run(['docker','image','rm','--no-prune',tag], check=True, capture_output=True, timeout=30)
+        subprocess.run(['docker','image','inspect',image], check=True, capture_output=True, timeout=30)
 
