@@ -72,6 +72,16 @@ uv run python -m experiments.u6_manual
 - 点击“复制并修改”将旧问题、快照、明确日期和比较基期填入可编辑表单。修改并点击“开始分析”才创建独立任务；不会继承旧结论、证据或澄清答案。
 - 若原快照已不再配置或不可读取，重跑会给出创建失败说明。可复制修改后选择当前可用快照；新任务仍需正常确认分析条件。
 
+## 状态更新与标签页草稿
+
+可见页面上的运行任务约每 1 秒读取一次，等待澄清约每 5 秒读取一次。同一问题的更新保留正在输入的回答及焦点。后台暂停周期读取，返回页面立即核对一次，不补发错过的轮询；取消页面读取不会取消后台分析。
+
+新问题的文字、快照和未填完整的日期，以及绑定任务/问题版本的回答草稿，保存在本标签页。刷新后可以继续编辑；不自动跨标签页同步输入，也不保证关闭标签页、换浏览器或换设备后恢复。
+
+另一标签页已回答或问题版本变化时，本页旧回答保留在“旧回答草稿”区供选中复制，新问题不会自动带入旧答案。成功提交清除对应草稿。响应丢失时原提交内容与操作标识继续保留；若回答问题已变化，可先手动“重试原回答”确认原操作，编辑的新草稿不会替换原提交，不自动重放。
+
+已结束或中断任务在报告读取完成后停止周期读取。状态或报告读取失败时保留对应错误提示，使用“刷新任务”或刷新页面手动处理；本阶段尚未提供自动失败重连。相同问题在不同标签页提交仍是不同操作，不按问题文字做全局去重。
+
 ## 查看分析预算占用
 
 任务默认显示模型和工具已计入预算次数及各自上限，包含失败及已预留调用，不能当作成功调用次数。
@@ -109,7 +119,7 @@ uv run python -m experiments.u6_manual
 开发测试依赖已写入依赖锁文件。浏览器测试在 Windows 默认使用已安装的 Microsoft Edge；其他安装可通过 METRICGUARD_BROWSER_CHANNEL 指定受支持的浏览器通道。浏览器缺失会使必要测试失败，不会静默跳过。
 
 ```powershell
-uv run pytest tests/test_u1_web.py tests/test_u1_browser.py tests/test_u2_web.py tests/test_u2_browser.py tests/test_u3_history.py tests/test_u3_browser.py tests/test_u4_web.py tests/test_u4_browser.py tests/test_u5_web.py tests/test_u5_browser.py tests/test_u6_acceptance.py tests/test_u7_progress.py tests/test_u8_budget.py -q
+uv run pytest tests/test_u1_web.py tests/test_u1_browser.py tests/test_u2_web.py tests/test_u2_browser.py tests/test_u3_history.py tests/test_u3_browser.py tests/test_u4_web.py tests/test_u4_browser.py tests/test_u5_web.py tests/test_u5_browser.py tests/test_u6_acceptance.py tests/test_u7_progress.py tests/test_u8_budget.py tests/test_u9_drafts.py tests/test_u9_lifecycle.py -q
 ```
 
 必须配置 METRICGUARD_TEST_IMAGE，查询使用实际 Docker 隔离环境；模型提供方可受控。真实模型实验与人工体验单独登记，不能混为同一种验证。

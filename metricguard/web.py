@@ -90,7 +90,7 @@ class LocalWeb:
                 self.end_headers()
                 try:
                     self.wfile.write(encoded)
-                except (BrokenPipeError, ConnectionResetError):
+                except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
                     pass
         self.server = ThreadingHTTPServer(('127.0.0.1', port), Handler)
         self.origin = 'http://127.0.0.1:' + str(self.server.server_port)
@@ -134,7 +134,7 @@ class LocalWeb:
     def dispatch(self, handler: BaseHTTPRequestHandler) -> tuple[int, Any, str]:
         path = urlsplit(handler.path).path
         if handler.command == 'GET':
-            assets = {'/': ('index.html','text/html'), '/app.js': ('app.js','text/javascript'), '/app.css': ('app.css','text/css'), '/report.js': ('report.js','text/javascript')}
+            assets = {'/': ('index.html','text/html'), '/app.js': ('app.js','text/javascript'), '/app.css': ('app.css','text/css'), '/report.js': ('report.js','text/javascript'), '/drafts.js': ('drafts.js','text/javascript')}
             if path in assets:
                 name, mime = assets[path]
                 return 200, (Path(__file__).parent/'web_assets'/name).read_bytes(), mime

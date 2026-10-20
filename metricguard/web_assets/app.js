@@ -1,9 +1,29 @@
 "use strict";
 const el = id => document.getElementById(id);
 let token, pending = null, timer, view = 0, taskState = null, pendingAnswer = null, historyView = 0;
+let shownQuestion = null, staleSignature = "";
+let currentTaskId=null, readController=null, writing=false, needsManualRefresh=false;
+function stopReading() {clearTimeout(timer);readController?.abort();readController=null;}
+const composeFields=["snapshot","question","start","end","previous-start","previous-end"];
+function saveCompose() {
+  if(!el("fields").disabled) drafts.saveCompose(Object.fromEntries(composeFields.map(id=>[id,el(id).value])));
+}
+function restoreCompose() {
+  const saved=drafts.compose();
+  if(saved && typeof saved==="object") for(const id of composeFields) {
+    if(typeof saved[id]==="string") el(id).value=saved[id];
+  }
+}
+el("analysis-form").addEventListener("input",saveCompose);
+el("analysis-form").addEventListener("change",saveCompose);
+function saveAnswer() {
+  if(taskState?.clarification && !el("answer-fields").disabled)
+    drafts.saveAnswer(taskState.id,taskState.clarification,el("answer").value);
+}
+el("answer").addEventListener("input",saveAnswer);
 const names = {created:"准备执行",running:"正在分析",waiting:"等待澄清",ended:"已结束",failed:"执行失败",interrupted:"已中断"};
-async function api(path, data) {
-  const response = await fetch(path, {method:data?"POST":"GET", headers:{"X-MetricGuard-Token":token,"Content-Type":"application/json"},body:data?JSON.stringify(data):undefined});
+async function api(path, data, signal) {
+  const response = await fetch(path, {method:data?"POST":"GET", headers:{"X-MetricGuard-Token":token,"Content-Type":"application/json"},body:data?JSON.stringify(data):undefined,signal});
   const value=await response.json();
   if(!response.ok) {const error=new Error(value.error || "请求未完成，请重新打开任务。");error.status=response.status;throw error;}
   return value;
@@ -40,12 +60,13 @@ function windowValue(a,b) {
 }
 function unlock() {el("fields").disabled=false;el("submit").disabled=false;el("submit").textContent="开始分析";}
 async function showTask(id, generation = ++view) {
-  clearTimeout(timer);
+  stopReading();currentTaskId=id;needsManualRefresh=false;
+  const controller=new AbortController();readController=controller;
   el("empty").hidden=true;el("task").hidden=false;el("new").hidden=false;
   el("task-link").textContent="任务 "+id;el("task-link").href="/?task="+encodeURIComponent(id);
   try {
-    const state=await api("/api/tasks/"+encodeURIComponent(id));
-    if(generation!==view) return;
+    const state=await api("/api/tasks/"+encodeURIComponent(id),undefined,controller.signal);
+    if(generation!==view || controller.signal.aborted) return;
     fill(state);
     el("connection").textContent="连接正常 · 已读取任务状态";el("status").textContent=names[state.status]||state.status;
     el("connection").dataset.state="connected";
@@ -60,21 +81,25 @@ async function showTask(id, generation = ++view) {
     el("report-view").replaceChildren();
     if(!["created","running","waiting"].includes(state.status)) {
       try {
-        const report=await api("/api/tasks/"+encodeURIComponent(id)+"/report");
-        if(generation!==view) return;
+        const report=await api("/api/tasks/"+encodeURIComponent(id)+"/report",undefined,controller.signal);
+        if(generation!==view || controller.signal.aborted) return;
         renderReport(report,el("report-view"));
       } catch(error) {
-        if(generation!==view) return;
+        if(generation!==view || controller.signal.aborted) return;
+        needsManualRefresh=true;
         el("report-view").textContent="报告读取失败。请刷新重试；已有文本报告和任务记录仍保留。";
       }
     }
     el("text-report").hidden=!state.body;
-    if(["created","running"].includes(state.status)) timer=setTimeout(()=>showTask(id,generation),1000);
+    if(!document.hidden && ["created","running","waiting"].includes(state.status))
+      timer=setTimeout(()=>showTask(id,generation),state.status==="waiting"?5000:1000);
   } catch(error) {
-    if(generation!==view) return;
+    if(generation!==view || controller.signal.aborted) return;
+    needsManualRefresh=true;
     el("connection").dataset.state="unavailable";
     if(error.status===404) {
       el("budget").hidden=true;
+      el("stale-drafts").hidden=true;el("unknown-answer").hidden=true;
       taskState=null;el("clarification").hidden=true;el("recovery-actions").hidden=true;el("parent-link").hidden=true;el("recovery-message").textContent="";el("status").textContent="无法打开任务";
       for(const name of ["result","report-view","scope","elapsed","task-question","current-action","progress-time","progress-notice"]) el(name).textContent="";
       el("connection").textContent=error.message+" 请从历史列表选择任务，或新建问题。";
@@ -82,8 +107,15 @@ async function showTask(id, generation = ++view) {
       el("connection").textContent="暂时无法读取任务。以下为最后已知信息；请确认本机服务仍在运行后刷新，不会自动重新执行。";
       el("progress-notice").textContent="";
     }
+  } finally {
+    if(readController===controller) readController=null;
   }
 }
+el("task-refresh").addEventListener("click",()=>{if(currentTaskId && !writing) showTask(currentTaskId);});
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden) {clearTimeout(timer);if(!writing) stopReading();}
+  else if(currentTaskId && !writing && !needsManualRefresh) showTask(currentTaskId);
+});
 function renderBudget(state) {
   const budget=state.budget;
   el("budget").hidden=!budget;
@@ -117,13 +149,13 @@ function renderRecovery(state) {
 el("copy").addEventListener("click",()=>{
   if(!taskState) return;
   const source=taskState;
-  el("new").click();fill(source);el("question").focus();
+  el("new").click();fill(source);saveCompose();el("question").focus();
   el("error").textContent="已复制问题、快照和明确日期。请修改并点击开始分析；新任务不会继承旧结论或证据。";
 });
 el("rerun").addEventListener("click",async()=>{
   if(!taskState) return;
   const id=taskState.id, generation=++view, key="metricguard-rerun:"+id;
-  clearTimeout(timer);
+  stopReading();writing=true;
   const saved=sessionStorage.getItem(key), data=saved?JSON.parse(saved):{request_id:crypto.randomUUID()};
   sessionStorage.setItem(key,JSON.stringify(data));
   el("rerun").disabled=true;el("copy").disabled=true;el("new").disabled=true;el("rerun-error").textContent="";
@@ -139,6 +171,8 @@ el("rerun").addEventListener("click",async()=>{
     el("rerun-error").textContent=error.message;
     el("rerun").disabled=false;el("copy").disabled=false;el("new").disabled=false;
     el("rerun").textContent=sessionStorage.getItem(key)?"重试关联重跑":"创建关联重跑";
+  } finally {
+    writing=false;
   }
 });
 function renderClarification(state) {
@@ -147,34 +181,63 @@ function renderClarification(state) {
   const storageKey="metricguard-answer:"+state.id;
   const saved=sessionStorage.getItem(storageKey);
   pendingAnswer=saved?JSON.parse(saved):null;
-  if(!question || pendingAnswer && (pendingAnswer.question_id!==question.question_id || pendingAnswer.version!==question.version)) {
-    pendingAnswer=null;sessionStorage.removeItem(storageKey);
-  }
-  if(!question) return;
+  const currentPending=pendingAnswer && drafts.matches(pendingAnswer,question);
+  el("unknown-answer").hidden=!pendingAnswer || !!currentPending;
+  if(pendingAnswer) el("unknown-answer-text").value=pendingAnswer.answer;
+  renderStaleDrafts(state);
+  if(!question) {shownQuestion=null;return;}
+  const identity=JSON.stringify([state.id,question.question_id,question.version,pendingAnswer?.request_id]);
+  if(shownQuestion===identity) return;
+  shownQuestion=identity;
   el("known-information").textContent=question.known_information||"";
   el("clarification-prompt").textContent=question.prompt;
   el("answer-options").replaceChildren();
   for(const option of question.options||[]) {
     const button=document.createElement("button");button.type="button";button.textContent=option;
-    button.addEventListener("click",()=>{el("answer").value=option;el("answer").focus();});
+    button.addEventListener("click",()=>{el("answer").value=option;saveAnswer();el("answer").focus();});
     el("answer-options").append(button);
   }
-  el("answer").value=pendingAnswer?pendingAnswer.answer:"";
-  el("answer-fields").disabled=!!pendingAnswer;el("answer-submit").disabled=false;el("answer-refresh").disabled=false;
-  el("answer-submit").textContent=pendingAnswer?"重试相同回答":"提交回答";
+  el("answer").value=currentPending?pendingAnswer.answer:(drafts.answer(state.id,question)?.answer||"");
+  el("answer-fields").disabled=!!currentPending;el("answer-submit").disabled=!!pendingAnswer && !currentPending;el("answer-refresh").disabled=false;
+  el("answer-submit").textContent=currentPending?"重试相同回答":"提交回答";
   el("answer-error").textContent=pendingAnswer?"上次回答尚未确认。重试沿用同一操作，不会重复执行。":"";
+}
+function renderStaleDrafts(state) {
+  const old=drafts.answers(state.id).filter(d=>!drafts.matches(d,state.clarification) && !drafts.matches(d,pendingAnswer));
+  const signature=JSON.stringify([state.id,old]);
+  if(signature===staleSignature) return;
+  staleSignature=signature;
+  const area=el("stale-drafts");area.hidden=!old.length;area.replaceChildren();
+  if(!old.length) return;
+  const message=document.createElement("p");
+  message.textContent="问题已更新或已被回答。以下旧草稿保留供复制，不会自动填入或提交给新问题。";area.append(message);
+  for(const draft of old) {
+    const label=document.createElement("p"),text=document.createElement("textarea");
+    label.textContent="旧问题（版本 "+draft.version+"）："+(draft.prompt||"未记录");
+    text.readOnly=true;text.value=draft.answer;text.setAttribute("aria-label","旧回答草稿（版本 "+draft.version+"）");
+    area.append(label,text);
+  }
 }
 el("answer-form").addEventListener("submit",async event=>{
   event.preventDefault();
   if(!taskState?.clarification) return;
-  const generation=++view;clearTimeout(timer);
-  const id=taskState.id, question=taskState.clarification, storageKey="metricguard-answer:"+id;
-  if(!pendingAnswer) pendingAnswer={request_id:crypto.randomUUID(),question_id:question.question_id,version:question.version,answer:el("answer").value};
+  if(pendingAnswer && !drafts.matches(pendingAnswer,taskState.clarification)) return;
+  const question=taskState.clarification;
+  await sendAnswer(pendingAnswer || {request_id:crypto.randomUUID(),question_id:question.question_id,version:question.version,answer:el("answer").value});
+});
+el("unknown-answer-retry").addEventListener("click",()=>{if(pendingAnswer) sendAnswer(pendingAnswer);});
+async function sendAnswer(data) {
+  if(writing) return;
+  const generation=++view;stopReading();writing=true;
+  const id=taskState.id, storageKey="metricguard-answer:"+id;
+  pendingAnswer=data;
   sessionStorage.setItem(storageKey,JSON.stringify(pendingAnswer));
+  el("unknown-answer-retry").disabled=true;
   el("answer-fields").disabled=true;el("answer-submit").disabled=true;el("answer-refresh").disabled=true;el("new").disabled=true;el("answer-error").textContent="";
   try {
     await api("/api/tasks/"+id+"/answers",pendingAnswer);
     if(generation!==view) return;
+    drafts.clearAnswer(id,data);shownQuestion=null;
     pendingAnswer=null;sessionStorage.removeItem(storageKey);el("new").disabled=false;
     await showTask(id,generation);
   } catch(error) {
@@ -182,12 +245,18 @@ el("answer-form").addEventListener("submit",async event=>{
     if(error.status && error.status<500) {pendingAnswer=null;sessionStorage.removeItem(storageKey);el("answer-fields").disabled=false;}
     el("answer-error").textContent=error.message;
     el("answer-submit").disabled=false;el("answer-refresh").disabled=false;el("new").disabled=false;
-    el("answer-submit").textContent=pendingAnswer?"重试相同回答":"提交回答";
+    if(!drafts.matches(data,taskState.clarification)) {
+      shownQuestion=null;renderClarification(taskState);
+      el("unknown-answer-error").textContent=error.message+" 原回答提交结果尚未确认，可手动重试。";
+    } else el("answer-submit").textContent=pendingAnswer?"重试相同回答":"提交回答";
+  } finally {
+    writing=false;
+    el("unknown-answer-retry").disabled=false;
   }
-});
-el("answer-refresh").addEventListener("click",()=>{if(taskState) showTask(taskState.id);});
+}
+el("answer-refresh").addEventListener("click",()=>{if(taskState && !writing) showTask(taskState.id);});
 el("analysis-form").addEventListener("submit",async event=>{
-  const generation=++view;clearTimeout(timer);
+  const generation=++view;stopReading();writing=true;
   event.preventDefault();el("error").textContent="";el("submit").disabled=true;el("new").disabled=true;
   try {
     if(!pending) pending={request_id:crypto.randomUUID(),question:el("question").value,snapshot_id:el("snapshot").value,window:windowValue("start","end"),comparison_window:windowValue("previous-start","previous-end")};
@@ -196,6 +265,7 @@ el("analysis-form").addEventListener("submit",async event=>{
     if(generation!==view) return;
     el("new").disabled=false;
     pending=null;sessionStorage.removeItem("metricguard-pending");
+    drafts.clearCompose();
     history.pushState(null,"","/?task="+encodeURIComponent(value.id));
     await showTask(value.id,generation);
   } catch(error) {
@@ -203,22 +273,26 @@ el("analysis-form").addEventListener("submit",async event=>{
     el("new").disabled=false;
     el("error").textContent=error.message;
     el("submit").disabled=false;el("submit").textContent=pending?"重试相同提交":"开始分析";
+  } finally {
+    writing=false;
   }
 });
 el("new").addEventListener("click",()=>{
-  view++;clearTimeout(timer);taskState=null;pendingAnswer=null;pending=null;sessionStorage.removeItem("metricguard-pending");history.pushState(null,"","/");
-  el("task").hidden=true;el("empty").hidden=false;el("status").textContent="尚未开始";el("new").hidden=true;el("error").textContent="";unlock();
+  view++;stopReading();currentTaskId=null;shownQuestion=null;taskState=null;pendingAnswer=null;pending=null;sessionStorage.removeItem("metricguard-pending");history.pushState(null,"","/");
+  el("task").hidden=true;el("empty").hidden=false;el("status").textContent="尚未开始";el("new").hidden=true;el("error").textContent="";
+  el("analysis-form").reset();restoreCompose();unlock();
 });
 window.addEventListener("popstate",()=>location.reload());
 (async()=>{
   try {
     const config=await (await fetch("/api/config")).json();token=config.token;
     for(const name of config.snapshots){const option=document.createElement("option");option.value=name;option.textContent=name;el("snapshot").append(option);}
-    if(config.example){el("example").hidden=false;el("example").addEventListener("click",()=>fill(config.example));}
+    if(config.example){el("example").hidden=false;el("example").addEventListener("click",()=>{fill(config.example);saveCompose();});}
     unlock();refreshHistory();
     const id=new URLSearchParams(location.search).get("task");
     if(id){el("fields").disabled=true;el("submit").disabled=true;await showTask(id);return;}
     const saved=sessionStorage.getItem("metricguard-pending");
     if(saved){pending=JSON.parse(saved);fill(pending);el("fields").disabled=true;el("submit").textContent="重试相同提交";el("new").hidden=false;el("error").textContent="上次提交尚未确认。重试将沿用同一操作，不会重复执行。";}
+    else restoreCompose();
   } catch(error){el("error").textContent="无法连接本机服务，请检查启动终端后刷新。";}
 })();
